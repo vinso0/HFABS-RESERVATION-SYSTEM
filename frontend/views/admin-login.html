@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Admin Login | HappyFace</title>
+    <link rel="stylesheet" href="../public/css/auth.css" />
+  </head>
+  <body>
+    <main class="auth-layout">
+      <section class="auth-visual">
+        <div class="auth-logo-placeholder"><img src="../public/img/HFABS-LOGO.png" alt="HappyFace Spa Logo" /></div>
+      </section>
+
+      <section class="auth-card" aria-labelledby="admin-login-heading">
+        <h1 id="admin-login-heading">Admin Login</h1>
+
+        <form
+          class="auth-form"
+          id="admin-login-form"
+          method="POST"
+          action="/backend/public/index.php/admin/login"
+        > <!-- Placeholder palang yung laman ng action -->
+          <div class="form-group">
+            <label class="form-label" for="admin-username">Username</label>
+            <div class="form-input-wrapper">
+              <input
+                class="form-input"
+                type="text"
+                id="admin-username"
+                name="username"
+                autocomplete="username"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="admin-password">Password</label>
+            <div class="form-input-wrapper">
+              <input
+                class="form-input"
+                type="password"
+                id="admin-password"
+                name="password"
+                autocomplete="current-password"
+                required
+              />
+              <button
+                class="password-toggle"
+                type="button"
+                aria-label="Toggle password visibility"
+                data-target="admin-password"
+              >
+                Show
+              </button>
+            </div>
+          </div>
+
+          <button class="auth-btn" type="submit">Login</button>
+        </form>
+      </section>
+    </main>
+
+    <script src="../public/js/auth.js"></script>
+  </body>
+</html>
