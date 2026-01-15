@@ -40,13 +40,13 @@
                 autocomplete="current-password"
                 required
               />
-              <button type="button" class="password-toggle" tabindex="-1" aria-label="Show password" onclick="togglePasswordVisibility('admin-password', this)">
-                <svg class="eye-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path class="eye-open" d="M1 10C2.73 5.61 6.36 3 10 3C13.64 3 17.27 5.61 19 10C17.27 14.39 13.64 17 10 17C6.36 17 2.73 14.39 1 10Z" stroke="currentColor" stroke-width="1.5" fill="none"/>
-                  <circle class="eye-open" cx="10" cy="10" r="3" stroke="currentColor" stroke-width="1.5" fill="none"/>
-                  <g class="eye-slash" style="display:none"><path d="M3 3L17 17" stroke="currentColor" stroke-width="1.5"/><path d="M1 10C2.73 5.61 6.36 3 10 3C13.64 3 17.27 5.61 19 10C17.27 14.39 13.64 17 10 17C6.36 17 2.73 14.39 1 10Z" stroke="currentColor" stroke-width="1.5" fill="none"/><circle cx="10" cy="10" r="3" stroke="currentColor" stroke-width="1.5" fill="none"/></g>
-                </svg>
-              </button>
+              <button 
+                type="button" 
+                class="password-toggle" 
+                data-target="admin-password"
+                tabindex="-1" 
+                aria-label="Show password"
+              ></button>
             </div>
           </div>
 
@@ -56,25 +56,5 @@
     </main>
 
     <script src="../public/js/auth.js"></script>
-    <script>
-      function togglePasswordVisibility(inputId, btn) {
-        const input = document.getElementById(inputId);
-        if (!input) return;
-        const svg = btn.querySelector('.eye-icon');
-        const open = svg.querySelectorAll('.eye-open');
-        const slash = svg.querySelector('.eye-slash');
-        if (input.type === 'password') {
-          input.type = 'text';
-          btn.setAttribute('aria-label', 'Hide password');
-          open.forEach(e => e.style.display = 'none');
-          if (slash) slash.style.display = '';
-        } else {
-          input.type = 'password';
-          btn.setAttribute('aria-label', 'Show password');
-          open.forEach(e => e.style.display = '');
-          if (slash) slash.style.display = 'none';
-        }
-      }
-    </script>
   </body>
 </html>
