@@ -1,247 +1,273 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  --primary-pink: #e91e8c;
+  --bg-light: #f5f5f5;
+  --card-bg: #ffffff;
+  --text-main: #1a1a1a;
+  --text-muted: #666666;
+  --border-radius: 12px;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --transition: 0.2s ease;
+  --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
 html,
 body {
   height: 100%;
+  margin: 0;
+  font-family: var(--font-main);
+  color: var(--text-main);
 }
 
 body {
-  margin: 0;
-  display: block;
-  background: #ffffff;
-  color: #222222;
+  background: var(--bg-light);
+  overflow-x: hidden;
 }
 
-/* HEADER */
+/* Header */
 
-.lf-header {
-  padding: 1.2rem 3.5rem 0.3rem;
-  color: #333333;
+.header {
   background: #ffffff;
-  border-bottom: 1px solid #f7c9df;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 1.25rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
-.lf-header-inner {
-  max-width: 1200px;
+.header-container {
+  max-width: 1280px;
   margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1.5rem;
 }
 
-.lf-brand {
-  display: flex;
-  align-items: center;
-  gap: 0.55rem;
-}
-
-.lf-brand-mark {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: #fbd4ea;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-
-.lf-brand-mark img {
-  width: 70%;
-  height: 70%;
-  object-fit: contain;
-  display: block;
-}
-
-.lf-brand-name {
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  font-size: 0.85rem;
-}
-
-.lf-nav {
-  display: flex;
-  gap: 1.25rem;
-  font-size: 0.9rem;
-}
-
-.lf-nav a {
-  color: #555555;
-  text-decoration: none;
-}
-
-.lf-nav a:hover {
-  text-decoration: underline;
-}
-
-.lf-header-actions {
+.brand {
   display: flex;
   align-items: center;
   gap: 0.75rem;
 }
 
-.lf-link-small {
-  font-size: 0.85rem;
-  color: #555555;
-  text-decoration: none;
+.brand-logo {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
 }
 
-.lf-link-small:hover {
-  text-decoration: underline;
-}
-
-.lf-btn-small {
-  padding: 0.45rem 1.1rem;
-  border-radius: 999px;
-  background: #ff5fa8;
-  color: #ffffff;
-  font-size: 0.8rem;
+.brand-name {
   font-weight: 600;
-  text-decoration: none;
+  font-size: 1rem;
+  color: var(--text-main);
 }
 
-/* HERO LAYOUT */
-
-.lf-hero {
-  max-width: 1200px;
-  margin: 3.0rem auto 4rem;
-  display: grid;
-  grid-template-columns: 1.15fr 0.95fr;
-  gap: 2.5rem;
+.nav {
+  display: flex;
   align-items: center;
-  padding: 0 3.5rem;
+  gap: 2rem;
+}
+
+.nav-link {
+  font-size: 0.95rem;
+  color: var(--text-main);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color var(--transition);
   position: relative;
 }
 
-.lf-hero::before {
+.nav-link:hover,
+.nav-link.active {
+  color: var(--primary-pink);
+}
+
+.nav-link.active::after {
   content: "";
   position: absolute;
+  bottom: -0.5rem;
   left: 0;
-  top: 8%;
-  width: 55%;
-  height: 70%;
-  background: radial-gradient(circle at 0 0, #ffe1f4, transparent 70%);
-  z-index: -1;
+  right: 0;
+  height: 2px;
+  background: var(--primary-pink);
 }
 
-.lf-hero-left {
-  color: #222222;
+/* Hero Section */
+
+.hero {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 6rem 2rem 4rem;
+  text-align: center;
 }
 
-.lf-kicker {
-  font-size: 0.85rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  opacity: 0.9;
-  color: #c23d6f;
+.hero-icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
 }
 
-.lf-title {
-  margin: 1rem 0 0.7rem;
-  font-size: clamp(2.2rem, 3vw, 2.8rem);
-  line-height: 1.18;
+.hero-icon img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+}
+
+.hero-title {
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
   font-weight: 700;
+  margin: 0 0 1rem;
+  color: var(--text-main);
+  line-height: 1.2;
 }
 
-.lf-subtitle {
-  margin: 0 0 1.6rem;
-  font-size: 0.98rem;
-  max-width: 30rem;
-  color: #555555;
+.hero-subtitle {
+  font-size: 1.125rem;
+  color: var(--text-muted);
+  margin: 0 0 2.5rem;
 }
 
-.lf-hero-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.85rem;
-  margin-bottom: 1.4rem;
-}
-
-.lf-cta {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.65rem 1.4rem;
-  border-radius: 999px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  text-decoration: none;
-  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.16);
-  transition: transform 0.18s ease, box-shadow 0.18s ease,
-    background 0.18s ease, color 0.18s ease;
-}
-/* primary CTA: solid pink on white */
-.lf-cta-primary {
-  background: #ff5fa8;
+.cta-btn {
+  display: inline-block;
+  padding: 0.875rem 2.5rem;
+  background: var(--primary-pink);
   color: #ffffff;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background var(--transition), 
+              transform var(--transition),
+              box-shadow var(--transition);
 }
 
-.lf-cta-primary:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.22);
+.cta-btn:hover {
+  background: #d11a7c;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(233, 30, 140, 0.3);
 }
 
-/* secondary CTA: white with pink border */
-.lf-cta-outline {
+.cta-btn:active {
+  transform: translateY(0);
+}
+
+/* Services Section */
+
+.services {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 4rem 2rem 6rem;
+}
+
+.services-heading {
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  margin: 0 0 3rem;
+  color: var(--text-main);
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.service-card {
   background: #ffffff;
-  color: #c23d6f;
-  border: 1px solid #f4b4dd;
+  border: 1px solid #e0e0e0;
+  border-radius: var(--border-radius);
+  padding: 2rem 1.5rem;
+  text-align: center;
+  transition: transform var(--transition), 
+              box-shadow var(--transition),
+              border-color var(--transition);
 }
 
-.lf-cta-outline:hover {
-  background: #ffe5f4;
-  transform: translateY(-1px);
+.service-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: #d0d0d0;
 }
 
-.lf-hero-meta {
+.service-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 1.25rem;
+  background: #f8e5f1;
+  border-radius: 12px;
   display: flex;
-  flex-wrap: wrap;
-  gap: 1.2rem;
-  font-size: 0.85rem;
-  opacity: 0.95;
-  color: #777777;
-}
-
-/* RIGHT HERO (IMAGE SHELL) */
-
-.lf-hero-right {
-  display: flex;
+  align-items: center;
+  color: #e91e8c; /* Set color of Flaticon UIcons */
   justify-content: center;
 }
 
-.lf-hero-image-shell {
-  width: min(430px, 100%);
-  aspect-ratio: 4 / 3;
-  border-radius: 999px 999px 0 0;
-  overflow: hidden;
-  position: relative;
-  background: #fbd4ea;
+.service-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0 0 1.5rem;
+  color: var(--text-main);
 }
 
-.lf-hero-image-shell::before {
-  content: "";
-  position: absolute;
-  inset: 8px;
-  border-radius: inherit;
-  background: url("../img/SPA.jpg") center/cover no-repeat;
+.service-btn {
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  background: transparent;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  color: var(--text-main);
+  font-weight: 500;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all var(--transition);
 }
 
-/* RESPONSIVE */
+.service-btn:hover {
+  background: #f8e5f1;
+  border-color: var(--primary-pink);
+  color: var(--primary-pink);
+}
 
-@media (max-width: 900px) {
-  .lf-header {
-    padding: 0.75rem 1.25rem 0.2rem;
+/* Responsive */
+
+@media (max-width: 768px) {
+  .header {
+    padding: 1rem 1.5rem;
   }
 
-  .lf-hero {
+  .nav {
+    gap: 1.25rem;
+  }
+
+  .nav-link {
+    font-size: 0.875rem;
+  }
+
+  .hero {
+    padding: 4rem 1.5rem 3rem;
+  }
+
+  .services {
+    padding: 3rem 1.5rem 4rem;
+  }
+
+  .services-grid {
     grid-template-columns: 1fr;
-    padding: 1.5rem 1.25rem 3rem;
-    row-gap: 2.3rem;
+    gap: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .brand-name {
+    display: none;
   }
 
-  .lf-hero-right {
-    order: -1;
+  .nav {
+    gap: 1rem;
   }
 }

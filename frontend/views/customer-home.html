@@ -2,88 +2,89 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>HappyFace Spa | My Home</title>
-    <link rel="stylesheet" href="../public/css/auth.css" />
     <link rel="stylesheet" href="../public/css/landing.css" />
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css">
   </head>
   <body>
-    <header class="lf-header">
-      <div class="lf-header-inner">
-        <div class="lf-brand">
-          <span class="lf-brand-mark">
-            <img
-              src="../public/img/HFABS-LOGO.png"
-              alt="HappyFace Spa logo"
-            />
-          </span>
-          <span class="lf-brand-name">Happy Face &amp; Body Spa</span>
+    <header class="header">
+      <div class="header-container">
+        <div class="brand">
+          <img
+            src="../public/img/HFABS-LOGO.png"
+            alt="Happy Face & Body Spa"
+            class="brand-logo"
+          />
+          <span class="brand-name">Happy Face & Body Spa</span>
         </div>
 
-        <nav class="lf-nav">
-          <a href="#services">Services</a>
-          <a href="#about">About</a>
-          <a href="#contact">Contact</a>
+        <nav class="nav">
+          <a href="#home" class="nav-link active">Home</a>
+          <a href="#services" class="nav-link">Services</a>
+          <a href="#" class="nav-link">Logout</a>
         </nav>
-
-        <div class="lf-header-actions">
-          <!-- dummy logged-in user; replace with real name later -->
-          <span class="lf-link-small">Hi, Ethan</span>
-          <a
-            href="./views/customer-dashboard.html"
-            class="lf-btn-small"
-          >
-            My Reservations
-          </a>
-          <a href="#" class="lf-link-small">Logout</a>
-        </div>
       </div>
     </header>
 
-    <main class="lf-hero">
-      <section class="lf-hero-left">
-        <p class="lf-kicker">Face &amp; Body Spa Reservations</p>
-
-        <h1 class="lf-title">
-          We elevate your natural glow with calm, curated spa
-          rituals.
-        </h1>
-
-        <p class="lf-subtitle">
-          Reserve facials and body treatments at the time that suits
-          you best. Real-time booking, instant confirmation, and a
-          relaxing experience waiting for you.
-        </p>
-
-        <div class="lf-hero-actions">
-          <a
-            href="./views/customer-booking.html"
-            class="lf-cta lf-cta-primary"
-          >
-            Book Now
-          </a>
-          <a
-            href="./views/customer-services.html"
-            class="lf-cta lf-cta-outline"
-          >
-            Explore Services
-          </a>
-          <a
-            href="./views/customer-dashboard.html"
-            class="lf-cta lf-cta-outline"
-          >
-            View Reservations
-          </a>
+    <main>
+      <section class="hero">
+        <div class="hero-icon">
+          <img src="../public/img/HFABS-LOGO.png" alt="Happy Face & Body Spa" />
         </div>
 
-        <div class="lf-hero-meta">
-          <span>✓ Easy online reservations</span>
-          <span>✓ Licensed therapists</span>
-          <span>✓ Face &amp; body packages</span>
-        </div>
+        <h1 class="hero-title">Relax. Refresh. Renew.</h1>
+        <p class="hero-subtitle">Your beauty and wellness, simplified.</p>
+
+        <a href="./customer-booking.html" class="cta-btn">
+          Book an Appointment
+        </a>
       </section>
 
-      <section class="lf-hero-right" aria-label="Spa preview image">
-        <div class="lf-hero-image-shell"></div>
+      <section class="services" id="services">
+        <h2 class="services-heading">Our Services</h2>
+
+        <div class="services-grid">
+          <div class="service-card">
+            <div class="service-icon">
+              <i class="fi fi-rr-barber-shop"></i>
+            </div>
+            <h3 class="service-title">Hair Services</h3>
+            <button class="service-btn">View Services</button>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon">
+              <i class="fi fi-rr-finger-nail"></i>
+            </div>
+            <h3 class="service-title">Nail Services</h3>
+            <button class="service-btn active">View Services</button>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon">
+              <i class="fi fi-rr-facial-massage"></i>
+            </div>
+            <h3 class="service-title">Facial Services</h3>
+            <button class="service-btn">View Services</button>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon">
+              <i class="fi fi-rr-soap"></i>
+            </div>
+            <h3 class="service-title">Hair Treatments</h3>
+            <button class="service-btn">View Services</button>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon">
+              <i class="fi fi-rr-massage"></i>
+            </div>
+            <h3 class="service-title">Massage Services</h3>
+            <button class="service-btn">View Services</button>
+          </div>
+        </div>
       </section>
     </main>
   </body>

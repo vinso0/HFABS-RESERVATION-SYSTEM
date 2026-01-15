@@ -2,37 +2,31 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Customer Login | HappyFace</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login | HappyFace</title>
     <link rel="stylesheet" href="../public/css/auth.css" />
   </head>
   <body>
-    <main class="auth-layout">
-      <section class="auth-visual">
-        <!-- Replace placeholder with your PNG logo later -->
-        <div class="auth-logo-placeholder"><img src="../public/img/HFABS-LOGO.png" alt="HappyFace Spa Logo" /></div>
-      </section>
-
-      <section class="auth-card" aria-labelledby="customer-login-heading">
-        <h1 id="customer-login-heading">Customer Login</h1>
+    <main class="auth-container">
+      <section class="auth-card">
+        <h1 class="auth-heading">Login</h1>
 
         <form
           class="auth-form"
           id="customer-login-form"
           method="POST"
           action="/backend/public/index.php/login"
-        ><!-- Placeholder palang yung laman ng action -->
+        >
           <div class="form-group">
             <label class="form-label" for="login-email">Email</label>
-            <div class="form-input-wrapper">
-              <input
-                class="form-input"
-                type="email"
-                id="login-email"
-                name="email"
-                autocomplete="email"
-                required
-              />
-            </div>
+            <input
+              class="form-input"
+              type="email"
+              id="login-email"
+              name="email"
+              autocomplete="email"
+              required
+            />
           </div>
 
           <div class="form-group">
@@ -46,37 +40,46 @@
                 autocomplete="current-password"
                 required
               />
-              <button
-                class="password-toggle"
-                type="button"
-                aria-label="Toggle password visibility"
-                data-target="login-password"
-              >
-                Show
+              <button type="button" class="password-toggle" tabindex="-1" aria-label="Show password" onclick="togglePasswordVisibility('login-password', this)">
+                <svg class="eye-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path class="eye-open" d="M1 10C2.73 5.61 6.36 3 10 3C13.64 3 17.27 5.61 19 10C17.27 14.39 13.64 17 10 17C6.36 17 2.73 14.39 1 10Z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                  <circle class="eye-open" cx="10" cy="10" r="3" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                  <g class="eye-slash" style="display:none"><path d="M3 3L17 17" stroke="currentColor" stroke-width="1.5"/><path d="M1 10C2.73 5.61 6.36 3 10 3C13.64 3 17.27 5.61 19 10C17.27 14.39 13.64 17 10 17C6.36 17 2.73 14.39 1 10Z" stroke="currentColor" stroke-width="1.5" fill="none"/><circle cx="10" cy="10" r="3" stroke="currentColor" stroke-width="1.5" fill="none"/></g>
+                </svg>
               </button>
             </div>
-          </div>
-
-          <div class="form-inline">
-            <input
-              type="checkbox"
-              id="remember-me"
-              name="remember"
-              value="1"
-            />
-            <label for="remember-me">Remember me</label>
           </div>
 
           <button class="auth-btn" type="submit">Login</button>
 
           <p class="auth-footer-text">
             Don't have an account?
-            <a class="auth-link" href="customer-register.html">Sign Up</a>
+            <a class="auth-link" href="customer-register.html">Create an account</a>
           </p>
         </form>
       </section>
     </main>
 
     <script src="../public/js/auth.js"></script>
+    <script>
+      function togglePasswordVisibility(inputId, btn) {
+        const input = document.getElementById(inputId);
+        if (!input) return;
+        const svg = btn.querySelector('.eye-icon');
+        const open = svg.querySelectorAll('.eye-open');
+        const slash = svg.querySelector('.eye-slash');
+        if (input.type === 'password') {
+          input.type = 'text';
+          btn.setAttribute('aria-label', 'Hide password');
+          open.forEach(e => e.style.display = 'none');
+          if (slash) slash.style.display = '';
+        } else {
+          input.type = 'password';
+          btn.setAttribute('aria-label', 'Show password');
+          open.forEach(e => e.style.display = '');
+          if (slash) slash.style.display = 'none';
+        }
+      }
+    </script>
   </body>
 </html>
