@@ -2,36 +2,31 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Login | HappyFace</title>
     <link rel="stylesheet" href="../public/css/auth.css" />
   </head>
   <body>
-    <main class="auth-layout">
-      <section class="auth-visual">
-        <div class="auth-logo-placeholder"><img src="../public/img/HFABS-LOGO.png" alt="HappyFace Spa Logo" /></div>
-      </section>
-
-      <section class="auth-card" aria-labelledby="admin-login-heading">
-        <h1 id="admin-login-heading">Admin Login</h1>
+    <main class="auth-container">
+      <section class="auth-card">
+        <h1 class="auth-heading">Admin Login</h1>
 
         <form
           class="auth-form"
           id="admin-login-form"
           method="POST"
           action="/backend/public/index.php/admin/login"
-        > <!-- Placeholder palang yung laman ng action -->
+        >
           <div class="form-group">
             <label class="form-label" for="admin-username">Username</label>
-            <div class="form-input-wrapper">
-              <input
-                class="form-input"
-                type="text"
-                id="admin-username"
-                name="username"
-                autocomplete="username"
-                required
-              />
-            </div>
+            <input
+              class="form-input"
+              type="text"
+              id="admin-username"
+              name="username"
+              autocomplete="username"
+              required
+            />
           </div>
 
           <div class="form-group">
@@ -45,14 +40,13 @@
                 autocomplete="current-password"
                 required
               />
-              <button
-                class="password-toggle"
-                type="button"
-                aria-label="Toggle password visibility"
+              <button 
+                type="button" 
+                class="password-toggle" 
                 data-target="admin-password"
-              >
-                Show
-              </button>
+                tabindex="-1" 
+                aria-label="Show password"
+              ></button>
             </div>
           </div>
 

@@ -11,7 +11,8 @@ toggleButtons.forEach((btn) => {
 
     const isPassword = input.type === "password";
     input.type = isPassword ? "text" : "password";
-    btn.textContent = isPassword ? "Hide" : "Show";
+    btn.classList.toggle('visible', !isPassword);
+    btn.setAttribute('aria-label', isPassword ? 'Hide password' : 'Show password');
   });
 });
 
