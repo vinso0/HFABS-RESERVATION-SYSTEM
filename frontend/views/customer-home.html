@@ -5,9 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>HappyFace Spa | My Home</title>
     <link rel="stylesheet" href="../public/css/landing.css" />
-    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css">
   </head>
   <body>
+    <div class="bubble-background">
+      <div class="bubble bubble-1"></div>
+      <div class="bubble bubble-2"></div>
+      <div class="bubble bubble-3"></div>
+      <div class="bubble bubble-4"></div>
+      <div class="bubble bubble-5"></div>
+      <div class="bubble bubble-6"></div>
+      <div class="bubble bubble-7"></div>
+      <div class="bubble bubble-8"></div>
+    </div>
+
     <header class="header">
       <div class="header-container">
         <div class="brand">
@@ -19,10 +29,18 @@
           <span class="brand-name">Happy Face & Body Spa</span>
         </div>
 
-        <nav class="nav">
-          <a href="#home" class="nav-link active">Home</a>
-          <a href="#services" class="nav-link">Services</a>
-          <a href="#" class="nav-link">Logout</a>
+        <button class="burger-menu" id="burger-menu" aria-label="Toggle menu">
+          <span class="burger-line"></span>
+          <span class="burger-line"></span>
+          <span class="burger-line"></span>
+        </button>
+
+        <nav class="nav-dropdown" id="nav-dropdown">
+          <a href="#home" class="nav-dropdown-link">Home</a>
+          <a href="#services" class="nav-dropdown-link">Services</a>
+          <a href="./customer-dashboard.html" class="nav-dropdown-link">My Reservations</a>
+          <a href="./customer-profile.html" class="nav-dropdown-link">Profile</a>
+          <a href="#" class="nav-dropdown-link logout">Logout</a>
         </nav>
       </div>
     </header>
@@ -46,46 +64,60 @@
 
         <div class="services-grid">
           <div class="service-card">
-            <div class="service-icon">
-              <i class="fi fi-rr-barber-shop"></i>
+            <div class="service-image">
+              <img src="../public/img/hair-treatment.jpg" alt="Hair Services" />
             </div>
-            <h3 class="service-title">Hair Services</h3>
-            <button class="service-btn">View Services</button>
+            <div class="service-content">
+              <h3 class="service-title">Hair Services</h3>
+              <p class="service-description">
+                Expert hair styling, cutting, and coloring services to enhance your natural beauty and give you the perfect look.
+              </p>
+              <button class="service-btn">View Services</button>
+            </div>
           </div>
 
           <div class="service-card">
-            <div class="service-icon">
-              <i class="fi fi-rr-finger-nail"></i>
+            <div class="service-image">
+              <img src="../public/img/nail-services.jpg" alt="Nail Services" />
             </div>
-            <h3 class="service-title">Nail Services</h3>
-            <button class="service-btn active">View Services</button>
+            <div class="service-content">
+              <h3 class="service-title">Nail Services</h3>
+              <p class="service-description">
+                Professional manicure and pedicure treatments with premium products for beautifully polished nails.
+              </p>
+              <button class="service-btn">View Services</button>
+            </div>
           </div>
 
           <div class="service-card">
-            <div class="service-icon">
-              <i class="fi fi-rr-facial-massage"></i>
+            <div class="service-image">
+              <img src="../public/img/facial-services.webp" alt="Facial Services" />
             </div>
-            <h3 class="service-title">Facial Services</h3>
-            <button class="service-btn">View Services</button>
+            <div class="service-content">
+              <h3 class="service-title">Facial Services</h3>
+              <p class="service-description">
+                Rejuvenating facial treatments designed to cleanse, refresh, and restore your skin's natural glow.
+              </p>
+              <button class="service-btn">View Services</button>
+            </div>
           </div>
 
           <div class="service-card">
-            <div class="service-icon">
-              <i class="fi fi-rr-soap"></i>
+            <div class="service-image">
+              <img src="../public/img/massage-services.jpg" alt="Massage Services" />
             </div>
-            <h3 class="service-title">Hair Treatments</h3>
-            <button class="service-btn">View Services</button>
-          </div>
-
-          <div class="service-card">
-            <div class="service-icon">
-              <i class="fi fi-rr-massage"></i>
+            <div class="service-content">
+              <h3 class="service-title">Massage Services</h3>
+              <p class="service-description">
+                Relaxing therapeutic massages to relieve stress, ease tension, and promote overall wellness.
+              </p>
+              <button class="service-btn">View Services</button>
             </div>
-            <h3 class="service-title">Massage Services</h3>
-            <button class="service-btn">View Services</button>
           </div>
         </div>
       </section>
     </main>
+    <script src="../public/js/landing.js"></script>
+    <script src="../public/js/burger-menu.js"></script>
   </body>
 </html>
