@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Services | HappyFace Spa</title>
+    <link rel="stylesheet" href="../public/css/services.css" />
+  </head>
+  <body>
+    <div class="bubble-background">
+      <div class="bubble bubble-1"></div>
+      <div class="bubble bubble-2"></div>
+      <div class="bubble bubble-3"></div>
+      <div class="bubble bubble-4"></div>
+      <div class="bubble bubble-5"></div>
+      <div class="bubble bubble-6"></div>
+      <div class="bubble bubble-7"></div>
+      <div class="bubble bubble-8"></div>
+    </div>
+
+    <header class="header">
+      <div class="header-container">
+        <div class="brand">
+          <img
+            src="../public/img/HFABS-LOGO.png"
+            alt="Happy Face & Body Spa"
+            class="brand-logo"
+          />
+          <span class="brand-name">Happy Face & Body Spa</span>
+        </div>
+
+        <nav class="nav">
+          <a href="../index.html" class="nav-link">Home</a>
+          <a href="../index.html#services" class="nav-link">Services</a>
+          <a href="./customer-login.html" class="nav-link">Login</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <div class="breadcrumb">
+        <span>Services</span>
+        <span class="separator">›</span>
+        <span class="current">Select Service</span>
+      </div>
+
+      <div class="container">
+        <div class="content-wrapper">
+          <!-- Left Side: Services -->
+          <div class="services-section">
+            <h1 class="page-title">Services</h1>
+
+            <!-- Category Tabs -->
+            <div class="category-tabs">
+              <button class="tab-btn active" data-category="all">
+                Featured
+              </button>
+              <button class="tab-btn" data-category="Hair Services">
+                Hair Services
+              </button>
+              <button class="tab-btn" data-category="Nail Services">
+                Nail Services
+              </button>
+              <button class="tab-btn" data-category="Facial Services">
+                Facial Services
+              </button>
+              <button class="tab-btn" data-category="Massage Services">
+                Massage Services
+              </button>
+            </div>
+
+            <!-- Current Category Title -->
+            <h2 class="category-title" id="categoryTitle">Featured</h2>
+
+            <!-- Services List -->
+            <div id="servicesList" class="services-list">
+              <div class="loading-state">Loading services...</div>
+            </div>
+          </div>
+
+          <!-- Right Side: Summary -->
+          <aside class="summary-sidebar">
+            <div class="branch-info">
+              <div class="branch-details">
+                <h3 id="branchName">Loading...</h3>
+                <p id="branchAddress">Please wait...</p>
+              </div>
+            </div>
+
+            <div class="selected-services" id="selectedServices">
+              <p class="empty-selection">No services selected yet</p>
+            </div>
+
+            <div class="total-section">
+              <div class="total-row">
+                <span>Total</span>
+                <span class="total-price" id="totalPrice">₱0</span>
+              </div>
+            </div>
+
+            <button class="continue-btn" id="continueBtn" disabled>
+              Continue
+            </button>
+          </aside>
+        </div>
+      </div>
+    </main>
+
+    <script src="../public/js/services.js"></script>
+  </body>
+</html>
