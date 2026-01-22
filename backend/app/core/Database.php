@@ -12,4 +12,8 @@ class Database
             die("Database Connection Failed: " . $this->db->connect_error);
         }
     }
+    public function getConnection()
+    {
+        return $this->db;
+    }
 }
