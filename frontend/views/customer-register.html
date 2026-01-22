@@ -13,8 +13,9 @@
 
         <form
           class="auth-form"
+          id="customer-register-form"
           method="POST"
-          action="../../backend/public/index.php?url=auth/register"
+          action="/backend/public/index.php/register"
         >
           <div class="form-group">
             <label class="form-label" for="reg-fullname">Full Name</label>
@@ -22,7 +23,7 @@
               class="form-input"
               type="text"
               id="reg-fullname"
-              name="username"
+              name="full_name"
               autocomplete="name"
               required
             />
