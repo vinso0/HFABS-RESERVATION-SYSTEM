@@ -307,16 +307,18 @@ function toggleService(service, itemElement) {
 function updateSummary() {
   const selectedServicesContainer = document.getElementById('selectedServices');
   const totalPrice = document.getElementById('totalPrice');
+  const downpaymentPrice = document.getElementById('downpaymentPrice');
   const continueBtn = document.getElementById('continueBtn');
-  
+
   if (selectedServices.size === 0) {
     selectedServicesContainer.innerHTML = '<p class="empty-selection">No services selected yet</p>';
     totalPrice.textContent = '₱0';
+    if (downpaymentPrice) downpaymentPrice.textContent = '₱0';
     continueBtn.disabled = true;
   } else {
     let total = 0;
     let html = '';
-    
+
     selectedServices.forEach(service => {
       total += parseFloat(service.price);
       html += `
@@ -328,9 +330,13 @@ function updateSummary() {
         </div>
       `;
     });
-    
+
     selectedServicesContainer.innerHTML = html;
     totalPrice.textContent = `₱${total.toFixed(2)}`;
+    if (downpaymentPrice) {
+      const downpayment = total * 0.5;
+      downpaymentPrice.textContent = `₱${downpayment.toFixed(2)}`;
+    }
     continueBtn.disabled = false;
   }
 }
