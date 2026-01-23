@@ -1,0 +1,8 @@
+[23-Jan-2026 07:50:41 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'contact_number' in 'field list' in C:\xampp\htdocs\HFABS\backend\app\models\User.php:10
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\User.php(10): mysqli->prepare('INSERT INTO use...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\AuthController.php(60): User->register('vin', 'vin@gmail.com', '$2y$10$ZYf1a7AK...', '09202342476')
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(22): AuthController->register()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\User.php on line 10
