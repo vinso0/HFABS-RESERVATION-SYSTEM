@@ -15,7 +15,6 @@ toggleButtons.forEach((btn) => {
     btn.setAttribute('aria-label', isPassword ? 'Hide password' : 'Show password');
   });
 });
-alert("JS running");
 
 // Helper: convert FormData to plain object
 const formDataToJson = (form) =>
