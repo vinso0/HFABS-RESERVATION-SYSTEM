@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 16, 2026 at 04:20 AM
+-- Generation Time: Jan 23, 2026 at 06:28 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -201,6 +201,7 @@ CREATE TABLE `services` (
   `service_name` varchar(30) NOT NULL,
   `description` text NOT NULL,
   `price` decimal(10,2) NOT NULL,
+  `duration` int(11) DEFAULT NULL,
   `is_available` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -208,18 +209,18 @@ CREATE TABLE `services` (
 -- Dumping data for table `services`
 --
 
-INSERT INTO `services` (`service_id`, `service_name`, `description`, `price`, `is_available`) VALUES
-(1, 'Hair Spa Treatment', 'Deep conditioning hair treatment', 1800.00, 1),
-(2, 'Hair Rebonding', 'Permanent hair straightening', 3500.00, 1),
-(3, 'Classic Manicure', 'Basic nail care and polish', 350.00, 1),
-(4, 'Gel Pedicure', 'Long-lasting gel nail treatment', 600.00, 1),
-(5, 'Deep Cleansing Facial', 'Deep pore cleansing facial', 1200.00, 1),
-(6, 'Anti-Aging Facial', 'Rejuvenating facial treatment', 2000.00, 1),
-(7, 'Keratin Treatment', 'Smoothing keratin therapy', 4500.00, 1),
-(8, 'Hair Botox', 'Deep repair treatment', 3800.00, 1),
-(9, 'Swedish Massage', 'Relaxing full body massage', 1500.00, 1),
-(10, 'Hot Stone Therapy', 'Therapeutic hot stone massage', 2000.00, 1),
-(11, 'Aromatherapy Massage', 'Essential oil massage therapy', 1600.00, 1);
+INSERT INTO `services` (`service_id`, `service_name`, `description`, `price`, `duration`, `is_available`) VALUES
+(1, 'Hair Spa Treatment', 'Deep conditioning hair treatment', 1800.00, 30, 1),
+(2, 'Hair Rebonding', 'Permanent hair straightening', 3500.00, 60, 1),
+(3, 'Classic Manicure', 'Basic nail care and polish', 350.00, 60, 1),
+(4, 'Gel Pedicure', 'Long-lasting gel nail treatment', 600.00, 60, 1),
+(5, 'Deep Cleansing Facial', 'Deep pore cleansing facial', 1200.00, 90, 1),
+(6, 'Anti-Aging Facial', 'Rejuvenating facial treatment', 2000.00, 60, 1),
+(7, 'Keratin Treatment', 'Smoothing keratin therapy', 4500.00, 180, 1),
+(8, 'Hair Botox', 'Deep repair treatment', 3800.00, 120, 1),
+(9, 'Swedish Massage', 'Relaxing full body massage', 1500.00, 90, 1),
+(10, 'Hot Stone Therapy', 'Therapeutic hot stone massage', 2000.00, 90, 1),
+(11, 'Aromatherapy Massage', 'Essential oil massage therapy', 1600.00, 90, 1);
 
 -- --------------------------------------------------------
 
@@ -244,8 +245,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `username`, `email`, `password`, `role`, `branch_id`, `is_active`, `deleted_at`, `created_at`) VALUES
-(1, 'admin', 'admin@admin', 'password', 'admin', 1, 1, NULL, '2026-01-09 11:42:55'),
-(2, 'customer', 'cus@cus', 'password', 'customer', NULL, 1, NULL, '2026-01-09 11:43:23'),
+(1, 'admin', 'admin@admin', '$2y$10$0fhiCgA11fs/AlPep6GcTufWSCoin8v0q6zMxtXXKb5g0rm/cLB/O', 'admin', 1, 1, NULL, '2026-01-09 11:42:55'),
+(2, 'customer', 'cus@cus', '$2y$10$EpZghaZivJvtfj5uJMhJUuzZk4o6CM2R0CVWKuC.xIgRJea8iC9de', 'customer', NULL, 1, NULL, '2026-01-09 11:43:23'),
 (3, 'superadmin', 'super@super', 'password', 'superadmin', NULL, 1, NULL, '2026-01-16 02:38:57');
 
 --

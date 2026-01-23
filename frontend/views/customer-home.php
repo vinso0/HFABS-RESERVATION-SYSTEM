@@ -50,7 +50,7 @@ if (!isset($_SESSION['user_id'])) {
         <a href="#services" class="nav-dropdown-link">Services</a>
         <a href="./customer-dashboard.html" class="nav-dropdown-link">My Reservations</a>
         <a href="./customer-profile.html" class="nav-dropdown-link">Profile</a>
-        <a class="lf-link-small" href="/HFABS/backend/public/index.php?url=auth/logout">Logout</a>
+        <a href="/HFABS/backend/public/index.php?url=auth/logout" class="nav-dropdown-link">Logout</a>
       </nav>
     </div>
   </header>

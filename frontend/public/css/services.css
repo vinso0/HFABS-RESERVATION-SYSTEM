@@ -367,7 +367,11 @@ main {
 }
 
 .service-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 0.5rem;
+  gap: 1rem;
 }
 
 .service-name {
@@ -378,7 +382,33 @@ main {
 }
 
 .service-duration {
-  display: none;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  background: #f0f0f0;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.selected-service-duration {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin: 0.25rem 0 0 0;
+  display: flex;
+  align-items: center;
+}
+
+.selected-service-duration::before {
+  content: '🕐';
+  margin-right: 0.25rem;
+  font-size: 0.75rem;
+}
+
+.selected-service-info p {
+  display: block !important;
 }
 
 .service-description {
