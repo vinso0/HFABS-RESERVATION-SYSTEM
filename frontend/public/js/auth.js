@@ -15,6 +15,7 @@ toggleButtons.forEach((btn) => {
     btn.setAttribute('aria-label', isPassword ? 'Hide password' : 'Show password');
   });
 });
+alert("JS running");
 
 // Helper: convert FormData to plain object
 const formDataToJson = (form) =>
@@ -65,19 +66,20 @@ if (customerLoginForm) {
     e.preventDefault();
     handleApiFormSubmit(
       customerLoginForm,
-      "/backend/public/index.php/api/customer/login"
+      "../../backend/public/index.php?url=auth/login"
     );
   });
 }
 
 // Customer registration
-const customerRegisterForm = document.getElementById("customer-register-form");
-if (customerRegisterForm) {
-  customerRegisterForm.addEventListener("submit", (e) => {
+const registerForm = document.getElementById("customer-register-form");
+
+if (registerForm) {
+  registerForm.addEventListener("submit", (e) => {
     e.preventDefault();
     handleApiFormSubmit(
-      customerRegisterForm,
-      "/backend/public/index.php/api/customer/register"
+      registerForm,
+      "../../backend/public/index.php?url=auth/register"
     );
   });
 }
@@ -89,7 +91,7 @@ if (adminLoginForm) {
     e.preventDefault();
     handleApiFormSubmit(
       adminLoginForm,
-      "/backend/public/index.php/api/admin/login"
+      "../../backend/public/index.php?url=auth/login"
     );
   });
 }
