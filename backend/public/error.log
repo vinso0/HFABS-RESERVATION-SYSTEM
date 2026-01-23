@@ -6,3 +6,27 @@ Stack trace:
 #3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
 #4 {main}
   thrown in C:\xampp\htdocs\HFABS\backend\app\models\User.php on line 10
+[23-Jan-2026 07:55:05 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'contact_number' in 'field list' in C:\xampp\htdocs\HFABS\backend\app\models\User.php:10
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\User.php(10): mysqli->prepare('INSERT INTO use...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\AuthController.php(60): User->register('vin', 'vin@gmail.com', '$2y$10$kaMFSA60...', '09202342476')
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(22): AuthController->register()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\User.php on line 10
+[23-Jan-2026 07:55:55 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'contact_number' in 'field list' in C:\xampp\htdocs\HFABS\backend\app\models\User.php:10
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\User.php(10): mysqli->prepare('INSERT INTO use...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\AuthController.php(60): User->register('vin', 'vin@gmail.com', '$2y$10$i2Bwj1LV...', '09202342476')
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(22): AuthController->register()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\User.php on line 10
+[23-Jan-2026 08:02:42 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Duplicate entry 'socao@gmail.com' for key 'email' in C:\xampp\htdocs\HFABS\backend\app\models\User.php:16
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\User.php(16): mysqli_stmt->execute()
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\AuthController.php(60): User->register('socao', 'socao@gmail.com', '$2y$10$O5IT9K.E...', '09256315631')
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(22): AuthController->register()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\User.php on line 16
