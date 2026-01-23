@@ -274,6 +274,7 @@ function createServiceItem(service) {
     <div class="service-info">
       <div class="service-header">
         <h3 class="service-name">${service.servicename}</h3>
+        <span class="service-duration">${service.duration || 'N/A'}</span>
       </div>
       <p class="service-description">${service.description}</p>
       <p class="service-price">₱${parseFloat(service.price).toFixed(2)}</p>
@@ -288,14 +289,23 @@ function createServiceItem(service) {
   return item;
 }
 
-// Toggle service selection
+
+// Toggle service selection (only one at a time)
 function toggleService(service, itemElement) {
+  // If clicking the same service that's already selected, deselect it
   if (selectedServices.has(service.serviceid)) {
-    // Remove service
     selectedServices.delete(service.serviceid);
     itemElement.classList.remove('selected');
   } else {
-    // Add service
+    // Clear all previous selections
+    selectedServices.clear();
+    
+    // Remove 'selected' class from all service items
+    document.querySelectorAll('.service-item').forEach(item => {
+      item.classList.remove('selected');
+    });
+    
+    // Add the new service
     selectedServices.set(service.serviceid, service);
     itemElement.classList.add('selected');
   }
@@ -325,6 +335,7 @@ function updateSummary() {
         <div class="selected-service">
           <div class="selected-service-info">
             <h4>${service.servicename}</h4>
+            <p class="selected-service-duration">${service.duration || 'N/A'}</p>
           </div>
           <span class="selected-service-price">₱${parseFloat(service.price).toFixed(2)}</span>
         </div>
@@ -341,12 +352,15 @@ function updateSummary() {
   }
 }
 
+
+// Handle continue button
 // Handle continue button
 function handleContinue() {
   if (selectedServices.size === 0) return;
   
   const branchId = new URLSearchParams(window.location.search).get('branch');
   const branchName = document.getElementById('branchName').textContent;
+  const branchAddress = document.getElementById('branchAddress').textContent;
   
   // Store selected services and branch info
   const servicesArray = Array.from(selectedServices.values());
@@ -359,15 +373,10 @@ function handleContinue() {
     .reduce((sum, s) => sum + parseFloat(s.price), 0);
   sessionStorage.setItem('totalPrice', total.toFixed(2));
   
-  // Check if user is logged in
-  const isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
-  
-  if (isLoggedIn) {
-    window.location.href = './booking.html';
-  } else {
-    window.location.href = './customer-login.html?return=booking';
-  }
+  // Redirect directly to booking page
+  window.location.href = './booking.html';
 }
+
 
 // Error display
 function showError(message) {
