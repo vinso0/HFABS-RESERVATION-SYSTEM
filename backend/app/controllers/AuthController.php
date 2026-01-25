@@ -4,43 +4,111 @@ class AuthController extends Controller
 
     public function register()
     {
+        // Always return JSON for API endpoints
+        header('Content-Type: application/json');
+
+        require_once __DIR__ . '/../config/config.php';
+
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        // Allow only POST
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header("Location: /HFABS/frontend/views/customer-register.html");
+            http_response_code(405);
+            echo json_encode([
+                'success' => false,
+                'message' => 'Method not allowed'
+            ]);
             exit;
         }
 
-        $username = $_POST['username'] ?? '';
-        $email = $_POST['email'] ?? '';
-        $password = $_POST['password'] ?? '';
-        $contact = $_POST['contact_number'] ?? '';
+        // Read JSON input
+        $data = json_decode(file_get_contents("php://input"), true);
 
-        if (!$username || !$contact || !$email || !$password) {
-            $_SESSION['register_error'] = "All fields are required.";
-            header("Location: /HFABS/frontend/views/customer-register.html");
+        $username = trim($data['username'] ?? '');
+        $email    = trim($data['email'] ?? '');
+        $password = $data['password'] ?? '';
+        $contact  = trim($data['contact_number'] ?? '');
+
+        // Validate required fields
+        if (!$username || !$email || !$password || !$contact) {
+            http_response_code(422);
+            echo json_encode([
+                'success' => false,
+                'message' => 'All fields are required'
+            ]);
             exit;
         }
 
-        $user = $this->model('User');
+        // Basic email validation
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            http_response_code(422);
+            echo json_encode([
+                'success' => false,
+                'message' => 'Invalid email address'
+            ]);
+            exit;
+        }
 
-        if ($user->register($username, $email, $password, $contact)) {
-            $_SESSION['register_success'] = "Account created successfully!";
-            header("Location: /HFABS/frontend/views/customer-login.html");
+        // Hash password securely
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+        $userModel = $this->model('User');
+
+        // Attempt registration
+        $created = $userModel->register(
+            $username,
+            $email,
+            $hashedPassword,
+            $contact
+        );
+
+        if ($created) {
+            http_response_code(201);
+            echo json_encode([
+                'success' => true,
+                'message' => 'Account created successfully',
+                'redirect' => '/frontend/views/customer-login.html'
+            ]);
         } else {
-            $_SESSION['register_error'] = "Registration failed.";
-            header("Location: /HFABS/frontend/views/customer-register.html");
+            http_response_code(409);
+            echo json_encode([
+                'success' => false,
+                'message' => 'Email already exists or registration failed'
+            ]);
         }
+
         exit;
     }
 
+
     public function login()
     {
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header("Location: /HFABS/frontend/views/customer-login.html");
-            exit;
+        header('Content-Type: application/json');
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
         }
 
-        $identifier = $_POST['email'] ?? $_POST['username'] ??  '';
-        $password = $_POST['password'] ?? '';
+        $data = json_decode(file_get_contents("php://input"), true);
+
+        // Accept either email or username
+        $identifier = '';
+        if (!empty($data['email'])) {
+            $identifier = $data['email'];
+        } elseif (!empty($data['username'])) {
+            $identifier = $data['username'];
+        }
+        $password = $data['password'] ?? '';
+
+        if (!$identifier || !$password) {
+            http_response_code(400);
+            echo json_encode([
+                'success' => false,
+                'message' => 'Email/Username and password are required'
+            ]);
+            exit;
+        }
 
         $userModel = $this->model('User');
         $user = $userModel->login($identifier);
@@ -50,26 +118,30 @@ class AuthController extends Controller
             $_SESSION['user_name'] = $user['username'];
             $_SESSION['role'] = $user['role'];
 
-            if ($user['role'] === 'admin'){
-                header("Location: /HFABS/frontend/views/admin-home.php");
-            } elseif ($user['role'] === 'superadmin'){
-                header("Location: /HFABS/frontend/views/superadmin-home.php");
-            } else {
-                header("Location: /HFABS/frontend/views/customer-home.php");
-            }
+            $redirect = match ($user['role']) {
+                'admin' => '/HFABS/frontend/views/admin-home.php',
+                'superadmin' => '/HFABS/frontend/views/superadmin-home.php',
+                default => '/HFABS/frontend/views/customer-home.php',
+            };
+
+            echo json_encode([
+                'success' => true,
+                'redirect' => $redirect
+            ]);
         } else {
-            $_SESSION['login_error'] = "Invalid credentials.";
-            if (isset($_SERVER['HTTP_REFERER'])) {
-                header("Location: " . $_SERVER['HTTP_REFERER']);
-            } else {
-                header("Location: /HFABS/frontend/views/customer-login.html");
-            }
-                }
-                exit;
+            http_response_code(401);
+            echo json_encode([
+                'success' => false,
+                'message' => 'Invalid credentials'
+            ]);
+        }
+        exit;
     }
+
 
     public function logout()
     {
+        require_once __DIR__ . '/../config/config.php';
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
@@ -79,9 +151,9 @@ class AuthController extends Controller
         $_SESSION = [];
         session_destroy();
         if($role === 'admin'){
-            header("Location: /HFABS/frontend/views/admin-login.html");
+            header("Location: " . BASE_URL . "/../../frontend/views/admin-login.html");
         }else{
-            header("Location: /HFABS/frontend/views/customer-login.html");
+            header("Location: " . BASE_URL . "/../../frontend/views/customer-login.html");
         }
 
         exit;

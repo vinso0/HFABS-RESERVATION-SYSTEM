@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Services | HappyFace Spa</title>
+    <link rel="stylesheet" href="../public/css/landing.css" />
     <link rel="stylesheet" href="../public/css/services.css" />
   </head>
   <body>
@@ -29,10 +30,20 @@
           <span class="brand-name">Happy Face & Body Spa</span>
         </div>
 
-        <nav class="nav">
-          <a href="../index.html" class="nav-link">Home</a>
-          <a href="../index.html#services" class="nav-link">Services</a>
-          <a href="./customer-login.html" class="nav-link">Login</a>
+        <!-- BURGER MENU BUTTON -->
+        <button class="burger-menu" id="burger-menu" aria-label="Toggle menu">
+          <span class="burger-line"></span>
+          <span class="burger-line"></span>
+          <span class="burger-line"></span>
+        </button>
+
+        <!-- DROPDOWN NAVIGATION (LOGGED IN) -->
+        <nav class="nav-dropdown" id="nav-dropdown">
+          <a href="./customer-home.php" class="nav-dropdown-link">Home</a>
+          <a href="./services.html" class="nav-dropdown-link">Services</a>
+          <a href="./customer-dashboard.html" class="nav-dropdown-link">My Reservations</a>
+          <a href="./customer-profile.html" class="nav-dropdown-link">Profile</a>
+          <a href="/HFABS/backend/public/index.php?url=auth/logout" class="nav-dropdown-link">Logout</a>
         </nav>
       </div>
     </header>
@@ -93,8 +104,12 @@
 
             <div class="total-section">
               <div class="total-row">
-                <span>Total</span>
+                <span>Total:</span>
                 <span class="total-price" id="totalPrice">₱0</span>
+              </div>
+              <div class="total-row">
+                <span>Downpayment Amount:</span>
+                <span class="downpayment-price" id="downpaymentPrice">₱0</span>
               </div>
             </div>
 
@@ -107,5 +122,7 @@
     </main>
 
     <script src="../public/js/services.js"></script>
+    <!-- ADD BURGER MENU SCRIPT -->
+    <script src="../public/js/burger-menu.js"></script>
   </body>
 </html>
