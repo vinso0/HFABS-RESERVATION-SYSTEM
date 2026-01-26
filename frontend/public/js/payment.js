@@ -1,6 +1,3 @@
-// PayMongo Configuration
-const PAYMONGO_PUBLIC_KEY = 'sk_input_secret_key_here';
-
 // State Management
 let bookingData = null;
 
