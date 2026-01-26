@@ -11,6 +11,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 
 class PaymentController extends Controller {
     public function create() {
+        if (empty(PAYMONGO_SECRET)) {
+        header('Content-Type: application/json', true, 500);
+        echo json_encode(['error' => 'Server Configuration Error: API Key missing.']);
+        return;
+    }
     // get input
     $input = json_decode(file_get_contents('php://input'), true);
     
@@ -50,7 +55,7 @@ class PaymentController extends Controller {
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
         'Content-Type: application/json',
         'accept: application/json',
-        'Authorization: Basic ' . base64_encode('secret key here:') 
+        'Authorization: Basic ' . base64_encode(PAYMONGO_SECRET . ':')
     ]);
 
     $raw_response = curl_exec($ch);
