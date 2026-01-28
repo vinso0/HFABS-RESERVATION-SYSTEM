@@ -1,5 +1,5 @@
 // PayMongo Configuration
-const PAYMONGO_PUBLIC_KEY = 'put your_public_key_here(ex. sk_test_xxx)';
+const PAYMONGO_PUBLIC_KEY = 'put_your_public_key_here(ex. sk_test_xxx)';
 
 // State Management
 let bookingData = null;
