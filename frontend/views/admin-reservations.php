@@ -15,6 +15,8 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     <link rel="stylesheet" href="../public/css/admin-sidebar.css">
     <link rel="stylesheet" href="../public/css/admin-navbar.css">
     <link rel="stylesheet" href="../public/css/admin-reservations.css">
+    <link rel="stylesheet" href="../public/css/pagination.css">
+    <link rel="stylesheet" href="../public/css/admin-reservation-modal.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -56,10 +58,15 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
                         <!-- Data will be populated by JavaScript -->
                     </tbody>
                 </table>
+
+                <?php include 'components/pagination.php'; ?>
             </div>
         </section>
     </main>
 
+    <?php include 'components/admin-reservation-modal.php'; ?>
+
+    <script src="../public/js/pagination.js"></script>
     <script src="../public/js/reservations-data.js"></script>
 </body>
 </html>

@@ -119,3 +119,34 @@ body {
     border-color: #d91a7e;
     color: #d91a7e;
 }
+
+/* Main content area - ADD THIS */
+.main-content {
+    margin-left: 220px;
+    flex: 1;
+    padding: 24px;
+    background-color: #f5f5f5;
+    width: calc(100% - 220px);
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 70px;
+    }
+    
+    .main-content {
+        margin-left: 70px;
+        width: calc(100% - 70px);
+    }
+    
+    .sidebar-header {
+        flex-direction: column;
+    }
+    
+    .brand-name,
+    .brand-subtitle,
+    .nav-item span,
+    .logout-btn span {
+        display: none;
+    }
+}
