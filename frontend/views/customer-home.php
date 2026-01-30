@@ -56,21 +56,31 @@ if (!isset($_SESSION['user_id'])) {
   </header>
 
   <main>
-    <section class="hero">
-      <div class="hero-icon">
-        <img src="../public/img/HFABS-LOGO.png" alt="Happy Face & Body Spa" />
+    <!-- Hero Section -->
+    <section class="hero-enhanced" id="home">
+      <div class="hero-content-wrapper">
+        <div class="hero-text-section">     
+          <h1 class="hero-title">Luxury Spa<br>Wellness & Beauty</h1>
+          <p class="hero-subtitle">
+            Relax. Refresh. Renew.<br>
+            Your beauty and wellness, simplified.
+          </p>
+
+          <a href="./customer-booking.html" class="cta-btn">
+            Book an Appointment
+          </a>
+        </div>
+
+        <div class="hero-image-section">
+          <img src="../public/img/hero-pic.jpg" alt="Spa Experience" />
+        </div>
       </div>
-
-      <h1 class="hero-title">Relax. Refresh. Renew.</h1>
-      <p class="hero-subtitle">Your beauty and wellness, simplified.</p>
-
-      <a href="./customer-booking.html" class="cta-btn">
-        Book an Appointment
-      </a>
     </section>
 
-    <section class="services" id="services">
+    <!-- Services Gallery Section -->
+    <section class="services services-gallery" id="services">
       <h2 class="services-heading">Our Services</h2>
+      <p class="section-subtitle">Discover our comprehensive range of beauty and wellness treatments</p>
 
       <div class="services-grid">
         <div class="service-card">
@@ -128,9 +138,50 @@ if (!isset($_SESSION['user_id'])) {
       </div>
     </section>
   </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <div class="footer-brand">
+          <img src="../public/img/HFABS-LOGO.png" alt="Happy Face & Body Spa" />
+          <h4>Happy Face & Body Spa</h4>
+        </div>
+        <p>Your premier destination for beauty and wellness. Experience luxury and relaxation in every visit.</p>
+      </div>
+
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <a href="#home">Home</a>
+        <a href="#services">Services</a>
+        <a href="./customer-dashboard.html">My Reservations</a>
+        <a href="./customer-profile.html">Profile</a>
+      </div>
+
+      <div class="footer-section">
+        <h4>Contact Us</h4>
+        <p>📞 Phone: (123) 456-7890</p>
+        <p>📧 Email: info@happyfacespa.com</p>
+        <p>📍 Location: Your Address Here</p>
+      </div>
+
+      <div class="footer-section">
+        <h4>Hours</h4>
+        <p>Monday - Friday: 9:00 AM - 8:00 PM</p>
+        <p>Saturday: 9:00 AM - 6:00 PM</p>
+        <p>Sunday: 10:00 AM - 5:00 PM</p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2026 Happy Face & Body Spa. All rights reserved.</p>
+    </div>
+  </footer>
+
   <script src="../public/js/landing.js"></script>
   <script src="../public/js/burger-menu.js"></script>
   <script src="../public/js/universal-branch-modal.js"></script>
+  
   <!-- Branch Selection Modal -->
   <div id="branchModal" class="modal">
     <div class="modal-content">
