@@ -5,7 +5,7 @@
     </div>
 
     <nav class="sidebar-nav">
-        <a href="admin-home.php" class="nav-item active">
+        <a href="admin-home.php" class="nav-item">
             <i class="fas fa-th-large"></i>
             <span>Dashboard</span>
         </a>
@@ -39,6 +39,20 @@
         </a>
     </nav>
 
+    <script>
+        // Dynamically set active sidebar item based on current page
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPage = window.location.pathname.split('/').pop();
+            const navItems = document.querySelectorAll('.sidebar-nav .nav-item');
+            
+            navItems.forEach(item => {
+                const href = item.getAttribute('href');
+                if (href && href !== '#' && currentPage.includes(href.split('/').pop())) {
+                    item.classList.add('active');
+                }
+            });
+        });
+    </script>
     <a href="../../backend/public/index.php?url=auth/logout" class="logout-btn">
         <i class="fas fa-sign-out-alt"></i>
         <span>Logout</span>

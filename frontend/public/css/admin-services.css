@@ -1,7 +1,4 @@
 /* Services Section */
-.services-section {
-    padding: 2rem;
-}
 
 .services-section h2 {
     font-size: 28px;
@@ -20,7 +17,6 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: 2rem;
 }
 
 .btn-add-service {
