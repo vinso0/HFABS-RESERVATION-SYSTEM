@@ -17,7 +17,7 @@
             <i class="far fa-calendar"></i>
             <span>Reservations</span>
         </a>
-        <a href="#" class="nav-item">
+        <a href="./admin-services.php" class="nav-item">
             <i class="fas fa-cut"></i>
             <span>Services</span>
         </a>
