@@ -172,9 +172,17 @@ body::before {
   backdrop-filter: blur(10px);
   border-bottom: 1px solid #e0e0e0;
   padding: 1.25rem 2rem;
-  position: sticky;
+  position: fixed;
   top: 0;
-  z-index: 100;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  width: 100%;
+}
+
+/* Add padding to main to avoid content being hidden under fixed header */
+main {
+  padding-top: 80px;
 }
 
 .header-container {
@@ -233,10 +241,10 @@ body::before {
   background: var(--primary-pink);
 }
 
-/* Burger Menu */
+/* Burger Menu - Hidden on desktop */
 
 .burger-menu {
-  display: flex;
+  display: none;
   flex-direction: column;
   justify-content: space-between;
   width: 28px;
@@ -330,12 +338,10 @@ body::before {
   color: #d11a7c;
 }
 
-/* Hide regular nav on logged-in page */
-.header-container:has(.burger-menu) .nav {
+/* Navigation Dropdown - Hidden on desktop */
+.nav-dropdown {
   display: none;
 }
-
-/* Navigation Dropdown */
 
 .nav-dropdown {
   position: absolute;
@@ -389,11 +395,6 @@ body::before {
 .nav-dropdown-link.logout:hover {
   background: #ffe5f0;
   color: #d11a7c;
-}
-
-/* Hide regular nav on logged-in page */
-.header-container:has(.burger-menu) .nav {
-  display: none;
 }
 
 /* Overlay for mobile menu */
@@ -733,24 +734,54 @@ main {
   }
 
   .footer-section h4 {
-    font-size: 1.1rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-    color: var(--text-main);
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--text-main);
   }
-
+  
   .footer-section p,
   .footer-section a {
-    font-size: 0.95rem;
-    color: var(--text-muted);
-    line-height: 1.8;
-    text-decoration: none;
-    display: block;
-    margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+      text-decoration: none;
+      display: block;
+      margin-bottom: 0.5rem;
   }
-
+  
   .footer-section a:hover {
-    color: var(--primary-pink);
+      color: var(--primary-pink);
+  }
+  
+  /* Footer branch items */
+  .footer-branch-item {
+      margin-bottom: 1rem;
+  }
+  
+  .footer-branch-item h5 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      color: var(--text-main);
+  }
+  
+  .footer-branch-item p {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin: 0;
+  }
+  
+  .branch-loading {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      font-style: italic;
+  }
+  
+  .branch-error {
+      font-size: 0.9rem;
+      color: #e91e8c;
   }
 
   .footer-brand {
@@ -912,7 +943,19 @@ main {
 /* Responsive */
 
 @media (max-width: 768px) {
+  /* Show burger menu on mobile */
+  .burger-menu {
+    display: flex;
+  }
+
+  /* Hide horizontal nav on mobile */
+  .header-container .nav {
+    display: none;
+  }
+
+  /* Show nav dropdown on mobile */
   .nav-dropdown {
+    display: block;
     right: 1rem;
     min-width: 180px;
   }

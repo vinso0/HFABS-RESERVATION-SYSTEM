@@ -29,14 +29,6 @@
             <i class="far fa-comment"></i>
             <span>Feedback</span>
         </a>
-        <a href="#" class="nav-item">
-            <i class="far fa-file-alt"></i>
-            <span>Reports</span>
-        </a>
-        <a href="#" class="nav-item">
-            <i class="far fa-user-circle"></i>
-            <span>Profile</span>
-        </a>
     </nav>
 
     <script>

@@ -39,6 +39,14 @@ if (!isset($_SESSION['user_id'])) {
         <span class="brand-name">Happy Face & Body Spa</span>
       </div>
 
+      <nav class="nav">
+        <a href="#home" class="nav-link active">Home</a>
+        <a href="#services" class="nav-link">Services</a>
+        <a href="./customer-dashboard.html" class="nav-link">My Reservations</a>
+        <a href="./customer-profile.html" class="nav-link">Profile</a>
+        <a href="/HFABS/backend/public/index.php?url=auth/logout" class="nav-link">Logout</a>
+      </nav>
+
       <button class="burger-menu" id="burger-menu" aria-label="Toggle menu">
         <span class="burger-line"></span>
         <span class="burger-line"></span>
@@ -66,9 +74,9 @@ if (!isset($_SESSION['user_id'])) {
             Your beauty and wellness, simplified.
           </p>
 
-          <a href="./customer-booking.html" class="cta-btn">
+          <button class="cta-btn">
             Book an Appointment
-          </a>
+          </button>
         </div>
 
         <div class="hero-image-section">
@@ -159,17 +167,10 @@ if (!isset($_SESSION['user_id'])) {
       </div>
 
       <div class="footer-section">
-        <h4>Contact Us</h4>
-        <p>📞 Phone: (123) 456-7890</p>
-        <p>📧 Email: info@happyfacespa.com</p>
-        <p>📍 Location: Your Address Here</p>
-      </div>
-
-      <div class="footer-section">
-        <h4>Hours</h4>
-        <p>Monday - Friday: 9:00 AM - 8:00 PM</p>
-        <p>Saturday: 9:00 AM - 6:00 PM</p>
-        <p>Sunday: 10:00 AM - 5:00 PM</p>
+        <h4>Our Branches</h4>
+        <div id="branches-list" class="branches-list">
+          <div class="branch-loading">Loading branches...</div>
+        </div>
       </div>
     </div>
 
@@ -181,6 +182,7 @@ if (!isset($_SESSION['user_id'])) {
   <script src="../public/js/landing.js"></script>
   <script src="../public/js/burger-menu.js"></script>
   <script src="../public/js/universal-branch-modal.js"></script>
+  <script src="../public/js/load-footer-branches.js"></script>
   
   <!-- Branch Selection Modal -->
   <div id="branchModal" class="modal">
