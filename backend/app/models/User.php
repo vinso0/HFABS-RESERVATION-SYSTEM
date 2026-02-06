@@ -5,21 +5,30 @@ class User extends Database
     // REGISTER FUNCTION
     public function register($username, $email, $password, $contact_number)
     {
-        $password = password_hash($password, PASSWORD_DEFAULT);
-
+        // Password is already hashed in the controller, don't hash again!
+        
         $stmt = $this->db->prepare(
             "INSERT INTO users (username, email, password, contact_number, role) VALUES (?, ?, ?, ?, 'customer')"
         );
-        $stmt->bind_param("sssi", $username, $email, $password, $contact_number);
+        // Fixed: contact_number should be 's' (string), not 'i' (integer)
+        $stmt->bind_param("ssss", $username, $email, $password, $contact_number);
 
-        return $stmt->execute();
+        $result = $stmt->execute();
+        
+        // Check for errors
+        if (!$result) {
+            error_log("Registration error: " . $stmt->error);
+            return false;
+        }
+        
+        return $result;
     }
 
     // LOGIN FUNCTION
     public function login($identifier)
     {
         $stmt = $this->db->prepare(
-            "SELECT * FROM users WHERE email = ? or username = ?"
+            "SELECT * FROM users WHERE email = ? OR username = ?"
         );
         $stmt->bind_param("ss", $identifier, $identifier);
         $stmt->execute();

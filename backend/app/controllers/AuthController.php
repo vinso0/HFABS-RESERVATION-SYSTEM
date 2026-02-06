@@ -69,7 +69,7 @@ class AuthController extends Controller
             echo json_encode([
                 'success' => true,
                 'message' => 'Account created successfully',
-                'redirect' => '/frontend/views/customer-login.html'
+                'redirect' => '/HFABS/frontend/views/customer-login.html'
             ]);
         } else {
             http_response_code(409);
