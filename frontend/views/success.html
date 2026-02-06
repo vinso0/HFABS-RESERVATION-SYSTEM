@@ -1,10 +1,97 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Success</title>
+    <title>Success | Happy Face & Body Spa</title>
+    <link rel="stylesheet" href="../public/css/landing.css">
+    <style>
+        .success-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .success-icon {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, var(--primary-pink), #ff69b4);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+        }
+        
+        .success-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 1rem;
+        }
+        
+        .success-message {
+            font-size: 1.125rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            max-width: 500px;
+            line-height: 1.6;
+        }
+        
+        .back-home-btn {
+            display: inline-block;
+            padding: 0.875rem 2rem;
+            background: var(--primary-pink);
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: background var(--transition), transform var(--transition);
+        }
+        
+        .back-home-btn:hover {
+            background: #d11a7c;
+            transform: translateY(-2px);
+        }
+    </style>
 </head>
 <body>
-    SUCCESS
+    <div class="bubble-background">
+        <div class="bubble bubble-1"></div>
+        <div class="bubble bubble-2"></div>
+        <div class="bubble bubble-3"></div>
+        <div class="bubble bubble-4"></div>
+        <div class="bubble bubble-5"></div>
+        <div class="bubble bubble-6"></div>
+        <div class="bubble bubble-7"></div>
+        <div class="bubble bubble-8"></div>
+    </div>
+    
+    <header class="header">
+        <div class="header-container">
+            <div class="brand">
+                <a href="./customer-home.php">
+                    <img src="../public/img/HFABS-LOGO.png" alt="Happy Face & Body Spa" class="brand-logo" />
+                    <span class="brand-name">Happy Face & Body Spa</span>
+                </a>
+            </div>
+        </div>
+    </header>
+    
+    <main class="success-container">
+        <div class="success-icon">
+            ✓
+        </div>
+        <h1 class="success-title">Success!</h1>
+        <p class="success-message">Your reservation has been successfully processed. Thank you for choosing Happy Face & Body Spa.</p>
+        <a href="./customer-dashboard.html" class="back-home-btn">View My Reservations</a>
+    </main>
 </body>
 </html>

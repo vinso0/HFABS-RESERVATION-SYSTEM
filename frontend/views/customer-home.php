@@ -35,8 +35,10 @@ if (!isset($_SESSION['user_id'])) {
   <header class="header">
     <div class="header-container">
       <div class="brand">
-        <img src="../public/img/HFABS-LOGO.png" alt="Happy Face & Body Spa" class="brand-logo" />
-        <span class="brand-name">Happy Face & Body Spa</span>
+        <a href="./customer-home.php">
+          <img src="../public/img/HFABS-LOGO.png" alt="Happy Face & Body Spa" class="brand-logo" />
+          <span class="brand-name">Happy Face & Body Spa</span>
+        </a> 
       </div>
 
       <nav class="nav">

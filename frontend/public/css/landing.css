@@ -1,3 +1,18 @@
+/* --- Brand Link and Layout Adjustments --- */
+.brand a {
+  outline: 2px solid transparent !important;
+  outline-offset: 2px;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.brand-logo {
+  height: 48px;
+  width: auto;
+  margin-right: 12px;
+  display: block;
+}
 *,
 *::before,
 *::after {
@@ -209,6 +224,8 @@ main {
   font-weight: 600;
   font-size: 1rem;
   color: var(--text-main);
+  letter-spacing: 0.5px;
+  font-family: var(--font-main);
 }
 
 .nav {
