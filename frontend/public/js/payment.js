@@ -1,3 +1,6 @@
+// PayMongo Configuration
+const PAYMONGO_PUBLIC_KEY = 'put_your_public_key_here(ex. sk_test_xxx)';
+
 // State Management
 let bookingData = null;
 
@@ -55,30 +58,49 @@ async function processPayment(paymentMethod) {
   loadingOverlay.style.display = 'flex';
   
   try {
-        const { downpayment, order_id } = bookingData; 
-
-        //  call backend
-        const response = await fetch('http://localhost/HFABS/backend/public/index.php?url=payment/create', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                amount: downpayment,
-                order_id: order_id || "TEMP_" + Date.now() // Fallback if no ID yet
-            })
-        });
-
-        const result = await response.json();
-        
-        if (response.ok && result.checkout_url) {
-            // success url
-            window.location.href = result.checkout_url;
-        } else {
-            throw new Error(result.error || 'Failed to create session');
+    const { downpayment, service, branch, date, time } = bookingData;
+    const amountInCentavos = Math.round(downpayment * 100);
+    
+    // Format description
+    const description = `${service.servicename} - ${branch.name}`;
+    const remarks = `Booking: ${date} at ${time}`;
+    
+    // Create a payment link
+    const options = {
+      method: 'POST',
+      headers: {
+        accept: 'application/json',
+        'content-type': 'application/json',
+        authorization: `Basic ${btoa(PAYMONGO_PUBLIC_KEY + ':')}`
+      },
+      body: JSON.stringify({
+        data: {
+          attributes: {
+            amount: amountInCentavos,
+            description: description,
+            remarks: remarks
+          }
         }
-        
-    } catch (error) {
-        console.error('Payment error:', error);
-        loadingOverlay.style.display = 'none';
-        alert('Payment failed: ' + error.message);
+      })
+    };
+
+    const response = await fetch('https://api.paymongo.com/v1/links', options);
+    const result = await response.json();
+    
+    if (response.ok) {
+      // Store payment link ID for tracking
+      sessionStorage.setItem('paymentLinkId', result.data.id);
+      
+      // Redirect to PayMongo payment page
+      window.location.href = result.data.attributes.checkout_url;
+    } else {
+      console.error('PayMongo error:', result);
+      throw new Error(result.errors?.[0]?.detail || 'Failed to create payment link');
     }
+    
+  } catch (error) {
+    console.error('Payment error:', error);
+    loadingOverlay.style.display = 'none';
+    alert('Payment processing failed. Please try again. Error: ' + error.message);
+  }
 }
