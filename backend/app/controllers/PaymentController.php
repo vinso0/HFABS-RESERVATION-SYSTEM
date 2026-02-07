@@ -27,7 +27,7 @@ class PaymentController extends Controller {
     $payload = json_encode([
         'data' => [
             'attributes' => [
-                'payment_method_types' => ['gcash', 'paymaya'],
+                'payment_method_types' => ['gcash', 'paymaya', 'qrph'],
                 'line_items' => [
                     [
                         'amount'      => $amount_in_cents,

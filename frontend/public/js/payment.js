@@ -48,6 +48,8 @@ function displayBookingSummary() {
 function setupEventListeners() {
   document.getElementById('payWithGcash').addEventListener('click', () => processPayment('gcash'));
   document.getElementById('payWithMaya').addEventListener('click', () => processPayment('paymaya'));
+  document.getElementById('payWithQR').addEventListener('click', () => processPayment('qrph'));
+
 }
 
 async function processPayment(paymentMethod) {

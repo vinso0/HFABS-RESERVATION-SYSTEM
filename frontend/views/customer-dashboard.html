@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Reservations | Happy Face And Body Spa</title>
+
+  <link rel="stylesheet" href="../public/css/landing.css" />
+  <link rel="stylesheet" href="../public/css/customer-dashboard.css" />
+  <link rel="stylesheet" href="../public/css/pagination.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+  <div class="bubble-background">
+    <div class="bubble bubble-1"></div>
+    <div class="bubble bubble-2"></div>
+    <div class="bubble bubble-3"></div>
+    <div class="bubble bubble-4"></div>
+    <div class="bubble bubble-5"></div>
+    <div class="bubble bubble-6"></div>
+    <div class="bubble bubble-7"></div>
+    <div class="bubble bubble-8"></div>
+  </div>
+
+  <header class="header">
+    <div class="header-container">
+      <div class="brand">
+        <a href="./customer-home.php">
+          <img src="../public/img/HFABS-LOGO.png" alt="Happy Face & Body Spa" class="brand-logo" />
+          <span class="brand-name">Happy Face & Body Spa</span>
+        </a>
+      </div>
+
+      <nav class="nav">
+        <a href="./customer-home.php" class="nav-link">Home</a>
+        <a href="./services.html" class="nav-link">Services</a>
+        <a href="./customer-dashboard.html" class="nav-link active">My Reservations</a>
+        <a href="./customer-profile.html" class="nav-link">Profile</a>
+        <a href="/HFABS/backend/public/index.php?url=auth/logout" class="nav-link">Logout</a>
+      </nav>
+
+      <button class="burger-menu" id="burger-menu" aria-label="Toggle menu">
+        <span class="burger-line"></span>
+        <span class="burger-line"></span>
+        <span class="burger-line"></span>
+      </button>
+
+      <nav class="nav-dropdown" id="nav-dropdown">
+        <a href="./customer-home.php" class="nav-dropdown-link">Home</a>
+        <a href="./services.html" class="nav-dropdown-link">Services</a>
+        <a href="./customer-dashboard.html" class="nav-dropdown-link">My Reservations</a>
+        <a href="./customer-profile.html" class="nav-dropdown-link">Profile</a>
+        <a href="/HFABS/backend/public/index.php?url=auth/logout" class="nav-dropdown-link">Logout</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="dashboard-main">
+    <section class="reservations-section">
+      <div class="container">
+        <h1 class="page-title">My Reservations</h1>
+        <p class="page-subtitle">View your reservation history and upcoming appointments</p>
+
+        <div class="filter-section">
+          <div class="filter-dropdown">
+            <i class="fas fa-filter"></i>
+            <select id="filterStatus">
+              <option value="all">All Reservations</option>
+              <option value="pending">Pending</option>
+              <option value="confirmed">Confirmed</option>
+              <option value="completed">Completed</option>
+              <option value="cancelled">Cancelled</option>
+              <option value="rescheduled">Rescheduled</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="reservations-container">
+          <div id="reservationsList" class="reservations-list">
+            <!-- Loading state -->
+            <div class="loading-container">
+              <div class="loading-spinner"></div>
+              <p>Loading reservations...</p>
+            </div>
+          </div>
+
+          <!-- Pagination -->
+          <div id="paginationContainer" class="pagination-container">
+            <!-- Pagination will be inserted here -->
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Reservation Details Modal -->
+  <div id="reservationModal" class="modal">
+    <div class="modal-content">
+      <span class="modal-close">&times;</span>
+      <h2 class="modal-title">Reservation Details</h2>
+
+      <div class="modal-body" id="modalBody">
+        <!-- Modal content will be populated by JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <script src="../public/js/burger-menu.js"></script>
+  <script src="../public/js/pagination.js"></script>
+  <script src="../public/js/customer-dashboard.js"></script>
+</body>
+
+</html>

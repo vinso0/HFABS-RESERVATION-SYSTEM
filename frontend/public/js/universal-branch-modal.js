@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
   if (!modal) return;
   
   const closeBtn = document.querySelector('.modal-close');
-  const serviceButtons = document.querySelectorAll('.service-btn');
+  const serviceButtons = document.querySelectorAll('.service-btn, .cta-btn');
   
   // Detect current directory structure
   const currentPath = window.location.pathname;

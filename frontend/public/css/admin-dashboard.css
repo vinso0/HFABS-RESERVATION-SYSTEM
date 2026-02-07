@@ -1,0 +1,128 @@
+.main-content {
+    margin-left: 220px;
+    flex: 1;
+    padding: 24px;
+    background-color: #f5f5f5;
+}
+
+.dashboard-section h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #d91a7e;
+    margin-bottom: 4px;
+}
+
+.welcome-text {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 24px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.stat-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 3px solid #d91a7e;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(217, 26, 126, 0.12);
+}
+
+.stat-content h3 {
+    font-size: 13px;
+    font-weight: 600;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+.stat-number {
+    font-size: 28px;
+    font-weight: 700;
+    color: #d91a7e;
+    margin-bottom: 4px;
+}
+
+.stat-detail {
+    font-size: 11px;
+    color: #999;
+}
+
+.stat-icon {
+    width: 52px;
+    height: 52px;
+    background: linear-gradient(135deg, #d91a7e 0%, #ff4da6 100%);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stat-icon i {
+    font-size: 24px;
+    color: #fff;
+}
+
+.overview-section h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #d91a7e;
+    margin-bottom: 16px;
+}
+
+.overview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+.overview-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 24px;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
+}
+
+.overview-card:hover {
+    transform: translateY(-2px);
+}
+
+.overview-label {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.overview-number {
+    font-size: 32px;
+    font-weight: 700;
+    color: #d91a7e;
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        margin-left: 70px;
+        padding: 16px;
+    }
+    
+    .stats-grid,
+    .overview-grid {
+        grid-template-columns: 1fr;
+    }
+}
