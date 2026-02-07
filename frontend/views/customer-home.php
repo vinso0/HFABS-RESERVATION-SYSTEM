@@ -32,38 +32,8 @@ if (!isset($_SESSION['user_id'])) {
     <div class="bubble bubble-8"></div>
   </div>
 
-  <header class="header">
-    <div class="header-container">
-      <div class="brand">
-        <a href="./customer-home.php">
-          <img src="../public/img/HFABS-LOGO.png" alt="Happy Face & Body Spa" class="brand-logo" />
-          <span class="brand-name">Happy Face & Body Spa</span>
-        </a> 
-      </div>
-
-      <nav class="nav">
-        <a href="#home" class="nav-link active">Home</a>
-        <a href="#services" class="nav-link">Services</a>
-        <a href="./customer-dashboard.html" class="nav-link">My Reservations</a>
-        <a href="./customer-profile.html" class="nav-link">Profile</a>
-        <a href="/HFABS/backend/public/index.php?url=auth/logout" class="nav-link">Logout</a>
-      </nav>
-
-      <button class="burger-menu" id="burger-menu" aria-label="Toggle menu">
-        <span class="burger-line"></span>
-        <span class="burger-line"></span>
-        <span class="burger-line"></span>
-      </button>
-
-      <nav class="nav-dropdown" id="nav-dropdown">
-        <a href="#home" class="nav-dropdown-link">Home</a>
-        <a href="#services" class="nav-dropdown-link">Services</a>
-        <a href="./customer-dashboard.html" class="nav-dropdown-link">My Reservations</a>
-        <a href="./customer-profile.html" class="nav-dropdown-link">Profile</a>
-        <a href="/HFABS/backend/public/index.php?url=auth/logout" class="nav-dropdown-link">Logout</a>
-      </nav>
-    </div>
-  </header>
+  <!-- Dynamic Navbar Container -->
+  <div id="navbar-container"></div>
 
   <main>
     <!-- Hero Section -->
@@ -182,9 +152,9 @@ if (!isset($_SESSION['user_id'])) {
   </footer>
 
   <script src="../public/js/landing.js"></script>
-  <script src="../public/js/burger-menu.js"></script>
   <script src="../public/js/universal-branch-modal.js"></script>
   <script src="../public/js/load-footer-branches.js"></script>
+  <script src="../public/js/navbar-loader.js"></script>
   
   <!-- Branch Selection Modal -->
   <div id="branchModal" class="modal">

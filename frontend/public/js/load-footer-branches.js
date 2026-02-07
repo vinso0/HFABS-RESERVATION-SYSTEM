@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Load branches from API
   async function loadBranches() {
     try {
-      const response = await fetch('/HFABS/backend/public/index.php?url=branch/index');
+      const response = await fetch('/HFABS/backend/public/index.php?url=branch');
       
       if (!response.ok) {
         throw new Error('Failed to fetch branches');
@@ -37,14 +37,14 @@ document.addEventListener('DOMContentLoaded', function() {
   function loadDummyBranches() {
     const dummyBranches = [
       {
-        branch_id: 1,
-        branch_name: 'Caloocan Branch',
-        branch_location: '102 Caimito Rd., Caloocan City, Unit 1D, Caimito Place'
+        branchid: 1,
+        branchname: 'Caloocan Branch',
+        location: '102 Caimito Rd., Caloocan City, Unit 1D, Caimito Place'
       },
       {
-        branch_id: 2,
-        branch_name: 'Quezon City Branch',
-        branch_location: '850 Atherton, Quezon City'
+        branchid: 2,
+        branchname: 'Quezon City Branch',
+        location: '850 Atherton, Quezon City'
       }
     ];
     
@@ -61,10 +61,10 @@ document.addEventListener('DOMContentLoaded', function() {
     item.className = 'footer-branch-item';
     
     const branchName = document.createElement('h5');
-    branchName.textContent = capitalizeFirstLetter(branch.branch_name) + ' Branch';
+    branchName.textContent = capitalizeFirstLetter(branch.branchname) + ' Branch';
     
     const branchLocation = document.createElement('p');
-    branchLocation.textContent = branch.branch_location;
+    branchLocation.textContent = branch.location;
     
     item.appendChild(branchName);
     item.appendChild(branchLocation);

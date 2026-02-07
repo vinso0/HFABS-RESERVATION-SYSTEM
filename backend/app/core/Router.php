@@ -7,21 +7,50 @@ class Router
         $url = $_GET['url'] ?? 'auth/login';
         $url = explode('/', $url);
 
+        // Handle API routes
+        // First segment determines the controller
         $controllerName = ucfirst($url[0]) . 'Controller';
         $method = $url[1] ?? 'index';
+        
+        // Extract parameters from URL
+        $params = array_slice($url, 2);
 
         $controllerPath = __DIR__ . '/../controllers/' . $controllerName . '.php';
         if (file_exists($controllerPath)) {
             require_once $controllerPath;
         } else {
+            http_response_code(404);
             die("Controller $controllerName not found.");
         }
 
         $controller = new $controllerName();
         if (method_exists($controller, $method)) {
-            $controller->$method();
+            // Call method with parameters
+            call_user_func_array(array($controller, $method), $params);
         } else {
-            die("Method $method not found in controller $controllerName");
+            // Check if we have an ID parameter and should call show() or services()
+            if (is_numeric($method)) {
+                // If next segment is 'services', call services() with branch ID
+                if (isset($url[2]) && $url[2] === 'services') {
+                    if (method_exists($controller, 'services')) {
+                        call_user_func_array(array($controller, 'services'), array($method));
+                    } else {
+                        http_response_code(404);
+                        die("Method services not found in controller $controllerName");
+                    }
+                } else {
+                    // Otherwise, call show() with ID
+                    if (method_exists($controller, 'show')) {
+                        call_user_func_array(array($controller, 'show'), array($method));
+                    } else {
+                        http_response_code(404);
+                        die("Method show not found in controller $controllerName");
+                    }
+                }
+            } else {
+                http_response_code(404);
+                die("Method $method not found in controller $controllerName");
+            }
         }
     }
 }
