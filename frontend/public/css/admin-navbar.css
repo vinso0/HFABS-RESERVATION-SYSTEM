@@ -1,0 +1,101 @@
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    background-color: #fff;
+    border-bottom: 1px solid #e5e5e5;
+    margin-left: -24px;
+    margin-right: -24px;
+    margin-top: -24px;
+    margin-bottom: 24px;
+}
+
+.page-header h1 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 4px;
+}
+
+.subtitle {
+    font-size: 13px;
+    color: #666;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.notification-icon {
+    font-size: 18px;
+    color: #666;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.3s ease;
+    padding: 8px;
+}
+
+.notification-icon:hover {
+    color: #d91a7e;
+}
+
+.notification-icon::after {
+    content: '';
+    width: 7px;
+    height: 7px;
+    background-color: #d91a7e;
+    border-radius: 50%;
+    position: absolute;
+    top: 6px;
+    right: 6px;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    padding: 6px 10px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.user-profile:hover {
+    background-color: #fef1f8;
+}
+
+.user-profile i {
+    font-size: 36px;
+    color: #d91a7e;
+}
+
+.user-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 2px;
+}
+
+.user-role {
+    font-size: 11px;
+    color: #666;
+}
+
+@media (max-width: 768px) {
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+    
+    .page-header h1 {
+        font-size: 20px;
+    }
+    
+    .user-profile i {
+        font-size: 28px;
+    }
+}

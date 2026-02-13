@@ -24,6 +24,9 @@ const formDataToJson = (form) =>
 async function handleApiFormSubmit(form, endpoint) {
   try {
     const payload = formDataToJson(form);
+    
+    // Debug: Log what we're sending
+    console.log('Sending payload:', payload);
 
     const response = await fetch(endpoint, {
       method: "POST",
@@ -31,29 +34,35 @@ async function handleApiFormSubmit(form, endpoint) {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
-      credentials: "same-origin", // keeps PHP sessions working
+      credentials: "same-origin",
       body: JSON.stringify(payload),
     });
 
     const data = await response.json().catch(() => ({}));
+    
+    // Debug: Log response
+    console.log('Response status:', response.status);
+    console.log('Response data:', data);
 
     if (!response.ok || data.success === false) {
       const message =
         data.message ||
         data.error ||
-        "Something went wrong. Please try again.";
+        `Server error (${response.status}). Please try again.`;
       alert(message);
       return;
     }
 
     if (data.redirect) {
       window.location.href = data.redirect;
+    } else if (data.success) {
+      alert("Registration successful! Redirecting to login...");
+      window.location.href = "./customer-login.html";
     } else {
-      // Fallback: simple success notice
       alert("Success.");
     }
   } catch (err) {
-    console.error(err);
+    console.error('Error:', err);
     alert("Network error. Please check your connection and try again.");
   }
 }
@@ -76,6 +85,21 @@ const registerForm = document.getElementById("customer-register-form");
 if (registerForm) {
   registerForm.addEventListener("submit", (e) => {
     e.preventDefault();
+    
+    // Client-side validation
+    const password = document.getElementById('reg-password').value;
+    const confirmPassword = document.getElementById('reg-confirm-password').value;
+    
+    if (password !== confirmPassword) {
+      alert('Passwords do not match!');
+      return;
+    }
+    
+    if (password.length < 8) {
+      alert('Password must be at least 8 characters long!');
+      return;
+    }
+    
     handleApiFormSubmit(
       registerForm,
       "../../backend/public/index.php?url=auth/register"

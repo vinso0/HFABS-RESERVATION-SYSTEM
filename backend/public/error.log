@@ -1,0 +1,66 @@
+[23-Jan-2026 07:50:41 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'contact_number' in 'field list' in C:\xampp\htdocs\HFABS\backend\app\models\User.php:10
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\User.php(10): mysqli->prepare('INSERT INTO use...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\AuthController.php(60): User->register('vin', 'vin@gmail.com', '$2y$10$ZYf1a7AK...', '09202342476')
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(22): AuthController->register()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\User.php on line 10
+[23-Jan-2026 07:55:05 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'contact_number' in 'field list' in C:\xampp\htdocs\HFABS\backend\app\models\User.php:10
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\User.php(10): mysqli->prepare('INSERT INTO use...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\AuthController.php(60): User->register('vin', 'vin@gmail.com', '$2y$10$kaMFSA60...', '09202342476')
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(22): AuthController->register()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\User.php on line 10
+[23-Jan-2026 07:55:55 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'contact_number' in 'field list' in C:\xampp\htdocs\HFABS\backend\app\models\User.php:10
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\User.php(10): mysqli->prepare('INSERT INTO use...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\AuthController.php(60): User->register('vin', 'vin@gmail.com', '$2y$10$i2Bwj1LV...', '09202342476')
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(22): AuthController->register()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\User.php on line 10
+[23-Jan-2026 08:02:42 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Duplicate entry 'socao@gmail.com' for key 'email' in C:\xampp\htdocs\HFABS\backend\app\models\User.php:16
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\User.php(16): mysqli_stmt->execute()
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\AuthController.php(60): User->register('socao', 'socao@gmail.com', '$2y$10$O5IT9K.E...', '09256315631')
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(22): AuthController->register()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\User.php on line 16
+[07-Feb-2026 07:47:12 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Cannot add or update a child row: a foreign key constraint fails (`hfabs`.`payments`, CONSTRAINT `order_payment` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`)) in C:\xampp\htdocs\HFABS\backend\app\controllers\WebhookController.php:39
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\controllers\WebhookController.php(39): mysqli_stmt->execute()
+#1 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(22): WebhookController->handle()
+#2 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#3 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\WebhookController.php on line 39
+[07-Feb-2026 07:48:44 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Cannot add or update a child row: a foreign key constraint fails (`hfabs`.`payments`, CONSTRAINT `order_payment` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`)) in C:\xampp\htdocs\HFABS\backend\app\controllers\WebhookController.php:39
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\controllers\WebhookController.php(39): mysqli_stmt->execute()
+#1 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(22): WebhookController->handle()
+#2 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#3 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\WebhookController.php on line 39
+[07-Feb-2026 07:48:46 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Cannot add or update a child row: a foreign key constraint fails (`hfabs`.`payments`, CONSTRAINT `order_payment` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`)) in C:\xampp\htdocs\HFABS\backend\app\controllers\WebhookController.php:39
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\controllers\WebhookController.php(39): mysqli_stmt->execute()
+#1 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(22): WebhookController->handle()
+#2 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#3 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\WebhookController.php on line 39
+[07-Feb-2026 07:54:43 Europe/Berlin] Webhook Success: Processed payment for Order ID: 2
+[07-Feb-2026 07:55:03 Europe/Berlin] Webhook Success: Processed payment for Order ID: 2
+[07-Feb-2026 07:55:46 Europe/Berlin] Webhook Success: Processed payment for Order ID: 2
+[07-Feb-2026 07:59:48 Europe/Berlin] Webhook Success: QRPh/Payment processed for Order: 2
+[07-Feb-2026 08:03:04 Europe/Berlin] Webhook DB Error: Cannot add or update a child row: a foreign key constraint fails (`hfabs`.`payments`, CONSTRAINT `order_payment` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`))
+[07-Feb-2026 08:03:23 Europe/Berlin] Webhook DB Error: Cannot add or update a child row: a foreign key constraint fails (`hfabs`.`payments`, CONSTRAINT `order_payment` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`))
+[07-Feb-2026 08:03:27 Europe/Berlin] Webhook DB Error: Cannot add or update a child row: a foreign key constraint fails (`hfabs`.`payments`, CONSTRAINT `order_payment` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`))
+[07-Feb-2026 08:04:12 Europe/Berlin] Webhook DB Error: Cannot add or update a child row: a foreign key constraint fails (`hfabs`.`payments`, CONSTRAINT `order_payment` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`))
+[07-Feb-2026 08:05:13 Europe/Berlin] Webhook Success: QRPh/Payment processed for Order: 2
+[07-Feb-2026 08:07:47 Europe/Berlin] Webhook Success: QRPh/Payment processed for Order: 2
+[07-Feb-2026 08:08:21 Europe/Berlin] Webhook Success: QRPh/Payment processed for Order: 2
+[07-Feb-2026 08:32:21 Europe/Berlin] Webhook Success: QRPh/Payment processed for Order: 2
+[07-Feb-2026 08:34:34 Europe/Berlin] Webhook Success: QRPh/Payment processed for Order: 2

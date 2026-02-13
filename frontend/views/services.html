@@ -22,13 +22,19 @@
     <header class="header">
       <div class="header-container">
         <div class="brand">
-          <img
-            src="../public/img/HFABS-LOGO.png"
-            alt="Happy Face & Body Spa"
-            class="brand-logo"
-          />
-          <span class="brand-name">Happy Face & Body Spa</span>
+          <a href="./customer-home.php">
+            <img src="../public/img/HFABS-LOGO.png" alt="Happy Face & Body Spa" class="brand-logo" />
+            <span class="brand-name">Happy Face & Body Spa</span>
+          </a> 
         </div>
+
+        <nav class="nav">
+          <a href="./customer-home.php" class="nav-link">Home</a>
+          <a href="./services.html" class="nav-link active">Services</a>
+          <a href="./customer-dashboard.html" class="nav-link">My Reservations</a>
+          <a href="./customer-profile.html" class="nav-link">Profile</a>
+          <a href="/HFABS/backend/public/index.php?url=auth/logout" class="nav-link">Logout</a>
+        </nav>
 
         <!-- BURGER MENU BUTTON -->
         <button class="burger-menu" id="burger-menu" aria-label="Toggle menu">
