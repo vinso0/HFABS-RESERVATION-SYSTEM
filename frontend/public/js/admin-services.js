@@ -5,205 +5,16 @@
 // Global Variables
 let currentCategory = 'all';
 let currentPage = 1;
+let defaultServicesData = [];
 let servicesData = [];
 let categoriesData = [];
 let branchCategoriesData = [];
 let selectedServiceId = null;
 let selectedCategoryId = null;
+let isCreateNewMode = false;
 
-// ==========================================
-// DUMMY DATA (Remove when backend is ready)
-// ==========================================
-
-const DUMMY_CATEGORIES = [
-    {
-        service_category_id: 1,
-        category_name: 'Hair',
-        description: 'Hair care and styling services',
-        def_capacity: 3
-    },
-    {
-        service_category_id: 2,
-        category_name: 'Massage',
-        description: 'Relaxation and therapeutic massage',
-        def_capacity: 5
-    },
-    {
-        service_category_id: 3,
-        category_name: 'Nail',
-        description: 'Manicure and pedicure services',
-        def_capacity: 4
-    },
-    {
-        service_category_id: 4,
-        category_name: 'Facial',
-        description: 'Facial treatments and skincare',
-        def_capacity: 2
-    }
-];
-
-// Branch-specific category overrides
-let DUMMY_BRANCH_CATEGORIES = [
-    {
-        branch_category_override_id: 1,
-        branch_id: 1,
-        default_category_id: 1,
-        display_name: null,
-        description_override: null,
-        capacity_override: 3,
-        is_active_override: null
-    },
-    {
-        branch_category_override_id: 2,
-        branch_id: 1,
-        default_category_id: 2,
-        display_name: null,
-        description_override: null,
-        capacity_override: 5,
-        is_active_override: null
-    },
-    {
-        branch_category_override_id: 3,
-        branch_id: 1,
-        default_category_id: 3,
-        display_name: null,
-        description_override: null,
-        capacity_override: 4,
-        is_active_override: null
-    },
-    {
-        branch_category_override_id: 4,
-        branch_id: 1,
-        default_category_id: 4,
-        display_name: null,
-        description_override: null,
-        capacity_override: 2,
-        is_active_override: null
-    }
-];
-
-const DUMMY_SERVICES = [
-    {
-        branch_service_override_id: 1,
-        default_service_id: 1,
-        branch_id: 1,
-        display_name: null,
-        description_override: null,
-        duration_minutes_override: null,
-        price_override: null,
-        is_available_override: 1
-    },
-    {
-        branch_service_override_id: 2,
-        default_service_id: 2,
-        branch_id: 1,
-        display_name: null,
-        description_override: null,
-        duration_minutes_override: null,
-        price_override: null,
-        is_available_override: 1
-    },
-    {
-        branch_service_override_id: 3,
-        default_service_id: 3,
-        branch_id: 1,
-        display_name: null,
-        description_override: null,
-        duration_minutes_override: null,
-        price_override: null,
-        is_available_override: 1
-    },
-    {
-        branch_service_override_id: 4,
-        default_service_id: 4,
-        branch_id: 1,
-        display_name: null,
-        description_override: null,
-        duration_minutes_override: null,
-        price_override: null,
-        is_available_override: 1
-    },
-    {
-        branch_service_override_id: 5,
-        default_service_id: 5,
-        branch_id: 1,
-        display_name: null,
-        description_override: null,
-        duration_minutes_override: null,
-        price_override: null,
-        is_available_override: 1
-    },
-    {
-        branch_service_override_id: 6,
-        default_service_id: 6,
-        branch_id: 1,
-        display_name: null,
-        description_override: null,
-        duration_minutes_override: null,
-        price_override: null,
-        is_available_override: 0
-    },
-    {
-        branch_service_override_id: 7,
-        default_service_id: 7,
-        branch_id: 1,
-        display_name: null,
-        description_override: null,
-        duration_minutes_override: null,
-        price_override: null,
-        is_available_override: 1
-    },
-    {
-        branch_service_override_id: 8,
-        default_service_id: 8,
-        branch_id: 1,
-        display_name: null,
-        description_override: null,
-        duration_minutes_override: null,
-        price_override: null,
-        is_available_override: 1
-    },
-    {
-        branch_service_override_id: 9,
-        default_service_id: 9,
-        branch_id: 1,
-        display_name: null,
-        description_override: null,
-        duration_minutes_override: null,
-        price_override: null,
-        is_available_override: 1
-    },
-    {
-        branch_service_override_id: 10,
-        default_service_id: 10,
-        branch_id: 1,
-        display_name: null,
-        description_override: null,
-        duration_minutes_override: null,
-        price_override: null,
-        is_available_override: 1
-    },
-    {
-        branch_service_override_id: 11,
-        default_service_id: 11,
-        branch_id: 1,
-        display_name: null,
-        description_override: null,
-        duration_minutes_override: null,
-        price_override: null,
-        is_available_override: 1
-    },
-    {
-        branch_service_override_id: 12,
-        default_service_id: 12,
-        branch_id: 1,
-        display_name: null,
-        description_override: null,
-        duration_minutes_override: null,
-        price_override: null,
-        is_available_override: 0
-    }
-];
+// API Base URL
+const API_BASE_URL = '../../backend/public/index.php?url';
 
 // DOM Elements
 const servicesTableBody = document.getElementById('servicesTableBody');
@@ -212,7 +23,8 @@ const addServiceBtn = document.getElementById('addServiceBtn');
 const manageCategoriesBtn = document.getElementById('manageCategoriesBtn');
 
 // Modal Elements
-const serviceModal = document.getElementById('serviceModal');
+const addServiceModal = document.getElementById('addServiceModal');
+const editServiceModal = document.getElementById('editServiceModal');
 const categoriesModal = document.getElementById('categoriesModal');
 const editCapacityModal = document.getElementById('editCapacityModal');
 const deleteModal = document.getElementById('deleteModal');
@@ -223,11 +35,38 @@ const deleteModal = document.getElementById('deleteModal');
 
 document.addEventListener('DOMContentLoaded', () => {
     initializeEventListeners();
+    loadDefaultServices();
     loadCategories();
     loadBranchCategories();
     loadServices();
-    // We'll need to load default services from the backend to populate the service select
 });
+
+// ==========================================
+// HELPER FUNCTIONS
+// ==========================================
+
+// Get current branch ID from URL params, sessionStorage, or default to 1
+function getCurrentBranchId() {
+    // Check URL params first
+    const urlParams = new URLSearchParams(window.location.search);
+    const branchParam = urlParams.get('branch');
+    if (branchParam) {
+        return parseInt(branchParam);
+    }
+    
+    // Check sessionStorage
+    const storedBranchId = sessionStorage.getItem('selectedBranchId');
+    if (storedBranchId) {
+        return parseInt(storedBranchId);
+    }
+    
+    // Default to branch 1 (Caloocan)
+    return 1;
+}
+
+// ==========================================
+// EVENT LISTENERS
+// ==========================================
 
 function initializeEventListeners() {
     // Category Tabs
@@ -242,30 +81,44 @@ function initializeEventListeners() {
     });
 
     // Add Service Button
-    addServiceBtn.addEventListener('click', () => openServiceModal());
+    addServiceBtn.addEventListener('click', () => openAddServiceModal());
 
     // Manage Categories Button
     manageCategoriesBtn.addEventListener('click', () => openCategoriesModal());
 
-    // Modal Close Buttons
-    document.getElementById('closeModal').addEventListener('click', closeServiceModal);
+    // Modal Close Buttons - Add Service Modal
+    document.getElementById('closeAddModal').addEventListener('click', closeAddServiceModal);
+    document.getElementById('cancelAddBtn').addEventListener('click', closeAddServiceModal);
+
+    // Modal Close Buttons - Edit Service Modal
+    document.getElementById('closeEditModal').addEventListener('click', closeEditServiceModal);
+    document.getElementById('cancelEditBtn').addEventListener('click', closeEditServiceModal);
+
+    // Modal Close Buttons - Categories Modal
     document.getElementById('closeCategoriesModal').addEventListener('click', closeCategoriesModal);
     document.getElementById('closeCategoriesBtn').addEventListener('click', closeCategoriesModal);
     document.getElementById('closeEditCapacityModal').addEventListener('click', closeEditCapacityModal);
     document.getElementById('closeDeleteModal').addEventListener('click', closeDeleteModal);
-    document.getElementById('cancelBtn').addEventListener('click', closeServiceModal);
-    document.getElementById('cancelEditCapacity').addEventListener('click', closeEditCapacityModal);
     document.getElementById('cancelDelete').addEventListener('click', closeDeleteModal);
+    document.getElementById('cancelEditCapacity').addEventListener('click', closeEditCapacityModal);
 
-    // Form Submits
-    document.getElementById('serviceForm').addEventListener('submit', handleServiceSubmit);
+    // Form Submits - Add Service
+    document.getElementById('addServiceForm').addEventListener('submit', handleAddServiceSubmit);
+    // Form Submits - Edit Service
+    document.getElementById('editServiceForm').addEventListener('submit', handleEditServiceSubmit);
     document.getElementById('editCapacityForm').addEventListener('submit', handleCapacityUpdate);
 
     // Delete Confirm
     document.getElementById('confirmDelete').addEventListener('click', handleDeleteService);
 
+    // Toggle Create New Service checkbox - Add Modal
+    const createNewCheckbox = document.getElementById('createNewServiceAdd');
+    if (createNewCheckbox) {
+        createNewCheckbox.addEventListener('change', toggleAddServiceMode);
+    }
+
     // Click outside modal to close
-    [serviceModal, categoriesModal, editCapacityModal, deleteModal].forEach(modal => {
+    [addServiceModal, editServiceModal, categoriesModal, editCapacityModal, deleteModal].forEach(modal => {
         modal.addEventListener('click', (e) => {
             if (e.target === modal) {
                 modal.classList.remove('active');
@@ -278,14 +131,22 @@ function initializeEventListeners() {
 // DATA LOADING
 // ==========================================
 
+function loadDefaultServices() {
+    fetch(`${API_BASE_URL}=services/index`)
+        .then(res => res.json())
+        .then(result => {
+            if (result.success) {
+                defaultServicesData = result.data;
+                populateServiceSelects();
+            }
+        })
+        .catch(error => {
+            console.error('Error loading default services:', error);
+        });
+}
+
 function loadCategories() {
-    // Using dummy data
-    categoriesData = DUMMY_CATEGORIES;
-    populateCategorySelect();
-    
-    // When backend is ready, use this:
-    /*
-    fetch('../../backend/public/index.php?url=services/getCategories')
+    fetch(`${API_BASE_URL}=services/categoriesList`)
         .then(res => res.json())
         .then(result => {
             if (result.success) {
@@ -293,37 +154,30 @@ function loadCategories() {
                 populateCategorySelect();
             }
         })
-        .catch(error => console.error('Error loading categories:', error));
-    */
+        .catch(error => {
+            console.error('Error loading categories:', error);
+            showNotification('Failed to load categories', 'error');
+        });
 }
 
 function loadBranchCategories() {
-    // Using dummy data
-    branchCategoriesData = DUMMY_BRANCH_CATEGORIES;
-    
-    // When backend is ready, use this to fetch branch-specific category overrides:
-    /*
-    const branchId = getCurrentBranchId(); // Assuming this function exists
-    fetch(`../../backend/public/index.php/branches/${branchId}/categories`)
+    const branchId = getCurrentBranchId();
+    fetch(`${API_BASE_URL}=services/branchCategories/${branchId}`)
         .then(res => res.json())
         .then(result => {
             if (result.success) {
                 branchCategoriesData = result.data;
             }
         })
-        .catch(error => console.error('Error loading branch categories:', error));
-    */
+        .catch(error => {
+            console.error('Error loading branch categories:', error);
+            showNotification('Failed to load branch categories', 'error');
+        });
 }
 
 function loadServices() {
-    // Using dummy data
-    servicesData = DUMMY_SERVICES;
-    renderServices();
-    
-    // When backend is ready, use this to fetch branch-specific service overrides:
-    /*
-    const branchId = getCurrentBranchId(); // Assuming this function exists
-    fetch(`../../backend/public/index.php/branches/${branchId}/services`)
+    const branchId = getCurrentBranchId();
+    fetch(`${API_BASE_URL}=services/branchServices/${branchId}`)
         .then(res => res.json())
         .then(result => {
             if (result.success) {
@@ -336,8 +190,8 @@ function loadServices() {
         .catch(error => {
             console.error('Error loading services:', error);
             showEmptyState();
+            showNotification('Failed to load services', 'error');
         });
-    */
 }
 
 // ==========================================
@@ -345,8 +199,6 @@ function loadServices() {
 // ==========================================
 
 function renderServices() {
-    // Note: We need to join with default_services to get service details
-    // For now, let's assume servicesData includes default service information
     const filteredServices = currentCategory === 'all'
         ? servicesData
         : servicesData.filter(s => s.category_id == currentCategory);
@@ -359,18 +211,18 @@ function renderServices() {
     const tableHTML = filteredServices.map(service => `
         <tr>
             <td>${service.branch_service_override_id}</td>
-            <td><span class="service-name">${service.display_name || service.service_name}</span></td>
+            <td><span class="service-name">${service.display_name}</span></td>
             <td>
                 <span class="category-badge ${getCategoryClass(service.category_id)}">
                     ${getCategoryIcon(service.category_id)}
-                    ${getCategoryName(service.category_id)}
+                    ${service.category}
                 </span>
             </td>
-            <td>₱${parseFloat(service.price_override || service.price).toFixed(2)}</td>
-            <td>${service.duration_minutes_override || service.duration_minutes} mins</td>
+            <td>₱${parseFloat(service.price).toFixed(2)}</td>
+            <td>${service.duration} mins</td>
             <td>
-                <span class="status-badge ${(service.is_available_override || service.is_available) ? 'available' : 'unavailable'}">
-                    ${(service.is_available_override || service.is_available) ? 'Available' : 'Unavailable'}
+                <span class="status-badge ${service.is_available ? 'available' : 'unavailable'}">
+                    ${service.is_available ? 'Available' : 'Unavailable'}
                 </span>
             </td>
             <td>
@@ -403,82 +255,147 @@ function showEmptyState() {
     `;
 }
 
-function populateServiceSelect() {
-    const serviceSelect = document.getElementById('serviceSelect');
-    serviceSelect.innerHTML = '<option value="">Select a service</option>' +
-        servicesData.map(service => `
-            <option value="${service.default_service_id}">${service.display_name || service.service_name}</option>
-        `).join('');
+function populateServiceSelects() {
+    // Add Service Modal
+    const serviceSelectAdd = document.getElementById('serviceSelectAdd');
+    if (serviceSelectAdd) {
+        serviceSelectAdd.innerHTML = '<option value="">Select a service</option>' +
+            defaultServicesData.map(service => `
+                <option value="${service.service_id}">${service.service_name}</option>
+            `).join('');
+    }
+
+    // Edit Service Modal
+    const serviceSelectEdit = document.getElementById('editServiceSelect');
+    if (serviceSelectEdit) {
+        serviceSelectEdit.innerHTML = '<option value="">Select a service</option>' +
+            defaultServicesData.map(service => `
+                <option value="${service.service_id}">${service.service_name}</option>
+            `).join('');
+    }
 }
 
 function populateCategorySelect() {
-    const categorySelect = document.getElementById('categorySelect');
-    categorySelect.innerHTML = '<option value="">Select a category</option>' +
-        categoriesData.map(cat => `
-            <option value="${cat.service_category_id}">${cat.category_name}</option>
-        `).join('');
+    const categorySelect = document.getElementById('serviceCategoryAdd');
+    if (categorySelect) {
+        categorySelect.innerHTML = '<option value="">Select a category</option>' +
+            categoriesData.map(cat => `
+                <option value="${cat.service_category_id}">${cat.category_name}</option>
+            `).join('');
+    }
 }
 
 function renderCategoriesList() {
     const categoriesList = document.getElementById('categoriesList');
-    categoriesList.innerHTML = categoriesData.map(cat => {
-        const branchCat = branchCategoriesData.find(bc => bc.default_category_id == cat.service_category_id);
-        const capacity = branchCat ? branchCat.capacity_override : cat.def_capacity;
-        
-        return `
-            <div class="category-item">
-                <div class="category-info">
-                    <div class="category-name">${branchCat?.display_name || cat.category_name}</div>
-                    <div class="category-details">${branchCat?.description_override || cat.description}</div>
-                </div>
-                <div class="category-actions">
-                    <div class="category-capacity">
-                        <i class="fas fa-users"></i>
-                        <span>${capacity} capacity</span>
+    if (categoriesList) {
+        categoriesList.innerHTML = categoriesData.map(cat => {
+            const branchCat = branchCategoriesData.find(bc => bc.default_category_id == cat.service_category_id);
+            const capacity = branchCat ? branchCat.capacity : cat.def_capacity;
+            
+            return `
+                <div class="category-item">
+                    <div class="category-info">
+                        <div class="category-name">${branchCat?.display_name || cat.category_name}</div>
+                        <div class="category-details">${branchCat?.description || cat.description}</div>
                     </div>
-                    <button class="btn-edit-capacity" onclick="openEditCapacityModal(${cat.service_category_id})" title="Edit Capacity">
-                        <i class="fas fa-edit"></i>
-                    </button>
+                    <div class="category-actions">
+                        <div class="category-capacity">
+                            <i class="fas fa-users"></i>
+                            <span>${capacity} capacity</span>
+                        </div>
+                        <button class="btn-edit-capacity" onclick="openEditCapacityModal(${cat.service_category_id})" title="Edit Capacity">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    </div>
                 </div>
-            </div>
-        `;
-    }).join('');
+            `;
+        }).join('');
+    }
 }
 
 // ==========================================
-// MODAL FUNCTIONS
+// ADD SERVICE MODAL FUNCTIONS
 // ==========================================
 
-function openServiceModal(serviceId = null) {
-    // Close other modals first
+function toggleAddServiceMode() {
+    const createNewCheckbox = document.getElementById('createNewServiceAdd');
+    const existingServiceRow = document.getElementById('existingServiceRowAdd');
+    const newServiceFields = document.getElementById('newServiceFieldsAdd');
+    
+    if (!createNewCheckbox || !existingServiceRow || !newServiceFields) return;
+    
+    isCreateNewMode = createNewCheckbox.checked;
+    
+    if (isCreateNewMode) {
+        existingServiceRow.style.display = 'none';
+        newServiceFields.style.display = 'block';
+    } else {
+        existingServiceRow.style.display = 'flex';
+        newServiceFields.style.display = 'none';
+    }
+}
+
+function openAddServiceModal() {
     closeAllModals();
     
-    const modalTitle = document.getElementById('modalTitle');
-    const submitBtnText = document.getElementById('submitBtnText');
-    const form = document.getElementById('serviceForm');
+    const form = document.getElementById('addServiceForm');
+    const createNewCheckbox = document.getElementById('createNewServiceAdd');
     
     form.reset();
     
-    if (serviceId) {
-        modalTitle.textContent = 'Edit Service';
-        submitBtnText.textContent = 'Update Service';
-        loadServiceData(serviceId);
-    } else {
-        modalTitle.textContent = 'Add New Service';
-        submitBtnText.textContent = 'Save Service';
-        document.getElementById('branchServiceId').value = '';
-        document.getElementById('serviceAvailable').checked = true;
+    // Reset toggle
+    if (createNewCheckbox) {
+        createNewCheckbox.checked = false;
+        isCreateNewMode = false;
+        toggleAddServiceMode();
     }
     
-    serviceModal.classList.add('active');
+    addServiceModal.classList.add('active');
 }
 
-function closeServiceModal() {
-    serviceModal.classList.remove('active');
+function closeAddServiceModal() {
+    addServiceModal.classList.remove('active');
+    isCreateNewMode = false;
 }
+
+// ==========================================
+// EDIT SERVICE MODAL FUNCTIONS
+// ==========================================
+
+function editService(serviceId) {
+    openEditServiceModal(serviceId);
+}
+
+function openEditServiceModal(serviceId) {
+    closeAllModals();
+    
+    const form = document.getElementById('editServiceForm');
+    form.reset();
+    
+    const service = servicesData.find(s => s.branch_service_override_id == serviceId);
+    
+    if (service) {
+        document.getElementById('editBranchServiceId').value = service.branch_service_override_id;
+        document.getElementById('editServiceSelect').value = service.default_service_id;
+        document.getElementById('serviceNameEdit').value = service.display_name || '';
+        document.getElementById('serviceDescriptionEdit').value = service.description || '';
+        document.getElementById('servicePriceEdit').value = service.price || '';
+        document.getElementById('serviceDurationEdit').value = service.duration || '';
+        document.getElementById('serviceAvailableEdit').checked = service.is_available;
+    }
+    
+    editServiceModal.classList.add('active');
+}
+
+function closeEditServiceModal() {
+    editServiceModal.classList.remove('active');
+}
+
+// ==========================================
+// CATEGORIES MODAL FUNCTIONS
+// ==========================================
 
 function openCategoriesModal() {
-    // Close other modals first
     closeAllModals();
     
     renderCategoriesList();
@@ -490,13 +407,11 @@ function closeCategoriesModal() {
 }
 
 function openEditCapacityModal(categoryId) {
-    // Don't close categories modal - we want to return to it
-    // Just close the capacity modal if it's open
     closeEditCapacityModal();
     
     selectedCategoryId = categoryId;
     const category = categoriesData.find(c => c.service_category_id == categoryId);
-    const branchCat = branchCategoriesData.find(bc => bc.service_category_id == categoryId);
+    const branchCat = branchCategoriesData.find(bc => bc.default_category_id == categoryId);
     
     if (!category) return;
     
@@ -504,7 +419,7 @@ function openEditCapacityModal(categoryId) {
     document.getElementById('editCategoryId').value = categoryId;
     document.getElementById('editCategoryName').textContent = category.category_name;
     document.getElementById('editCategoryDescription').textContent = category.description;
-    document.getElementById('branchCapacity').value = branchCat ? branchCat.branch_capacity : category.def_capacity;
+    document.getElementById('branchCapacity').value = branchCat ? branchCat.capacity : category.def_capacity;
     document.getElementById('defaultCapacityDisplay').textContent = category.def_capacity;
     
     // Set icon
@@ -528,77 +443,242 @@ function closeDeleteModal() {
 
 // Helper function to close all modals
 function closeAllModals() {
-    serviceModal.classList.remove('active');
+    addServiceModal.classList.remove('active');
+    editServiceModal.classList.remove('active');
     categoriesModal.classList.remove('active');
     editCapacityModal.classList.remove('active');
     deleteModal.classList.remove('active');
 }
 
 // ==========================================
-// SERVICE OPERATIONS
+// SERVICE OPERATIONS - ADD
 // ==========================================
 
-function editService(serviceId) {
-    openServiceModal(serviceId);
-}
-
-function loadServiceData(serviceId) {
-    const service = servicesData.find(s => s.branch_service_override_id == serviceId);
-    
-    if (service) {
-        document.getElementById('branchServiceId').value = service.branch_service_override_id;
-        document.getElementById('serviceSelect').value = service.default_service_id;
-        document.getElementById('serviceName').value = service.display_name || '';
-        document.getElementById('serviceDescription').value = service.description_override || '';
-        document.getElementById('servicePrice').value = service.price_override || '';
-        document.getElementById('serviceDuration').value = service.duration_minutes_override || '';
-        document.getElementById('serviceAvailable').checked = (service.is_available_override == 1);
-    }
-}
-
-function handleServiceSubmit(e) {
+function handleAddServiceSubmit(e) {
     e.preventDefault();
     
-    const branchServiceOverrideId = document.getElementById('branchServiceId').value;
-    const formData = {
-        default_service_id: document.getElementById('serviceSelect').value, // We'll need to add a service select dropdown
-        display_name: document.getElementById('serviceName').value.trim(),
-        description_override: document.getElementById('serviceDescription').value.trim(),
-        price_override: parseFloat(document.getElementById('servicePrice').value),
-        duration_minutes_override: parseInt(document.getElementById('serviceDuration').value),
-        is_available_override: document.getElementById('serviceAvailable').checked ? 1 : 0
-    };
-
-    // Simulate saving
-    if (branchServiceOverrideId) {
-        // Update existing service override
-        const index = servicesData.findIndex(s => s.branch_service_override_id == branchServiceOverrideId);
-        if (index !== -1) {
-            servicesData[index] = {
-                ...servicesData[index],
-                ...formData
-            };
+    const isCreateNew = isCreateNewMode;
+    const branchId = getCurrentBranchId();
+    
+    let formData;
+    let url;
+    let method;
+    
+    if (isCreateNew) {
+        // Create new default service AND branch override
+        const categorySelect = document.getElementById('serviceCategoryAdd');
+        const serviceNameInput = document.getElementById('serviceNameAdd');
+        const serviceDescInput = document.getElementById('serviceDescriptionAdd');
+        const servicePriceInput = document.getElementById('servicePriceAdd');
+        const serviceDurationInput = document.getElementById('serviceDurationAdd');
+        const serviceAvailableInput = document.getElementById('serviceAvailableAdd');
+        
+        // Validate required fields
+        if (!categorySelect.value) {
+            showNotification('Please select a category', 'error');
+            return;
         }
-        showNotification('Service override updated successfully!', 'success');
-    } else {
-        // Add new service override
-        const newService = {
-            branch_service_override_id: servicesData.length + 1,
-            branch_id: 1,
-            ...formData
+        if (!serviceNameInput.value.trim()) {
+            showNotification('Please enter a service name', 'error');
+            return;
+        }
+        if (!serviceDescInput.value.trim()) {
+            showNotification('Please enter a description', 'error');
+            return;
+        }
+        if (!servicePriceInput.value) {
+            showNotification('Please enter a price', 'error');
+            return;
+        }
+        if (!serviceDurationInput.value) {
+            showNotification('Please enter duration', 'error');
+            return;
+        }
+        
+        formData = {
+            category_id: parseInt(categorySelect.value),
+            service_name: serviceNameInput.value.trim(),
+            description: serviceDescInput.value.trim(),
+            duration_minutes: parseInt(serviceDurationInput.value),
+            price: parseFloat(servicePriceInput.value),
+            is_available: serviceAvailableInput.checked ? 1 : 0,
+            branch_id: branchId
         };
-        servicesData.push(newService);
-        showNotification('Service override created successfully!', 'success');
+        
+        url = `${API_BASE_URL}=services/storeWithBranch`;
+        method = 'POST';
+    } else {
+        // Create branch service override for existing service
+        const defaultServiceId = document.getElementById('serviceSelectAdd').value;
+        const serviceNameInput = document.getElementById('serviceNameAdd');
+        const serviceDescInput = document.getElementById('serviceDescriptionAdd');
+        const servicePriceInput = document.getElementById('servicePriceAdd');
+        const serviceDurationInput = document.getElementById('serviceDurationAdd');
+        const serviceAvailableInput = document.getElementById('serviceAvailableAdd');
+        
+        if (!defaultServiceId) {
+            showNotification('Please select a service', 'error');
+            return;
+        }
+        
+        if (!serviceNameInput.value.trim()) {
+            showNotification('Please enter a service name', 'error');
+            return;
+        }
+        
+        formData = {
+            branch_id: branchId,
+            default_service_id: parseInt(defaultServiceId),
+            display_name: serviceNameInput.value.trim(),
+            description_override: serviceDescInput.value.trim() || null,
+            price_override: parseFloat(servicePriceInput.value) || null,
+            duration_minutes_override: parseInt(serviceDurationInput.value) || null,
+            is_available_override: serviceAvailableInput.checked ? 1 : 0
+        };
+        
+        url = `${API_BASE_URL}=services/branchServiceStore`;
+        method = 'POST';
     }
     
-    closeServiceModal();
-    renderServices();
+    fetch(url, {
+        method: method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+    })
+    .then(res => res.json())
+    .then(result => {
+        if (result.success) {
+            showNotification('Service created successfully', 'success');
+            closeAddServiceModal();
+            loadDefaultServices();
+            loadServices();
+        } else {
+            showNotification(result.message || 'Operation failed', 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error adding service:', error);
+        showNotification('Failed to add service', 'error');
+    });
+}
 
-    // When backend is ready, use this:
-    /*
-    const url = branchServiceOverrideId
-        ? `../../backend/public/index.php?url=services/updateBranchService/${branchServiceOverrideId}`
-        : '../../backend/public/index.php?url=services/createBranchService';
+// ==========================================
+// SERVICE OPERATIONS - EDIT
+// ==========================================
+
+function handleEditServiceSubmit(e) {
+    e.preventDefault();
+    
+    const branchServiceOverrideId = document.getElementById('editBranchServiceId').value;
+    const branchId = getCurrentBranchId();
+    
+    if (!branchServiceOverrideId) {
+        showNotification('Invalid service ID', 'error');
+        return;
+    }
+    
+    const serviceNameInput = document.getElementById('serviceNameEdit');
+    const serviceDescInput = document.getElementById('serviceDescriptionEdit');
+    const servicePriceInput = document.getElementById('servicePriceEdit');
+    const serviceDurationInput = document.getElementById('serviceDurationEdit');
+    const serviceAvailableInput = document.getElementById('serviceAvailableEdit');
+    
+    // Validate required fields
+    if (!serviceNameInput.value.trim()) {
+        showNotification('Please enter a service name', 'error');
+        return;
+    }
+    
+    const formData = {
+        branch_id: branchId,
+        display_name: serviceNameInput.value.trim(),
+        description_override: serviceDescInput.value.trim() || null,
+        price_override: parseFloat(servicePriceInput.value) || null,
+        duration_minutes_override: parseInt(serviceDurationInput.value) || null,
+        is_available_override: serviceAvailableInput.checked ? 1 : 0
+    };
+    
+    const url = `${API_BASE_URL}=services/branchServiceUpdate/${branchServiceOverrideId}`;
+    
+    fetch(url, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+    })
+    .then(res => res.json())
+    .then(result => {
+        if (result.success) {
+            showNotification('Service updated successfully', 'success');
+            closeEditServiceModal();
+            loadServices();
+        } else {
+            showNotification(result.message || 'Operation failed', 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error updating service:', error);
+        showNotification('Failed to update service', 'error');
+    });
+}
+
+// ==========================================
+// DELETE SERVICE
+// ==========================================
+
+function confirmDeleteService(serviceId) {
+    selectedServiceId = serviceId;
+    deleteModal.classList.add('active');
+}
+
+function handleDeleteService() {
+    if (!selectedServiceId) return;
+    
+    const url = `${API_BASE_URL}=services/branchServiceDestroy/${selectedServiceId}`;
+    
+    fetch(url, {
+        method: 'DELETE'
+    })
+    .then(res => res.json())
+    .then(result => {
+        if (result.success) {
+            showNotification('Service deleted successfully', 'success');
+            closeDeleteModal();
+            loadDefaultServices();
+            loadServices();
+        } else {
+            showNotification(result.message || 'Operation failed', 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error deleting service:', error);
+        showNotification('Failed to delete service', 'error');
+    });
+}
+
+// ==========================================
+// CAPACITY UPDATE
+// ==========================================
+
+function handleCapacityUpdate(e) {
+    e.preventDefault();
+    
+    const categoryId = document.getElementById('editCategoryId').value;
+    const capacity = document.getElementById('branchCapacity').value;
+    const branchId = getCurrentBranchId();
+    
+    if (!categoryId || !capacity) {
+        showNotification('Please fill in all required fields', 'error');
+        return;
+    }
+    
+    const formData = {
+        branch_id: branchId,
+        default_category_id: parseInt(categoryId),
+        capacity_override: parseInt(capacity),
+        is_active_override: 1
+    };
+    
+    const url = `${API_BASE_URL}=services/updateCategoryCapacity`;
     
     fetch(url, {
         method: 'POST',
@@ -608,134 +688,32 @@ function handleServiceSubmit(e) {
     .then(res => res.json())
     .then(result => {
         if (result.success) {
-            showNotification(
-                branchServiceOverrideId ? 'Service updated successfully' : 'Service created successfully',
-                'success'
-            );
-            closeServiceModal();
-            loadServices();
-        } else {
-            showNotification(result.message || 'Operation failed', 'error');
-        }
-    })
-    .catch(error => {
-        console.error('Error saving service:', error);
-        showNotification('Failed to save service', 'error');
-    });
-    */
-}
-
-function handleCapacityUpdate(e) {
-    e.preventDefault();
-    
-    const categoryId = parseInt(document.getElementById('editCategoryId').value);
-    const newCapacity = parseInt(document.getElementById('branchCapacity').value);
-    
-    // Simulate updating
-    const index = branchCategoriesData.findIndex(bc => bc.default_category_id == categoryId);
-    if (index !== -1) {
-        branchCategoriesData[index].capacity_override = newCapacity;
-    } else {
-        // Create new branch category override
-        branchCategoriesData.push({
-            branch_category_override_id: branchCategoriesData.length + 1,
-            branch_id: 1,
-            default_category_id: categoryId,
-            display_name: null,
-            description_override: null,
-            capacity_override: newCapacity,
-            is_active_override: null
-        });
-    }
-    
-    showNotification('Category capacity updated successfully!', 'success');
-    closeEditCapacityModal();
-    renderCategoriesList();
-    
-    // When backend is ready, use this:
-    /*
-    fetch('../../backend/public/index.php?url=services/updateBranchCategoryCapacity', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            default_category_id: categoryId,
-            capacity_override: newCapacity
-        })
-    })
-    .then(res => res.json())
-    .then(result => {
-        if (result.success) {
-            showNotification('Category capacity updated successfully!', 'success');
+            showNotification('Category capacity updated successfully', 'success');
             closeEditCapacityModal();
             loadBranchCategories();
-            renderCategoriesList();
         } else {
-            showNotification(result.message || 'Failed to update capacity', 'error');
+            showNotification(result.message || 'Operation failed', 'error');
         }
     })
     .catch(error => {
         console.error('Error updating capacity:', error);
         showNotification('Failed to update capacity', 'error');
     });
-    */
-}
-
-function confirmDeleteService(serviceId) {
-    selectedServiceId = serviceId;
-    deleteModal.classList.add('active');
-}
-
-function handleDeleteService() {
-    if (!selectedServiceId) return;
-
-    // Simulate deletion
-    const index = servicesData.findIndex(s => s.branch_service_override_id == selectedServiceId);
-    if (index !== -1) {
-        servicesData.splice(index, 1);
-        showNotification('Service override deleted successfully!', 'success');
-        closeDeleteModal();
-        renderServices();
-    }
-
-    // When backend is ready, use this:
-    /*
-    fetch(`../../backend/public/index.php?url=services/deleteBranchService/${selectedServiceId}`, {
-        method: 'DELETE'
-    })
-    .then(res => res.json())
-    .then(result => {
-        if (result.success) {
-            showNotification('Service deleted successfully', 'success');
-            closeDeleteModal();
-            loadServices();
-        } else {
-            showNotification(result.message || 'Failed to delete service', 'error');
-        }
-    })
-    .catch(error => {
-        console.error('Error deleting service:', error);
-        showNotification('Failed to delete service', 'error');
-    });
-    */
 }
 
 // ==========================================
 // HELPER FUNCTIONS
 // ==========================================
 
-function getCategoryName(categoryId) {
-    const category = categoriesData.find(c => c.service_category_id == categoryId);
-    return category ? category.category_name : 'Unknown';
-}
-
 function getCategoryClass(categoryId) {
-    const names = {
+    const classes = {
         1: 'hair',
-        2: 'massage',
-        3: 'nail',
-        4: 'facial'
+        2: 'skin',
+        3: 'nails',
+        4: 'massage',
+        5: 'facial'
     };
-    return names[categoryId] || 'default';
+    return classes[categoryId] || 'other';
 }
 
 function getCategoryIcon(categoryId) {
@@ -743,12 +721,53 @@ function getCategoryIcon(categoryId) {
         1: '<i class="fas fa-cut"></i>',
         2: '<i class="fas fa-spa"></i>',
         3: '<i class="fas fa-hand-sparkles"></i>',
-        4: '<i class="fas fa-smile"></i>'
+        4: '<i class="fas fa-hands"></i>',
+        5: '<i class="fas fa-face-smile"></i>'
     };
     return icons[categoryId] || '<i class="fas fa-tag"></i>';
 }
 
 function showNotification(message, type = 'info') {
-    // Simple alert for now - you can enhance this with toast notifications
-    alert(message);
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.innerHTML = `
+        <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-info-circle'}"></i>
+        <span>${message}</span>
+    `;
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 15px 25px;
+        border-radius: 8px;
+        color: white;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        z-index: 10000;
+        animation: slideIn 0.3s ease;
+        background-color: ${type === 'success' ? '#28a745' : type === 'error' ? '#dc3545' : '#17a2b8'};
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => notification.remove(), 300);
+    }, 3000);
 }
+
+// Add CSS animations dynamically
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes slideIn {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+    @keyframes slideOut {
+        from { transform: translateX(0); opacity: 1; }
+        to { transform: translateX(100%); opacity: 0; }
+    }
+`;
+document.head.appendChild(style);

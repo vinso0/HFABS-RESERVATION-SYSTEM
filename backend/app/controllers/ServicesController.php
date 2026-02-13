@@ -1,0 +1,777 @@
+<?php
+
+class ServicesController extends Controller
+{
+    private $servicesModel;
+
+    public function __construct()
+    {
+        $this->servicesModel = $this->model('Services');
+    }
+
+    // =========================================
+    // DEFAULT SERVICES ENDPOINTS
+    // =========================================
+
+    // Get all default services
+    // API endpoint: GET /services
+    public function index()
+    {
+        $services = $this->servicesModel->getAllDefaultServices();
+        
+        header('Content-Type: application/json');
+        echo json_encode(array(
+            'success' => true,
+            'data' => $services
+        ));
+    }
+
+    // Get default service by ID
+    // API endpoint: GET /services/{id}
+    public function show($id)
+    {
+        $service = $this->servicesModel->getDefaultServiceById($id);
+        
+        if (!$service) {
+            http_response_code(404);
+            echo json_encode(array('success' => false, 'error' => 'Service not found'));
+            return;
+        }
+        
+        header('Content-Type: application/json');
+        echo json_encode(array(
+            'success' => true,
+            'data' => $service
+        ));
+    }
+
+    // Create a new default service
+    // API endpoint: POST /services
+    public function store()
+    {
+        $data = json_decode(file_get_contents('php://input'), true);
+        
+        if (!$data) {
+            http_response_code(400);
+            echo json_encode(array('success' => false, 'error' => 'Invalid request data'));
+            return;
+        }
+
+        $requiredFields = ['category_id', 'service_name', 'description', 'duration_minutes', 'price'];
+        foreach ($requiredFields as $field) {
+            if (empty($data[$field])) {
+                http_response_code(400);
+                echo json_encode(array('success' => false, 'error' => "Missing required field: $field"));
+                return;
+            }
+        }
+
+        $serviceData = array(
+            'category_id' => $data['category_id'],
+            'service_name' => $data['service_name'],
+            'description' => $data['description'],
+            'duration_minutes' => $data['duration_minutes'],
+            'price' => $data['price'],
+            'is_available' => $data['is_available'] ?? 1
+        );
+
+        $serviceId = $this->servicesModel->createDefaultService($serviceData);
+        
+        if ($serviceId) {
+            http_response_code(201);
+            echo json_encode(array(
+                'success' => true,
+                'message' => 'Service created successfully',
+                'data' => array('service_id' => $serviceId)
+            ));
+        } else {
+            http_response_code(500);
+            echo json_encode(array('success' => false, 'error' => 'Failed to create service'));
+        }
+    }
+
+    // Create a new default service with branch override
+    // API endpoint: POST /services/storeWithBranch
+    public function storeWithBranch()
+    {
+        $data = json_decode(file_get_contents('php://input'), true);
+        
+        if (!$data) {
+            http_response_code(400);
+            echo json_encode(array('success' => false, 'error' => 'Invalid request data'));
+            return;
+        }
+
+        $requiredFields = ['category_id', 'service_name', 'description', 'duration_minutes', 'price', 'branch_id'];
+        foreach ($requiredFields as $field) {
+            if (empty($data[$field])) {
+                http_response_code(400);
+                echo json_encode(array('success' => false, 'error' => "Missing required field: $field"));
+                return;
+            }
+        }
+
+        // Create the default service first
+        $serviceData = array(
+            'category_id' => $data['category_id'],
+            'service_name' => $data['service_name'],
+            'description' => $data['description'],
+            'duration_minutes' => $data['duration_minutes'],
+            'price' => $data['price'],
+            'is_available' => $data['is_available'] ?? 1
+        );
+
+        $serviceId = $this->servicesModel->createDefaultService($serviceData);
+        
+        if (!$serviceId) {
+            http_response_code(500);
+            echo json_encode(array('success' => false, 'error' => 'Failed to create default service'));
+            return;
+        }
+
+        // Create branch service override for the new service
+        $overrideData = array(
+            'branch_id' => $data['branch_id'],
+            'default_service_id' => $serviceId,
+            'display_name' => null,
+            'description_override' => null,
+            'duration_minutes_override' => null,
+            'price_override' => null,
+            'is_available_override' => $data['is_available'] ?? 1
+        );
+
+        $overrideId = $this->servicesModel->createBranchServiceOverride($overrideData);
+        
+        http_response_code(201);
+        echo json_encode(array(
+            'success' => true,
+            'message' => 'Service created successfully',
+            'data' => array(
+                'service_id' => $serviceId,
+                'branch_service_override_id' => $overrideId
+            )
+        ));
+    }
+
+    // Update a default service
+    // API endpoint: PUT /services/{id}
+    public function update($id)
+    {
+        $data = json_decode(file_get_contents('php://input'), true);
+        
+        if (!$data) {
+            http_response_code(400);
+            echo json_encode(array('success' => false, 'error' => 'Invalid request data'));
+            return;
+        }
+
+        $serviceData = array(
+            'category_id' => $data['category_id'] ?? null,
+            'service_name' => $data['service_name'] ?? null,
+            'description' => $data['description'] ?? null,
+            'duration_minutes' => $data['duration_minutes'] ?? null,
+            'price' => $data['price'] ?? null,
+            'is_available' => $data['is_available'] ?? null
+        );
+
+        // Remove null values
+        $serviceData = array_filter($serviceData, function($value) {
+            return $value !== null;
+        });
+
+        if (empty($serviceData)) {
+            http_response_code(400);
+            echo json_encode(array('success' => false, 'error' => 'No data to update'));
+            return;
+        }
+
+        $result = $this->servicesModel->updateDefaultService($id, $serviceData);
+        
+        if ($result) {
+            echo json_encode(array(
+                'success' => true,
+                'message' => 'Service updated successfully'
+            ));
+        } else {
+            http_response_code(500);
+            echo json_encode(array('success' => false, 'error' => 'Failed to update service'));
+        }
+    }
+
+    // Delete a default service
+    // API endpoint: DELETE /services/{id}
+    public function destroy($id)
+    {
+        $result = $this->servicesModel->deleteDefaultService($id);
+        
+        if ($result) {
+            echo json_encode(array(
+                'success' => true,
+                'message' => 'Service deleted successfully'
+            ));
+        } else {
+            http_response_code(500);
+            echo json_encode(array('success' => false, 'error' => 'Failed to delete service'));
+        }
+    }
+
+    // =========================================
+    // BRANCH SERVICES ENDPOINTS
+    // =========================================
+
+    // Get services for a specific branch
+    // API endpoint: GET /services/branch/{branchId}
+    public function branchServices($branchId)
+    {
+        $services = $this->servicesModel->getBranchServices($branchId);
+        
+        // Format services to match frontend expected structure
+        $formattedServices = array_map(function($service) {
+            return array(
+                'branch_service_override_id' => $service['serviceid'],
+                'branch_id' => $service['branch_id'],
+                'default_service_id' => $service['default_service_id'],
+                'display_name' => $service['servicename'],
+                'description' => $service['description'],
+                'price' => $service['price'],
+                'duration' => $service['duration'],
+                'category_id' => $service['category_id'],
+                'category' => !empty($service['category']) ? ucfirst(strtolower($service['category'])) . ' Services' : 'Other Services',
+                'is_available' => $service['isavailable']
+            );
+        }, $services);
+        
+        header('Content-Type: application/json');
+        echo json_encode(array(
+            'success' => true,
+            'data' => $formattedServices
+        ));
+    }
+
+    // Get branch service override by ID
+    // API endpoint: GET /services/branch-service/{id}
+    public function branchServiceShow($id)
+    {
+        $service = $this->servicesModel->getBranchServiceById($id);
+        
+        if (!$service) {
+            http_response_code(404);
+            echo json_encode(array('success' => false, 'error' => 'Branch service not found'));
+            return;
+        }
+        
+        header('Content-Type: application/json');
+        echo json_encode(array(
+            'success' => true,
+            'data' => $service
+        ));
+    }
+
+    // Create branch service override
+    // API endpoint: POST /services/branch-service
+    public function branchServiceStore()
+    {
+        $data = json_decode(file_get_contents('php://input'), true);
+        
+        if (!$data) {
+            http_response_code(400);
+            echo json_encode(array('success' => false, 'error' => 'Invalid request data'));
+            return;
+        }
+
+        $requiredFields = ['branch_id', 'default_service_id'];
+        foreach ($requiredFields as $field) {
+            if (empty($data[$field])) {
+                http_response_code(400);
+                echo json_encode(array('success' => false, 'error' => "Missing required field: $field"));
+                return;
+            }
+        }
+
+        $serviceData = array(
+            'branch_id' => $data['branch_id'],
+            'default_service_id' => $data['default_service_id'],
+            'display_name' => $data['display_name'] ?? null,
+            'description_override' => $data['description_override'] ?? null,
+            'duration_minutes_override' => $data['duration_minutes_override'] ?? null,
+            'price_override' => $data['price_override'] ?? null,
+            'is_available_override' => $data['is_available_override'] ?? null
+        );
+
+        $serviceId = $this->servicesModel->createBranchServiceOverride($serviceData);
+        
+        if ($serviceId) {
+            http_response_code(201);
+            echo json_encode(array(
+                'success' => true,
+                'message' => 'Branch service created successfully',
+                'data' => array('branch_service_override_id' => $serviceId)
+            ));
+        } else {
+            http_response_code(500);
+            echo json_encode(array('success' => false, 'error' => 'Failed to create branch service'));
+        }
+    }
+
+    // Update branch service override
+    // API endpoint: PUT /services/branch-service/{id}
+    public function branchServiceUpdate($id)
+    {
+        $data = json_decode(file_get_contents('php://input'), true);
+        
+        if (!$data) {
+            http_response_code(400);
+            echo json_encode(array('success' => false, 'error' => 'Invalid request data'));
+            return;
+        }
+
+        $serviceData = array(
+            'display_name' => $data['display_name'] ?? null,
+            'description_override' => $data['description_override'] ?? null,
+            'duration_minutes_override' => $data['duration_minutes_override'] ?? null,
+            'price_override' => $data['price_override'] ?? null,
+            'is_available_override' => $data['is_available_override'] ?? null
+        );
+
+        // Remove null values
+        $serviceData = array_filter($serviceData, function($value) {
+            return $value !== null;
+        });
+
+        if (empty($serviceData)) {
+            http_response_code(400);
+            echo json_encode(array('success' => false, 'error' => 'No data to update'));
+            return;
+        }
+
+        $result = $this->servicesModel->updateBranchServiceOverride($id, $serviceData);
+        
+        if ($result) {
+            echo json_encode(array(
+                'success' => true,
+                'message' => 'Branch service updated successfully'
+            ));
+        } else {
+            http_response_code(500);
+            echo json_encode(array('success' => false, 'error' => 'Failed to update branch service'));
+        }
+    }
+
+    // Update service availability
+    // API endpoint: PUT /services/branch-service/{id}/availability
+    public function updateAvailability($id)
+    {
+        $data = json_decode(file_get_contents('php://input'), true);
+        
+        if (!isset($data['is_available'])) {
+            http_response_code(400);
+            echo json_encode(array('success' => false, 'error' => 'Missing is_available field'));
+            return;
+        }
+
+        $result = $this->servicesModel->updateServiceAvailability($id, $data['is_available']);
+        
+        if ($result) {
+            echo json_encode(array(
+                'success' => true,
+                'message' => 'Service availability updated successfully'
+            ));
+        } else {
+            http_response_code(500);
+            echo json_encode(array('success' => false, 'error' => 'Failed to update service availability'));
+        }
+    }
+
+    // Update service price
+    // API endpoint: PUT /services/branch-service/{id}/price
+    public function updatePrice($id)
+    {
+        $data = json_decode(file_get_contents('php://input'), true);
+        
+        if (!isset($data['price'])) {
+            http_response_code(400);
+            echo json_encode(array('success' => false, 'error' => 'Missing price field'));
+            return;
+        }
+
+        $result = $this->servicesModel->updateServicePrice($id, $data['price']);
+        
+        if ($result) {
+            echo json_encode(array(
+                'success' => true,
+                'message' => 'Service price updated successfully'
+            ));
+        } else {
+            http_response_code(500);
+            echo json_encode(array('success' => false, 'error' => 'Failed to update service price'));
+        }
+    }
+
+    // Update service duration
+    // API endpoint: PUT /services/branch-service/{id}/duration
+    public function updateDuration($id)
+    {
+        $data = json_decode(file_get_contents('php://input'), true);
+        
+        if (!isset($data['duration'])) {
+            http_response_code(400);
+            echo json_encode(array('success' => false, 'error' => 'Missing duration field'));
+            return;
+        }
+
+        $result = $this->servicesModel->updateServiceDuration($id, $data['duration']);
+        
+        if ($result) {
+            echo json_encode(array(
+                'success' => true,
+                'message' => 'Service duration updated successfully'
+            ));
+        } else {
+            http_response_code(500);
+            echo json_encode(array('success' => false, 'error' => 'Failed to update service duration'));
+        }
+    }
+
+    // Delete branch service override
+    // API endpoint: DELETE /services/branch-service/{id}
+    public function branchServiceDestroy($id)
+    {
+        $result = $this->servicesModel->deleteBranchServiceOverride($id);
+        
+        if ($result) {
+            echo json_encode(array(
+                'success' => true,
+                'message' => 'Branch service deleted successfully'
+            ));
+        } else {
+            http_response_code(500);
+            echo json_encode(array('success' => false, 'error' => 'Failed to delete branch service'));
+        }
+    }
+
+    // =========================================
+    // CATEGORIES ENDPOINTS
+    // =========================================
+
+    // Get all categories
+    // API endpoint: GET /services/categories
+    public function categoriesList()
+    {
+        $categories = $this->servicesModel->getAllCategories();
+        
+        // Format categories to match frontend expected structure
+        $formattedCategories = array_map(function($category) {
+            return array(
+                'service_category_id' => $category['service_category_id'],
+                'category_name' => ucfirst(strtolower($category['category_name'])),
+                'description' => $category['description'],
+                'def_capacity' => $category['def_capacity']
+            );
+        }, $categories);
+        
+        header('Content-Type: application/json');
+        echo json_encode(array(
+            'success' => true,
+            'data' => $formattedCategories
+        ));
+    }
+
+    // Get category by ID
+    // API endpoint: GET /services/categories/{id}
+    public function categoryShow($id)
+    {
+        $category = $this->servicesModel->getCategoryById($id);
+        
+        if (!$category) {
+            http_response_code(404);
+            echo json_encode(array('success' => false, 'error' => 'Category not found'));
+            return;
+        }
+        
+        header('Content-Type: application/json');
+        echo json_encode(array(
+            'success' => true,
+            'data' => $category
+        ));
+    }
+
+    // Create a new category
+    // API endpoint: POST /services/categories
+    public function categoryStore()
+    {
+        $data = json_decode(file_get_contents('php://input'), true);
+        
+        if (!$data) {
+            http_response_code(400);
+            echo json_encode(array('success' => false, 'error' => 'Invalid request data'));
+            return;
+        }
+
+        $requiredFields = ['category_name', 'description', 'def_capacity'];
+        foreach ($requiredFields as $field) {
+            if (empty($data[$field])) {
+                http_response_code(400);
+                echo json_encode(array('success' => false, 'error' => "Missing required field: $field"));
+                return;
+            }
+        }
+
+        $categoryData = array(
+            'category_name' => $data['category_name'],
+            'description' => $data['description'],
+            'def_capacity' => $data['def_capacity']
+        );
+
+        $categoryId = $this->servicesModel->createCategory($categoryData);
+        
+        if ($categoryId) {
+            http_response_code(201);
+            echo json_encode(array(
+                'success' => true,
+                'message' => 'Category created successfully',
+                'data' => array('service_category_id' => $categoryId)
+            ));
+        } else {
+            http_response_code(500);
+            echo json_encode(array('success' => false, 'error' => 'Failed to create category'));
+        }
+    }
+
+    // Update a category
+    // API endpoint: PUT /services/categories/{id}
+    public function categoryUpdate($id)
+    {
+        $data = json_decode(file_get_contents('php://input'), true);
+        
+        if (!$data) {
+            http_response_code(400);
+            echo json_encode(array('success' => false, 'error' => 'Invalid request data'));
+            return;
+        }
+
+        $categoryData = array(
+            'category_name' => $data['category_name'] ?? null,
+            'description' => $data['description'] ?? null,
+            'def_capacity' => $data['def_capacity'] ?? null
+        );
+
+        // Remove null values
+        $categoryData = array_filter($categoryData, function($value) {
+            return $value !== null;
+        });
+
+        if (empty($categoryData)) {
+            http_response_code(400);
+            echo json_encode(array('success' => false, 'error' => 'No data to update'));
+            return;
+        }
+
+        $result = $this->servicesModel->updateCategory($id, $categoryData);
+        
+        if ($result) {
+            echo json_encode(array(
+                'success' => true,
+                'message' => 'Category updated successfully'
+            ));
+        } else {
+            http_response_code(500);
+            echo json_encode(array('success' => false, 'error' => 'Failed to update category'));
+        }
+    }
+
+    // Delete a category
+    // API endpoint: DELETE /services/categories/{id}
+    public function categoryDestroy($id)
+    {
+        $result = $this->servicesModel->deleteCategory($id);
+        
+        if ($result) {
+            echo json_encode(array(
+                'success' => true,
+                'message' => 'Category deleted successfully'
+            ));
+        } else {
+            http_response_code(500);
+            echo json_encode(array('success' => false, 'error' => 'Failed to delete category'));
+        }
+    }
+
+    // =========================================
+    // BRANCH CATEGORIES ENDPOINTS
+    // =========================================
+
+    // Get categories for a specific branch
+    // API endpoint: GET /services/branch-categories/{branchId}
+    public function branchCategories($branchId)
+    {
+        $categories = $this->servicesModel->getBranchCategories($branchId);
+        
+        // Format categories to match frontend expected structure
+        $formattedCategories = array_map(function($category) {
+            return array(
+                'branch_category_override_id' => $category['categoryid'],
+                'branch_id' => $category['branch_id'],
+                'default_category_id' => $category['default_category_id'],
+                'display_name' => $category['categoryname'],
+                'description' => $category['description'],
+                'capacity' => $category['capacity'],
+                'is_active' => $category['isactive']
+            );
+        }, $categories);
+        
+        header('Content-Type: application/json');
+        echo json_encode(array(
+            'success' => true,
+            'data' => $formattedCategories
+        ));
+    }
+
+    // Get branch category override by ID
+    // API endpoint: GET /services/branch-category/{id}
+    public function branchCategoryShow($id)
+    {
+        $category = $this->servicesModel->getBranchCategoryById($id);
+        
+        if (!$category) {
+            http_response_code(404);
+            echo json_encode(array('success' => false, 'error' => 'Branch category not found'));
+            return;
+        }
+        
+        header('Content-Type: application/json');
+        echo json_encode(array(
+            'success' => true,
+            'data' => $category
+        ));
+    }
+
+    // Create branch category override
+    // API endpoint: POST /services/branch-category
+    public function branchCategoryStore()
+    {
+        $data = json_decode(file_get_contents('php://input'), true);
+        
+        if (!$data) {
+            http_response_code(400);
+            echo json_encode(array('success' => false, 'error' => 'Invalid request data'));
+            return;
+        }
+
+        $requiredFields = ['branch_id', 'default_category_id'];
+        foreach ($requiredFields as $field) {
+            if (empty($data[$field])) {
+                http_response_code(400);
+                echo json_encode(array('success' => false, 'error' => "Missing required field: $field"));
+                return;
+            }
+        }
+
+        $categoryData = array(
+            'branch_id' => $data['branch_id'],
+            'default_category_id' => $data['default_category_id'],
+            'display_name' => $data['display_name'] ?? null,
+            'description_override' => $data['description_override'] ?? null,
+            'capacity_override' => $data['capacity_override'] ?? null,
+            'is_active_override' => $data['is_active_override'] ?? 1
+        );
+
+        $categoryId = $this->servicesModel->createBranchCategoryOverride($categoryData);
+        
+        if ($categoryId) {
+            http_response_code(201);
+            echo json_encode(array(
+                'success' => true,
+                'message' => 'Branch category created successfully',
+                'data' => array('branch_category_override_id' => $categoryId)
+            ));
+        } else {
+            http_response_code(500);
+            echo json_encode(array('success' => false, 'error' => 'Failed to create branch category'));
+        }
+    }
+
+    // Update branch category override
+    // API endpoint: PUT /services/branch-category/{id}
+    public function branchCategoryUpdate($id)
+    {
+        $data = json_decode(file_get_contents('php://input'), true);
+        
+        if (!$data) {
+            http_response_code(400);
+            echo json_encode(array('success' => false, 'error' => 'Invalid request data'));
+            return;
+        }
+
+        $categoryData = array(
+            'display_name' => $data['display_name'] ?? null,
+            'description_override' => $data['description_override'] ?? null,
+            'capacity_override' => $data['capacity_override'] ?? null,
+            'is_active_override' => $data['is_active_override'] ?? null
+        );
+
+        // Remove null values
+        $categoryData = array_filter($categoryData, function($value) {
+            return $value !== null;
+        });
+
+        if (empty($categoryData)) {
+            http_response_code(400);
+            echo json_encode(array('success' => false, 'error' => 'No data to update'));
+            return;
+        }
+
+        $result = $this->servicesModel->updateBranchCategoryOverride($id, $categoryData);
+        
+        if ($result) {
+            echo json_encode(array(
+                'success' => true,
+                'message' => 'Branch category updated successfully'
+            ));
+        } else {
+            http_response_code(500);
+            echo json_encode(array('success' => false, 'error' => 'Failed to update branch category'));
+        }
+    }
+
+    // Update category capacity for a branch
+    // API endpoint: PUT /services/branch-category/{id}/capacity
+    public function updateCapacity($id)
+    {
+        $data = json_decode(file_get_contents('php://input'), true);
+        
+        if (!isset($data['capacity'])) {
+            http_response_code(400);
+            echo json_encode(array('success' => false, 'error' => 'Missing capacity field'));
+            return;
+        }
+
+        $result = $this->servicesModel->updateCategoryCapacity($id, $data['capacity']);
+        
+        if ($result) {
+            echo json_encode(array(
+                'success' => true,
+                'message' => 'Category capacity updated successfully'
+            ));
+        } else {
+            http_response_code(500);
+            echo json_encode(array('success' => false, 'error' => 'Failed to update category capacity'));
+        }
+    }
+
+    // Delete branch category override
+    // API endpoint: DELETE /services/branch-category/{id}
+    public function branchCategoryDestroy($id)
+    {
+        $result = $this->servicesModel->deleteBranchCategoryOverride($id);
+        
+        if ($result) {
+            echo json_encode(array(
+                'success' => true,
+                'message' => 'Branch category deleted successfully'
+            ));
+        } else {
+            http_response_code(500);
+            echo json_encode(array('success' => false, 'error' => 'Failed to delete branch category'));
+        }
+    }
+}
