@@ -20,6 +20,18 @@
                     <p id="modalCategory">-</p>
                 </div>
                 <div class="detail-group">
+                    <label>Description</label>
+                    <p id="modalDescription">-</p>
+                </div>
+                <div class="detail-group">
+                    <label>Duration</label>
+                    <p id="modalDuration">-</p>
+                </div>
+                <div class="detail-group">
+                    <label>Price</label>
+                    <p id="modalPrice" class="price-text">-</p>
+                </div>
+                <div class="detail-group">
                     <label>Date</label>
                     <p id="modalDate">-</p>
                 </div>

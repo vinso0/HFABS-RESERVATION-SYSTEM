@@ -76,7 +76,7 @@ class NavbarLoader {
     }
 
     // Show loading state
-    container.innerHTML = '<div class="navbar-loading">Loading navbar...</div>';
+    container.innerHTML = '<div class="navbar-loading">Loading...</div>';
 
     try {
       const componentPath = this.getComponentPath();

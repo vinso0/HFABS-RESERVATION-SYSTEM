@@ -133,9 +133,9 @@
     color: #fff;
 }
 
-.status-pending {
-    background-color: #e4b5f0;
-    color: #7d3c98;
+.status-no-show {
+    background-color: #d82626;
+    color: #fff;
 }
 
 .status-cancelled {

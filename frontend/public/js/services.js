@@ -8,9 +8,8 @@ let selectedServices = new Map(); // serviceid -> service object
 let currentCategory = 'all';
 
 // Initialize page
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
   initializePage();
-  setupEventListeners();
 });
 
 async function initializePage() {
@@ -26,14 +25,19 @@ async function initializePage() {
     loadBranchInfo(branchId),
     loadServices(branchId)
   ]);
+  
+  // Setup event listeners after data is loaded
+  setupEventListeners();
 }
 
 // Setup event listeners
 function setupEventListeners() {
   // Category tabs
   const tabBtns = document.querySelectorAll('.tab-btn');
+  console.log('Found tab buttons:', tabBtns.length); // Check if we find any buttons
   tabBtns.forEach(btn => {
     btn.addEventListener('click', function() {
+      console.log('Tab clicked:', this.dataset.category);
       // Update active state
       tabBtns.forEach(b => b.classList.remove('active'));
       this.classList.add('active');
@@ -239,7 +243,10 @@ function filterServices(category) {
     displayServices(allServices);
   } else {
     categoryTitle.textContent = category;
-    const filtered = allServices.filter(s => s.category === category);
+    const filtered = allServices.filter(s => {
+      // Handle case where category might be lowercase in data but uppercase in UI
+      return s.category && s.category.toLowerCase().includes(category.toLowerCase());
+    });
     displayServices(filtered);
   }
 }

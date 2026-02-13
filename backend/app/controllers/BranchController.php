@@ -62,6 +62,17 @@ class BranchController extends Controller
         header('Content-Type: application/json');
         echo json_encode($services);
     }
+
+    // Get categories for a specific branch
+    // API endpoint: GET /api/branches/{id}/categories
+    public function categories($branchId)
+    {
+        $branchModel = $this->model('Branch');
+        $categories = $branchModel->getBranchCategories($branchId);
+        
+        header('Content-Type: application/json');
+        echo json_encode($categories);
+    }
 }
 
 ?>

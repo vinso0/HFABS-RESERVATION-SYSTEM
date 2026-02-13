@@ -44,25 +44,29 @@ class Branch
 
     // Get services for a specific branch
     // Returns all services available at the specified branch, including category information
-    // Joins with default_services_categories to get category names
-    // Falls back to default_services if branch-specific services have empty values
+    // Joins with default_services and default_services_categories to get base service and category data
+    // Uses branch_service_overrides for branch-specific modifications
     public function getBranchServices($branchId)
     {
         $conn = $this->db->getConnection();
         
-        // First, get all branch services
+        // Get all branch service overrides with corresponding default services and categories
         $sql = 'SELECT
-                    bs.branch_service_id as serviceid,
-                    bs.service_name as servicename,
-                    bs.description,
-                    bs.price,
-                    bs.duration_minutes as duration,
-                    bs.category_id,
-                    dsc.category_name as category,
-                    1 as isavailable
-                FROM branch_services bs
-                LEFT JOIN default_services_categories dsc ON bs.category_id = dsc.service_category_id
-                WHERE bs.branch_id = ?';
+                    bso.branch_service_override_id as serviceid,
+                    COALESCE(bso.display_name, ds.service_name) as servicename,
+                    COALESCE(bso.description_override, ds.description) as description,
+                    COALESCE(bso.price_override, ds.price) as price,
+                    COALESCE(bso.duration_minutes_override, ds.duration_minutes) as duration,
+                    ds.category_id,
+                    CONCAT(
+                        UCASE(LEFT(dsc.category_name, 1)),
+                        SUBSTRING(dsc.category_name, 2)
+                    ) as category,
+                    COALESCE(bso.is_available_override, ds.is_available) as isavailable
+                FROM branch_service_overrides bso
+                LEFT JOIN default_services ds ON bso.default_service_id = ds.service_id
+                LEFT JOIN default_services_categories dsc ON ds.category_id = dsc.service_category_id
+                WHERE bso.branch_id = ?';
         
         $stmt = $conn->prepare($sql);
         $stmt->bind_param('i', $branchId);
@@ -73,17 +77,6 @@ class Branch
         $services = array();
         if ($result && $result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
-                // If branch service has empty values, get from default services
-                if (empty($row['servicename']) || empty($row['description']) || $row['price'] == 0 || $row['duration'] == 0) {
-                    $defaultService = $this->getDefaultServiceByCategory($row['category_id']);
-                    if ($defaultService) {
-                        if (empty($row['servicename'])) $row['servicename'] = $defaultService['service_name'];
-                        if (empty($row['description'])) $row['description'] = $defaultService['description'];
-                        if ($row['price'] == 0) $row['price'] = $defaultService['price'];
-                        if ($row['duration'] == 0) $row['duration'] = $defaultService['duration_minutes'];
-                    }
-                }
-                
                 // Format duration to be more readable (e.g., "60 min" instead of 60)
                 if (!empty($row['duration'])) {
                     $row['duration'] = $row['duration'] . ' min';
@@ -93,7 +86,7 @@ class Branch
                 
                 // Map category names to more user-friendly format (e.g., "hair" to "Hair Services")
                 if (!empty($row['category'])) {
-                    $row['category'] = ucfirst($row['category']) . ' Services';
+                    $row['category'] = ucfirst(strtolower($row['category'])) . ' Services';
                 } else {
                     $row['category'] = 'Other Services';
                 }
@@ -104,20 +97,47 @@ class Branch
         
         return $services;
     }
-    
-    // Helper method to get a default service by category ID
-    private function getDefaultServiceByCategory($categoryId)
+
+    // Get categories for a specific branch
+    // Returns all categories available at the specified branch, including override information
+    // Joins with default_services_categories to get base category data
+    // Uses branch_category_overrides for branch-specific modifications
+    public function getBranchCategories($branchId)
     {
         $conn = $this->db->getConnection();
-        $sql = 'SELECT * FROM default_services WHERE category_id = ? LIMIT 1';
+        
+        $sql = 'SELECT
+                    bco.branch_category_override_id as categoryid,
+                    COALESCE(bco.display_name, dsc.category_name) as categoryname,
+                    COALESCE(bco.description_override, dsc.description) as description,
+                    COALESCE(bco.capacity_override, dsc.def_capacity) as capacity,
+                    COALESCE(bco.is_active_override, 1) as isactive,
+                    dsc.service_category_id as default_category_id
+                FROM branch_category_overrides bco
+                LEFT JOIN default_services_categories dsc ON bco.default_category_id = dsc.service_category_id
+                WHERE bco.branch_id = ?';
         
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param('i', $categoryId);
+        $stmt->bind_param('i', $branchId);
         $stmt->execute();
         
         $result = $stmt->get_result();
         
-        return $result->fetch_assoc();
+        $categories = array();
+        if ($result && $result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                // Map category names to more user-friendly format (e.g., "hair" to "Hair Services")
+                if (!empty($row['categoryname'])) {
+                    $row['categoryname'] = ucfirst(strtolower($row['categoryname'])) . ' Services';
+                } else {
+                    $row['categoryname'] = 'Other Services';
+                }
+                
+                $categories[] = $row;
+            }
+        }
+        
+        return $categories;
     }
 }
 
