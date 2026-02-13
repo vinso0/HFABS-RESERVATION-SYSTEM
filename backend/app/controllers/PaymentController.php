@@ -38,7 +38,7 @@ class PaymentController extends Controller {
                     ]
                 ],
                 'description' => "HFABS Order #$orderId",
-                'success_url' => "https://undappled-bea-schemeful.ngrok-free.dev/frontend/views/success.html",
+                'success_url' => "https://localhost/HFABS/frontend/views/success.html",
                 'metadata'    => [
                     'order_id' => $orderId
                 ]

@@ -64,3 +64,6 @@ Stack trace:
 [07-Feb-2026 08:08:21 Europe/Berlin] Webhook Success: QRPh/Payment processed for Order: 2
 [07-Feb-2026 08:32:21 Europe/Berlin] Webhook Success: QRPh/Payment processed for Order: 2
 [07-Feb-2026 08:34:34 Europe/Berlin] Webhook Success: QRPh/Payment processed for Order: 2
+[13-Feb-2026 03:59:10 Europe/Berlin] Webhook DB Error: Cannot add or update a child row: a foreign key constraint fails (`hfabs`.`payments`, CONSTRAINT `order_payment` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`))
+[13-Feb-2026 03:59:28 Europe/Berlin] Webhook DB Error: Cannot add or update a child row: a foreign key constraint fails (`hfabs`.`payments`, CONSTRAINT `order_payment` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`))
+[13-Feb-2026 04:00:28 Europe/Berlin] Webhook Success: QRPh/Payment processed for Order: 2
