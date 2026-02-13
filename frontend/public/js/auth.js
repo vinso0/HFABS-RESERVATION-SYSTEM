@@ -53,14 +53,21 @@ async function handleApiFormSubmit(form, endpoint) {
       return;
     }
 
-    if (data.redirect) {
-      window.location.href = data.redirect;
-    } else if (data.success) {
-      alert("Registration successful! Redirecting to login...");
-      window.location.href = "./customer-login.html";
-    } else {
-      alert("Success.");
+    // Store authentication data if available
+    if (data.token && data.userData) {
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('userData', JSON.stringify(data.userData));
+      console.log('User logged in, data stored in localStorage');
     }
+
+    if (data.redirect) {
+       window.location.href = data.redirect;
+     } else if (data.success) {
+       alert("Registration successful! Redirecting to login...");
+       window.location.href = "./customer-login.html";
+     } else {
+       alert("Success.");
+     }
   } catch (err) {
     console.error('Error:', err);
     alert("Network error. Please check your connection and try again.");

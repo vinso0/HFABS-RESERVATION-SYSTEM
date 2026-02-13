@@ -42,154 +42,166 @@ const DUMMY_CATEGORIES = [
     }
 ];
 
-// Branch-specific category capacities
+// Branch-specific category overrides
 let DUMMY_BRANCH_CATEGORIES = [
     {
-        branch_service_category_id: 1,
+        branch_category_override_id: 1,
         branch_id: 1,
-        service_category_id: 1,
-        branch_capacity: 3
+        default_category_id: 1,
+        display_name: null,
+        description_override: null,
+        capacity_override: 3,
+        is_active_override: null
     },
     {
-        branch_service_category_id: 2,
+        branch_category_override_id: 2,
         branch_id: 1,
-        service_category_id: 2,
-        branch_capacity: 5
+        default_category_id: 2,
+        display_name: null,
+        description_override: null,
+        capacity_override: 5,
+        is_active_override: null
     },
     {
-        branch_service_category_id: 3,
+        branch_category_override_id: 3,
         branch_id: 1,
-        service_category_id: 3,
-        branch_capacity: 4
+        default_category_id: 3,
+        display_name: null,
+        description_override: null,
+        capacity_override: 4,
+        is_active_override: null
     },
     {
-        branch_service_category_id: 4,
+        branch_category_override_id: 4,
         branch_id: 1,
-        service_category_id: 4,
-        branch_capacity: 2
+        default_category_id: 4,
+        display_name: null,
+        description_override: null,
+        capacity_override: 2,
+        is_active_override: null
     }
 ];
 
 const DUMMY_SERVICES = [
     {
-        branch_service_id: 1,
-        service_id: 1,
-        category_id: 1,
-        service_name: 'Hair Spa Treatment',
-        description: 'Deep conditioning and relaxing scalp massage',
-        price: 850.00,
-        duration_minutes: 90,
-        is_available: 1
+        branch_service_override_id: 1,
+        default_service_id: 1,
+        branch_id: 1,
+        display_name: null,
+        description_override: null,
+        duration_minutes_override: null,
+        price_override: null,
+        is_available_override: 1
     },
     {
-        branch_service_id: 2,
-        service_id: 2,
-        category_id: 1,
-        service_name: 'Hair Rebonding',
-        description: 'Permanent hair straightening treatment',
-        price: 2500.00,
-        duration_minutes: 180,
-        is_available: 1
+        branch_service_override_id: 2,
+        default_service_id: 2,
+        branch_id: 1,
+        display_name: null,
+        description_override: null,
+        duration_minutes_override: null,
+        price_override: null,
+        is_available_override: 1
     },
     {
-        branch_service_id: 3,
-        service_id: 3,
-        category_id: 1,
-        service_name: 'Hair Color',
-        description: 'Professional hair coloring service',
-        price: 1800.00,
-        duration_minutes: 120,
-        is_available: 1
+        branch_service_override_id: 3,
+        default_service_id: 3,
+        branch_id: 1,
+        display_name: null,
+        description_override: null,
+        duration_minutes_override: null,
+        price_override: null,
+        is_available_override: 1
     },
     {
-        branch_service_id: 4,
-        service_id: 4,
-        category_id: 2,
-        service_name: 'Swedish Massage',
-        description: 'Full body relaxation massage',
-        price: 1200.00,
-        duration_minutes: 60,
-        is_available: 1
+        branch_service_override_id: 4,
+        default_service_id: 4,
+        branch_id: 1,
+        display_name: null,
+        description_override: null,
+        duration_minutes_override: null,
+        price_override: null,
+        is_available_override: 1
     },
     {
-        branch_service_id: 5,
-        service_id: 5,
-        category_id: 2,
-        service_name: 'Hot Stone Massage',
-        description: 'Therapeutic massage with heated stones',
-        price: 1500.00,
-        duration_minutes: 90,
-        is_available: 1
+        branch_service_override_id: 5,
+        default_service_id: 5,
+        branch_id: 1,
+        display_name: null,
+        description_override: null,
+        duration_minutes_override: null,
+        price_override: null,
+        is_available_override: 1
     },
     {
-        branch_service_id: 6,
-        service_id: 6,
-        category_id: 2,
-        service_name: 'Aromatherapy Massage',
-        description: 'Relaxing massage with essential oils',
-        price: 1350.00,
-        duration_minutes: 75,
-        is_available: 0
+        branch_service_override_id: 6,
+        default_service_id: 6,
+        branch_id: 1,
+        display_name: null,
+        description_override: null,
+        duration_minutes_override: null,
+        price_override: null,
+        is_available_override: 0
     },
     {
-        branch_service_id: 7,
-        service_id: 7,
-        category_id: 3,
-        service_name: 'Classic Manicure',
-        description: 'Basic nail care and polish',
-        price: 300.00,
-        duration_minutes: 45,
-        is_available: 1
+        branch_service_override_id: 7,
+        default_service_id: 7,
+        branch_id: 1,
+        display_name: null,
+        description_override: null,
+        duration_minutes_override: null,
+        price_override: null,
+        is_available_override: 1
     },
     {
-        branch_service_id: 8,
-        service_id: 8,
-        category_id: 3,
-        service_name: 'Gel Manicure',
-        description: 'Long-lasting gel nail polish',
-        price: 500.00,
-        duration_minutes: 60,
-        is_available: 1
+        branch_service_override_id: 8,
+        default_service_id: 8,
+        branch_id: 1,
+        display_name: null,
+        description_override: null,
+        duration_minutes_override: null,
+        price_override: null,
+        is_available_override: 1
     },
     {
-        branch_service_id: 9,
-        service_id: 9,
-        category_id: 3,
-        service_name: 'Spa Pedicure',
-        description: 'Luxurious foot care treatment',
-        price: 650.00,
-        duration_minutes: 75,
-        is_available: 1
+        branch_service_override_id: 9,
+        default_service_id: 9,
+        branch_id: 1,
+        display_name: null,
+        description_override: null,
+        duration_minutes_override: null,
+        price_override: null,
+        is_available_override: 1
     },
     {
-        branch_service_id: 10,
-        service_id: 10,
-        category_id: 4,
-        service_name: 'Deep Cleansing Facial',
-        description: 'Thorough skin cleansing and purification',
-        price: 900.00,
-        duration_minutes: 60,
-        is_available: 1
+        branch_service_override_id: 10,
+        default_service_id: 10,
+        branch_id: 1,
+        display_name: null,
+        description_override: null,
+        duration_minutes_override: null,
+        price_override: null,
+        is_available_override: 1
     },
     {
-        branch_service_id: 11,
-        service_id: 11,
-        category_id: 4,
-        service_name: 'Anti-Aging Facial',
-        description: 'Rejuvenating treatment for mature skin',
-        price: 1500.00,
-        duration_minutes: 90,
-        is_available: 1
+        branch_service_override_id: 11,
+        default_service_id: 11,
+        branch_id: 1,
+        display_name: null,
+        description_override: null,
+        duration_minutes_override: null,
+        price_override: null,
+        is_available_override: 1
     },
     {
-        branch_service_id: 12,
-        service_id: 12,
-        category_id: 4,
-        service_name: 'Hydrating Facial',
-        description: 'Moisturizing treatment for dry skin',
-        price: 1100.00,
-        duration_minutes: 75,
-        is_available: 0
+        branch_service_override_id: 12,
+        default_service_id: 12,
+        branch_id: 1,
+        display_name: null,
+        description_override: null,
+        duration_minutes_override: null,
+        price_override: null,
+        is_available_override: 0
     }
 ];
 
@@ -214,6 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loadCategories();
     loadBranchCategories();
     loadServices();
+    // We'll need to load default services from the backend to populate the service select
 });
 
 function initializeEventListeners() {
@@ -288,9 +301,10 @@ function loadBranchCategories() {
     // Using dummy data
     branchCategoriesData = DUMMY_BRANCH_CATEGORIES;
     
-    // When backend is ready, use this:
+    // When backend is ready, use this to fetch branch-specific category overrides:
     /*
-    fetch('../../backend/public/index.php?url=services/getBranchCategories')
+    const branchId = getCurrentBranchId(); // Assuming this function exists
+    fetch(`../../backend/public/index.php/branches/${branchId}/categories`)
         .then(res => res.json())
         .then(result => {
             if (result.success) {
@@ -306,9 +320,10 @@ function loadServices() {
     servicesData = DUMMY_SERVICES;
     renderServices();
     
-    // When backend is ready, use this:
+    // When backend is ready, use this to fetch branch-specific service overrides:
     /*
-    fetch('../../backend/public/index.php?url=services/getAllBranchServices')
+    const branchId = getCurrentBranchId(); // Assuming this function exists
+    fetch(`../../backend/public/index.php/branches/${branchId}/services`)
         .then(res => res.json())
         .then(result => {
             if (result.success) {
@@ -330,8 +345,10 @@ function loadServices() {
 // ==========================================
 
 function renderServices() {
-    const filteredServices = currentCategory === 'all' 
-        ? servicesData 
+    // Note: We need to join with default_services to get service details
+    // For now, let's assume servicesData includes default service information
+    const filteredServices = currentCategory === 'all'
+        ? servicesData
         : servicesData.filter(s => s.category_id == currentCategory);
 
     if (filteredServices.length === 0) {
@@ -341,27 +358,27 @@ function renderServices() {
 
     const tableHTML = filteredServices.map(service => `
         <tr>
-            <td>${service.branch_service_id}</td>
-            <td><span class="service-name">${service.service_name}</span></td>
+            <td>${service.branch_service_override_id}</td>
+            <td><span class="service-name">${service.display_name || service.service_name}</span></td>
             <td>
                 <span class="category-badge ${getCategoryClass(service.category_id)}">
                     ${getCategoryIcon(service.category_id)}
                     ${getCategoryName(service.category_id)}
                 </span>
             </td>
-            <td>₱${parseFloat(service.price).toFixed(2)}</td>
-            <td>${service.duration_minutes} mins</td>
+            <td>₱${parseFloat(service.price_override || service.price).toFixed(2)}</td>
+            <td>${service.duration_minutes_override || service.duration_minutes} mins</td>
             <td>
-                <span class="status-badge ${service.is_available ? 'available' : 'unavailable'}">
-                    ${service.is_available ? 'Available' : 'Unavailable'}
+                <span class="status-badge ${(service.is_available_override || service.is_available) ? 'available' : 'unavailable'}">
+                    ${(service.is_available_override || service.is_available) ? 'Available' : 'Unavailable'}
                 </span>
             </td>
             <td>
                 <div class="action-btns">
-                    <button class="btn-action btn-edit" onclick="editService(${service.branch_service_id})" title="Edit Service">
+                    <button class="btn-action btn-edit" onclick="editService(${service.branch_service_override_id})" title="Edit Service">
                         <i class="fas fa-edit"></i>
                     </button>
-                    <button class="btn-action btn-delete" onclick="confirmDeleteService(${service.branch_service_id})" title="Delete Service">
+                    <button class="btn-action btn-delete" onclick="confirmDeleteService(${service.branch_service_override_id})" title="Delete Service">
                         <i class="fas fa-trash-alt"></i>
                     </button>
                 </div>
@@ -386,9 +403,17 @@ function showEmptyState() {
     `;
 }
 
+function populateServiceSelect() {
+    const serviceSelect = document.getElementById('serviceSelect');
+    serviceSelect.innerHTML = '<option value="">Select a service</option>' +
+        servicesData.map(service => `
+            <option value="${service.default_service_id}">${service.display_name || service.service_name}</option>
+        `).join('');
+}
+
 function populateCategorySelect() {
     const categorySelect = document.getElementById('categorySelect');
-    categorySelect.innerHTML = '<option value="">Select a category</option>' + 
+    categorySelect.innerHTML = '<option value="">Select a category</option>' +
         categoriesData.map(cat => `
             <option value="${cat.service_category_id}">${cat.category_name}</option>
         `).join('');
@@ -397,14 +422,14 @@ function populateCategorySelect() {
 function renderCategoriesList() {
     const categoriesList = document.getElementById('categoriesList');
     categoriesList.innerHTML = categoriesData.map(cat => {
-        const branchCat = branchCategoriesData.find(bc => bc.service_category_id == cat.service_category_id);
-        const capacity = branchCat ? branchCat.branch_capacity : cat.def_capacity;
+        const branchCat = branchCategoriesData.find(bc => bc.default_category_id == cat.service_category_id);
+        const capacity = branchCat ? branchCat.capacity_override : cat.def_capacity;
         
         return `
             <div class="category-item">
                 <div class="category-info">
-                    <div class="category-name">${cat.category_name}</div>
-                    <div class="category-details">${cat.description}</div>
+                    <div class="category-name">${branchCat?.display_name || cat.category_name}</div>
+                    <div class="category-details">${branchCat?.description_override || cat.description}</div>
                 </div>
                 <div class="category-actions">
                     <div class="category-capacity">
@@ -518,52 +543,52 @@ function editService(serviceId) {
 }
 
 function loadServiceData(serviceId) {
-    const service = servicesData.find(s => s.branch_service_id == serviceId);
+    const service = servicesData.find(s => s.branch_service_override_id == serviceId);
     
     if (service) {
-        document.getElementById('branchServiceId').value = service.branch_service_id;
-        document.getElementById('categorySelect').value = service.category_id;
-        document.getElementById('serviceName').value = service.service_name;
-        document.getElementById('serviceDescription').value = service.description || '';
-        document.getElementById('servicePrice').value = service.price;
-        document.getElementById('serviceDuration').value = service.duration_minutes;
-        document.getElementById('serviceAvailable').checked = service.is_available == 1;
+        document.getElementById('branchServiceId').value = service.branch_service_override_id;
+        document.getElementById('serviceSelect').value = service.default_service_id;
+        document.getElementById('serviceName').value = service.display_name || '';
+        document.getElementById('serviceDescription').value = service.description_override || '';
+        document.getElementById('servicePrice').value = service.price_override || '';
+        document.getElementById('serviceDuration').value = service.duration_minutes_override || '';
+        document.getElementById('serviceAvailable').checked = (service.is_available_override == 1);
     }
 }
 
 function handleServiceSubmit(e) {
     e.preventDefault();
     
-    const branchServiceId = document.getElementById('branchServiceId').value;
+    const branchServiceOverrideId = document.getElementById('branchServiceId').value;
     const formData = {
-        category_id: document.getElementById('categorySelect').value,
-        service_name: document.getElementById('serviceName').value.trim(),
-        description: document.getElementById('serviceDescription').value.trim(),
-        price: parseFloat(document.getElementById('servicePrice').value),
-        duration_minutes: parseInt(document.getElementById('serviceDuration').value),
-        is_available: document.getElementById('serviceAvailable').checked ? 1 : 0
+        default_service_id: document.getElementById('serviceSelect').value, // We'll need to add a service select dropdown
+        display_name: document.getElementById('serviceName').value.trim(),
+        description_override: document.getElementById('serviceDescription').value.trim(),
+        price_override: parseFloat(document.getElementById('servicePrice').value),
+        duration_minutes_override: parseInt(document.getElementById('serviceDuration').value),
+        is_available_override: document.getElementById('serviceAvailable').checked ? 1 : 0
     };
 
     // Simulate saving
-    if (branchServiceId) {
-        // Update existing service
-        const index = servicesData.findIndex(s => s.branch_service_id == branchServiceId);
+    if (branchServiceOverrideId) {
+        // Update existing service override
+        const index = servicesData.findIndex(s => s.branch_service_override_id == branchServiceOverrideId);
         if (index !== -1) {
             servicesData[index] = {
                 ...servicesData[index],
                 ...formData
             };
         }
-        showNotification('Service updated successfully!', 'success');
+        showNotification('Service override updated successfully!', 'success');
     } else {
-        // Add new service
+        // Add new service override
         const newService = {
-            branch_service_id: servicesData.length + 1,
-            service_id: servicesData.length + 1,
+            branch_service_override_id: servicesData.length + 1,
+            branch_id: 1,
             ...formData
         };
         servicesData.push(newService);
-        showNotification('Service created successfully!', 'success');
+        showNotification('Service override created successfully!', 'success');
     }
     
     closeServiceModal();
@@ -571,8 +596,8 @@ function handleServiceSubmit(e) {
 
     // When backend is ready, use this:
     /*
-    const url = branchServiceId 
-        ? `../../backend/public/index.php?url=services/updateBranchService/${branchServiceId}`
+    const url = branchServiceOverrideId
+        ? `../../backend/public/index.php?url=services/updateBranchService/${branchServiceOverrideId}`
         : '../../backend/public/index.php?url=services/createBranchService';
     
     fetch(url, {
@@ -584,7 +609,7 @@ function handleServiceSubmit(e) {
     .then(result => {
         if (result.success) {
             showNotification(
-                branchServiceId ? 'Service updated successfully' : 'Service created successfully',
+                branchServiceOverrideId ? 'Service updated successfully' : 'Service created successfully',
                 'success'
             );
             closeServiceModal();
@@ -607,16 +632,19 @@ function handleCapacityUpdate(e) {
     const newCapacity = parseInt(document.getElementById('branchCapacity').value);
     
     // Simulate updating
-    const index = branchCategoriesData.findIndex(bc => bc.service_category_id == categoryId);
+    const index = branchCategoriesData.findIndex(bc => bc.default_category_id == categoryId);
     if (index !== -1) {
-        branchCategoriesData[index].branch_capacity = newCapacity;
+        branchCategoriesData[index].capacity_override = newCapacity;
     } else {
-        // Create new branch category
+        // Create new branch category override
         branchCategoriesData.push({
-            branch_service_category_id: branchCategoriesData.length + 1,
+            branch_category_override_id: branchCategoriesData.length + 1,
             branch_id: 1,
-            service_category_id: categoryId,
-            branch_capacity: newCapacity
+            default_category_id: categoryId,
+            display_name: null,
+            description_override: null,
+            capacity_override: newCapacity,
+            is_active_override: null
         });
     }
     
@@ -630,8 +658,8 @@ function handleCapacityUpdate(e) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            service_category_id: categoryId,
-            branch_capacity: newCapacity
+            default_category_id: categoryId,
+            capacity_override: newCapacity
         })
     })
     .then(res => res.json())
@@ -661,10 +689,10 @@ function handleDeleteService() {
     if (!selectedServiceId) return;
 
     // Simulate deletion
-    const index = servicesData.findIndex(s => s.branch_service_id == selectedServiceId);
+    const index = servicesData.findIndex(s => s.branch_service_override_id == selectedServiceId);
     if (index !== -1) {
         servicesData.splice(index, 1);
-        showNotification('Service deleted successfully!', 'success');
+        showNotification('Service override deleted successfully!', 'success');
         closeDeleteModal();
         renderServices();
     }

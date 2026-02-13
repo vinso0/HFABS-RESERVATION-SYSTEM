@@ -18,26 +18,8 @@
       <div class="bubble bubble-8"></div>
     </div>
 
-    <header class="header">
-      <div class="header-container">
-        <div class="brand">
-          <a href="./index.html">
-            <img
-              src="./public/img/HFABS-LOGO.png"
-              alt="Happy Face & Body Spa"
-              class="brand-logo"
-            />
-            <span class="brand-name">Happy Face & Body Spa</span>
-          </a>
-        </div>
-
-        <nav class="nav">
-          <a href="#home" class="nav-link active">Home</a>
-          <a href="#services" class="nav-link">Services</a>
-          <a href="./views/customer-login.html" class="nav-link">Login</a>
-        </nav>
-      </div>
-    </header>
+    <!-- Dynamic Navbar Container -->
+    <div id="navbar-container"></div>
 
     <main>
       <!-- Enhanced Hero Section -->
@@ -50,9 +32,9 @@
               Your beauty and wellness, simplified.
             </p>
 
-            <a href="./views/customer-login.html" class="cta-btn">
+            <button class="cta-btn" onclick="testButton()">
               Book an Appointment
-            </a>
+            </button>
           </div>
 
           <div class="hero-image-section">
@@ -157,6 +139,7 @@
     <script src="./public/js/landing.js"></script>
     <script src="./public/js/universal-branch-modal.js"></script>
     <script src="./public/js/load-footer-branches.js"></script>
+    <script src="./public/js/navbar-loader.js"></script>
     
     <!-- Branch Selection Modal -->
     <div id="branchModal" class="modal">

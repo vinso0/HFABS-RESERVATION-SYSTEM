@@ -124,9 +124,19 @@ class AuthController extends Controller
                 default => '/HFABS/frontend/views/customer-home.php',
             };
 
+            // Create a simple token (in production, use JWT)
+            $token = bin2hex(random_bytes(32));
+            
             echo json_encode([
                 'success' => true,
-                'redirect' => $redirect
+                'redirect' => $redirect,
+                'token' => $token,
+                'userData' => [
+                    'user_id' => $user['user_id'],
+                    'username' => $user['username'],
+                    'email' => $user['email'],
+                    'role' => $user['role']
+                ]
             ]);
         } else {
             http_response_code(401);

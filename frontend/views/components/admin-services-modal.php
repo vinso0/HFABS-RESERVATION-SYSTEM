@@ -14,12 +14,12 @@
 
             <div class="form-row">
                 <div class="form-group">
-                    <label for="categorySelect">
+                    <label for="serviceSelect">
                         <i class="fas fa-tag"></i>
-                        Category *
+                        Default Service *
                     </label>
-                    <select id="categorySelect" required>
-                        <option value="">Select a category</option>
+                    <select id="serviceSelect" required>
+                        <option value="">Select a service</option>
                         <!-- Will be populated by JavaScript -->
                     </select>
                 </div>
@@ -27,16 +27,16 @@
                 <div class="form-group">
                     <label for="serviceName">
                         <i class="fas fa-signature"></i>
-                        Service Name *
+                        Display Name
                     </label>
-                    <input type="text" id="serviceName" placeholder="e.g., Hair Spa Treatment" required>
+                    <input type="text" id="serviceName" placeholder="e.g., Hair Spa Treatment">
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="serviceDescription">
                     <i class="fas fa-align-left"></i>
-                    Description
+                    Description Override
                 </label>
                 <textarea id="serviceDescription" placeholder="Describe the service..." rows="3"></textarea>
             </div>
@@ -45,24 +45,24 @@
                 <div class="form-group">
                     <label for="servicePrice">
                         <i class="fas fa-peso-sign"></i>
-                        Price (₱) *
+                        Price Override (₱)
                     </label>
-                    <input type="number" id="servicePrice" placeholder="0.00" step="0.01" min="0" required>
+                    <input type="number" id="servicePrice" placeholder="0.00" step="0.01" min="0">
                 </div>
 
                 <div class="form-group">
                     <label for="serviceDuration">
                         <i class="fas fa-clock"></i>
-                        Duration (minutes) *
+                        Duration Override (minutes)
                     </label>
-                    <input type="number" id="serviceDuration" placeholder="60" min="15" step="15" required>
+                    <input type="number" id="serviceDuration" placeholder="60" min="15" step="15">
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="checkbox-label">
                     <input type="checkbox" id="serviceAvailable" checked>
-                    <span>Service Available</span>
+                    <span>Service Available (Override)</span>
                 </label>
             </div>
 

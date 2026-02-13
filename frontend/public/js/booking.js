@@ -9,8 +9,22 @@ let selectedTime = null;
 let currentMonth = new Date();
 let availableTimeSlots = [];
 
+// Check if user is logged in
+function isLoggedIn() {
+const token = localStorage.getItem('token');
+const userData = localStorage.getItem('userData');
+return !!(token && userData);
+}
+
 // Initialize page
 document.addEventListener('DOMContentLoaded', function() {
+  // Check if user is logged in
+  if (!isLoggedIn()) {
+    alert('Please log in first to access the booking page.');
+    window.location.href = './customer-login.html';
+    return;
+  }
+
   loadBookingData();
   initializeCalendar();
   setupEventListeners();

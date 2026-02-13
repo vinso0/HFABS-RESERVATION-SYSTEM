@@ -1,15 +1,23 @@
 // API Configuration
-const API_BASE_URL = '/api'; // Replace with your actual API base URL
+// Updated base URL to match the backend API location
+const API_BASE_URL = '/HFABS/backend/public/index.php?url';
 
 // Universal Branch Modal - Works from any page location
 document.addEventListener('DOMContentLoaded', function() {
+  console.log('Universal Branch Modal script loaded');
+  
   const modal = document.getElementById('branchModal');
   
   // Check if modal exists on this page
-  if (!modal) return;
+  if (!modal) {
+    console.log('Modal not found on this page');
+    return;
+  }
   
   const closeBtn = document.querySelector('.modal-close');
   const serviceButtons = document.querySelectorAll('.service-btn, .cta-btn');
+  
+  console.log('Number of service buttons found:', serviceButtons.length);
   
   // Detect current directory structure
   const currentPath = window.location.pathname;
@@ -17,7 +25,9 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Open modal when any "View Services" button is clicked
   serviceButtons.forEach(button => {
+    console.log('Adding click event listener to button:', button.textContent);
     button.addEventListener('click', function() {
+      console.log('Button clicked');
       const serviceCard = this.closest('.service-card');
       const serviceTitle = serviceCard ? serviceCard.querySelector('.service-title').textContent : '';
       
@@ -33,32 +43,35 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Close modal when X is clicked
   if (closeBtn) {
-    closeBtn.addEventListener('click', closeModal);
+    closeBtn.addEventListener('click', window.closeModal);
   }
   
   // Close modal when clicking outside
   window.addEventListener('click', function(event) {
     if (event.target === modal) {
-      closeModal();
+      window.closeModal();
     }
   });
   
   // Close modal on Escape key
   document.addEventListener('keydown', function(event) {
     if (event.key === 'Escape' && modal.style.display === 'block') {
-      closeModal();
+      window.closeModal();
     }
   });
   
-  function openModal() {
+  // Make functions globally accessible for inline event handlers
+  window.openModal = function() {
+    console.log('openModal() called');
     modal.style.display = 'block';
     document.body.style.overflow = 'hidden';
-  }
+    loadBranches();
+  };
   
-  function closeModal() {
+  window.closeModal = function() {
     modal.style.display = 'none';
     document.body.style.overflow = 'auto';
-  }
+  };
   
   // Load branches from API
   async function loadBranches() {
@@ -67,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (!branchList) return;
     
     try {
-      const response = await fetch(`${API_BASE_URL}/branches`);
+      const response = await fetch(`${API_BASE_URL}=branch`);
       
       if (!response.ok) {
         throw new Error('Failed to fetch branches');

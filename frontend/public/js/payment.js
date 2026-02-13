@@ -4,8 +4,22 @@ const PAYMONGO_PUBLIC_KEY = 'put_your_public_key_here(ex. sk_test_xxx)';
 // State Management
 let bookingData = null;
 
+// Check if user is logged in
+function isLoggedIn() {
+  const token = localStorage.getItem('token');
+  const userData = localStorage.getItem('userData');
+  return !!(token && userData);
+}
+
 // Initialize page
 document.addEventListener('DOMContentLoaded', function() {
+  // Check if user is logged in
+  if (!isLoggedIn()) {
+    alert('Please log in first to access the payment page.');
+    window.location.href = './customer-login.html';
+    return;
+  }
+
   loadBookingData();
   setupEventListeners();
 });

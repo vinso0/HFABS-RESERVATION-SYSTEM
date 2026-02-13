@@ -1,5 +1,6 @@
 // API Configuration
-const API_BASE_URL = '/api';
+// Updated base URL to match the backend API location
+const API_BASE_URL = '/HFABS/backend/public/index.php?url';
 
 // State Management
 let allServices = [];
@@ -7,9 +8,8 @@ let selectedServices = new Map(); // serviceid -> service object
 let currentCategory = 'all';
 
 // Initialize page
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
   initializePage();
-  setupEventListeners();
 });
 
 async function initializePage() {
@@ -25,14 +25,19 @@ async function initializePage() {
     loadBranchInfo(branchId),
     loadServices(branchId)
   ]);
+  
+  // Setup event listeners after data is loaded
+  setupEventListeners();
 }
 
 // Setup event listeners
 function setupEventListeners() {
   // Category tabs
   const tabBtns = document.querySelectorAll('.tab-btn');
+  console.log('Found tab buttons:', tabBtns.length); // Check if we find any buttons
   tabBtns.forEach(btn => {
     btn.addEventListener('click', function() {
+      console.log('Tab clicked:', this.dataset.category);
       // Update active state
       tabBtns.forEach(b => b.classList.remove('active'));
       this.classList.add('active');
@@ -51,7 +56,7 @@ function setupEventListeners() {
 // Load branch information
 async function loadBranchInfo(branchId) {
   try {
-    const response = await fetch(`${API_BASE_URL}/branches/${branchId}`);
+    const response = await fetch(`${API_BASE_URL}=branch/${branchId}`);
     
     if (!response.ok) {
       throw new Error('Failed to fetch branch info');
@@ -89,13 +94,21 @@ function displayBranchInfo(branch) {
 // Load services for selected branch
 async function loadServices(branchId) {
   try {
-    const response = await fetch(`${API_BASE_URL}/branches/${branchId}/services`);
+    console.log('Loading services for branch:', branchId);
+    const url = `${API_BASE_URL}=branch/${branchId}/services`;
+    console.log('API URL:', url);
+    
+    const response = await fetch(url);
+    
+    console.log('Response status:', response.status);
     
     if (!response.ok) {
       throw new Error('Failed to fetch services');
     }
     
     const services = await response.json();
+    console.log('Services data:', services);
+    
     allServices = services;
     displayServices(allServices);
     
@@ -230,7 +243,10 @@ function filterServices(category) {
     displayServices(allServices);
   } else {
     categoryTitle.textContent = category;
-    const filtered = allServices.filter(s => s.category === category);
+    const filtered = allServices.filter(s => {
+      // Handle case where category might be lowercase in data but uppercase in UI
+      return s.category && s.category.toLowerCase().includes(category.toLowerCase());
+    });
     displayServices(filtered);
   }
 }
@@ -238,6 +254,8 @@ function filterServices(category) {
 // Display services in list
 function displayServices(services) {
   const servicesList = document.getElementById('servicesList');
+  console.log('Displaying services:', services);
+  console.log('Services container:', servicesList);
   
   if (services.length === 0) {
     servicesList.innerHTML = '<div class="empty-state">No services available in this category.</div>';
@@ -247,9 +265,12 @@ function displayServices(services) {
   servicesList.innerHTML = '';
   
   services.forEach(service => {
+    console.log('Processing service:', service);
     const serviceItem = createServiceItem(service);
     servicesList.appendChild(serviceItem);
   });
+  
+  console.log('Services displayed, count:', servicesList.children.length);
 }
 
 // Create service item element
@@ -313,18 +334,27 @@ function toggleService(service, itemElement) {
   updateSummary();
 }
 
+// Check if user is logged in
+function isLoggedIn() {
+  const token = localStorage.getItem('token');
+  const userData = localStorage.getItem('userData');
+  return !!(token && userData);
+}
+
 // Update summary sidebar
 function updateSummary() {
   const selectedServicesContainer = document.getElementById('selectedServices');
   const totalPrice = document.getElementById('totalPrice');
   const downpaymentPrice = document.getElementById('downpaymentPrice');
   const continueBtn = document.getElementById('continueBtn');
+  const loginPrompt = document.getElementById('login-prompt');
 
   if (selectedServices.size === 0) {
     selectedServicesContainer.innerHTML = '<p class="empty-selection">No services selected yet</p>';
     totalPrice.textContent = '₱0';
     if (downpaymentPrice) downpaymentPrice.textContent = '₱0';
     continueBtn.disabled = true;
+    loginPrompt.style.display = 'none';
   } else {
     let total = 0;
     let html = '';
@@ -348,15 +378,26 @@ function updateSummary() {
       const downpayment = total * 0.5;
       downpaymentPrice.textContent = `₱${downpayment.toFixed(2)}`;
     }
-    continueBtn.disabled = false;
+    
+    // Keep continue button disabled if user is not logged in
+    continueBtn.disabled = !isLoggedIn();
+    
+    // Show login prompt for guests
+    loginPrompt.style.display = isLoggedIn() ? 'none' : 'block';
   }
 }
 
 
 // Handle continue button
-// Handle continue button
 function handleContinue() {
   if (selectedServices.size === 0) return;
+  
+  // Check if user is logged in
+  if (!isLoggedIn()) {
+    alert('Please log in first to continue with your booking.');
+    window.location.href = './customer-login.html';
+    return;
+  }
   
   const branchId = new URLSearchParams(window.location.search).get('branch');
   const branchName = document.getElementById('branchName').textContent;

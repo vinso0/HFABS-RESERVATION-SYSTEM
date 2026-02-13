@@ -1,4 +1,4 @@
-<?php
+    <?php
 
 class Reservation extends Database
 {
@@ -30,13 +30,16 @@ class Reservation extends Database
         while ($row = $result->fetch_assoc()) {
             // Get services for each reservation
             $servicesQuery = "
-                SELECT 
+                SELECT
                     rs.reservation_service_id,
-                    ds.service_name,
-                    ds.price,
-                    ds.duration_minutes
+                    rs.booked_service_name as service_name,
+                    rs.booked_unit_price as price,
+                    rs.booked_duration_minutes as duration_minutes,
+                    rs.booked_category_name as category_name,
+                    rs.booked_description as description,
+                    rs.default_service_id,
+                    rs.branch_service_override_id
                 FROM reservation_services rs
-                LEFT JOIN default_services ds ON rs.service_id = ds.service_id
                 WHERE rs.reservation_id = ?
             ";
             

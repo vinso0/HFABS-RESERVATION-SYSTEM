@@ -38,6 +38,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
                         <option value="completed">Completed</option>
                         <option value="cancelled">Cancelled</option>
                         <option value="rescheduled">Rescheduled</option>
+                        <option value="no-show">No-Show</option>
                     </select>
                 </div>
             </div>
