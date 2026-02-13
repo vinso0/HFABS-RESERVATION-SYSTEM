@@ -1,76 +1,175 @@
-<!-- Add/Edit Service Modal -->
-<div class="modal-overlay" id="serviceModal">
+<!-- Add New Service Modal -->
+<div class="modal-overlay" id="addServiceModal">
     <div class="modal-container">
         <div class="modal-header">
-            <h3 id="modalTitle">Add New Service</h3>
-            <button class="modal-close" id="closeModal">
+            <h3>Add New Service</h3>
+            <button class="modal-close" id="closeAddModal">
                 <i class="fas fa-times"></i>
             </button>
         </div>
 
-        <form id="serviceForm" class="modal-body">
-            <input type="hidden" id="serviceId">
-            <input type="hidden" id="branchServiceId">
+        <form id="addServiceForm" class="modal-body">
+            <!-- Service Type Toggle -->
+            <div class="form-group">
+                <label class="toggle-label">
+                    <input type="checkbox" id="createNewServiceAdd" onchange="toggleAddServiceMode()">
+                    <span>Create new service (not in the list)</span>
+                </label>
+            </div>
 
-            <div class="form-row">
+            <!-- Existing Service Selection (shown when not creating new) -->
+            <div class="form-row" id="existingServiceRowAdd">
                 <div class="form-group">
-                    <label for="serviceSelect">
+                    <label for="serviceSelectAdd">
                         <i class="fas fa-tag"></i>
-                        Default Service *
+                        Select Existing Service *
                     </label>
-                    <select id="serviceSelect" required>
+                    <select id="serviceSelectAdd">
                         <option value="">Select a service</option>
                         <!-- Will be populated by JavaScript -->
                     </select>
                 </div>
+            </div>
 
-                <div class="form-group">
-                    <label for="serviceName">
-                        <i class="fas fa-signature"></i>
-                        Display Name
-                    </label>
-                    <input type="text" id="serviceName" placeholder="e.g., Hair Spa Treatment">
+            <!-- New Service Fields (shown when creating new) -->
+            <div id="newServiceFieldsAdd" style="display: none;">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="serviceCategoryAdd">
+                            <i class="fas fa-list"></i>
+                            Category *
+                        </label>
+                        <select id="serviceCategoryAdd" required>
+                            <option value="">Select a category</option>
+                            <!-- Will be populated by JavaScript -->
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="serviceNameAdd">
+                            <i class="fas fa-signature"></i>
+                            Service Name *
+                        </label>
+                        <input type="text" id="serviceNameAdd" placeholder="e.g., Hair Spa Treatment" required>
+                    </div>
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="serviceDescription">
+                <label for="serviceDescriptionAdd">
                     <i class="fas fa-align-left"></i>
-                    Description Override
+                    Description *
                 </label>
-                <textarea id="serviceDescription" placeholder="Describe the service..." rows="3"></textarea>
+                <textarea id="serviceDescriptionAdd" placeholder="Describe the service..." rows="3" required></textarea>
             </div>
 
             <div class="form-row">
                 <div class="form-group">
-                    <label for="servicePrice">
+                    <label for="servicePriceAdd">
                         <i class="fas fa-peso-sign"></i>
-                        Price Override (₱)
+                        Price (₱) *
                     </label>
-                    <input type="number" id="servicePrice" placeholder="0.00" step="0.01" min="0">
+                    <input type="number" id="servicePriceAdd" placeholder="0.00" step="0.01" min="0" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="serviceDuration">
+                    <label for="serviceDurationAdd">
                         <i class="fas fa-clock"></i>
-                        Duration Override (minutes)
+                        Duration (minutes) *
                     </label>
-                    <input type="number" id="serviceDuration" placeholder="60" min="15" step="15">
+                    <input type="number" id="serviceDurationAdd" placeholder="60" min="15" step="15" required>
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="checkbox-label">
-                    <input type="checkbox" id="serviceAvailable" checked>
-                    <span>Service Available (Override)</span>
+                    <input type="checkbox" id="serviceAvailableAdd" checked>
+                    <span>Service Available</span>
                 </label>
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn-cancel" id="cancelBtn">Cancel</button>
+                <button type="button" class="btn-cancel" id="cancelAddBtn">Cancel</button>
                 <button type="submit" class="btn-save">
                     <i class="fas fa-save"></i>
-                    <span id="submitBtnText">Save Service</span>
+                    <span>Save Service</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Edit Service Modal -->
+<div class="modal-overlay" id="editServiceModal">
+    <div class="modal-container">
+        <div class="modal-header">
+            <h3>Edit Service</h3>
+            <button class="modal-close" id="closeEditModal">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <form id="editServiceForm" class="modal-body">
+            <input type="hidden" id="editBranchServiceId">
+
+            <div class="form-group">
+                <label for="editServiceSelect">
+                    <i class="fas fa-tag"></i>
+                    Service *
+                </label>
+                <select id="editServiceSelect" disabled>
+                    <option value="">Select a service</option>
+                    <!-- Will be populated by JavaScript -->
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="serviceNameEdit">
+                    <i class="fas fa-signature"></i>
+                    Display Name *
+                </label>
+                <input type="text" id="serviceNameEdit" placeholder="e.g., Hair Spa Treatment" required>
+                <small class="help-text">Customize the service name for this branch</small>
+            </div>
+
+            <div class="form-group">
+                <label for="serviceDescriptionEdit">
+                    <i class="fas fa-align-left"></i>
+                    Description *
+                </label>
+                <textarea id="serviceDescriptionEdit" placeholder="Describe the service..." rows="3" required></textarea>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="servicePriceEdit">
+                        <i class="fas fa-peso-sign"></i>
+                        Price (₱) *
+                    </label>
+                    <input type="number" id="servicePriceEdit" placeholder="0.00" step="0.01" min="0" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="serviceDurationEdit">
+                        <i class="fas fa-clock"></i>
+                        Duration (minutes) *
+                    </label>
+                    <input type="number" id="serviceDurationEdit" placeholder="60" min="15" step="15" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="serviceAvailableEdit" checked>
+                    <span>Service Available</span>
+                </label>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn-cancel" id="cancelEditBtn">Cancel</button>
+                <button type="submit" class="btn-save">
+                    <i class="fas fa-save"></i>
+                    <span>Update Service</span>
                 </button>
             </div>
         </form>
@@ -185,3 +284,19 @@
         </div>
     </div>
 </div>
+
+<style>
+.toggle-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.toggle-label input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+</style>
