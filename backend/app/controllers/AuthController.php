@@ -82,6 +82,47 @@ class AuthController extends Controller
         exit;
     }
 
+    public function getProfile()
+    {
+        header('Content-Type: application/json');
+        
+        require_once __DIR__ . '/../config/config.php';
+        
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'customer') {
+            http_response_code(401);
+            echo json_encode([
+                'success' => false,
+                'message' => 'Unauthorized'
+            ]);
+            exit;
+        }
+
+        $userModel = $this->model('User');
+        $userData = $userModel->getUserById($_SESSION['user_id']);
+
+        if ($userData) {
+            // Remove sensitive data
+            unset($userData['password']);
+            
+            echo json_encode([
+                'success' => true,
+                'data' => $userData
+            ]);
+        } else {
+            http_response_code(404);
+            echo json_encode([
+                'success' => false,
+                'message' => 'User not found'
+            ]);
+        }
+
+        exit;
+    }
+
 
     public function login()
     {
@@ -116,6 +157,7 @@ class AuthController extends Controller
         if ($user && password_verify($password, $user['password'])) {
             $_SESSION['user_id'] = $user['user_id'];
             $_SESSION['user_name'] = $user['username'];
+            $_SESSION['email'] = $user['email'];
             $_SESSION['role'] = $user['role'];
 
             $redirect = match ($user['role']) {

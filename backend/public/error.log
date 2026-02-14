@@ -78,3 +78,521 @@ Stack trace:
 #3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
 #4 {main}
   thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 23
+[13-Feb-2026 15:59:48 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.orders' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:23
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(23): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(30): Reservation->getReservationsByUserId(2)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getCustomerReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 23
+[13-Feb-2026 16:15:43 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.orders' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:23
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(23): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(30): Reservation->getReservationsByUserId(2)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getCustomerReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 23
+[13-Feb-2026 16:15:52 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.orders' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:23
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(23): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(30): Reservation->getReservationsByUserId(2)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getCustomerReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 23
+[13-Feb-2026 17:34:17 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.orders' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:24
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(24): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(30): Reservation->getReservationsByUserId(2)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getCustomerReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 24
+[13-Feb-2026 17:34:21 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.orders' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:24
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(24): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(30): Reservation->getReservationsByUserId(2)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getCustomerReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 24
+[13-Feb-2026 17:34:31 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.orders' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:24
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(24): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(30): Reservation->getReservationsByUserId(2)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getCustomerReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 24
+[13-Feb-2026 17:34:47 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.orders' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:24
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(24): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(30): Reservation->getReservationsByUserId(2)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getCustomerReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 24
+[13-Feb-2026 17:35:50 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.orders' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:24
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(24): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(30): Reservation->getReservationsByUserId(2)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getCustomerReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 24
+[13-Feb-2026 17:37:35 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.orders' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:24
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(24): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(30): Reservation->getReservationsByUserId(2)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getCustomerReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 24
+[13-Feb-2026 17:37:43 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.orders' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:24
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(24): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(30): Reservation->getReservationsByUserId(2)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getCustomerReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 24
+[13-Feb-2026 17:46:16 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.orders' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:24
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(24): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(30): Reservation->getReservationsByUserId(6)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getCustomerReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 24
+[13-Feb-2026 17:46:23 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.orders' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:24
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(24): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(30): Reservation->getReservationsByUserId(6)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getCustomerReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 24
+[13-Feb-2026 17:53:45 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.orders' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:23
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(23): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(30): Reservation->getReservationsByUserId(6)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getCustomerReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 23
+[13-Feb-2026 17:53:46 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.orders' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:23
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(23): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(30): Reservation->getReservationsByUserId(6)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getCustomerReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 23
+[13-Feb-2026 17:53:51 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.orders' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:23
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(23): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(30): Reservation->getReservationsByUserId(6)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getCustomerReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 23
+[13-Feb-2026 18:06:21 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.orders' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:23
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(23): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(30): Reservation->getReservationsByUserId(2)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getCustomerReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 23
+[13-Feb-2026 18:06:37 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.orders' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:23
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(23): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(30): Reservation->getReservationsByUserId(2)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getCustomerReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 23
+[13-Feb-2026 18:07:06 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.orders' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:23
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(23): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(30): Reservation->getReservationsByUserId(2)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getCustomerReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 23
+[13-Feb-2026 18:07:11 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.orders' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:23
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(23): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(30): Reservation->getReservationsByUserId(2)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getCustomerReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 23
+[13-Feb-2026 18:08:28 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.orders' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:23
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(23): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(30): Reservation->getReservationsByUserId(2)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getCustomerReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 23
+[13-Feb-2026 18:11:46 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.orders' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:23
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(23): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(30): Reservation->getReservationsByUserId(2)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getCustomerReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 23
+[14-Feb-2026 03:51:23 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Duplicate entry '1' for key 'reservation_id' in C:\xampp\htdocs\HFABS\backend\app\models\Feedback.php:16
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Feedback.php(16): mysqli_stmt->execute()
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(78): Feedback->submitFeedback(1, 2, '1', '4', 'Good Service')
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->submitFeedback()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Feedback.php on line 16
+[14-Feb-2026 05:26:00 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.admin_branch' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:265
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(265): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(245): Reservation->getTodaysReservations(1)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getTodaysReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 265
+[14-Feb-2026 05:26:24 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.admin_branch' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:265
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(265): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(245): Reservation->getTodaysReservations(1)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getTodaysReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 265
+[14-Feb-2026 05:29:27 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.admin_branch' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:265
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(265): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(245): Reservation->getTodaysReservations(1)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getTodaysReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 265
+[14-Feb-2026 05:35:54 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.admin_branch' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:265
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(265): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(245): Reservation->getTodaysReservations(1)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getTodaysReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 265
+[14-Feb-2026 05:35:55 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.admin_branch' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:265
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(265): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(245): Reservation->getTodaysReservations(1)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getTodaysReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 265
+[14-Feb-2026 05:42:04 Europe/Berlin] PHP Warning:  session_start(): Session ID is too long or contains illegal characters. Only the A-Z, a-z, 0-9, &quot;-&quot;, and &quot;,&quot; characters are allowed in C:\xampp\htdocs\HFABS\backend\public\index.php on line 8
+[14-Feb-2026 05:42:04 Europe/Berlin] PHP Warning:  session_start(): Failed to read session data: files (path: C:\xampp\tmp) in C:\xampp\htdocs\HFABS\backend\public\index.php on line 8
+[14-Feb-2026 05:42:04 Europe/Berlin] PHP Warning:  session_start(): Session ID is too long or contains illegal characters. Only the A-Z, a-z, 0-9, &quot;-&quot;, and &quot;,&quot; characters are allowed in C:\xampp\htdocs\HFABS\backend\app\core\init.php on line 9
+[14-Feb-2026 05:42:04 Europe/Berlin] PHP Warning:  session_start(): Failed to read session data: files (path: C:\xampp\tmp) in C:\xampp\htdocs\HFABS\backend\app\core\init.php on line 9
+[14-Feb-2026 05:42:04 Europe/Berlin] PHP Warning:  session_start(): Session ID is too long or contains illegal characters. Only the A-Z, a-z, 0-9, &quot;-&quot;, and &quot;,&quot; characters are allowed in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 11
+[14-Feb-2026 05:42:04 Europe/Berlin] PHP Warning:  session_start(): Failed to read session data: files (path: C:\xampp\tmp) in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 11
+[14-Feb-2026 05:43:07 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.admin_branch' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:265
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(265): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(245): Reservation->getTodaysReservations(1)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getTodaysReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 265
+[14-Feb-2026 05:43:23 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.admin_branch' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:265
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(265): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(245): Reservation->getTodaysReservations(1)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getTodaysReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 265
+[14-Feb-2026 05:44:10 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.admin_branch' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:265
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(265): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(245): Reservation->getTodaysReservations(1)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getTodaysReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 265
+[14-Feb-2026 05:51:56 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.admin_branch' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:265
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(265): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(245): Reservation->getTodaysReservations(1)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getTodaysReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 265
+[14-Feb-2026 05:52:00 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.admin_branch' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:265
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(265): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(245): Reservation->getTodaysReservations(1)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getTodaysReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 265
+[14-Feb-2026 05:52:30 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.admin_branch' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:265
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(265): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(245): Reservation->getTodaysReservations(1)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getTodaysReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 265
+[14-Feb-2026 05:52:32 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.admin_branch' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:265
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(265): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(245): Reservation->getTodaysReservations(1)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getTodaysReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 265
+[14-Feb-2026 05:52:38 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.admin_branch' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:265
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(265): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(245): Reservation->getTodaysReservations(1)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getTodaysReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 265
+[14-Feb-2026 05:52:42 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.admin_branch' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:265
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(265): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(245): Reservation->getTodaysReservations(1)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getTodaysReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 265
+[14-Feb-2026 05:52:42 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.admin_branch' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:265
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(265): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(245): Reservation->getTodaysReservations(1)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getTodaysReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 265
+[14-Feb-2026 05:52:43 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.admin_branch' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:265
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(265): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(245): Reservation->getTodaysReservations(1)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getTodaysReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 265
+[14-Feb-2026 05:52:49 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.admin_branch' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:265
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(265): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(245): Reservation->getTodaysReservations(1)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getTodaysReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 265
+[14-Feb-2026 05:52:51 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.admin_branch' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:265
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(265): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(245): Reservation->getTodaysReservations(1)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getTodaysReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 265
+[14-Feb-2026 05:52:52 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.admin_branch' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:265
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(265): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(245): Reservation->getTodaysReservations(1)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getTodaysReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 265
+[14-Feb-2026 05:52:54 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.admin_branch' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:265
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(265): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(245): Reservation->getTodaysReservations(1)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getTodaysReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 265
+[14-Feb-2026 05:52:55 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.admin_branch' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:265
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(265): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(245): Reservation->getTodaysReservations(1)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getTodaysReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 265
+[14-Feb-2026 05:53:01 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.admin_branch' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:265
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(265): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(245): Reservation->getTodaysReservations(1)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getTodaysReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 265
+[14-Feb-2026 06:18:31 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.admin_branch' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:265
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(265): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(245): Reservation->getTodaysReservations(1)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getTodaysReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 265
+[14-Feb-2026 06:20:21 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.admin_branch' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:265
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(265): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(245): Reservation->getTodaysReservations(1)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getTodaysReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 265
+[14-Feb-2026 06:20:27 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.admin_branch' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:265
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(265): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(245): Reservation->getTodaysReservations(1)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getTodaysReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 265
+[14-Feb-2026 06:20:29 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.admin_branch' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:265
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(265): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(245): Reservation->getTodaysReservations(1)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getTodaysReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 265
+[14-Feb-2026 06:21:27 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.admin_branch' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:265
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(265): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(245): Reservation->getTodaysReservations(1)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getTodaysReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 265
+[14-Feb-2026 06:21:35 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.admin_branch' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:265
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(265): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(245): Reservation->getTodaysReservations(1)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getTodaysReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 265
+[14-Feb-2026 06:21:55 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.admin_branch' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:265
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(265): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(245): Reservation->getTodaysReservations(1)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getTodaysReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 265
+[14-Feb-2026 06:25:47 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.admin_branch' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:265
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(265): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(245): Reservation->getTodaysReservations(1)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getTodaysReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 265
+[14-Feb-2026 06:25:54 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.admin_branch' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:265
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(265): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(245): Reservation->getTodaysReservations(1)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getTodaysReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 265
+[14-Feb-2026 06:25:58 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.admin_branch' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:265
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(265): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(245): Reservation->getTodaysReservations(1)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getTodaysReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 265
+[14-Feb-2026 06:26:01 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.admin_branch' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:265
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(265): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(245): Reservation->getTodaysReservations(1)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getTodaysReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 265
+[14-Feb-2026 06:26:05 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.admin_branch' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:265
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(265): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(245): Reservation->getTodaysReservations(1)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getTodaysReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 265
+[14-Feb-2026 06:26:08 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.admin_branch' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:265
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(265): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(245): Reservation->getTodaysReservations(1)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getTodaysReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 265
+[14-Feb-2026 06:33:25 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.admin_branch' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:265
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(265): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(245): Reservation->getTodaysReservations(1)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getTodaysReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 265
+[14-Feb-2026 06:34:28 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.admin_branch' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:265
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(265): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(245): Reservation->getTodaysReservations(1)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getTodaysReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 265
+[14-Feb-2026 07:01:47 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Duplicate entry '1' for key 'reservation_id' in C:\xampp\htdocs\HFABS\backend\app\models\Feedback.php:16
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Feedback.php(16): mysqli_stmt->execute()
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(78): Feedback->submitFeedback(1, 2, '1', '1', 'Good Services')
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->submitFeedback()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Feedback.php on line 16
+[14-Feb-2026 07:17:12 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.admin_branch' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:265
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(265): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(253): Reservation->getTodaysReservations(1)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getTodaysReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 265
+[14-Feb-2026 07:17:20 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.admin_branch' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:265
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(265): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(253): Reservation->getTodaysReservations(1)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getTodaysReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 265
+[14-Feb-2026 07:25:38 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.admin_branch' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:265
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(265): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(253): Reservation->getTodaysReservations(1)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getTodaysReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 265
+[14-Feb-2026 07:31:01 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.admin_branch' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:265
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(265): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(253): Reservation->getTodaysReservations(1)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getTodaysReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 265

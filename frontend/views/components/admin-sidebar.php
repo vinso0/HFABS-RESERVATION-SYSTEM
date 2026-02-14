@@ -9,7 +9,7 @@
             <i class="fas fa-th-large"></i>
             <span>Dashboard</span>
         </a>
-        <a href="#" class="nav-item">
+        <a href="admin-todays-reservations.php" class="nav-item">
             <i class="far fa-clock"></i>
             <span>Today's Reservations</span>
         </a>

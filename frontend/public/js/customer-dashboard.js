@@ -113,11 +113,6 @@ function createReservationCard(reservation) {
                         <span class="detail-label">Remaining Balance</span>
                         <span class="detail-value">${formatPrice(reservation.total_remaining_balance)}</span>
                     </div>
-                    
-                    <div class="detail-item">
-                        <span class="detail-label">Order Status</span>
-                        <span class="detail-value">${capitalize(reservation.order_status || 'pending')}</span>
-                    </div>
                 </div>
             </div>
             
@@ -127,19 +122,39 @@ function createReservationCard(reservation) {
                     View Details
                 </button>
                 
-                ${reservation.status === 'pending' ? `
+                ${reservation.status === 'confirmed' ? `
+                    <button class="action-btn btn-secondary" onclick="openRescheduleModal(${reservation.reservation_id})">
+                        <i class="fas fa-calendar"></i>
+                        Reschedule
+                    </button>
+                    <button class="action-btn btn-secondary" onclick="cancelReservation(${reservation.reservation_id})">
+                        <i class="fas fa-times"></i>
+                        Cancel
+                    </button>
+                ` : ''}
+
+                ${reservation.status === 'rescheduled' ? `
+                    <button class="action-btn btn-secondary" onclick="openRescheduleModal(${reservation.reservation_id})">
+                        <i class="fas fa-calendar"></i>
+                        Reschedule
+                    </button>
                     <button class="action-btn btn-secondary" onclick="cancelReservation(${reservation.reservation_id})">
                         <i class="fas fa-times"></i>
                         Cancel
                     </button>
                 ` : ''}
                 
-                ${reservation.status === 'confirmed' ? `
-                    <button class="action-btn btn-secondary" onclick="rescheduleReservation(${reservation.reservation_id})">
-                        <i class="fas fa-calendar"></i>
-                        Reschedule
+                ${reservation.status === 'completed' ? (reservation.feedback && reservation.feedback.length > 0 ? `
+                    <button class="action-btn btn-secondary" onclick="openViewReviewModal(${reservation.reservation_id})">
+                        <i class="fas fa-eye"></i>
+                        View Review
                     </button>
-                ` : ''}
+                ` : `
+                    <button class="action-btn btn-secondary" onclick="openReviewModal(${reservation.reservation_id})">
+                        <i class="fas fa-star"></i>
+                        Leave Review
+                    </button>
+                `) : ''}
             </div>
         </div>
     `;
@@ -182,10 +197,6 @@ function viewReservationDetails(reservationId) {
                 <span class="modal-detail-label">Service</span>
                 <span class="modal-detail-value">${service.service_name}</span>
             </div>
-            <div class="modal-detail">
-                <span class="modal-detail-label">Price</span>
-                <span class="modal-detail-value">${formatPrice(service.price)}</span>
-            </div>
             ${service.duration_minutes ? `
                 <div class="modal-detail">
                     <span class="modal-detail-label">Duration</span>
@@ -201,50 +212,47 @@ function viewReservationDetails(reservationId) {
     
     const modalBody = document.getElementById('modalBody');
     modalBody.innerHTML = `
-        <div class="modal-detail">
-            <span class="modal-detail-label">Reservation ID</span>
-            <span class="modal-detail-value">${reservation.reservation_id}</span>
-        </div>
-        
-        <div class="modal-detail">
-            <span class="modal-detail-label">Branch</span>
-            <span class="modal-detail-value">${reservation.branch_name}</span>
-        </div>
-        
-        <div class="modal-detail">
-            <span class="modal-detail-label">Date</span>
-            <span class="modal-detail-value">${scheduleDate}</span>
-        </div>
-        
-        ${startTime ? `
+        <div class="modal-grid">
             <div class="modal-detail">
-                <span class="modal-detail-label">Time</span>
-                <span class="modal-detail-value">${startTime} - ${endTime}</span>
+                <span class="modal-detail-label">Reservation ID</span>
+                <span class="modal-detail-value">${reservation.reservation_id}</span>
             </div>
-        ` : ''}
-        
-        <div class="modal-detail">
-            <span class="modal-detail-label">Status</span>
-            <span class="modal-detail-value">
-                <span class="reservation-status ${getStatusBadgeClass(reservation.status)}">
-                    ${capitalize(reservation.status)}
+            
+            <div class="modal-detail">
+                <span class="modal-detail-label">Branch</span>
+                <span class="modal-detail-value">${reservation.branch_name}</span>
+            </div>
+            
+            <div class="modal-detail">
+                <span class="modal-detail-label">Date</span>
+                <span class="modal-detail-value">${scheduleDate}</span>
+            </div>
+            
+            ${startTime ? `
+                <div class="modal-detail">
+                    <span class="modal-detail-label">Time</span>
+                    <span class="modal-detail-value">${startTime} - ${endTime}</span>
+                </div>
+            ` : ''}
+            
+            <div class="modal-detail">
+                <span class="modal-detail-label">Status</span>
+                <span class="modal-detail-value">
+                    <span class="reservation-status ${getStatusBadgeClass(reservation.status)}">
+                        ${capitalize(reservation.status)}
+                    </span>
                 </span>
-            </span>
-        </div>
-        
-        <div class="modal-detail">
-            <span class="modal-detail-label">Total Price</span>
-            <span class="modal-detail-value">${formatPrice(reservation.total_price)}</span>
-        </div>
-        
-        <div class="modal-detail">
-            <span class="modal-detail-label">Remaining Balance</span>
-            <span class="modal-detail-value">${formatPrice(reservation.total_remaining_balance)}</span>
-        </div>
-        
-        <div class="modal-detail">
-            <span class="modal-detail-label">Order Status</span>
-            <span class="modal-detail-value">${capitalize(reservation.order_status || 'pending')}</span>
+            </div>
+            
+            <div class="modal-detail">
+                <span class="modal-detail-label">Total Price</span>
+                <span class="modal-detail-value">${formatPrice(reservation.total_price)}</span>
+            </div>
+            
+            <div class="modal-detail">
+                <span class="modal-detail-label">Remaining Balance</span>
+                <span class="modal-detail-value">${formatPrice(reservation.total_remaining_balance)}</span>
+            </div>
         </div>
         
         <div class="modal-services">
@@ -260,38 +268,291 @@ function viewReservationDetails(reservationId) {
     document.body.style.overflow = 'hidden';
 }
 
-// Function to cancel reservation (placeholder)
-function cancelReservation(reservationId) {
+// Function to cancel reservation
+async function cancelReservation(reservationId) {
     if (confirm('Are you sure you want to cancel this reservation?')) {
-        // TODO: Implement cancel functionality
-        alert('Cancel functionality will be implemented soon');
+        try {
+            const response = await fetch('/HFABS/backend/public/index.php?url=reservation/cancelReservation', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                credentials: 'same-origin',
+                body: JSON.stringify({ reservation_id: reservationId })
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                alert('Reservation cancelled successfully!');
+                // Refresh reservations list
+                location.reload();
+            } else {
+                alert('Failed to cancel reservation: ' + result.message);
+            }
+        } catch (error) {
+            console.error('Error cancelling reservation:', error);
+            alert('Failed to cancel reservation. Please try again.');
+        }
     }
 }
 
-// Function to reschedule reservation (placeholder)
-function rescheduleReservation(reservationId) {
-    // TODO: Implement reschedule functionality
-    alert('Reschedule functionality will be implemented soon');
+// Function to open reschedule modal
+function openRescheduleModal(reservationId) {
+    const reservation = window.currentReservations.find(r => r.reservation_id === reservationId);
+    if (!reservation) {
+        alert('Reservation not found!');
+        return;
+    }
+
+    // Set reservation id in modal
+    document.getElementById('rescheduleReservationId').value = reservationId;
+    
+    // Calculate minimum date (today or later)
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('newDate').min = today;
+    
+    // Show modal
+    document.getElementById('rescheduleModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
 }
 
-// Function to close modal
+// Function to reschedule reservation
+async function rescheduleReservation() {
+    const reservationId = document.getElementById('rescheduleReservationId').value;
+    const newDate = document.getElementById('newDate').value;
+    const newTime = document.getElementById('newTime').value;
+    const reason = document.getElementById('rescheduleReason').value;
+
+    if (!newDate || !newTime) {
+        alert('Please select both date and time');
+        return;
+    }
+
+    try {
+        const response = await fetch('/HFABS/backend/public/index.php?url=reservation/rescheduleReservation', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            credentials: 'same-origin',
+            body: JSON.stringify({
+                reservation_id: reservationId,
+                new_date: newDate,
+                new_time: newTime,
+                reason: reason
+            })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            alert('Reservation rescheduled successfully!');
+            // Close modal and refresh reservations list
+            closeRescheduleModal();
+            location.reload();
+        } else {
+            alert('Failed to reschedule reservation: ' + result.message);
+        }
+    } catch (error) {
+        console.error('Error rescheduling reservation:', error);
+        alert('Failed to reschedule reservation. Please try again.');
+    }
+}
+
+// Function to open review modal
+function openReviewModal(reservationId) {
+    const reservation = window.currentReservations.find(r => r.reservation_id === reservationId);
+    if (!reservation) {
+        alert('Reservation not found!');
+        return;
+    }
+
+    // Set reservation data in modal
+    document.getElementById('reviewReservationId').value = reservationId;
+    document.getElementById('reviewBranchId').value = reservation.branch_id;
+    
+    // Show modal
+    document.getElementById('reviewModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+// Function to submit review
+async function submitReview() {
+    const reservationId = document.getElementById('reviewReservationId').value;
+    const branchId = document.getElementById('reviewBranchId').value;
+    const rating = document.getElementById('reviewRating').value;
+    const comment = document.getElementById('reviewComment').value;
+
+    if (!rating || !comment) {
+        alert('Please provide both rating and comment');
+        return;
+    }
+
+    // Get reservation services to submit feedback for each service
+    const reservation = window.currentReservations.find(r => r.reservation_id === parseInt(reservationId));
+    if (!reservation || reservation.services.length === 0) {
+        alert('No services found for this reservation');
+        return;
+    }
+
+    try {
+        // Submit feedback for each service
+        for (const service of reservation.services) {
+            const response = await fetch('/HFABS/backend/public/index.php?url=reservation/submitFeedback', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                credentials: 'same-origin',
+                body: JSON.stringify({
+                    reservation_service_id: service.reservation_service_id,
+                    branch_id: branchId,
+                    rating: rating,
+                    comment: comment
+                })
+            });
+
+            const result = await response.json();
+
+            if (!result.success) {
+                alert('Failed to submit feedback for service: ' + result.message);
+                return;
+            }
+        }
+
+        alert('Feedback submitted successfully!');
+        // Close modal and refresh reservations list
+        closeReviewModal();
+        location.reload();
+    } catch (error) {
+        console.error('Error submitting feedback:', error);
+        alert('Failed to submit feedback. Please try again.');
+    }
+}
+
+// Function to close reservation modal
 function closeReservationModal() {
     document.getElementById('reservationModal').classList.remove('active');
     document.body.style.overflow = '';
 }
 
+// Make closeReservationModal globally accessible
+window.closeReservationModal = closeReservationModal;
+
+// Function to close reschedule modal
+function closeRescheduleModal() {
+    document.getElementById('rescheduleModal').classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+// Make closeRescheduleModal globally accessible
+window.closeRescheduleModal = closeRescheduleModal;
+// Function to open view review modal
+function openViewReviewModal(reservationId) {
+    const reservation = window.currentReservations.find(r => r.reservation_id === reservationId);
+    if (!reservation) {
+        alert('Reservation not found!');
+        return;
+    }
+
+    // Build review content
+    const reviewBody = document.getElementById('viewReviewBody');
+    if (reservation.feedback && reservation.feedback.length > 0) {
+        // Get average rating
+        const totalRating = reservation.feedback.reduce((sum, feedback) => sum + parseInt(feedback.rating), 0);
+        const averageRating = totalRating / reservation.feedback.length;
+        
+        // Create stars display
+        const fullStars = Math.floor(averageRating);
+        const hasHalfStar = averageRating % 1 >= 0.5;
+        let starsHtml = '';
+        
+        for (let i = 1; i <= 5; i++) {
+            if (i <= fullStars) {
+                starsHtml += '★'; // Full star
+            } else if (i === fullStars + 1 && hasHalfStar) {
+                starsHtml += '☆'; // Half star (we'll use CSS to style)
+            } else {
+                starsHtml += '☆'; // Empty star
+            }
+        }
+
+        // Display all feedback comments
+        const commentsHtml = reservation.feedback.map(feedback => `
+            <div class="review-comment">
+                <div class="review-rating">${'★'.repeat(feedback.rating)}${'☆'.repeat(5 - feedback.rating)}</div>
+                <div class="review-text">${feedback.comment}</div>
+                <div class="review-date">${new Date(feedback.created_at).toLocaleDateString()}</div>
+            </div>
+        `).join('');
+
+        reviewBody.innerHTML = `
+            <div class="review-summary">
+                <div class="average-rating">
+                    <span class="rating-number">${averageRating.toFixed(1)}</span>
+                    <span class="display-stars">${starsHtml}</span>
+                </div>
+                <div class="review-count">${reservation.feedback.length} Review${reservation.feedback.length > 1 ? 's' : ''}</div>
+            </div>
+            <div class="review-comments">
+                ${commentsHtml}
+            </div>
+        `;
+    } else {
+        reviewBody.innerHTML = `
+            <div class="no-review">
+                <i class="fas fa-star"></i>
+                <p>No review has been submitted for this reservation.</p>
+            </div>
+        `;
+    }
+
+    // Show modal
+    document.getElementById('viewReviewModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+// Function to close view review modal
+function closeViewReviewModal() {
+    document.getElementById('viewReviewModal').classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+// Function to close review modal
+function closeReviewModal() {
+    document.getElementById('reviewModal').classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+// Make functions globally accessible
+window.closeReviewModal = closeReviewModal;
+window.openViewReviewModal = openViewReviewModal;
+window.closeViewReviewModal = closeViewReviewModal;
+
+
 // Close modal when clicking outside
 document.addEventListener('click', function(event) {
-    const modal = document.getElementById('reservationModal');
-    if (event.target === modal) {
-        closeReservationModal();
-    }
+    const modals = document.querySelectorAll('.modal');
+    modals.forEach(modal => {
+        if (event.target === modal) {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
 });
 
 // Close modal with Escape key
 document.addEventListener('keydown', function(event) {
     if (event.key === 'Escape') {
-        closeReservationModal();
+        const activeModal = document.querySelector('.modal.active');
+        if (activeModal) {
+            activeModal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
     }
 });
 

@@ -42,9 +42,12 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   
   // Close modal when X is clicked
-  if (closeBtn) {
-    closeBtn.addEventListener('click', window.closeModal);
-  }
+if (closeBtn) {
+  closeBtn.addEventListener('click', function() {
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+  });
+}
   
   // Close modal when clicking outside
   window.addEventListener('click', function(event) {

@@ -134,8 +134,8 @@ if (!isset($_SESSION['user_id'])) {
         <h4>Quick Links</h4>
         <a href="#home">Home</a>
         <a href="#services">Services</a>
-        <a href="./customer-dashboard.html">My Reservations</a>
-        <a href="./customer-profile.html">Profile</a>
+        <a href="./customer-dashboard.php">My Reservations</a>
+        <a href="./customer-profile.php">Profile</a>
       </div>
 
       <div class="footer-section">

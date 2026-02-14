@@ -35,4 +35,16 @@ class User extends Database
 
         return $stmt->get_result()->fetch_assoc();
     }
+
+    // GET USER BY ID
+    public function getUserById($userId)
+    {
+        $stmt = $this->db->prepare(
+            "SELECT * FROM users WHERE user_id = ?"
+        );
+        $stmt->bind_param("i", $userId);
+        $stmt->execute();
+
+        return $stmt->get_result()->fetch_assoc();
+    }
 }

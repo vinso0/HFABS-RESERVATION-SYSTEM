@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 07, 2026 at 03:19 PM
+-- Generation Time: Feb 14, 2026 at 07:58 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -58,7 +58,7 @@ CREATE TABLE `branch` (
   `closing_time` time NOT NULL,
   `down_payment_rate` decimal(5,4) NOT NULL,
   `email` varchar(255) NOT NULL,
-  `status` varchar(20) NOT NULL
+  `status` enum('active','inactive') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -66,8 +66,8 @@ CREATE TABLE `branch` (
 --
 
 INSERT INTO `branch` (`branch_id`, `branch_name`, `branch_location`, `contact_number`, `opening_time`, `closing_time`, `down_payment_rate`, `email`, `status`) VALUES
-(1, 'caloocan', '102 Caimito Rd., Caloocan City, Unit 1D, Caimito Place', '09054543104', '10:00:00', '21:00:00', 9.9999, '', ''),
-(2, 'qc', '850 Atherton, Quezon City', '0946 178 23', '08:00:00', '00:00:00', 0.0000, '', '');
+(1, 'caloocan branch', '102 Caimito Rd., Caloocan City, Unit 1D, Caimito Place', '09054543104', '10:00:00', '21:00:00', 0.5000, 'hfabscal@gmail.com', 'active'),
+(2, 'quezon city branch', '850 Atherton, Quezon City', '0946 178 23', '08:00:00', '20:00:00', 0.5000, 'hfabsqc@gmail.com', 'active');
 
 -- --------------------------------------------------------
 
@@ -92,7 +92,7 @@ CREATE TABLE `branch_category_overrides` (
 --
 
 INSERT INTO `branch_category_overrides` (`branch_category_override_id`, `branch_id`, `default_category_id`, `display_name`, `description_override`, `capacity_override`, `is_active_override`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, NULL, NULL, NULL, NULL, '2026-02-07 06:29:09', '2026-02-07 06:29:09'),
+(1, 1, 1, NULL, NULL, 5, NULL, '2026-02-07 06:29:09', '2026-02-07 14:41:00'),
 (2, 2, 1, NULL, NULL, NULL, NULL, '2026-02-07 06:29:09', '2026-02-07 06:29:09'),
 (3, 1, 2, NULL, NULL, NULL, NULL, '2026-02-07 06:29:09', '2026-02-07 06:29:09'),
 (4, 2, 2, NULL, NULL, NULL, NULL, '2026-02-07 06:29:09', '2026-02-07 06:29:09'),
@@ -125,13 +125,13 @@ CREATE TABLE `branch_service_overrides` (
 --
 
 INSERT INTO `branch_service_overrides` (`branch_service_override_id`, `branch_id`, `default_service_id`, `display_name`, `description_override`, `duration_minutes_override`, `price_override`, `is_available_override`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
+(1, 1, 1, 'Hair Spa Treatment', 'Deep conditioning hair treatment', 60, 800.00, 1, '2026-02-07 06:27:40', '2026-02-14 06:13:28'),
 (2, 2, 1, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
 (3, 1, 2, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
 (4, 2, 2, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
-(5, 1, 7, NULL, NULL, NULL, NULL, 0, '2026-02-07 06:27:40', '2026-02-07 06:30:21'),
+(5, 1, 7, 'Keratin Treatment', 'Smoothing keratin therapy', 90, 4500.00, 0, '2026-02-07 06:27:40', '2026-02-14 06:16:29'),
 (6, 2, 7, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
-(7, 1, 8, NULL, NULL, NULL, NULL, 0, '2026-02-07 06:27:40', '2026-02-07 06:30:21'),
+(7, 1, 8, 'Hair Botox', 'Deep repair treatment', 120, 3800.00, 1, '2026-02-07 06:27:40', '2026-02-13 05:44:25'),
 (8, 2, 8, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
 (9, 1, 9, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
 (10, 2, 9, NULL, NULL, NULL, NULL, 0, '2026-02-07 06:27:40', '2026-02-07 06:30:39'),
@@ -145,7 +145,6 @@ INSERT INTO `branch_service_overrides` (`branch_service_override_id`, `branch_id
 (18, 2, 4, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
 (19, 1, 5, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
 (20, 2, 5, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
-(21, 1, 6, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
 (22, 2, 6, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40');
 
 -- --------------------------------------------------------
@@ -226,7 +225,7 @@ CREATE TABLE `feedback` (
 --
 
 INSERT INTO `feedback` (`feedback_id`, `reservation_service_id`, `user_id`, `branch_id`, `rating`, `comment`, `created_at`, `updated_at`) VALUES
-(1, 1, 2, 1, 5, 'good good good', '2026-01-09 11:40:45', '2026-01-31 17:59:05');
+(1, 1, 2, 1, 1, 'Good service', '2026-01-09 11:40:45', '2026-02-14 14:10:59');
 
 -- --------------------------------------------------------
 
@@ -267,8 +266,8 @@ CREATE TABLE `reservations` (
   `user_id` int(11) NOT NULL,
   `branch_id` int(11) NOT NULL,
   `reservation_date` date NOT NULL,
-  `total_price` decimal(6,2) NOT NULL,
-  `status` enum('pending_payment','confirmed','completed','rescheduled','cancelled') NOT NULL,
+  `total_price` decimal(10,2) NOT NULL,
+  `status` enum('confirmed','no-show','completed','rescheduled','cancelled') NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -277,7 +276,10 @@ CREATE TABLE `reservations` (
 --
 
 INSERT INTO `reservations` (`reservation_id`, `user_id`, `branch_id`, `reservation_date`, `total_price`, `status`, `created_at`) VALUES
-(1, 2, 1, '2026-01-09', 0.00, 'confirmed', '2026-01-09 11:42:11');
+(1, 2, 1, '2026-01-09', 1600.00, 'cancelled', '2026-01-09 11:42:11'),
+(2, 6, 1, '2026-02-14', 750.00, 'confirmed', '2026-02-13 16:40:37'),
+(3, 2, 1, '2026-02-14', 750.00, 'completed', '2026-02-14 02:54:38'),
+(4, 2, 1, '2026-02-13', 350.00, 'confirmed', '2026-02-14 06:06:27');
 
 -- --------------------------------------------------------
 
@@ -286,16 +288,25 @@ INSERT INTO `reservations` (`reservation_id`, `user_id`, `branch_id`, `reservati
 --
 
 CREATE TABLE `reservation_schedule` (
-  `schedule_id` int(11) NOT NULL,
+  `reservation_schedule_id` int(11) NOT NULL,
   `reservation_service_id` int(11) NOT NULL,
   `schedule_date` date NOT NULL,
   `start_time` time NOT NULL,
   `end_time` time NOT NULL,
-  `schedule_status` varchar(30) NOT NULL,
-  `is_rescheduled` tinyint(1) NOT NULL,
-  `previous_schedule_id` int(11) NOT NULL,
-  `reschedule_reason` text NOT NULL
+  `is_rescheduled` tinyint(1) DEFAULT NULL,
+  `previous_schedule_id` int(11) DEFAULT NULL,
+  `reschedule_reason` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `reservation_schedule`
+--
+
+INSERT INTO `reservation_schedule` (`reservation_schedule_id`, `reservation_service_id`, `schedule_date`, `start_time`, `end_time`, `is_rescheduled`, `previous_schedule_id`, `reschedule_reason`) VALUES
+(2, 1, '2026-01-20', '14:00:00', '15:00:00', NULL, NULL, NULL),
+(3, 2, '2026-02-16', '14:00:00', '15:00:00', NULL, NULL, NULL),
+(4, 3, '2026-02-14', '16:00:00', '17:00:00', NULL, NULL, NULL),
+(5, 4, '2026-02-16', '10:00:00', '11:00:00', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -321,7 +332,10 @@ CREATE TABLE `reservation_services` (
 --
 
 INSERT INTO `reservation_services` (`reservation_service_id`, `reservation_id`, `default_service_id`, `branch_service_override_id`, `remaining_balance`, `booked_service_name`, `booked_description`, `booked_duration_minutes`, `booked_unit_price`, `booked_category_name`) VALUES
-(1, 1, 11, NULL, 999.99, 'Aromatherapy Massage', 'Essential oil massage therapy', 0, 1600.00, 'massage');
+(1, 1, 11, NULL, 800.00, 'Aromatherapy Massage', 'Essential oil massage therapy', 60, 1600.00, 'massage'),
+(2, 2, 1, 1, 375.00, 'Hair Spa Treatment', 'Deep conditioning hair treatment', 60, 750.00, 'hair'),
+(3, 3, 1, 1, 375.00, 'Hair Spa Treatment', 'Deep conditioning hair treatment', 60, 750.00, 'hair'),
+(4, 4, 3, NULL, 125.00, 'Classic Manicure', 'Basic nail care and polish', 60, 350.00, 'nail');
 
 -- --------------------------------------------------------
 
@@ -351,7 +365,8 @@ INSERT INTO `users` (`user_id`, `username`, `email`, `contact_number`, `password
 (2, 'customer', 'cus@cus', '', '$2y$10$0LuBPG.O6c6cAEuQSftB6evQcj05FpLu955hneNKqwtwE7tiN4RHy', 'customer', NULL, 1, NULL, '2026-01-09 11:43:23'),
 (3, 'superadmin', 'super@super', '', '$2y$10$I1.9ERjHmtwVbWKKA.5s5eS0nmxIt7lccNII7hTCPgmkc1U9fJd1C', 'superadmin', NULL, 1, NULL, '2026-01-16 02:38:57'),
 (4, 'kier', 'kier@kier', '123456789', '$2y$10$Gt/Eb/Wbx0D3ClCzf/Qqx.nv.bisN7Chveadx5Vhk354vBVEwPzx6', 'customer', NULL, 1, NULL, '2026-01-17 07:32:57'),
-(5, 'Kierloyd Vince Schofield', 'kier@email', '912345789', '$2y$10$zbOE4cRMEc4TOOsRE/.gae4eZKrbAl8.XwkLjUWVwZUmTT9gJ173.', 'customer', NULL, 1, NULL, '2026-01-17 08:34:32');
+(5, 'Kierloyd Vince Schofield', 'kier@email', '912345789', '$2y$10$zbOE4cRMEc4TOOsRE/.gae4eZKrbAl8.XwkLjUWVwZUmTT9gJ173.', 'customer', NULL, 1, NULL, '2026-01-17 08:34:32'),
+(6, 'vin', 'vin@gmail.com', '09103452674', '$2y$10$xeMnSgBQR2O7VWYNoCXDkuJCiKC1buOj2R9QQjkpwhguHC2czkXvG', 'customer', NULL, 1, NULL, '2026-02-13 16:39:27');
 
 --
 -- Indexes for dumped tables
@@ -429,7 +444,7 @@ ALTER TABLE `reservations`
 -- Indexes for table `reservation_schedule`
 --
 ALTER TABLE `reservation_schedule`
-  ADD PRIMARY KEY (`schedule_id`),
+  ADD PRIMARY KEY (`reservation_schedule_id`),
   ADD KEY `prev_sched` (`previous_schedule_id`),
   ADD KEY `res_service` (`reservation_service_id`);
 
@@ -495,7 +510,7 @@ ALTER TABLE `default_services_categories`
 -- AUTO_INCREMENT for table `feedback`
 --
 ALTER TABLE `feedback`
-  MODIFY `feedback_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `feedback_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `payments`
@@ -507,25 +522,25 @@ ALTER TABLE `payments`
 -- AUTO_INCREMENT for table `reservations`
 --
 ALTER TABLE `reservations`
-  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `reservation_schedule`
 --
 ALTER TABLE `reservation_schedule`
-  MODIFY `schedule_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `reservation_schedule_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `reservation_services`
 --
 ALTER TABLE `reservation_services`
-  MODIFY `reservation_service_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `reservation_service_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Constraints for dumped tables
@@ -583,7 +598,7 @@ ALTER TABLE `reservations`
 -- Constraints for table `reservation_schedule`
 --
 ALTER TABLE `reservation_schedule`
-  ADD CONSTRAINT `prev_sched` FOREIGN KEY (`previous_schedule_id`) REFERENCES `reservation_schedule` (`schedule_id`),
+  ADD CONSTRAINT `prev_sched` FOREIGN KEY (`previous_schedule_id`) REFERENCES `reservation_schedule` (`reservation_schedule_id`),
   ADD CONSTRAINT `res_service` FOREIGN KEY (`reservation_service_id`) REFERENCES `reservation_services` (`reservation_service_id`);
 
 --

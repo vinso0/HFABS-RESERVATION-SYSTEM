@@ -1,3 +1,12 @@
+<?php
+require_once __DIR__ . '/../../backend/app/core/init.php';
+
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'customer') {
+  header("Location: customer-login.html");
+  exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 

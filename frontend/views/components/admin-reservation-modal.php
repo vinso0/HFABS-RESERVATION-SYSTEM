@@ -39,10 +39,6 @@
                     <label>Time</label>
                     <p id="modalTime">-</p>
                 </div>
-                <div class="detail-group">
-                    <label>Price</label>
-                    <p id="modalPrice" class="price-text">-</p>
-                </div>
             </div>
 
             <div class="modal-section">
