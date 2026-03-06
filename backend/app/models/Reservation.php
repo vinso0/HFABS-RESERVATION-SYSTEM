@@ -2,6 +2,14 @@
 
 class Reservation extends Database
 {
+
+    public function confirmReservation($reservationId) {
+    // Assuming you have a database connection property like $this->db
+    $query = "UPDATE reservations SET status = 'confirmed' WHERE reservation_id = ?";
+    $stmt = $this->db->prepare($query);
+    $stmt->bind_param("s", $reservationId);
+    return $stmt->execute();
+}
     public function getReservationsByUserId($userId)
     {
         $query = "
@@ -272,7 +280,7 @@ class Reservation extends Database
 
     public function getTodaysReservations($userId)
     {
-        // First, get the branch associated with the admin user
+        // First, get the branch associated with the admin user (if admin_branch table exists)
         $branchQuery = "
             SELECT b.branch_id, b.branch_name
             FROM users u
@@ -281,13 +289,28 @@ class Reservation extends Database
             WHERE u.user_id = ?
         ";
         
-        $branchStmt = $this->db->prepare($branchQuery);
+        try {
+            $branchStmt = $this->db->prepare($branchQuery);
+            
+            if (!$branchStmt) {
+                // Table doesn't exist - treat as superadmin, show all today's reservations
+                error_log('admin_branch table does not exist in getTodaysReservations');
+                return $this->getTodaysReservationsSuperadmin();
+            }
+        } catch (Exception $e) {
+            // Table doesn't exist or other error - treat as superadmin
+            error_log('Exception in getTodaysReservations: ' . $e->getMessage());
+            return $this->getTodaysReservationsSuperadmin();
+        }
+        
         $branchStmt->bind_param('i', $userId);
         $branchStmt->execute();
         $branchResult = $branchStmt->get_result();
         
         if (!$branchResult || $branchResult->num_rows === 0) {
-            return [];
+            error_log('No branch found for user_id in getTodaysReservations: ' . $userId);
+            // No branch assigned - treat as superadmin
+            return $this->getTodaysReservationsSuperadmin();
         }
         
         $branch = $branchResult->fetch_assoc();
@@ -308,10 +331,13 @@ class Reservation extends Database
                 u.contact_number as customer_contact
             FROM reservations r
             JOIN users u ON r.user_id = u.user_id
+            JOIN reservation_services rs ON r.reservation_id = rs.reservation_id
+            JOIN reservation_schedule rsch ON rs.reservation_service_id = rsch.reservation_service_id
             WHERE r.branch_id = ?
-                AND DATE(r.reservation_date) = ?
+                AND DATE(rsch.schedule_date) = ?
                 AND r.status = 'confirmed'
-            ORDER BY r.reservation_date ASC
+            GROUP BY r.reservation_id
+            ORDER BY rsch.schedule_date ASC, rsch.start_time ASC
         ";
         
         $stmt = $this->db->prepare($query);
@@ -384,6 +410,410 @@ class Reservation extends Database
         return $reservations;
     }
 
+    // Superadmin method to get today's reservations across all branches
+    private function getTodaysReservationsSuperadmin()
+    {
+        // Get today's date
+        $today = date('Y-m-d');
+        
+        // Get all confirmed reservations for today across all branches
+        $query = "
+            SELECT
+                r.reservation_id,
+                r.reservation_date,
+                r.status,
+                r.total_price,
+                r.branch_id,
+                u.username as customer_name,
+                u.email as customer_email,
+                u.contact_number as customer_contact,
+                b.branch_name
+            FROM reservations r
+            JOIN users u ON r.user_id = u.user_id
+            JOIN reservation_services rs ON r.reservation_id = rs.reservation_id
+            JOIN reservation_schedule rsch ON rs.reservation_service_id = rsch.reservation_service_id
+            LEFT JOIN branch b ON r.branch_id = b.branch_id
+            WHERE DATE(rsch.schedule_date) = ?
+                AND r.status = 'confirmed'
+            GROUP BY r.reservation_id
+            ORDER BY rsch.schedule_date ASC, rsch.start_time ASC
+        ";
+        
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('s', $today);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        $reservations = [];
+        
+        while ($row = $result->fetch_assoc()) {
+            // Get services for each reservation
+            $servicesQuery = "
+                SELECT
+                    rs.reservation_service_id,
+                    rs.booked_service_name as service_name,
+                    rs.booked_unit_price as price,
+                    rs.booked_duration_minutes as duration_minutes,
+                    rs.booked_category_name as category_name,
+                    rs.booked_description as description
+                FROM reservation_services rs
+                WHERE rs.reservation_id = ?
+            ";
+            
+            $servicesStmt = $this->db->prepare($servicesQuery);
+            $servicesStmt->bind_param('i', $row['reservation_id']);
+            $servicesStmt->execute();
+            $servicesResult = $servicesStmt->get_result();
+            
+            $services = [];
+            while ($serviceRow = $servicesResult->fetch_assoc()) {
+                $services[] = $serviceRow;
+            }
+            
+            // Get schedule information
+            $scheduleQuery = "
+                SELECT
+                    rs.schedule_date,
+                    rs.start_time,
+                    rs.end_time
+                FROM reservation_schedule rs
+                LEFT JOIN reservation_services rsv ON rs.reservation_service_id = rsv.reservation_service_id
+                WHERE rsv.reservation_id = ?
+            ";
+            
+            $scheduleStmt = $this->db->prepare($scheduleQuery);
+            $scheduleStmt->bind_param('i', $row['reservation_id']);
+            $scheduleStmt->execute();
+            $scheduleResult = $scheduleStmt->get_result();
+            
+            $schedule = null;
+            if ($scheduleRow = $scheduleResult->fetch_assoc()) {
+                $schedule = $scheduleRow;
+            }
+            
+            $reservations[] = [
+                'reservation_id' => $row['reservation_id'],
+                'reservation_date' => $row['reservation_date'],
+                'status' => $row['status'],
+                'total_price' => $row['total_price'],
+                'customer_name' => $row['customer_name'],
+                'customer_email' => $row['customer_email'],
+                'customer_contact' => $row['customer_contact'],
+                'branch_name' => $row['branch_name'],
+                'branch_id' => $row['branch_id'],
+                'services' => $services,
+                'schedule' => $schedule
+            ];
+        }
+        
+        return $reservations;
+    }
+
+    public function getAllReservations($userId, $status = 'all', $page = 1, $itemsPerPage = 10)
+    {
+        // First, get the branch associated with the admin user (if admin_branch table exists)
+        $branchQuery = "
+            SELECT b.branch_id, b.branch_name
+            FROM users u
+            JOIN admin_branch ab ON u.user_id = ab.user_id
+            JOIN branch b ON ab.branch_id = b.branch_id
+            WHERE u.user_id = ?
+        ";
+        
+        try {
+            $branchStmt = $this->db->prepare($branchQuery);
+            
+            if (!$branchStmt) {
+                // Table doesn't exist - treat as superadmin, show all reservations
+                error_log('admin_branch table does not exist, showing all reservations');
+                return $this->getAllReservationsSuperadmin($status, $page, $itemsPerPage);
+            }
+        } catch (Exception $e) {
+            // Table doesn't exist or other error - treat as superadmin
+            error_log('Exception in getAllReservations: ' . $e->getMessage());
+            return $this->getAllReservationsSuperadmin($status, $page, $itemsPerPage);
+        }
+        
+        $branchStmt->bind_param('i', $userId);
+        $branchStmt->execute();
+        $branchResult = $branchStmt->get_result();
+        
+        if (!$branchResult || $branchResult->num_rows === 0) {
+            error_log('No branch found for user_id: ' . $userId);
+            // No branch assigned - treat as superadmin
+            return $this->getAllReservationsSuperadmin($status, $page, $itemsPerPage);
+        }
+        
+        $branch = $branchResult->fetch_assoc();
+        $branchId = $branch['branch_id'];
+        $branchName = $branch['branch_name'];
+        
+        // Build the base query
+        $whereClause = "r.branch_id = ?";
+        $params = [$branchId];
+        $types = 'i';
+        
+        // Add status filter
+        if ($status !== 'all' && in_array($status, ['confirmed', 'completed', 'cancelled', 'rescheduled', 'no-show'])) {
+            $whereClause .= " AND r.status = ?";
+            $params[] = $status;
+            $types .= 's';
+        }
+        
+        // Get total count
+        $countQuery = "
+            SELECT COUNT(*) as total
+            FROM reservations r
+            WHERE $whereClause
+        ";
+        
+        $countStmt = $this->db->prepare($countQuery);
+        $countStmt->bind_param($types, ...$params);
+        $countStmt->execute();
+        $countResult = $countStmt->get_result();
+        $countRow = $countResult->fetch_assoc();
+        $total = $countRow['total'];
+        
+        // Calculate offset
+        $offset = ($page - 1) * $itemsPerPage;
+        
+        // Get reservations with pagination
+        $query = "
+            SELECT
+                r.reservation_id,
+                r.reservation_date,
+                r.status,
+                r.total_price,
+                r.created_at,
+                u.username as customer_name,
+                u.email as customer_email,
+                u.contact_number as customer_contact
+            FROM reservations r
+            JOIN users u ON r.user_id = u.user_id
+            WHERE $whereClause
+            ORDER BY r.reservation_date DESC, r.created_at DESC
+            LIMIT ? OFFSET ?
+        ";
+        
+        $params[] = $itemsPerPage;
+        $params[] = $offset;
+        $types .= 'ii';
+        
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param($types, ...$params);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        $reservations = [];
+        
+        while ($row = $result->fetch_assoc()) {
+            // Get services for each reservation
+            $servicesQuery = "
+                SELECT
+                    rs.reservation_service_id,
+                    rs.booked_service_name as service_name,
+                    rs.booked_unit_price as price,
+                    rs.booked_duration_minutes as duration_minutes,
+                    rs.booked_category_name as category_name,
+                    rs.booked_description as description
+                FROM reservation_services rs
+                WHERE rs.reservation_id = ?
+            ";
+            
+            $servicesStmt = $this->db->prepare($servicesQuery);
+            $servicesStmt->bind_param('i', $row['reservation_id']);
+            $servicesStmt->execute();
+            $servicesResult = $servicesStmt->get_result();
+            
+            $services = [];
+            while ($serviceRow = $servicesResult->fetch_assoc()) {
+                $services[] = $serviceRow;
+            }
+            
+            // Get schedule information
+            $scheduleQuery = "
+                SELECT 
+                    rs.schedule_date,
+                    rs.start_time,
+                    rs.end_time
+                FROM reservation_schedule rs
+                LEFT JOIN reservation_services rsv ON rs.reservation_service_id = rsv.reservation_service_id
+                WHERE rsv.reservation_id = ?
+                ORDER BY rs.schedule_date ASC, rs.start_time ASC
+                LIMIT 1
+            ";
+            
+            $scheduleStmt = $this->db->prepare($scheduleQuery);
+            $scheduleStmt->bind_param('i', $row['reservation_id']);
+            $scheduleStmt->execute();
+            $scheduleResult = $scheduleStmt->get_result();
+            
+            $schedule = null;
+            if ($scheduleRow = $scheduleResult->fetch_assoc()) {
+                $schedule = $scheduleRow;
+            }
+            
+            $reservations[] = [
+                'reservation_id' => $row['reservation_id'],
+                'reservation_date' => $row['reservation_date'],
+                'start_time' => $schedule['start_time'] ?? null,
+                'end_time' => $schedule['end_time'] ?? null,
+                'status' => $row['status'],
+                'total_price' => $row['total_price'],
+                'created_at' => $row['created_at'],
+                'customer_name' => $row['customer_name'],
+                'customer_email' => $row['customer_email'],
+                'customer_contact' => $row['customer_contact'],
+                'branch_name' => $branch['branch_name'],
+                'services' => $services,
+                'schedule' => $schedule
+            ];
+        }
+        
+        return [
+            'reservations' => $reservations,
+            'total' => $total,
+            'branch_name' => $branchName ?? null
+        ];
+    }
+
+    // Superadmin method to get all reservations across all branches
+    private function getAllReservationsSuperadmin($status = 'all', $page = 1, $itemsPerPage = 10)
+    {
+        // Build the base query - no branch filter
+        $whereClause = "1=1";
+        $params = [];
+        $types = '';
+        
+        // Add status filter
+        if ($status !== 'all' && in_array($status, ['confirmed', 'completed', 'cancelled', 'rescheduled', 'no-show'])) {
+            $whereClause .= " AND r.status = ?";
+            $params[] = $status;
+            $types .= 's';
+        }
+        
+        // Get total count
+        $countQuery = "
+            SELECT COUNT(*) as total
+            FROM reservations r
+            WHERE $whereClause
+        ";
+        
+        $countStmt = $this->db->prepare($countQuery);
+        if (!empty($params)) {
+            $countStmt->bind_param($types, ...$params);
+        }
+        $countStmt->execute();
+        $countResult = $countStmt->get_result();
+        $countRow = $countResult->fetch_assoc();
+        $total = $countRow['total'];
+        
+        // Calculate offset
+        $offset = ($page - 1) * $itemsPerPage;
+        
+        // Get reservations with pagination
+        $query = "
+            SELECT
+                r.reservation_id,
+                r.reservation_date,
+                r.status,
+                r.total_price,
+                r.created_at,
+                r.branch_id,
+                u.username as customer_name,
+                u.email as customer_email,
+                u.contact_number as customer_contact,
+                b.branch_name
+            FROM reservations r
+            JOIN users u ON r.user_id = u.user_id
+            LEFT JOIN branch b ON r.branch_id = b.branch_id
+            WHERE $whereClause
+            ORDER BY r.reservation_date DESC, r.created_at DESC
+            LIMIT ? OFFSET ?
+        ";
+        
+        $params[] = $itemsPerPage;
+        $params[] = $offset;
+        $types .= 'ii';
+        
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param($types, ...$params);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        $reservations = [];
+        
+        while ($row = $result->fetch_assoc()) {
+            // Get services for each reservation
+            $servicesQuery = "
+                SELECT
+                    rs.reservation_service_id,
+                    rs.booked_service_name as service_name,
+                    rs.booked_unit_price as price,
+                    rs.booked_duration_minutes as duration_minutes,
+                    rs.booked_category_name as category_name,
+                    rs.booked_description as description
+                FROM reservation_services rs
+                WHERE rs.reservation_id = ?
+            ";
+            
+            $servicesStmt = $this->db->prepare($servicesQuery);
+            $servicesStmt->bind_param('i', $row['reservation_id']);
+            $servicesStmt->execute();
+            $servicesResult = $servicesStmt->get_result();
+            
+            $services = [];
+            while ($serviceRow = $servicesResult->fetch_assoc()) {
+                $services[] = $serviceRow;
+            }
+            
+            // Get schedule information
+            $scheduleQuery = "
+                SELECT 
+                    rs.schedule_date,
+                    rs.start_time,
+                    rs.end_time
+                FROM reservation_schedule rs
+                LEFT JOIN reservation_services rsv ON rs.reservation_service_id = rsv.reservation_service_id
+                WHERE rsv.reservation_id = ?
+                ORDER BY rs.schedule_date ASC, rs.start_time ASC
+                LIMIT 1
+            ";
+            
+            $scheduleStmt = $this->db->prepare($scheduleQuery);
+            $scheduleStmt->bind_param('i', $row['reservation_id']);
+            $scheduleStmt->execute();
+            $scheduleResult = $scheduleStmt->get_result();
+            
+            $schedule = null;
+            if ($scheduleRow = $scheduleResult->fetch_assoc()) {
+                $schedule = $scheduleRow;
+            }
+            
+            $reservations[] = [
+                'reservation_id' => $row['reservation_id'],
+                'reservation_date' => $row['reservation_date'],
+                'start_time' => $schedule['start_time'] ?? null,
+                'end_time' => $schedule['end_time'] ?? null,
+                'status' => $row['status'],
+                'total_price' => $row['total_price'],
+                'created_at' => $row['created_at'],
+                'customer_name' => $row['customer_name'],
+                'customer_email' => $row['customer_email'],
+                'customer_contact' => $row['customer_contact'],
+                'branch_name' => $row['branch_name'],
+                'services' => $services,
+                'schedule' => $schedule
+            ];
+        }
+        
+        return [
+            'reservations' => $reservations,
+            'total' => $total,
+            'branch_name' => 'All Branches'
+        ];
+    }
+
     public function updateReservationStatus($reservationId, $status)
     {
         // Validate status
@@ -402,5 +832,42 @@ class Reservation extends Database
         $stmt->bind_param('si', $status, $reservationId);
         
         return $stmt->execute();
+    }
+
+    public function insertReservation($userId, $branchId, $totalPrice, $status = 'pending')
+    {
+        $query = "
+            INSERT INTO reservations (user_id, branch_id, total_price, status, reservation_date, created_at) 
+            VALUES (?, ?, ?, ?, CURDATE(), NOW())
+        ";
+        
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('iids', $userId, $branchId, $totalPrice, $status);
+        
+        if ($stmt->execute()) {
+            return $stmt->insert_id;
+        }
+        
+        error_log("DB Error in insertReservation: " . $stmt->error);
+        return false;
+    }
+
+    public function getReservationById($reservationId)
+    {
+        $query = "
+            SELECT r.*, u.username as customer_name, u.email as customer_email, 
+                   b.branch_name, b.branch_location
+            FROM reservations r
+            LEFT JOIN users u ON r.user_id = u.user_id
+            LEFT JOIN branch b ON r.branch_id = b.branch_id
+            WHERE r.reservation_id = ?
+        ";
+        
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', $reservationId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        return $result->fetch_assoc();
     }
 }

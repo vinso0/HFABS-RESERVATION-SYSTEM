@@ -2,6 +2,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Fetch real data from API
     fetchTodaysReservations();
 
+    // Set up auto-refresh for real-time data (every 30 seconds)
+    setInterval(fetchTodaysReservations, 30000);
+
     // Set active sidebar item
     const currentPage = window.location.pathname.split('/').pop();
     const navItems = document.querySelectorAll('.sidebar-nav .nav-item');
@@ -19,7 +22,16 @@ document.addEventListener('DOMContentLoaded', function() {
 // Fetch today's reservations from backend API
 async function fetchTodaysReservations() {
     try {
-        const response = await fetch('../../backend/public/index.php?url=reservation/getTodaysReservations');
+        const response = await fetch('../../backend/public/index.php?url=reservation/getTodaysReservations', {
+            credentials: 'same-origin'
+        });
+        
+        // Check if unauthorized (session expired or not logged in)
+        if (response.status === 401) {
+            console.error('Unauthorized - please log in as admin. Check console for details.');
+            alert('Session expired or not authorized. Please log in again.');
+            return;
+        }
         
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -184,31 +196,6 @@ function getSampleReservations() {
     ];
 }
 
-// Render reservations
-function renderReservations(reservations) {
-    const reservationsContainer = document.getElementById('reservationsContainer');
-    const noReservations = document.getElementById('noReservations');
-
-    // Sort reservations by start time
-    const sortedReservations = [...reservations].sort((a, b) => {
-        const timeA = parseTime(a.schedule?.start_time || '00:00:00');
-        const timeB = parseTime(b.schedule?.start_time || '00:00:00');
-        return timeA - timeB;
-    });
-
-    if (sortedReservations.length === 0) {
-        noReservations.style.display = 'block';
-        reservationsContainer.innerHTML = '';
-    } else {
-        noReservations.style.display = 'none';
-        reservationsContainer.innerHTML = '';
-        sortedReservations.forEach(reservation => {
-            const card = createReservationCard(reservation);
-            reservationsContainer.appendChild(card);
-        });
-    }
-}
-
 // Parse time string to minutes for sorting
 function parseTime(timeStr) {
     const [hours, minutes] = timeStr.split(':').map(Number);
@@ -239,9 +226,7 @@ function createReservationCard(reservation) {
     card.innerHTML = `
         <div class="reservation-header">
             <div class="reservation-info">
-                <div class="reservation-id">${reservation.reservation_id}</div>
                 <div class="customer-name">${reservation.customer_name}</div>
-                <div class="customer-contact">${reservation.customer_contact}</div>
                 <span class="status-badge status-${reservation.status}">${capitalizeFirstLetter(reservation.status)}</span>
             </div>
             <div class="reservation-time">
@@ -256,15 +241,17 @@ function createReservationCard(reservation) {
             <div class="detail-item">
                 <div class="detail-label">Services</div>
                 <div class="detail-value service-list">
-                    ${(reservation.services || []).map(service =>
+                    ${(reservation.services || []).slice(0, 2).map(service =>
                         `<span class="service-tag">${typeof service === 'string' ? service : service.service_name}</span>`
                     ).join('')}
+                    ${reservation.services && reservation.services.length > 2 ?
+                        `<span class="service-tag">+${reservation.services.length - 2}</span>` : ''}
                 </div>
             </div>
             
             <div class="detail-item">
                 <div class="detail-label">Date</div>
-                <div class="detail-value">${formatDate(reservation.reservation_date)}</div>
+                <div class="detail-value">${formatDate(reservation.schedule?.schedule_date || reservation.reservation_date)}</div>
             </div>
             
             <div class="detail-item">
@@ -306,54 +293,117 @@ function capitalizeFirstLetter(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-// View reservation details - Opens modal
+// Store the currently loaded reservations
+let currentReservations = [];
+
+// View reservation details - Opens modal for today's reservations
 window.viewReservationDetails = function(reservationId) {
-    // In a real implementation, you would fetch the full reservation details
-    // from the API and populate the modal
+    // Find the reservation in the currently loaded data
+    const reservation = currentReservations.find(r => r.reservation_id == reservationId);
     
-    // For now, we'll simulate this with sample data
-    const reservations = getSampleReservations().find(r => r.reservation_id == reservationId);
-    
-    if (reservations) {
+    if (reservation) {
         // Populate modal with reservation data
-        populateReservationModal(reservations);
-        openReservationModal();
+        populateTodaysReservationDetailsModal(reservation);
+        openTodaysReservationDetailsModal();
     } else {
         alert('Reservation not found!');
     }
 };
 
-// Populate reservation modal
-function populateReservationModal(reservation) {
-    // Service details (using first service)
-    if (reservation.services && reservation.services.length > 0) {
-        const service = typeof reservation.services[0] === 'string'
-            ? { service_name: reservation.services[0], category_name: 'N/A', description: 'N/A', duration_minutes: 0, price: 0 }
-            : reservation.services[0];
-            
-        document.getElementById('modalService').textContent = service.service_name;
-        document.getElementById('modalCategory').textContent = service.category_name;
-        document.getElementById('modalDescription').textContent = service.description;
-        document.getElementById('modalDuration').textContent = service.duration_minutes ? `${service.duration_minutes} minutes` : 'N/A';
-        document.getElementById('modalPrice').textContent = service.price ? `₱${parseFloat(service.price).toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : 'N/A';
+// Render reservations
+function renderReservations(reservations) {
+    // Store the current reservations for quick lookup
+    currentReservations = reservations;
+    
+    const reservationsContainer = document.getElementById('reservationsContainer');
+    const noReservations = document.getElementById('noReservations');
+
+    // Sort reservations by start time
+    const sortedReservations = [...reservations].sort((a, b) => {
+        const timeA = parseTime(a.schedule?.start_time || '00:00:00');
+        const timeB = parseTime(b.schedule?.start_time || '00:00:00');
+        return timeA - timeB;
+    });
+
+    if (sortedReservations.length === 0) {
+        noReservations.style.display = 'block';
+        reservationsContainer.innerHTML = '';
     } else {
-        document.getElementById('modalService').textContent = 'N/A';
-        document.getElementById('modalCategory').textContent = 'N/A';
-        document.getElementById('modalDescription').textContent = 'N/A';
-        document.getElementById('modalDuration').textContent = 'N/A';
-        document.getElementById('modalPrice').textContent = 'N/A';
+        noReservations.style.display = 'none';
+        reservationsContainer.innerHTML = '';
+        sortedReservations.forEach(reservation => {
+            const card = createReservationCard(reservation);
+            reservationsContainer.appendChild(card);
+        });
+    }
+}
+
+// Populate today's reservation details modal
+function populateTodaysReservationDetailsModal(reservation) {
+    // Customer information
+    document.getElementById('todaysModalCustomerName').textContent = reservation.customer_name;
+    document.getElementById('todaysModalEmail').textContent = reservation.customer_email || 'N/A';
+    document.getElementById('todaysModalContact').textContent = reservation.customer_contact;
+    
+    // Services
+    const servicesContainer = document.getElementById('todaysModalServices');
+    if (reservation.services && reservation.services.length > 0) {
+        servicesContainer.innerHTML = reservation.services.map(service => {
+            const serviceName = typeof service === 'string' ? service : service.service_name;
+            const serviceCategory = typeof service === 'string' ? 'N/A' : (service.category_name || 'N/A');
+            const servicePrice = typeof service === 'string' ? 'N/A' : `₱${parseFloat(service.price).toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+            return `
+                <div class="service-item">
+                    <div class="service-name">${serviceName}</div>
+                    <div class="service-category">${serviceCategory}</div>
+                    <div class="service-price">${servicePrice}</div>
+                </div>
+            `;
+        }).join('');
+    } else {
+        servicesContainer.innerHTML = '<p>No services listed</p>';
     }
     
-    document.getElementById('modalDate').textContent = formatDate(reservation.reservation_date);
-    document.getElementById('modalTime').textContent = `${formatTime(reservation.schedule?.start_time || '00:00:00')} - ${formatTime(reservation.schedule?.end_time || '00:00:00')}`;
+    // Reservation details
+    document.getElementById('todaysModalReservationId').textContent = reservation.reservation_id;
+    document.getElementById('todaysModalScheduleDate').textContent = formatDate(reservation.schedule?.schedule_date || reservation.reservation_date);
+    document.getElementById('todaysModalReservationDate').textContent = formatDate(reservation.reservation_date);
+    document.getElementById('todaysModalTime').textContent = `${formatTime(reservation.schedule?.start_time || '00:00:00')} - ${formatTime(reservation.schedule?.end_time || '00:00:00')}`;
+    document.getElementById('todaysModalBranch').textContent = reservation.branch_name;
+    document.getElementById('todaysModalTotalPrice').textContent = `₱${reservation.total_price?.toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || '0.00'}`;
     
-    document.getElementById('modalCustomerName').textContent = reservation.customer_name;
-    document.getElementById('modalEmail').textContent = reservation.customer_email || 'customer@example.com';
-    document.getElementById('modalContact').textContent = reservation.customer_contact;
-    
+    // Status
     const statusBadge = `<span class="status-badge status-${reservation.status}">${capitalizeFirstLetter(reservation.status)}</span>`;
-    document.getElementById('modalStatus').innerHTML = statusBadge;
+    document.getElementById('todaysModalStatus').innerHTML = statusBadge;
 }
+
+// Today's reservation details modal functions
+function openTodaysReservationDetailsModal() {
+    const modal = document.getElementById('todaysReservationDetailsModal');
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden'; // Prevent background scrolling
+}
+
+function closeTodaysReservationDetailsModal() {
+    const modal = document.getElementById('todaysReservationDetailsModal');
+    modal.classList.remove('active');
+    document.body.style.overflow = ''; // Restore scrolling
+}
+
+// Close modal when clicking outside
+document.addEventListener('click', function(event) {
+    const modal = document.getElementById('todaysReservationDetailsModal');
+    if (event.target === modal) {
+        closeTodaysReservationDetailsModal();
+    }
+});
+
+// Close modal with Escape key
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        closeTodaysReservationDetailsModal();
+    }
+});
 
 // Status change handler
 window.handleStatusChange = function(reservationId, newStatus) {
@@ -450,11 +500,19 @@ async function updateReservationStatus(reservationId, status) {
             headers: {
                 'Content-Type': 'application/json',
             },
+            credentials: 'same-origin',
             body: JSON.stringify({
                 reservation_id: reservationId,
                 status: status
             })
         });
+        
+        // Check if unauthorized
+        if (response.status === 401) {
+            console.error('Unauthorized - please log in as admin');
+            alert('Session expired. Please log in again.');
+            return;
+        }
         
         const result = await response.json();
         
@@ -470,35 +528,3 @@ async function updateReservationStatus(reservationId, status) {
         alert('Failed to update reservation status. Please try again.');
     }
 }
-
-// Modal functions (copy from reservations-data.js)
-function openReservationModal() {
-    const modal = document.getElementById('reservationModal');
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden'; // Prevent background scrolling
-}
-
-function closeReservationModal() {
-    const modal = document.getElementById('reservationModal');
-    modal.classList.remove('active');
-    document.body.style.overflow = ''; // Restore scrolling
-}
-
-function editReservation() {
-    alert('Edit functionality will be implemented here');
-}
-
-// Close modal when clicking outside
-document.addEventListener('click', function(event) {
-    const modal = document.getElementById('reservationModal');
-    if (event.target === modal) {
-        closeReservationModal();
-    }
-});
-
-// Close modal with Escape key
-document.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape') {
-        closeReservationModal();
-    }
-});

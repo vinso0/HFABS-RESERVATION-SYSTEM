@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+if (!isset($_SESSION['role']) || !in_array($_SESSION['role'], ['admin', 'cashier'])) {
     header("Location: admin-login.html");
     exit;
 }
@@ -41,7 +41,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
         </section>
     </main>
 
-    <?php include 'components/admin-reservation-modal.php'; ?>
+    <?php include 'components/admin-todays-reservation-details-modal.php'; ?>
     <?php include 'components/admin-status-confirmation-modal.php'; ?>
 
     <script src="../public/js/admin-todays-reservations.js"></script>

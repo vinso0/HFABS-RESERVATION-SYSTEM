@@ -1,7 +1,18 @@
 <aside class="sidebar">
     <div class="sidebar-header">
         <img src="../public/img/HFABS-LOGO.png" alt="Happy Face & Body Spa" class="brand-logo" />
-        <h1 class="brand-name">Happy Face & Body Spa</h1>
+        <div class="brand-info">
+            <h1 class="brand-name">HFABS</h1>
+            <p class="brand-subtitle">
+                <?php
+                if (isset($_SESSION['branch_name'])) {
+                    echo ucwords(strtolower($_SESSION['branch_name']));
+                } else {
+                    echo 'Happy Face & Body Spa';
+                }
+                ?>
+            </p>
+        </div>
     </div>
 
     <nav class="sidebar-nav">
@@ -17,18 +28,20 @@
             <i class="far fa-calendar"></i>
             <span>Reservations</span>
         </a>
+        <?php if ($_SESSION['role'] === 'admin'): ?>
         <a href="./admin-services.php" class="nav-item">
             <i class="fas fa-cut"></i>
             <span>Services</span>
         </a>
-        <a href="#" class="nav-item">
+        <a href="admin-customers.php" class="nav-item">
             <i class="far fa-user"></i>
             <span>Customers</span>
         </a>
-        <a href="#" class="nav-item">
+        <a href="admin-feedback.php" class="nav-item">
             <i class="far fa-comment"></i>
             <span>Feedback</span>
         </a>
+        <?php endif; ?>
     </nav>
 
     <script>

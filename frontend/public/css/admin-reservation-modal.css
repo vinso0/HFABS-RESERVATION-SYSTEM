@@ -132,6 +132,62 @@
     color: #d91a7e;
 }
 
+/* Services list styles for today's reservation modal */
+.services-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.service-item {
+    padding: 16px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border-left: 3px solid #d91a7e;
+}
+
+.service-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 4px;
+}
+
+.service-category {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 6px;
+}
+
+.service-price {
+    font-size: 14px;
+    font-weight: 700;
+    color: #d91a7e;
+}
+
+/* Responsive design for services list */
+@media (max-width: 768px) {
+    .services-list {
+        gap: 10px;
+    }
+    
+    .service-item {
+        padding: 12px;
+    }
+    
+    .service-name {
+        font-size: 14px;
+    }
+    
+    .service-category {
+        font-size: 12px;
+    }
+    
+    .service-price {
+        font-size: 13px;
+    }
+}
+
 .modal-footer {
     display: flex;
     justify-content: flex-end;
@@ -176,6 +232,126 @@
     background-color: #f5f5f5;
     border-color: #d91a7e;
     color: #d91a7e;
+}
+
+/* Form Styles - Matching Services Modal */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.form-group label i {
+    color: #d91a7e;
+    font-size: 14px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group input[type="date"],
+.form-group input[type="time"],
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #333;
+    background-color: #fff;
+    transition: all 0.3s ease;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="number"]:focus,
+.form-group input[type="date"]:focus,
+.form-group input[type="time"]:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #d91a7e;
+    box-shadow: 0 0 0 3px rgba(217, 26, 126, 0.1);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.modal-info-box {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 16px;
+    background-color: #fff3e0;
+    border-left: 4px solid #ef6c00;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.modal-info-box i {
+    color: #ef6c00;
+    font-size: 16px;
+    margin-top: 2px;
+}
+
+.modal-info-box p {
+    font-size: 13px;
+    color: #333;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.btn-cancel,
+.btn-save {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-cancel {
+    background-color: #fff;
+    color: #666;
+    border: 1px solid #e5e5e5;
+}
+
+.btn-cancel:hover {
+    background-color: #f5f5f5;
+    border-color: #d91a7e;
+    color: #d91a7e;
+}
+
+.btn-save {
+    background-color: #d91a7e;
+    color: #fff;
+}
+
+.btn-save:hover {
+    background-color: #b01565;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(217, 26, 126, 0.3);
 }
 
 @media (max-width: 768px) {

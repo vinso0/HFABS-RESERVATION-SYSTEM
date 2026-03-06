@@ -125,3 +125,15 @@ if (adminLoginForm) {
     );
   });
 }
+
+// Superadmin login
+const superadminLoginForm = document.getElementById("superadmin-login-form");
+if (superadminLoginForm) {
+  superadminLoginForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    handleApiFormSubmit(
+      superadminLoginForm,
+      "../../backend/public/index.php?url=auth/login"
+    );
+  });
+}

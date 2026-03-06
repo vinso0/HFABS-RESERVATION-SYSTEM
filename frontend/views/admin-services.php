@@ -1,10 +1,9 @@
 <?php
 session_start();
-// Temporary - disable login check for testing
-// if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
-//     header("Location: admin-login.html");
-//     exit;
-// }
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+    header("Location: admin-login.html");
+    exit;
+}
 ?>
 
 <!DOCTYPE html>

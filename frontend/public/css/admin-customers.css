@@ -1,0 +1,256 @@
+/* Customers Section */
+
+.customers-section h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #d91a7e;
+    margin-bottom: 4px;
+}
+
+.subtitle-text {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 24px;
+}
+
+/* Filter Section */
+.filter-section {
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: center;
+}
+
+.filter-search {
+    display: inline-flex;
+    align-items: center;
+    background-color: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    padding: 10px 16px;
+    gap: 10px;
+    flex: 1;
+    min-width: 250px;
+    max-width: 400px;
+}
+
+.filter-search i {
+    color: #666;
+    font-size: 12px;
+}
+
+.filter-search input {
+    border: none;
+    outline: none;
+    font-size: 11px;
+    color: #333;
+    background: transparent;
+    flex: 1;
+}
+
+.filter-search input::placeholder {
+    color: #999;
+}
+
+.filter-dropdown {
+    display: inline-flex;
+    align-items: center;
+    background-color: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    padding: 10px 16px;
+    gap: 10px;
+}
+
+.filter-dropdown i {
+    color: #666;
+    font-size: 12px;
+}
+
+.filter-dropdown select {
+    border: none;
+    outline: none;
+    font-size: 11px;
+    color: #333;
+    font-weight: 500;
+    background: transparent;
+    cursor: pointer;
+}
+
+/* Table Container */
+.table-container {
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.customers-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.customers-table thead {
+    background-color: #fafafa;
+}
+
+.customers-table th {
+    padding: 16px 20px;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 600;
+    color: #d91a7e;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.customers-table tbody tr {
+    border-bottom: 1px solid #f0f0f0;
+    transition: background-color 0.2s ease;
+}
+
+.customers-table tbody tr:hover {
+    background-color: #fef1f8;
+}
+
+.customers-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.customers-table td {
+    padding: 18px 20px;
+    font-size: 13px;
+    color: #333;
+}
+
+.customer-name {
+    font-weight: 600;
+    color: #333;
+}
+
+.customer-contact {
+    color: #666;
+}
+
+.customer-email {
+    color: #666;
+}
+
+.reservation-count {
+    font-weight: 600;
+    color: #d91a7e;
+}
+
+/* Action Buttons */
+.action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #d91a7e;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+}
+
+.action-btn:hover {
+    color: #b01565;
+}
+
+.action-btn i {
+    font-size: 14px;
+}
+
+/* Loading Spinner */
+.loading-row td {
+    text-align: center;
+    padding: 3rem 0;
+}
+
+.loading-spinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    color: #d91a7e;
+}
+
+.loading-spinner i {
+    font-size: 2rem;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.loading-spinner span {
+    font-size: 13px;
+    color: #666;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 3rem;
+    color: #999;
+}
+
+.empty-state i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: #d5d5d5;
+}
+
+.empty-state p {
+    font-size: 15px;
+    margin-bottom: 0.5rem;
+    color: #666;
+}
+
+.empty-state .subtitle {
+    font-size: 13px;
+    color: #999;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .table-container {
+        overflow-x: auto;
+    }
+    
+    .customers-table {
+        min-width: 800px;
+    }
+}
+
+@media (max-width: 768px) {
+    .customers-section h2 {
+        font-size: 24px;
+    }
+    
+    .table-container {
+        border-radius: 8px;
+    }
+    
+    .filter-section {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+    
+    .filter-search {
+        max-width: 100%;
+    }
+    
+    .filter-dropdown {
+        width: 100%;
+        justify-content: center;
+    }
+}

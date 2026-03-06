@@ -84,7 +84,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'customer') {
       </div>
       
       <div class="modal-actions">
-        <button class="btn-secondary" onclick="closeReservationModal()">
+        <button class="btn-close" onclick="closeReservationModal()">
           <i class="fas fa-times"></i>
           Close
         </button>
@@ -103,12 +103,38 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'customer') {
         
         <div class="form-group">
           <label for="newDate">New Date:</label>
-          <input type="date" id="newDate" required>
+          <div class="date-picker">
+            <div class="calendar-header">
+              <button class="calendar-nav" id="prevMonth">
+                <i class="fas fa-chevron-left"></i>
+              </button>
+              <h3 id="currentMonth"></h3>
+              <button class="calendar-nav" id="nextMonth">
+                <i class="fas fa-chevron-right"></i>
+              </button>
+            </div>
+            <div class="calendar-grid">
+              <div class="calendar-weekdays">
+                <div class="weekday">Sun</div>
+                <div class="weekday">Mon</div>
+                <div class="weekday">Tue</div>
+                <div class="weekday">Wed</div>
+                <div class="weekday">Thu</div>
+                <div class="weekday">Fri</div>
+                <div class="weekday">Sat</div>
+              </div>
+              <div id="calendarDays" class="calendar-days"></div>
+            </div>
+            <div id="selectedDateDisplay" class="selected-date-display"></div>
+          </div>
         </div>
         
         <div class="form-group">
           <label for="newTime">New Time:</label>
-          <input type="time" id="newTime" required>
+          <div class="time-picker">
+            <div id="timeSlots" class="time-slots"></div>
+            <div id="selectedTimeDisplay" class="selected-time-display"></div>
+          </div>
         </div>
         
         <div class="form-group">
@@ -121,7 +147,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'customer') {
             <i class="fas fa-check"></i>
             Confirm Reschedule
           </button>
-          <button class="btn-secondary" onclick="closeRescheduleModal()">
+          <button class="btn-cancel" onclick="closeRescheduleModal()">
             <i class="fas fa-times"></i>
             Cancel
           </button>
@@ -167,7 +193,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'customer') {
             <i class="fas fa-check"></i>
             Submit Review
           </button>
-          <button class="btn-secondary" onclick="closeReviewModal()">
+          <button class="btn-cancel" onclick="closeReviewModal()">
             <i class="fas fa-times"></i>
             Cancel
           </button>
@@ -187,7 +213,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'customer') {
       </div>
       
       <div class="modal-actions">
-        <button class="btn-secondary" onclick="closeViewReviewModal()">
+        <button class="btn-close" onclick="closeViewReviewModal()">
           <i class="fas fa-times"></i>
           Close
         </button>

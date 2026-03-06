@@ -159,10 +159,20 @@ class AuthController extends Controller
             $_SESSION['user_name'] = $user['username'];
             $_SESSION['email'] = $user['email'];
             $_SESSION['role'] = $user['role'];
+            $_SESSION['branch_id'] = $user['branch_id'];
+            
+            // Get branch name if branch_id exists
+            if (!empty($user['branch_id'])) {
+                require_once __DIR__ . '/../models/Branch.php';
+                $branchModel = new Branch();
+                $branch = $branchModel->getBranchById($user['branch_id']);
+                $_SESSION['branch_name'] = $branch['branch_name'] ?? '';
+            }
 
             $redirect = match ($user['role']) {
                 'admin' => '/HFABS/frontend/views/admin-home.php',
                 'superadmin' => '/HFABS/frontend/views/superadmin-home.php',
+                'cashier' => '/HFABS/frontend/views/admin-home.php',
                 default => '/HFABS/frontend/views/customer-home.php',
             };
 
@@ -202,8 +212,11 @@ class AuthController extends Controller
 
         $_SESSION = [];
         session_destroy();
-        if($role === 'admin'){
+        
+        if($role === 'admin' || $role === 'cashier'){
             header("Location: " . BASE_URL . "/../../frontend/views/admin-login.html");
+        } elseif($role === 'superadmin'){
+            header("Location: " . BASE_URL . "/../../frontend/views/superadmin-login.html");
         }else{
             header("Location: " . BASE_URL . "/../../frontend/views/customer-login.html");
         }

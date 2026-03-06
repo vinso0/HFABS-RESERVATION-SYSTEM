@@ -123,34 +123,34 @@ function createReservationCard(reservation) {
                 </button>
                 
                 ${reservation.status === 'confirmed' ? `
-                    <button class="action-btn btn-secondary" onclick="openRescheduleModal(${reservation.reservation_id})">
+                    <button class="action-btn btn-primary" onclick="openRescheduleModal(${reservation.reservation_id})">
                         <i class="fas fa-calendar"></i>
                         Reschedule
                     </button>
-                    <button class="action-btn btn-secondary" onclick="cancelReservation(${reservation.reservation_id})">
+                    <button class="action-btn btn-cancel" onclick="cancelReservation(${reservation.reservation_id})">
                         <i class="fas fa-times"></i>
                         Cancel
                     </button>
                 ` : ''}
 
                 ${reservation.status === 'rescheduled' ? `
-                    <button class="action-btn btn-secondary" onclick="openRescheduleModal(${reservation.reservation_id})">
+                    <button class="action-btn btn-primary" onclick="openRescheduleModal(${reservation.reservation_id})">
                         <i class="fas fa-calendar"></i>
                         Reschedule
                     </button>
-                    <button class="action-btn btn-secondary" onclick="cancelReservation(${reservation.reservation_id})">
+                    <button class="action-btn btn-cancel" onclick="cancelReservation(${reservation.reservation_id})">
                         <i class="fas fa-times"></i>
                         Cancel
                     </button>
                 ` : ''}
                 
                 ${reservation.status === 'completed' ? (reservation.feedback && reservation.feedback.length > 0 ? `
-                    <button class="action-btn btn-secondary" onclick="openViewReviewModal(${reservation.reservation_id})">
+                    <button class="action-btn btn-primary" onclick="openViewReviewModal(${reservation.reservation_id})">
                         <i class="fas fa-eye"></i>
                         View Review
                     </button>
                 ` : `
-                    <button class="action-btn btn-secondary" onclick="openReviewModal(${reservation.reservation_id})">
+                    <button class="action-btn btn-primary" onclick="openReviewModal(${reservation.reservation_id})">
                         <i class="fas fa-star"></i>
                         Leave Review
                     </button>
@@ -224,8 +224,12 @@ function viewReservationDetails(reservationId) {
             </div>
             
             <div class="modal-detail">
-                <span class="modal-detail-label">Date</span>
+                <span class="modal-detail-label">Schedule Date</span>
                 <span class="modal-detail-value">${scheduleDate}</span>
+            </div>
+            <div class="modal-detail">
+                <span class="modal-detail-label">Reservation Date</span>
+                <span class="modal-detail-value">${reservation.reservation_date}</span>
             </div>
             
             ${startTime ? `
@@ -298,6 +302,224 @@ async function cancelReservation(reservationId) {
     }
 }
 
+// Calendar and Time Picker Logic
+let currentDate = new Date();
+let selectedDate = null;
+let selectedTime = null;
+let availableTimeSlots = [];
+
+// Initialize calendar when reschedule modal opens
+function initializeCalendar() {
+    renderCalendar();
+    renderTimeSlots();
+    
+    // Remove existing event listeners first to prevent duplicates
+    const prevMonthBtn = document.getElementById('prevMonth');
+    const nextMonthBtn = document.getElementById('nextMonth');
+    
+    // Remove all existing event listeners
+    const newPrevBtn = prevMonthBtn.cloneNode(true);
+    const newNextBtn = nextMonthBtn.cloneNode(true);
+    prevMonthBtn.parentNode.replaceChild(newPrevBtn, prevMonthBtn);
+    nextMonthBtn.parentNode.replaceChild(newNextBtn, nextMonthBtn);
+    
+    // Add new event listeners
+    newPrevBtn.addEventListener('click', () => {
+        currentDate.setMonth(currentDate.getMonth() - 1);
+        renderCalendar();
+    });
+    
+    newNextBtn.addEventListener('click', () => {
+        currentDate.setMonth(currentDate.getMonth() + 1);
+        renderCalendar();
+    });
+}
+
+// Render calendar
+function renderCalendar() {
+    const calendarDays = document.getElementById('calendarDays');
+    const currentMonth = document.getElementById('currentMonth');
+    const today = new Date();
+    const minDate = new Date();
+    
+    // Set month and year header
+    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+                       'July', 'August', 'September', 'October', 'November', 'December'];
+    currentMonth.textContent = `${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`;
+    
+    // Get first and last days of the month
+    const firstDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+    const lastDay = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+    const prevLastDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 0);
+    
+    const firstDayOfWeek = firstDay.getDay(); // 0 = Sunday
+    const lastDate = lastDay.getDate();
+    const prevLastDate = prevLastDay.getDate();
+    
+    let daysHTML = '';
+    
+    // Previous month days
+    for (let i = firstDayOfWeek - 1; i >= 0; i--) {
+        const dayDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, prevLastDate - i);
+        daysHTML += `<button class="calendar-day disabled" data-date="${formatDate(dayDate)}">${prevLastDate - i}</button>`;
+    }
+    
+    // Current month days
+    for (let day = 1; day <= lastDate; day++) {
+        const dayDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
+        const dateString = formatDate(dayDate);
+        const isToday = dayDate.toDateString() === today.toDateString();
+        const isBeforeMinDate = dayDate < minDate.setHours(0, 0, 0, 0);
+        const isUnavailable = checkDateAvailability(dayDate);
+        const isFullyBooked = checkDateFullyBooked(dayDate);
+        
+        let classes = 'calendar-day';
+        if (isBeforeMinDate) classes += ' disabled';
+        if (isUnavailable) classes += ' unavailable';
+        if (isFullyBooked) classes += ' fully-booked';
+        if (isToday) classes += ' today';
+        if (selectedDate === dateString) classes += ' selected';
+        
+        daysHTML += `<button class="${classes}" data-date="${dateString}" ${(isBeforeMinDate || isUnavailable || isFullyBooked) ? 'disabled' : ''}>${day}</button>`;
+    }
+    
+    // Next month days
+    const remainingDays = 42 - (firstDayOfWeek + lastDate); // 6 weeks calendar
+    for (let day = 1; day <= remainingDays; day++) {
+        const dayDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, day);
+        daysHTML += `<button class="calendar-day disabled" data-date="${formatDate(dayDate)}">${day}</button>`;
+    }
+    
+    calendarDays.innerHTML = daysHTML;
+    
+    // Add click event listeners to calendar days
+    document.querySelectorAll('#calendarDays .calendar-day:not(.disabled):not(.unavailable):not(.fully-booked)').forEach(button => {
+        button.addEventListener('click', function() {
+            selectedDate = this.dataset.date;
+            selectedTime = null;
+            renderCalendar();
+            renderTimeSlots();
+            updateSelectedDateDisplay();
+            updateSelectedTimeDisplay();
+        });
+    });
+}
+
+// Render time slots
+function renderTimeSlots() {
+    const timeSlotsContainer = document.getElementById('timeSlots');
+    const timeSlots = generateTimeSlots();
+    
+    let slotsHTML = '';
+    
+    timeSlots.forEach(time => {
+        const isSelected = selectedTime === time;
+        const isAvailable = checkTimeAvailability(selectedDate, time);
+        const isFullyBooked = checkTimeFullyBooked(selectedDate, time);
+        
+        let classes = 'time-slot';
+        if (isSelected) classes += ' selected';
+        if (!isAvailable) classes += ' unavailable';
+        if (isFullyBooked) classes += ' fully-booked';
+        if (!selectedDate) classes += ' disabled';
+        
+        slotsHTML += `<button class="${classes}" data-time="${time}" ${(!selectedDate || !isAvailable || isFullyBooked) ? 'disabled' : ''}>${formatTimeForDisplay(time)}</button>`;
+    });
+    
+    timeSlotsContainer.innerHTML = slotsHTML;
+    
+    // Add click event listeners to time slots
+    document.querySelectorAll('#timeSlots .time-slot:not(.disabled):not(.unavailable):not(.fully-booked)').forEach(button => {
+        button.addEventListener('click', function() {
+            selectedTime = this.dataset.time;
+            renderTimeSlots();
+            updateSelectedTimeDisplay();
+        });
+    });
+}
+
+// Generate time slots (9 AM to 7 PM, 30-minute intervals)
+function generateTimeSlots() {
+    const slots = [];
+    const startTime = 9; // 9 AM
+    const endTime = 19; // 7 PM
+    const interval = 30; // minutes
+    
+    for (let hour = startTime; hour < endTime; hour++) {
+        slots.push(`${String(hour).padStart(2, '0')}:00`);
+        if (hour < endTime - 1) {
+            slots.push(`${String(hour).padStart(2, '0')}:30`);
+        }
+    }
+    
+    return slots;
+}
+
+// Format date as YYYY-MM-DD
+function formatDate(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
+
+// Format time for display (12-hour format)
+function formatTimeForDisplay(timeString) {
+    if (!timeString) return '';
+    
+    const [hours, minutes] = timeString.split(':');
+    const hour = parseInt(hours);
+    const ampm = hour >= 12 ? 'PM' : 'AM';
+    const displayHour = hour % 12 || 12;
+    return `${displayHour}:${minutes} ${ampm}`;
+}
+
+// Update selected date display
+function updateSelectedDateDisplay() {
+    const display = document.getElementById('selectedDateDisplay');
+    if (selectedDate) {
+        const date = new Date(selectedDate);
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        display.innerHTML = `Selected: <span class="selected-date">${date.toLocaleDateString('en-US', options)}</span>`;
+    } else {
+        display.innerHTML = 'Please select a date';
+    }
+}
+
+// Update selected time display
+function updateSelectedTimeDisplay() {
+    const display = document.getElementById('selectedTimeDisplay');
+    if (selectedTime) {
+        display.innerHTML = `Selected: <span class="selected-time">${formatTimeForDisplay(selectedTime)}</span>`;
+    } else {
+        display.innerHTML = selectedDate ? 'Please select a time' : 'Select a date first';
+    }
+}
+
+// Check date availability (placeholder for future implementation)
+function checkDateAvailability(date) {
+    // TODO: Implement actual date availability checking
+    return false;
+}
+
+// Check if date is fully booked (placeholder for future implementation)
+function checkDateFullyBooked(date) {
+    // TODO: Implement actual fully booked checking
+    return false;
+}
+
+// Check time availability (placeholder for future implementation)
+function checkTimeAvailability(date, time) {
+    // TODO: Implement actual time availability checking
+    return true;
+}
+
+// Check if time slot is fully booked (placeholder for future implementation)
+function checkTimeFullyBooked(date, time) {
+    // TODO: Implement actual fully booked checking
+    return false;
+}
+
 // Function to open reschedule modal
 function openRescheduleModal(reservationId) {
     const reservation = window.currentReservations.find(r => r.reservation_id === reservationId);
@@ -309,9 +531,15 @@ function openRescheduleModal(reservationId) {
     // Set reservation id in modal
     document.getElementById('rescheduleReservationId').value = reservationId;
     
-    // Calculate minimum date (today or later)
-    const today = new Date().toISOString().split('T')[0];
-    document.getElementById('newDate').min = today;
+    // Reset selected date and time
+    selectedDate = null;
+    selectedTime = null;
+    currentDate = new Date();
+    
+    // Initialize calendar
+    initializeCalendar();
+    updateSelectedDateDisplay();
+    updateSelectedTimeDisplay();
     
     // Show modal
     document.getElementById('rescheduleModal').classList.add('active');
@@ -321,8 +549,8 @@ function openRescheduleModal(reservationId) {
 // Function to reschedule reservation
 async function rescheduleReservation() {
     const reservationId = document.getElementById('rescheduleReservationId').value;
-    const newDate = document.getElementById('newDate').value;
-    const newTime = document.getElementById('newTime').value;
+    const newDate = selectedDate;
+    const newTime = selectedTime;
     const reason = document.getElementById('rescheduleReason').value;
 
     if (!newDate || !newTime) {
@@ -373,6 +601,49 @@ function openReviewModal(reservationId) {
     // Set reservation data in modal
     document.getElementById('reviewReservationId').value = reservationId;
     document.getElementById('reviewBranchId').value = reservation.branch_id;
+    
+    // Reset modal for new review
+    document.querySelector('#reviewModal .modal-title').textContent = 'Leave a Review';
+    document.querySelector('#reviewModal button.btn-primary').textContent = 'Submit Review';
+    document.querySelector('#reviewModal button.btn-primary').onclick = submitReview;
+    document.getElementById('reviewComment').value = '';
+    document.getElementById('reviewRating').value = '5';
+    document.getElementById('star5').checked = true;
+    
+    // Show modal
+    document.getElementById('reviewModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+// Function to open edit review modal
+function openEditReviewModal(reservationId) {
+    // Close the view review modal first
+    closeViewReviewModal();
+    
+    const reservation = window.currentReservations.find(r => r.reservation_id === reservationId);
+    if (!reservation) {
+        alert('Reservation not found!');
+        return;
+    }
+
+    // Set reservation data in modal
+    document.getElementById('reviewReservationId').value = reservationId;
+    document.getElementById('reviewBranchId').value = reservation.branch_id;
+    
+    // Set modal for edit mode
+    document.querySelector('#reviewModal .modal-title').textContent = 'Update Review';
+    document.querySelector('#reviewModal button.btn-primary').textContent = 'Update Review';
+    document.querySelector('#reviewModal button.btn-primary').onclick = updateReview;
+    
+    // Populate existing review data
+    if (reservation.feedback && reservation.feedback.length > 0) {
+        // Use first feedback entry (assuming all services have same review)
+        const feedback = reservation.feedback[0];
+        document.getElementById('reviewComment').value = feedback.comment;
+        document.getElementById('reviewRating').value = feedback.rating;
+        // Check the corresponding star radio button
+        document.getElementById(`star${feedback.rating}`).checked = true;
+    }
     
     // Show modal
     document.getElementById('reviewModal').classList.add('active');
@@ -433,6 +704,65 @@ async function submitReview() {
         alert('Failed to submit feedback. Please try again.');
     }
 }
+
+// Function to update review
+async function updateReview() {
+    const reservationId = document.getElementById('reviewReservationId').value;
+    const branchId = document.getElementById('reviewBranchId').value;
+    const rating = document.getElementById('reviewRating').value;
+    const comment = document.getElementById('reviewComment').value;
+
+    if (!rating || !comment) {
+        alert('Please provide both rating and comment');
+        return;
+    }
+
+    // Get reservation services to update feedback for each service
+    const reservation = window.currentReservations.find(r => r.reservation_id === parseInt(reservationId));
+    if (!reservation || reservation.services.length === 0) {
+        alert('No services found for this reservation');
+        return;
+    }
+
+    try {
+        // Update feedback for each service
+        for (const service of reservation.services) {
+            const response = await fetch('/HFABS/backend/public/index.php?url=reservation/submitFeedback', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                credentials: 'same-origin',
+                body: JSON.stringify({
+                    reservation_service_id: service.reservation_service_id,
+                    branch_id: branchId,
+                    rating: rating,
+                    comment: comment
+                })
+            });
+
+            const result = await response.json();
+
+            if (!result.success) {
+                alert('Failed to update feedback for service: ' + result.message);
+                return;
+            }
+        }
+
+        alert('Feedback updated successfully!');
+        // Close modal and refresh reservations list
+        closeReviewModal();
+        location.reload();
+    } catch (error) {
+        console.error('Error updating feedback:', error);
+        alert('Failed to update feedback. Please try again.');
+    }
+}
+
+// Make updateReview globally accessible
+window.updateReview = updateReview;
+window.openEditReviewModal = openEditReviewModal;
 
 // Function to close reservation modal
 function closeReservationModal() {
@@ -500,6 +830,12 @@ function openViewReviewModal(reservationId) {
             </div>
             <div class="review-comments">
                 ${commentsHtml}
+            </div>
+            <div class="review-actions">
+                <button class="action-btn btn-primary" onclick="openEditReviewModal(${reservation.reservation_id})">
+                    <i class="fas fa-edit"></i>
+                    Update Review
+                </button>
             </div>
         `;
     } else {

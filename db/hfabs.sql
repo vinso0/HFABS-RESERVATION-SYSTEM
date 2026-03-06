@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 14, 2026 at 07:58 AM
+-- Generation Time: Mar 06, 2026 at 03:57 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -125,7 +125,7 @@ CREATE TABLE `branch_service_overrides` (
 --
 
 INSERT INTO `branch_service_overrides` (`branch_service_override_id`, `branch_id`, `default_service_id`, `display_name`, `description_override`, `duration_minutes_override`, `price_override`, `is_available_override`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 'Hair Spa Treatment', 'Deep conditioning hair treatment', 60, 800.00, 1, '2026-02-07 06:27:40', '2026-02-14 06:13:28'),
+(1, 1, 1, 'Hair Spa Treatment', 'Deep conditioning hair treatment', 60, 800.00, 1, '2026-02-07 06:27:40', '2026-02-21 09:28:22'),
 (2, 2, 1, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
 (3, 1, 2, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
 (4, 2, 2, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
@@ -178,7 +178,8 @@ INSERT INTO `default_services` (`service_id`, `category_id`, `service_name`, `de
 (8, 1, 'Hair Botox', 'Deep repair treatment', 120, 3800.00, 1),
 (9, 2, 'Swedish Massage', 'Relaxing full body massage', 60, 1500.00, 1),
 (10, 2, 'Hot Stone Therapy', 'Therapeutic hot stone massage', 60, 2000.00, 1),
-(11, 2, 'Aromatherapy Massage', 'Essential oil massage therapy', 60, 1600.00, 1);
+(11, 2, 'Aromatherapy Massage', 'Essential oil massage therapy', 60, 1600.00, 1),
+(12, 1, 'hair Test', 'Test', 60, 150.00, 1);
 
 -- --------------------------------------------------------
 
@@ -225,7 +226,8 @@ CREATE TABLE `feedback` (
 --
 
 INSERT INTO `feedback` (`feedback_id`, `reservation_service_id`, `user_id`, `branch_id`, `rating`, `comment`, `created_at`, `updated_at`) VALUES
-(1, 1, 2, 1, 1, 'Good service', '2026-01-09 11:40:45', '2026-02-14 14:10:59');
+(1, 1, 2, 1, 1, 'Good service', '2026-01-09 11:40:45', '2026-02-14 14:10:59'),
+(12, 4, 2, 1, 5, 'Great Service', '2026-02-21 09:12:48', '2026-02-21 17:12:48');
 
 -- --------------------------------------------------------
 
@@ -277,9 +279,9 @@ CREATE TABLE `reservations` (
 
 INSERT INTO `reservations` (`reservation_id`, `user_id`, `branch_id`, `reservation_date`, `total_price`, `status`, `created_at`) VALUES
 (1, 2, 1, '2026-01-09', 1600.00, 'cancelled', '2026-01-09 11:42:11'),
-(2, 6, 1, '2026-02-14', 750.00, 'confirmed', '2026-02-13 16:40:37'),
-(3, 2, 1, '2026-02-14', 750.00, 'completed', '2026-02-14 02:54:38'),
-(4, 2, 1, '2026-02-13', 350.00, 'confirmed', '2026-02-14 06:06:27');
+(2, 6, 1, '2026-02-14', 750.00, 'cancelled', '2026-02-13 16:40:37'),
+(3, 2, 1, '2026-02-14', 750.00, 'no-show', '2026-02-14 02:54:38'),
+(4, 2, 1, '2026-02-13', 350.00, 'completed', '2026-02-14 06:06:27');
 
 -- --------------------------------------------------------
 
@@ -304,8 +306,8 @@ CREATE TABLE `reservation_schedule` (
 
 INSERT INTO `reservation_schedule` (`reservation_schedule_id`, `reservation_service_id`, `schedule_date`, `start_time`, `end_time`, `is_rescheduled`, `previous_schedule_id`, `reschedule_reason`) VALUES
 (2, 1, '2026-01-20', '14:00:00', '15:00:00', NULL, NULL, NULL),
-(3, 2, '2026-02-16', '14:00:00', '15:00:00', NULL, NULL, NULL),
-(4, 3, '2026-02-14', '16:00:00', '17:00:00', NULL, NULL, NULL),
+(3, 2, '2026-02-21', '14:00:00', '15:00:00', NULL, NULL, NULL),
+(4, 3, '2026-02-21', '16:00:00', '17:00:00', NULL, NULL, NULL),
 (5, 4, '2026-02-16', '10:00:00', '11:00:00', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
@@ -349,7 +351,7 @@ CREATE TABLE `users` (
   `email` varchar(30) NOT NULL,
   `contact_number` varchar(15) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `role` enum('customer','admin','superadmin') NOT NULL,
+  `role` enum('customer','admin','superadmin','cashier') NOT NULL,
   `branch_id` int(11) DEFAULT NULL,
   `is_active` tinyint(4) NOT NULL DEFAULT 1,
   `deleted_at` datetime DEFAULT NULL,
@@ -361,12 +363,13 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `username`, `email`, `contact_number`, `password`, `role`, `branch_id`, `is_active`, `deleted_at`, `created_at`) VALUES
-(1, 'admin', 'admin@admin', '', '$2y$10$FoP25bz38JnM5X.4tsIbo.tvJ.TkhPUSziAwgdSNG7Ugk310i1iOS', 'admin', 1, 1, NULL, '2026-01-09 11:42:55'),
-(2, 'customer', 'cus@cus', '', '$2y$10$0LuBPG.O6c6cAEuQSftB6evQcj05FpLu955hneNKqwtwE7tiN4RHy', 'customer', NULL, 1, NULL, '2026-01-09 11:43:23'),
+(1, 'cal branch admin', 'admin@admin', '', '$2y$10$FoP25bz38JnM5X.4tsIbo.tvJ.TkhPUSziAwgdSNG7Ugk310i1iOS', 'admin', 1, 1, NULL, '2026-01-09 11:42:55'),
+(2, 'Marie Johnson', 'cus@cus', '09345673453', '$2y$10$0LuBPG.O6c6cAEuQSftB6evQcj05FpLu955hneNKqwtwE7tiN4RHy', 'customer', NULL, 1, NULL, '2026-01-09 11:43:23'),
 (3, 'superadmin', 'super@super', '', '$2y$10$I1.9ERjHmtwVbWKKA.5s5eS0nmxIt7lccNII7hTCPgmkc1U9fJd1C', 'superadmin', NULL, 1, NULL, '2026-01-16 02:38:57'),
 (4, 'kier', 'kier@kier', '123456789', '$2y$10$Gt/Eb/Wbx0D3ClCzf/Qqx.nv.bisN7Chveadx5Vhk354vBVEwPzx6', 'customer', NULL, 1, NULL, '2026-01-17 07:32:57'),
 (5, 'Kierloyd Vince Schofield', 'kier@email', '912345789', '$2y$10$zbOE4cRMEc4TOOsRE/.gae4eZKrbAl8.XwkLjUWVwZUmTT9gJ173.', 'customer', NULL, 1, NULL, '2026-01-17 08:34:32'),
-(6, 'vin', 'vin@gmail.com', '09103452674', '$2y$10$xeMnSgBQR2O7VWYNoCXDkuJCiKC1buOj2R9QQjkpwhguHC2czkXvG', 'customer', NULL, 1, NULL, '2026-02-13 16:39:27');
+(6, 'Emma Jane', 'emma@gmail.com', '09103452674', '$2y$10$xeMnSgBQR2O7VWYNoCXDkuJCiKC1buOj2R9QQjkpwhguHC2czkXvG', 'customer', NULL, 1, NULL, '2026-02-13 16:39:27'),
+(7, 'cal branch cashier', 'cashier@gmail.com', '12342141', '$2y$10$Av70HUCVbmUjJ2AfxIqtZO.F9hKYUA8mx.83DDfxO2Y/39wJV8Ame', 'cashier', 1, 1, NULL, '2026-02-20 14:00:32');
 
 --
 -- Indexes for dumped tables
@@ -492,13 +495,13 @@ ALTER TABLE `branch_category_overrides`
 -- AUTO_INCREMENT for table `branch_service_overrides`
 --
 ALTER TABLE `branch_service_overrides`
-  MODIFY `branch_service_override_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `branch_service_override_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `default_services`
 --
 ALTER TABLE `default_services`
-  MODIFY `service_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `service_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `default_services_categories`
@@ -510,7 +513,7 @@ ALTER TABLE `default_services_categories`
 -- AUTO_INCREMENT for table `feedback`
 --
 ALTER TABLE `feedback`
-  MODIFY `feedback_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `feedback_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `payments`
@@ -540,7 +543,7 @@ ALTER TABLE `reservation_services`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Constraints for dumped tables

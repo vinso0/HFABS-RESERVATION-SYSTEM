@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+if (!isset($_SESSION['role']) || !in_array($_SESSION['role'], ['admin', 'cashier'])) {
     header("Location: admin-login.html");
     exit;
 }
@@ -40,6 +40,15 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
                         <option value="rescheduled">Rescheduled</option>
                         <option value="no-show">No-Show</option>
                     </select>
+                </div>
+                
+                <div class="date-filter">
+                    <label for="startDate">From:</label>
+                    <input type="date" id="startDate">
+                    <label for="endDate">To:</label>
+                    <input type="date" id="endDate">
+                    <button id="applyDateFilter">Apply Filter</button>
+                    <button id="clearDateFilter">Clear</button>
                 </div>
             </div>
 

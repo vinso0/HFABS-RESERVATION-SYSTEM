@@ -234,12 +234,24 @@ class ReservationController extends Controller
             session_start();
         }
         
+        // Debug: Log session data (remove in production)
+        error_log('Session data in getTodaysReservations: ' . print_r($_SESSION, true));
+        
         // Check if user is logged in and is an admin
-        if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+        if (!isset($_SESSION['user_id'])) {
             http_response_code(401);
             echo json_encode([
                 'success' => false,
-                'message' => 'User not authenticated or not authorized'
+                'message' => 'User not authenticated'
+            ]);
+            exit;
+        }
+        
+        if (!isset($_SESSION['role']) || !in_array($_SESSION['role'], ['admin', 'cashier'])) {
+            http_response_code(401);
+            echo json_encode([
+                'success' => false,
+                'message' => 'User not authorized. Role: ' . ($_SESSION['role'] ?? 'none')
             ]);
             exit;
         }
@@ -260,6 +272,68 @@ class ReservationController extends Controller
         exit;
     }
 
+    public function getAllReservations()
+    {
+        header('Content-Type: application/json');
+        
+        require_once __DIR__ . '/../config/config.php';
+        
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        
+        // Debug: Log session data (remove in production)
+        error_log('Session data in getAllReservations: ' . print_r($_SESSION, true));
+        
+        // Check if user is logged in and is an admin
+        if (!isset($_SESSION['user_id'])) {
+            http_response_code(401);
+            echo json_encode([
+                'success' => false,
+                'message' => 'User not authenticated'
+            ]);
+            exit;
+        }
+        
+        if (!isset($_SESSION['role']) || !in_array($_SESSION['role'], ['admin', 'cashier'])) {
+            http_response_code(401);
+            echo json_encode([
+                'success' => false,
+                'message' => 'User not authorized. Role: ' . ($_SESSION['role'] ?? 'none')
+            ]);
+            exit;
+        }
+        
+        $userId = $_SESSION['user_id'];
+        
+        // Get query parameters
+        $status = isset($_GET['status']) ? $_GET['status'] : 'all';
+        $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
+        $itemsPerPage = isset($_GET['itemsPerPage']) ? intval($_GET['itemsPerPage']) : 10;
+        
+        // Validate parameters
+        if ($page < 1) $page = 1;
+        if ($itemsPerPage < 1) $itemsPerPage = 10;
+        if ($itemsPerPage > 100) $itemsPerPage = 100;
+        
+        // Load reservation model
+        $reservationModel = $this->model('Reservation');
+        
+        // Get all reservations from model
+        $result = $reservationModel->getAllReservations($userId, $status, $page, $itemsPerPage);
+        
+        echo json_encode([
+            'success' => true,
+            'data' => $result['reservations'],
+            'total' => $result['total'],
+            'branch_name' => $result['branch_name'],
+            'page' => $page,
+            'itemsPerPage' => $itemsPerPage
+        ]);
+        
+        exit;
+    }
+
     public function updateReservationStatus()
     {
         header('Content-Type: application/json');
@@ -271,7 +345,7 @@ class ReservationController extends Controller
         }
         
         // Check if user is logged in and is an admin
-        if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+        if (!isset($_SESSION['user_id']) || !in_array($_SESSION['role'], ['admin', 'cashier'])) {
             http_response_code(401);
             echo json_encode([
                 'success' => false,
@@ -311,6 +385,65 @@ class ReservationController extends Controller
             echo json_encode([
                 'success' => false,
                 'message' => 'Failed to update reservation status'
+            ]);
+        }
+        
+        exit;
+    }
+    
+    public function adminRescheduleReservation()
+    {
+        header('Content-Type: application/json');
+        
+        require_once __DIR__ . '/../config/config.php';
+        
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        
+        // Check if user is logged in and is an admin
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+            http_response_code(401);
+            echo json_encode([
+                'success' => false,
+                'message' => 'User not authenticated or not authorized'
+            ]);
+            exit;
+        }
+        
+        // Get reschedule data from POST
+        $data = json_decode(file_get_contents('php://input'), true);
+        
+        if (!isset($data['reservation_id'], $data['new_date'], $data['new_time'])) {
+            http_response_code(400);
+            echo json_encode([
+                'success' => false,
+                'message' => 'Missing required fields: reservation_id, new_date, and new_time'
+            ]);
+            exit;
+        }
+        
+        // Load reservation model
+        $reservationModel = $this->model('Reservation');
+        
+        // Reschedule reservation
+        $result = $reservationModel->rescheduleReservation(
+            $data['reservation_id'],
+            $data['new_date'],
+            $data['new_time'],
+            $data['reason'] ?? 'Rescheduled by admin'
+        );
+        
+        if ($result) {
+            echo json_encode([
+                'success' => true,
+                'message' => 'Reservation rescheduled successfully'
+            ]);
+        } else {
+            http_response_code(500);
+            echo json_encode([
+                'success' => false,
+                'message' => 'Failed to reschedule reservation'
             ]);
         }
         

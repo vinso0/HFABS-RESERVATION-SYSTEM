@@ -5,6 +5,7 @@
 // Global Variables
 let currentCategory = 'all';
 let currentPage = 1;
+let itemsPerPage = 10;
 let defaultServicesData = [];
 let servicesData = [];
 let categoriesData = [];
@@ -12,6 +13,7 @@ let branchCategoriesData = [];
 let selectedServiceId = null;
 let selectedCategoryId = null;
 let isCreateNewMode = false;
+let servicesPagination;
 
 // API Base URL
 const API_BASE_URL = '../../backend/public/index.php?url';
@@ -76,6 +78,9 @@ function initializeEventListeners() {
             tab.classList.add('active');
             currentCategory = tab.dataset.category;
             currentPage = 1;
+            if (servicesPagination) {
+                servicesPagination.goToPage(1);
+            }
             renderServices();
         });
     });
@@ -117,6 +122,12 @@ function initializeEventListeners() {
         createNewCheckbox.addEventListener('change', toggleAddServiceMode);
     }
 
+    // Auto-fill form when selecting an existing service
+    const serviceSelectAdd = document.getElementById('serviceSelectAdd');
+    if (serviceSelectAdd) {
+        serviceSelectAdd.addEventListener('change', handleExistingServiceSelect);
+    }
+
     // Click outside modal to close
     [addServiceModal, editServiceModal, categoriesModal, editCapacityModal, deleteModal].forEach(modal => {
         modal.addEventListener('click', (e) => {
@@ -132,7 +143,7 @@ function initializeEventListeners() {
 // ==========================================
 
 function loadDefaultServices() {
-    fetch(`${API_BASE_URL}=services/index`)
+    fetch(`${API_BASE_URL}=services/index`, { credentials: 'same-origin' })
         .then(res => res.json())
         .then(result => {
             if (result.success) {
@@ -146,7 +157,7 @@ function loadDefaultServices() {
 }
 
 function loadCategories() {
-    fetch(`${API_BASE_URL}=services/categoriesList`)
+    fetch(`${API_BASE_URL}=services/categoriesList`, { credentials: 'same-origin' })
         .then(res => res.json())
         .then(result => {
             if (result.success) {
@@ -162,7 +173,7 @@ function loadCategories() {
 
 function loadBranchCategories() {
     const branchId = getCurrentBranchId();
-    fetch(`${API_BASE_URL}=services/branchCategories/${branchId}`)
+    fetch(`${API_BASE_URL}=services/branchCategories/${branchId}`, { credentials: 'same-origin' })
         .then(res => res.json())
         .then(result => {
             if (result.success) {
@@ -177,7 +188,7 @@ function loadBranchCategories() {
 
 function loadServices() {
     const branchId = getCurrentBranchId();
-    fetch(`${API_BASE_URL}=services/branchServices/${branchId}`)
+    fetch(`${API_BASE_URL}=services/branchServices/${branchId}`, { credentials: 'same-origin' })
         .then(res => res.json())
         .then(result => {
             if (result.success) {
@@ -208,7 +219,28 @@ function renderServices() {
         return;
     }
 
-    const tableHTML = filteredServices.map(service => `
+    // Initialize pagination if not already initialized
+    if (!servicesPagination) {
+        servicesPagination = new Pagination({
+            totalItems: filteredServices.length,
+            itemsPerPage: itemsPerPage,
+            currentPage: currentPage,
+            onPageChange: function(page, perPage) {
+                currentPage = page;
+                itemsPerPage = perPage;
+                renderServices();
+            }
+        });
+    }
+
+    // Update pagination with current filtered data
+    servicesPagination.updateTotalItems(filteredServices.length);
+
+    // Get current page range
+    const range = servicesPagination.getCurrentPageRange();
+    const pageServices = filteredServices.slice(range.start, range.end);
+
+    const tableHTML = pageServices.map(service => `
         <tr>
             <td>${service.branch_service_override_id}</td>
             <td><span class="service-name">${service.display_name}</span></td>
@@ -327,6 +359,12 @@ function toggleAddServiceMode() {
     isCreateNewMode = createNewCheckbox.checked;
     
     if (isCreateNewMode) {
+        // Clear form fields when switching to create new service mode
+        document.getElementById('serviceNameAdd').value = '';
+        document.getElementById('serviceDescriptionAdd').value = '';
+        document.getElementById('servicePriceAdd').value = '';
+        document.getElementById('serviceDurationAdd').value = '';
+        
         existingServiceRow.style.display = 'none';
         newServiceFields.style.display = 'block';
     } else {
@@ -335,13 +373,44 @@ function toggleAddServiceMode() {
     }
 }
 
+// Auto-fill form when selecting an existing service
+function handleExistingServiceSelect() {
+    const serviceId = document.getElementById('serviceSelectAdd').value;
+    
+    if (!serviceId) {
+        // Clear form if no service selected
+        document.getElementById('serviceNameAdd').value = '';
+        document.getElementById('serviceDescriptionAdd').value = '';
+        document.getElementById('servicePriceAdd').value = '';
+        document.getElementById('serviceDurationAdd').value = '';
+        return;
+    }
+    
+    // Find the selected service in defaultServicesData
+    const service = defaultServicesData.find(s => s.service_id == serviceId);
+    
+    if (service) {
+        // Auto-fill the form with service details
+        document.getElementById('serviceNameAdd').value = service.service_name || '';
+        document.getElementById('serviceDescriptionAdd').value = service.description || '';
+        document.getElementById('servicePriceAdd').value = service.price || '';
+        document.getElementById('serviceDurationAdd').value = service.duration_minutes || '';
+    }
+}
+
 function openAddServiceModal() {
     closeAllModals();
     
     const form = document.getElementById('addServiceForm');
     const createNewCheckbox = document.getElementById('createNewServiceAdd');
+    const serviceSelectAdd = document.getElementById('serviceSelectAdd');
     
     form.reset();
+    
+    // Reset service select dropdown
+    if (serviceSelectAdd) {
+        serviceSelectAdd.value = '';
+    }
     
     // Reset toggle
     if (createNewCheckbox) {
@@ -521,15 +590,11 @@ function handleAddServiceSubmit(e) {
             return;
         }
         
-        if (!serviceNameInput.value.trim()) {
-            showNotification('Please enter a service name', 'error');
-            return;
-        }
-        
+        // Service name is optional for overrides - use default if not provided
         formData = {
             branch_id: branchId,
             default_service_id: parseInt(defaultServiceId),
-            display_name: serviceNameInput.value.trim(),
+            display_name: serviceNameInput.value.trim() || null,
             description_override: serviceDescInput.value.trim() || null,
             price_override: parseFloat(servicePriceInput.value) || null,
             duration_minutes_override: parseInt(serviceDurationInput.value) || null,
@@ -543,22 +608,30 @@ function handleAddServiceSubmit(e) {
     fetch(url, {
         method: method,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formData),
+        credentials: 'same-origin'
     })
     .then(res => res.json())
     .then(result => {
         if (result.success) {
+            // Show success notification (no browser alert to avoid "localhost says" prefix)
             showNotification('Service created successfully', 'success');
             closeAddServiceModal();
             loadDefaultServices();
             loadServices();
         } else {
-            showNotification(result.message || 'Operation failed', 'error');
+            // Check for duplicate service error
+            const errorMsg = result.message || result.error || 'Operation failed';
+            if (errorMsg.includes('already exists') || errorMsg.includes('duplicate')) {
+                showNotification('This service already exists for this branch. Please select a different service or edit the existing one.', 'error');
+            } else {
+                showNotification(errorMsg, 'error');
+            }
         }
     })
     .catch(error => {
         console.error('Error adding service:', error);
-        showNotification('Failed to add service', 'error');
+        showNotification('Service already exists, please try other services', 'error');
     });
 }
 
@@ -603,7 +676,8 @@ function handleEditServiceSubmit(e) {
     fetch(url, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formData),
+        credentials: 'same-origin'
     })
     .then(res => res.json())
     .then(result => {
@@ -636,7 +710,8 @@ function handleDeleteService() {
     const url = `${API_BASE_URL}=services/branchServiceDestroy/${selectedServiceId}`;
     
     fetch(url, {
-        method: 'DELETE'
+        method: 'DELETE',
+        credentials: 'same-origin'
     })
     .then(res => res.json())
     .then(result => {
@@ -683,7 +758,8 @@ function handleCapacityUpdate(e) {
     fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formData),
+        credentials: 'same-origin'
     })
     .then(res => res.json())
     .then(result => {

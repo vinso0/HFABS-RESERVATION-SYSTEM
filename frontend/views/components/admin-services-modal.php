@@ -24,7 +24,7 @@
                         <i class="fas fa-tag"></i>
                         Select Existing Service *
                     </label>
-                    <select id="serviceSelectAdd">
+                    <select id="serviceSelectAdd" name="serviceSelectAdd">
                         <option value="">Select a service</option>
                         <!-- Will be populated by JavaScript -->
                     </select>
@@ -39,7 +39,7 @@
                             <i class="fas fa-list"></i>
                             Category *
                         </label>
-                        <select id="serviceCategoryAdd" required>
+                        <select id="serviceCategoryAdd" name="serviceCategoryAdd">
                             <option value="">Select a category</option>
                             <!-- Will be populated by JavaScript -->
                         </select>
@@ -50,7 +50,7 @@
                             <i class="fas fa-signature"></i>
                             Service Name *
                         </label>
-                        <input type="text" id="serviceNameAdd" placeholder="e.g., Hair Spa Treatment" required>
+                        <input type="text" id="serviceNameAdd" name="serviceNameAdd" placeholder="e.g., Hair Spa Treatment">
                     </div>
                 </div>
             </div>
@@ -60,7 +60,7 @@
                     <i class="fas fa-align-left"></i>
                     Description *
                 </label>
-                <textarea id="serviceDescriptionAdd" placeholder="Describe the service..." rows="3" required></textarea>
+                <textarea id="serviceDescriptionAdd" name="serviceDescriptionAdd" placeholder="Describe the service..." rows="3"></textarea>
             </div>
 
             <div class="form-row">
@@ -69,7 +69,7 @@
                         <i class="fas fa-peso-sign"></i>
                         Price (₱) *
                     </label>
-                    <input type="number" id="servicePriceAdd" placeholder="0.00" step="0.01" min="0" required>
+                    <input type="number" id="servicePriceAdd" name="servicePriceAdd" placeholder="0.00" step="0.01" min="0">
                 </div>
 
                 <div class="form-group">
@@ -77,13 +77,13 @@
                         <i class="fas fa-clock"></i>
                         Duration (minutes) *
                     </label>
-                    <input type="number" id="serviceDurationAdd" placeholder="60" min="15" step="15" required>
+                    <input type="number" id="serviceDurationAdd" name="serviceDurationAdd" placeholder="60" min="15" step="15">
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="checkbox-label">
-                    <input type="checkbox" id="serviceAvailableAdd" checked>
+                    <input type="checkbox" id="serviceAvailableAdd" name="serviceAvailableAdd" checked>
                     <span>Service Available</span>
                 </label>
             </div>
@@ -117,7 +117,7 @@
                     <i class="fas fa-tag"></i>
                     Service *
                 </label>
-                <select id="editServiceSelect" disabled>
+                <select id="editServiceSelect" name="editServiceSelect" disabled>
                     <option value="">Select a service</option>
                     <!-- Will be populated by JavaScript -->
                 </select>
@@ -128,7 +128,7 @@
                     <i class="fas fa-signature"></i>
                     Display Name *
                 </label>
-                <input type="text" id="serviceNameEdit" placeholder="e.g., Hair Spa Treatment" required>
+                <input type="text" id="serviceNameEdit" name="serviceNameEdit" placeholder="e.g., Hair Spa Treatment">
                 <small class="help-text">Customize the service name for this branch</small>
             </div>
 
@@ -137,7 +137,7 @@
                     <i class="fas fa-align-left"></i>
                     Description *
                 </label>
-                <textarea id="serviceDescriptionEdit" placeholder="Describe the service..." rows="3" required></textarea>
+                <textarea id="serviceDescriptionEdit" name="serviceDescriptionEdit" placeholder="Describe the service..." rows="3"></textarea>
             </div>
 
             <div class="form-row">
@@ -146,7 +146,7 @@
                         <i class="fas fa-peso-sign"></i>
                         Price (₱) *
                     </label>
-                    <input type="number" id="servicePriceEdit" placeholder="0.00" step="0.01" min="0" required>
+                    <input type="number" id="servicePriceEdit" name="servicePriceEdit" placeholder="0.00" step="0.01" min="0">
                 </div>
 
                 <div class="form-group">
@@ -154,13 +154,13 @@
                         <i class="fas fa-clock"></i>
                         Duration (minutes) *
                     </label>
-                    <input type="number" id="serviceDurationEdit" placeholder="60" min="15" step="15" required>
+                    <input type="number" id="serviceDurationEdit" name="serviceDurationEdit" placeholder="60" min="15" step="15">
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="checkbox-label">
-                    <input type="checkbox" id="serviceAvailableEdit" checked>
+                    <input type="checkbox" id="serviceAvailableEdit" name="serviceAvailableEdit" checked>
                     <span>Service Available</span>
                 </label>
             </div>
@@ -213,7 +213,7 @@
         </div>
 
         <form id="editCapacityForm" class="modal-body">
-            <input type="hidden" id="editCategoryId">
+            <input type="hidden" id="editCategoryId" name="editCategoryId">
 
             <div class="category-info-display">
                 <div class="category-icon-large" id="editCategoryIcon">
@@ -231,10 +231,10 @@
                 <input 
                     type="number" 
                     id="branchCapacity" 
+                    name="branchCapacity"
                     placeholder="Enter capacity" 
                     min="1" 
-                    max="50" 
-                    required
+                    max="50"
                 >
                 <small class="help-text">Maximum number of customers that can be served simultaneously</small>
             </div>

@@ -19,9 +19,20 @@ class PaymentController extends Controller {
     // get input
     $input = json_decode(file_get_contents('php://input'), true);
     
+    // DEBUG: Log the input to verify metadata
+    error_log("=== PAYMENT CONTROLLER DEBUG ===");
+    error_log("Input received: " . print_r($input, true));
+    
     // convert amount to int
     $amount_in_cents = (int)(round($input['amount'] * 100)); 
-    $orderId = (string)$input['order_id'];
+    $reservationId = (string)$input['reservation_id'];
+    
+    // Get metadata from input or use defaults
+    $metadata = $input['metadata'] ?? [
+        'reservation_id' => $reservationId
+    ];
+    
+    error_log("Metadata being sent to PayMongo: " . print_r($metadata, true));
 
     // payload
     $payload = json_encode([
@@ -32,16 +43,14 @@ class PaymentController extends Controller {
                     [
                         'amount'      => $amount_in_cents,
                         'currency'    => 'PHP',
-                        'description' => "Order #$orderId",
+                        'description' => "Order #$reservationId",
                         'name'        => "HFABS Product",
                         'quantity'    => 1
                     ]
                 ],
-                'description' => "HFABS Order #$orderId",
-                'success_url' => "https://undappled-bea-schemeful.ngrok-free.dev/frontend/views/success.html",
-                'metadata'    => [
-                    'order_id' => $orderId
-                ]
+                'description' => "HFABS Order #$reservationId",
+                'success_url' => "http://undappled-bea-schemeful.ngrok-free.dev/HFABS/frontend/views/success.html",
+                'metadata'    => $metadata
             ]
         ]
     ]);

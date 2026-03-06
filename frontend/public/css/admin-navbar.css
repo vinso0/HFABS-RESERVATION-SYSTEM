@@ -2,7 +2,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 16px 24px;
+    padding: 10px 24px;
     background-color: #fff;
     border-bottom: 1px solid #e5e5e5;
     margin-left: -24px;
@@ -29,30 +29,6 @@
     gap: 16px;
 }
 
-.notification-icon {
-    font-size: 18px;
-    color: #666;
-    cursor: pointer;
-    position: relative;
-    transition: color 0.3s ease;
-    padding: 8px;
-}
-
-.notification-icon:hover {
-    color: #d91a7e;
-}
-
-.notification-icon::after {
-    content: '';
-    width: 7px;
-    height: 7px;
-    background-color: #d91a7e;
-    border-radius: 50%;
-    position: absolute;
-    top: 6px;
-    right: 6px;
-}
-
 .user-profile {
     display: flex;
     align-items: center;
@@ -67,9 +43,32 @@
     background-color: #fef1f8;
 }
 
-.user-profile i {
-    font-size: 36px;
-    color: #d91a7e;
+.user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: #d91a7e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.user-role {
+    font-size: 11px;
+    color: #666;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .user-avatar {
+        width: 28px;
+        height: 28px;
+        font-size: 14px;
+    }
 }
 
 .user-name {

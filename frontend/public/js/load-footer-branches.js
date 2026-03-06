@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
     item.className = 'footer-branch-item';
     
     const branchName = document.createElement('h5');
-    branchName.textContent = capitalizeFirstLetter(branch.branchname) + ' Branch';
+    branchName.textContent = capitalizeFirstLetter(branch.branchname);
     
     const branchLocation = document.createElement('p');
     branchLocation.textContent = branch.location;

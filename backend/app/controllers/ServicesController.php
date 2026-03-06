@@ -129,18 +129,26 @@ class ServicesController extends Controller
             return;
         }
 
-        // Create branch service override for the new service
+        // Create branch service override for the new service (with values from the default service)
         $overrideData = array(
             'branch_id' => $data['branch_id'],
             'default_service_id' => $serviceId,
-            'display_name' => null,
-            'description_override' => null,
-            'duration_minutes_override' => null,
-            'price_override' => null,
+            'display_name' => $data['service_name'],
+            'description_override' => $data['description'],
+            'duration_minutes_override' => $data['duration_minutes'],
+            'price_override' => $data['price'],
             'is_available_override' => $data['is_available'] ?? 1
         );
 
         $overrideId = $this->servicesModel->createBranchServiceOverride($overrideData);
+        
+        if (!$overrideId || $overrideId === 'duplicate') {
+            // Rollback - delete the default service we just created
+            $this->servicesModel->deleteDefaultService($serviceId);
+            http_response_code(500);
+            echo json_encode(array('success' => false, 'error' => 'Failed to create branch service override'));
+            return;
+        }
         
         http_response_code(201);
         echo json_encode(array(
@@ -299,6 +307,12 @@ class ServicesController extends Controller
         );
 
         $serviceId = $this->servicesModel->createBranchServiceOverride($serviceData);
+        
+        if ($serviceId === 'duplicate') {
+            http_response_code(409);
+            echo json_encode(array('success' => false, 'error' => 'This service already exists for this branch'));
+            return;
+        }
         
         if ($serviceId) {
             http_response_code(201);

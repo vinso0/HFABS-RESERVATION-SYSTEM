@@ -1,6 +1,3 @@
-// PayMongo Configuration
-const PAYMONGO_PUBLIC_KEY = 'put_your_public_key_here(ex. sk_test_xxx)';
-
 // State Management
 let bookingData = null;
 
@@ -65,6 +62,8 @@ function displayBookingSummary() {
 function setupEventListeners() {
   document.getElementById('payWithGcash').addEventListener('click', () => processPayment('gcash'));
   document.getElementById('payWithMaya').addEventListener('click', () => processPayment('paymaya'));
+  //document.getElementById('payWithQR').addEventListener('click', () => processPayment('qrph'));
+
 }
 
 async function processPayment(paymentMethod) {
@@ -72,49 +71,52 @@ async function processPayment(paymentMethod) {
   loadingOverlay.style.display = 'flex';
   
   try {
-    const { downpayment, service, branch, date, time } = bookingData;
-    const amountInCentavos = Math.round(downpayment * 100);
-    
-    // Format description
-    const description = `${service.servicename} - ${branch.name}`;
-    const remarks = `Booking: ${date} at ${time}`;
-    
-    // Create a payment link
-    const options = {
-      method: 'POST',
-      headers: {
-        accept: 'application/json',
-        'content-type': 'application/json',
-        authorization: `Basic ${btoa(PAYMONGO_PUBLIC_KEY + ':')}`
-      },
-      body: JSON.stringify({
-        data: {
-          attributes: {
-            amount: amountInCentavos,
-            description: description,
-            remarks: remarks
-          }
-        }
-      })
-    };
+        const { downpayment, reservation_id, totalPrice, branch } = bookingData;
+        
+        // Get user data from localStorage
+        const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+        const userId = userData.user_id;
+        
+        // DEBUG: Log the data being sent
+        console.log('=== PAYMENT DEBUG ===');
+        console.log('Booking Data:', bookingData);
+        console.log('User Data:', userData);
+        console.log('User ID:', userId);
+        console.log('Branch:', branch);
 
-    const response = await fetch('https://api.paymongo.com/v1/links', options);
-    const result = await response.json();
-    
-    if (response.ok) {
-      // Store payment link ID for tracking
-      sessionStorage.setItem('paymentLinkId', result.data.id);
-      
-      // Redirect to PayMongo payment page
-      window.location.href = result.data.attributes.checkout_url;
-    } else {
-      console.error('PayMongo error:', result);
-      throw new Error(result.errors?.[0]?.detail || 'Failed to create payment link');
+        const requestData = {
+            amount: downpayment,
+            reservation_id: reservation_id || "TEMP_" + Date.now(), // Fallback if no ID yet
+            metadata: {
+                reservation_id: reservation_id || "TEMP_" + Date.now(),
+                user_id: userId,
+                branch_id: branch.id,
+                total_price: totalPrice
+            }
+        };
+        
+        console.log('Request Data:', requestData);
+
+        // call backend
+        const response = await fetch('https://undappled-bea-schemeful.ngrok-free.dev/HFABS/backend/public/index.php?url=payment/create&t=' + Date.now(), {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(requestData)
+        });
+
+        const result = await response.json();
+        console.log('Payment Response:', result);
+        
+        if (response.ok && result.checkout_url) {
+            // success url
+            window.location.href = result.checkout_url;
+        } else {
+            throw new Error(result.error || 'Failed to create session');
+        }
+        
+    } catch (error) {
+        console.error('Payment error:', error);
+        loadingOverlay.style.display = 'none';
+        alert('Payment failed: ' + error.message);
     }
-    
-  } catch (error) {
-    console.error('Payment error:', error);
-    loadingOverlay.style.display = 'none';
-    alert('Payment processing failed. Please try again. Error: ' + error.message);
-  }
 }

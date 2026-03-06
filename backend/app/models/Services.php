@@ -198,6 +198,26 @@ class Services
     public function createBranchServiceOverride($data)
     {
         $conn = $this->db->getConnection();
+        
+        // Check if this service already exists for this branch
+        $checkSql = 'SELECT branch_service_override_id FROM branch_service_overrides 
+                     WHERE branch_id = ? AND default_service_id = ?';
+        $checkStmt = $conn->prepare($checkSql);
+        $checkStmt->bind_param('ii', $data['branch_id'], $data['default_service_id']);
+        $checkStmt->execute();
+        $checkResult = $checkStmt->get_result();
+        
+        if ($checkResult->num_rows > 0) {
+            return 'duplicate';
+        }
+        
+        // Convert null values to appropriate defaults
+        $displayName = $data['display_name'] ?? '';
+        $descriptionOverride = $data['description_override'] ?? '';
+        $durationOverride = !empty($data['duration_minutes_override']) ? $data['duration_minutes_override'] : 0;
+        $priceOverride = !empty($data['price_override']) ? $data['price_override'] : 0.0;
+        $isAvailableOverride = isset($data['is_available_override']) ? $data['is_available_override'] : 1;
+        
         $sql = 'INSERT INTO branch_service_overrides 
                 (branch_id, default_service_id, display_name, description_override, duration_minutes_override, price_override, is_available_override) 
                 VALUES (?, ?, ?, ?, ?, ?, ?)';
@@ -205,11 +225,11 @@ class Services
         $stmt->bind_param('iissidd', 
             $data['branch_id'],
             $data['default_service_id'],
-            $data['display_name'],
-            $data['description_override'],
-            $data['duration_minutes_override'],
-            $data['price_override'],
-            $data['is_available_override']
+            $displayName,
+            $descriptionOverride,
+            $durationOverride,
+            $priceOverride,
+            $isAvailableOverride
         );
 
         if ($stmt->execute()) {
