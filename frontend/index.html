@@ -4,7 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>HappyFace Spa | Face & Body Reservations</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="./public/css/landing.css" />
+    <link rel="stylesheet" href="./public/css/branch-detail.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">  
   </head>
   <body>
     <div class="bubble-background">
@@ -22,34 +26,41 @@
     <div id="navbar-container"></div>
 
     <main>
-      <!-- Enhanced Hero Section -->
+      <!-- Hero Section -->
       <section class="hero-enhanced" id="home">
         <div class="hero-content-wrapper">
           <div class="hero-text-section">
-            <h1 class="hero-title">Luxury Spa<br>Wellness & Beauty</h1>
-            <p class="hero-subtitle">
+            <span class="hero-eyebrow animate-fade-in-up">
+              ✦ Premium Wellness & Beauty
+            </span>
+            <h1 class="hero-title animate-fade-in-up-delay-1">
+              Luxury Spa<br>Wellness &amp; Beauty
+            </h1>
+            <p class="hero-subtitle animate-fade-in-up-delay-2">
               Relax. Refresh. Renew.<br>
               Your beauty and wellness, simplified.
             </p>
-
-            <button class="cta-btn" onclick="testButton()">
+            <button class="cta-btn animate-fade-in-up-delay-3" onclick="testButton()">
               Book an Appointment
             </button>
           </div>
 
-          <div class="hero-image-section">
+          <div class="hero-image-section animate-fade-in">
             <img src="./public/img/hero-pic.jpg" alt="Spa Experience" />
           </div>
         </div>
       </section>
 
-      <!-- Services Gallery Section -->
+      <!-- Services Section -->
       <section class="services services-gallery" id="services">
-        <h2 class="services-heading">Our Services</h2>
-        <p class="section-subtitle">Discover our comprehensive range of beauty and wellness treatments</p>
+        <div class="section-heading-wrapper">
+          <h2 class="services-heading">Our Services</h2>
+          <p class="section-subtitle">Discover our comprehensive range of beauty and wellness treatments</p>
+          <div class="section-divider"></div>
+        </div>
 
         <div class="services-grid">
-          <div class="service-card">
+          <div class="service-card reveal">
             <div class="service-image">
               <img src="./public/img/hair-treatment.jpg" alt="Hair Services" />
             </div>
@@ -62,7 +73,7 @@
             </div>
           </div>
 
-          <div class="service-card">
+          <div class="service-card reveal">
             <div class="service-image">
               <img src="./public/img/nail-services.jpg" alt="Nail Services" />
             </div>
@@ -75,7 +86,7 @@
             </div>
           </div>
 
-          <div class="service-card">
+          <div class="service-card reveal">
             <div class="service-image">
               <img src="./public/img/facial-services.webp" alt="Facial Services" />
             </div>
@@ -88,7 +99,7 @@
             </div>
           </div>
 
-          <div class="service-card">
+          <div class="service-card reveal">
             <div class="service-image">
               <img src="./public/img/massage-services.jpg" alt="Massage Services" />
             </div>
@@ -102,6 +113,23 @@
           </div>
         </div>
       </section>
+
+      <!-- Branches Section -->
+      <section class="branches-section" id="branches">
+        <div class="branches-section-inner">
+          <span class="section-eyebrow">Find Us</span>
+          <h2 class="section-heading">Our <span class="text-pink">Branches</span></h2>
+          <p class="section-subtitle">Visit any of our locations for a premium spa experience</p>
+
+          <div id="branchesGrid" class="branches-grid">
+            <!-- Dynamically loaded -->
+            <div class="branch-card-skeleton"></div>
+            <div class="branch-card-skeleton"></div>
+            <div class="branch-card-skeleton"></div>
+          </div>
+        </div>
+      </section>
+
     </main>
 
     <!-- Footer -->
@@ -110,7 +138,7 @@
         <div class="footer-section">
           <div class="footer-brand">
             <img src="./public/img/HFABS-LOGO.png" alt="Happy Face & Body Spa" />
-            <h4>Happy Face & Body Spa</h4>
+            <h4>Happy Face &amp; Body Spa</h4>
           </div>
           <p>Your premier destination for beauty and wellness. Experience luxury and relaxation in every visit.</p>
         </div>
@@ -132,7 +160,7 @@
       </div>
 
       <div class="footer-bottom">
-        <p>&copy; 2026 Happy Face & Body Spa. All rights reserved.</p>
+        <p>&copy; 2026 Happy Face &amp; Body Spa. All rights reserved.</p>
       </div>
     </footer>
 
@@ -140,17 +168,35 @@
     <script src="./public/js/universal-branch-modal.js"></script>
     <script src="./public/js/load-footer-branches.js"></script>
     <script src="./public/js/navbar-loader.js"></script>
-    
+
     <!-- Branch Selection Modal -->
     <div id="branchModal" class="modal">
       <div class="modal-content">
         <span class="modal-close">&times;</span>
         <h2 class="modal-title">Select Branch</h2>
-        
         <div id="branchList" class="branch-list">
           <div class="branch-loading">Loading branches...</div>
         </div>
       </div>
     </div>
+
+    <!-- Scroll Reveal Script -->
+    <script>
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry, i) => {
+          if (entry.isIntersecting) {
+            setTimeout(() => entry.target.classList.add('visible'), i * 100);
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+
+      document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+      // Add scrolled class to header on scroll
+      window.addEventListener('scroll', () => {
+        document.querySelector('.header')?.classList.toggle('scrolled', window.scrollY > 20);
+      });
+    </script>
   </body>
 </html>

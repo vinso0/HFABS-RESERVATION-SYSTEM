@@ -46,6 +46,14 @@ class Router
                         http_response_code(404);
                         die("Method categories not found in controller $controllerName");
                     }
+                } elseif (isset($url[2]) && $url[2] === 'reviews') {
+                    // If next segment is 'reviews', call reviews() with branch ID
+                    if (method_exists($controller, 'reviews')) {
+                        call_user_func_array(array($controller, 'reviews'), array($method));
+                    } else {
+                        http_response_code(404);
+                        die("Method reviews not found in controller $controllerName");
+                    }
                 } else {
                     // Otherwise, call show() with ID
                     if (method_exists($controller, 'show')) {

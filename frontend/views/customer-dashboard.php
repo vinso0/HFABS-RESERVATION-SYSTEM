@@ -235,3 +235,22 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'customer') {
 </body>
 
 </html>
+
+<script>
+  // Inject pink divider under every modal title when modal opens
+  document.querySelectorAll('.modal-title').forEach(title => {
+    if (!title.nextElementSibling?.classList.contains('modal-title-divider')) {
+      const divider = document.createElement('div');
+      divider.className = 'modal-title-divider';
+      title.insertAdjacentElement('afterend', divider);
+    }
+  });
+
+  // Rating stars functionality (keep existing)
+  document.querySelectorAll('.rating-stars input[type="radio"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+      document.getElementById('reviewRating').value = this.value;
+    });
+  });
+</script>
+

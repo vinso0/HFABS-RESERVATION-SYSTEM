@@ -7041,3 +7041,71 @@ Stack trace:
 [06-Mar-2026 16:49:22 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
 [06-Mar-2026 17:05:54 Europe/Berlin] Branch name retrieved: caloocan branch
 [06-Mar-2026 17:06:03 Europe/Berlin] Branch name retrieved: caloocan branch
+[06-Mar-2026 20:16:24 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'u.first_name' in 'field list' in C:\xampp\htdocs\HFABS\backend\app\models\Branch.php:160
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Branch.php(160): mysqli->prepare('SELECT\r\n       ...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php(83): Branch->getBranchReviews('1')
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(52): BranchController->reviews('1')
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Branch.php on line 160
+[06-Mar-2026 20:16:32 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'u.first_name' in 'field list' in C:\xampp\htdocs\HFABS\backend\app\models\Branch.php:160
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Branch.php(160): mysqli->prepare('SELECT\r\n       ...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php(83): Branch->getBranchReviews('1')
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(52): BranchController->reviews('1')
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Branch.php on line 160
+[06-Mar-2026 20:17:10 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'u.first_name' in 'field list' in C:\xampp\htdocs\HFABS\backend\app\models\Branch.php:160
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Branch.php(160): mysqli->prepare('SELECT\r\n       ...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php(83): Branch->getBranchReviews('1')
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(52): BranchController->reviews('1')
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Branch.php on line 160
+[06-Mar-2026 20:17:28 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'u.first_name' in 'field list' in C:\xampp\htdocs\HFABS\backend\app\models\Branch.php:160
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Branch.php(160): mysqli->prepare('SELECT\r\n       ...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php(83): Branch->getBranchReviews('1')
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(52): BranchController->reviews('1')
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Branch.php on line 160
+[06-Mar-2026 20:17:42 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'u.first_name' in 'field list' in C:\xampp\htdocs\HFABS\backend\app\models\Branch.php:160
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Branch.php(160): mysqli->prepare('SELECT\r\n       ...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php(83): Branch->getBranchReviews('1')
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(52): BranchController->reviews('1')
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Branch.php on line 160
+[06-Mar-2026 20:18:19 Europe/Berlin] PHP Fatal error:  Uncaught Error: Class "Branch" not found in C:\xampp\htdocs\HFABS\backend\app\core\Controller.php:8
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php(81): Controller->model('Branch')
+#1 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(52): BranchController->reviews('1')
+#2 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#3 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\core\Controller.php on line 8
+[06-Mar-2026 20:18:51 Europe/Berlin] PHP Fatal error:  Uncaught Error: Class "Branch" not found in C:\xampp\htdocs\HFABS\backend\app\core\Controller.php:8
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php(81): Controller->model('Branch')
+#1 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(52): BranchController->reviews('1')
+#2 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#3 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\core\Controller.php on line 8
+[06-Mar-2026 20:18:51 Europe/Berlin] PHP Fatal error:  Uncaught Error: Class "Branch" not found in C:\xampp\htdocs\HFABS\backend\app\core\Controller.php:8
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php(59): Controller->model('Branch')
+#1 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(36): BranchController->services('1')
+#2 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#3 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\core\Controller.php on line 8
+[06-Mar-2026 20:18:51 Europe/Berlin] PHP Fatal error:  Uncaught Error: Class "Branch" not found in C:\xampp\htdocs\HFABS\backend\app\core\Controller.php:8
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php(32): Controller->model('Branch')
+#1 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(60): BranchController->show('1')
+#2 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#3 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\core\Controller.php on line 8

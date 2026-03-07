@@ -821,13 +821,6 @@ function openViewReviewModal(reservationId) {
         `).join('');
 
         reviewBody.innerHTML = `
-            <div class="review-summary">
-                <div class="average-rating">
-                    <span class="rating-number">${averageRating.toFixed(1)}</span>
-                    <span class="display-stars">${starsHtml}</span>
-                </div>
-                <div class="review-count">${reservation.feedback.length} Review${reservation.feedback.length > 1 ? 's' : ''}</div>
-            </div>
             <div class="review-comments">
                 ${commentsHtml}
             </div>

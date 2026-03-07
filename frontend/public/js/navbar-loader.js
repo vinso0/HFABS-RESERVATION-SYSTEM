@@ -12,58 +12,40 @@ class NavbarLoader {
     };
   }
 
-  /**
-   * Determine if user is logged in by checking for token or user data in localStorage
-   */
   isLoggedIn() {
     const token = localStorage.getItem('token');
     const userData = localStorage.getItem('userData');
     return !!(token && userData);
   }
 
-  /**
-   * Determine the appropriate navbar type based on current page and authentication status
-   */
   getNavbarType() {
     const currentPath = window.location.pathname;
     const isLoggedIn = this.isLoggedIn();
 
-    // Admin and superadmin pages have their own navbars
     if (currentPath.includes('admin') || currentPath.includes('superadmin')) {
-      return null; // Skip navbar loading for admin pages
+      return null;
     }
 
-    // Logged-in users get the logged-in navbar
     if (isLoggedIn) {
       return 'loggedIn';
     }
 
-    // Guest users get the guest navbar
     return 'guest';
   }
 
-  /**
-   * Get the correct relative path for loading navbar components
-   */
   getComponentPath() {
     const currentPath = window.location.pathname;
-    
-    // If we're in the views directory, components are at the same level
+
     if (currentPath.includes('views/')) {
       return './components/';
     }
-    
-    // If we're in root directory, components are in views/components
+
     return './views/components/';
   }
 
-  /**
-   * Load navbar component from file
-   */
   async loadNavbar() {
     const navbarType = this.getNavbarType();
-    
-    // Skip if no navbar type (admin pages)
+
     if (!navbarType) {
       console.debug('Navbar loading skipped for admin page');
       return;
@@ -75,7 +57,6 @@ class NavbarLoader {
       return;
     }
 
-    // Show loading state
     container.innerHTML = '<div class="navbar-loading">Loading...</div>';
 
     try {
@@ -88,18 +69,15 @@ class NavbarLoader {
       }
 
       const navbarHtml = await response.text();
-      
-      // Adjust paths in the loaded HTML to match current directory structure
       const adjustedHtml = this.adjustPaths(navbarHtml);
-      
+
       container.innerHTML = adjustedHtml;
-      
-      // Initialize burger menu if it exists (only for logged-in navbar)
+
       this.initializeBurgerMenu();
-      
-      // Initialize logout functionality if it exists (only for logged-in navbar)
       this.initializeLogout();
-      
+      this.initializeServicesLink();   // ← called here, inside loadNavbar
+      this.initializeSmartNavLinks();
+
       console.debug(`Successfully loaded ${navbarType} navbar`);
 
     } catch (error) {
@@ -108,48 +86,34 @@ class NavbarLoader {
     }
   }
 
-  /**
-   * Adjust image and link paths based on current directory structure
-   */
   adjustPaths(html) {
     const currentPath = window.location.pathname;
     const isInViewsDir = currentPath.includes('views/');
 
-    // Adjust image paths
     if (isInViewsDir) {
-      // In views directory: change ./public/ to ../public/
       return html.replace(/\.\/public\//g, '../public/');
     } else {
-      // In root directory: paths are already correct (./public/)
       return html;
     }
   }
 
-  /**
-   * Initialize logout functionality
-   */
   initializeLogout() {
     const logoutLinks = document.querySelectorAll('#logout-link, #logout-link-mobile');
-    
+
     logoutLinks.forEach(link => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
-        
-        // Clear localStorage
+
         localStorage.removeItem('token');
         localStorage.removeItem('userData');
-        
+
         console.log('User logged out, data cleared from localStorage');
-        
-        // Redirect to logout endpoint
+
         window.location.href = link.getAttribute('href');
       });
     });
   }
 
-  /**
-   * Initialize burger menu functionality if it exists
-   */
   initializeBurgerMenu() {
     const burgerMenu = document.getElementById('burger-menu');
     const navDropdown = document.getElementById('nav-dropdown');
@@ -160,7 +124,6 @@ class NavbarLoader {
         burgerMenu.classList.toggle('active');
       });
 
-      // Close dropdown when clicking outside
       document.addEventListener('click', (event) => {
         if (!event.target.closest('.header-container')) {
           navDropdown.classList.remove('active');
@@ -170,11 +133,102 @@ class NavbarLoader {
     }
   }
 
+  initializeServicesLink() {
+    const currentPath = window.location.pathname;
+    const pathLower = currentPath.toLowerCase();
+
+    const isHomePage =
+      pathLower === '/' ||
+      pathLower.endsWith('/index.html') ||
+      pathLower.endsWith('/customer-home.php') ||
+      pathLower.endsWith('/frontend/') ||
+      pathLower.endsWith('/hfabs/') ||
+      /\/hfabs\/?$/.test(pathLower) ||
+      /\/frontend\/?$/.test(pathLower);
+
+    console.debug('[NavbarLoader] Current path:', currentPath);
+    console.debug('[NavbarLoader] isHomePage:', isHomePage);
+
+    const servicesLinks = document.querySelectorAll(
+      '.nav-link[href*="services"], .nav-dropdown-link[href*="services"]'
+    );
+
+    console.debug('[NavbarLoader] Services links found:', servicesLinks.length);
+
+    servicesLinks.forEach(link => {
+      if (isHomePage) {
+        link.setAttribute('href', '#services');
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const target = document.getElementById('services');
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      } else {
+        link.setAttribute('href', '/HFABS/frontend/views/services.html');
+      }
+    });
+
+    const branchLinks = document.querySelectorAll(
+      '.nav-link[href*="branches"], .nav-dropdown-link[href*="branches"]'
+    );
+    branchLinks.forEach(link => {
+      if (isHomePage) {
+        link.setAttribute('href', '#branches');
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const target = document.getElementById('branches');
+          if (target) target.scrollIntoView({ behavior: 'smooth' });
+        });
+      } else {
+        link.setAttribute('href', '/HFABS/frontend/views/branches.html');
+      }
+    });
+  }
+
   /**
-   * Initialize the navbar loader
+   * Handle smart nav links with data-scroll-target
+   * - On home/customer-home: smooth scroll to section
+   * - On any other page: navigate to home page with hash
    */
+  initializeSmartNavLinks() {
+    const isHomePage =
+      window.location.pathname.endsWith('index.html') ||
+      window.location.pathname.endsWith('customer-home.php') ||
+      window.location.pathname === '/' ||
+      window.location.pathname.endsWith('/HFABS/frontend/');
+
+    const links = document.querySelectorAll('[data-scroll-target]');
+
+    links.forEach(link => {
+      const target = link.getAttribute('data-scroll-target');
+
+      if (isHomePage) {
+        // On home page — smooth scroll to section
+        link.setAttribute('href', `#${target}`);
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const section = document.getElementById(target);
+          if (section) {
+            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+          // Close mobile dropdown if open
+          document.getElementById('nav-dropdown')?.classList.remove('active');
+          document.getElementById('burger-menu')?.classList.remove('active');
+        });
+      } else {
+        // On any other page — go to correct home with hash
+        const isLoggedIn = this.isLoggedIn();
+        const homeUrl = isLoggedIn
+          ? `/HFABS/frontend/views/customer-home.php#${target}`
+          : `/HFABS/frontend/index.html#${target}`;
+        link.setAttribute('href', homeUrl);
+      }
+    });
+  }
+
   initialize() {
-    // Wait for DOM to be ready
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', () => this.loadNavbar());
     } else {
@@ -183,11 +237,6 @@ class NavbarLoader {
   }
 }
 
-// Create a singleton instance
 const navbarLoader = new NavbarLoader();
-
-// Make it globally accessible for manual initialization if needed
 window.navbarLoader = navbarLoader;
-
-// Auto-initialize when script is loaded
 navbarLoader.initialize();

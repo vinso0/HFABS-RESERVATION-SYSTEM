@@ -139,6 +139,54 @@ class Branch
         
         return $categories;
     }
-}
 
-?>
+    // Get reviews for a specific branch with customer names
+    // API endpoint consumed by GET /api/branches/{id}/reviews
+    public function getBranchReviews($branchId)
+    {
+        $conn = $this->db->getConnection();
+
+        $sql = 'SELECT
+                    f.feedback_id,
+                    f.rating,
+                    f.comment,
+                    f.created_at,
+                    u.username AS customer_name
+                FROM feedback f
+                JOIN users u ON f.user_id = u.user_id
+                WHERE f.branch_id = ?
+                ORDER BY f.created_at DESC';
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('i', $branchId);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        $reviews = [];
+        while ($row = $result->fetch_assoc()) {
+            $reviews[] = $row;
+        }
+
+        return $reviews;
+    }
+
+    // Get average rating and review count for a branch
+    public function getBranchRatingSummary($branchId)
+    {
+        $conn = $this->db->getConnection();
+
+        $sql = 'SELECT
+                    COUNT(*) AS total_reviews,
+                    ROUND(AVG(rating), 1) AS average_rating
+                FROM feedback
+                WHERE branch_id = ?';
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('i', $branchId);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+        return $result->fetch_assoc();
+    }
+}

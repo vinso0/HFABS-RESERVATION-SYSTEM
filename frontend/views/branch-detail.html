@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Branch Details | Happy Face & Body Spa</title>
+  <link rel="stylesheet" href="../public/css/landing.css" />
+  <link rel="stylesheet" href="../public/css/branch-detail.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body>
+
+  <div class="bubble-background">
+    <div class="bubble bubble-1"></div>
+    <div class="bubble bubble-2"></div>
+    <div class="bubble bubble-3"></div>
+    <div class="bubble bubble-4"></div>
+    <div class="bubble bubble-5"></div>
+    <div class="bubble bubble-6"></div>
+    <div class="bubble bubble-7"></div>
+    <div class="bubble bubble-8"></div>
+  </div>
+
+  <div id="navbar-container"></div>
+
+  <main class="branch-detail-main">
+
+    <!-- Hero Banner -->
+    <section class="branch-hero" id="branchHero">
+      <div class="branch-hero-content">
+        <a href="javascript:history.back()" class="back-btn">
+          <i class="fas fa-arrow-left"></i> Back
+        </a>
+        <div id="branchHeroInfo">
+          <div class="branch-hero-skeleton">
+            <div class="skeleton-line skeleton-title"></div>
+            <div class="skeleton-line skeleton-sub"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Branch Info Cards -->
+    <section class="branch-info-section">
+      <div class="branch-container">
+
+        <div class="branch-info-grid" id="branchInfoGrid">
+          <!-- Populated by JS -->
+        </div>
+
+        <!-- Services offered -->
+        <div class="branch-services-block">
+          <h2 class="block-title">Services <span class="text-pink">Available</span></h2>
+          <p class="block-subtitle">Browse all treatments offered at this branch</p>
+
+          <div class="services-filter" id="servicesFilter">
+            <!-- Category filter tabs populated by JS -->
+          </div>
+
+          <div class="branch-services-grid" id="branchServicesGrid">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <!-- Reviews -->
+        <div class="branch-reviews-block">
+          <div class="reviews-header">
+            <div>
+              <h2 class="block-title">Customer <span class="text-pink">Reviews</span></h2>
+              <p class="block-subtitle">What our guests say about this branch</p>
+            </div>
+            <div class="reviews-summary" id="reviewsSummary">
+              <!-- Rating summary populated by JS -->
+            </div>
+          </div>
+
+          <div class="reviews-grid" id="reviewsGrid">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <div class="footer-brand">
+          <img src="../public/img/HFABS-LOGO.png" alt="Happy Face & Body Spa" />
+          <h4>Happy Face & Body Spa</h4>
+        </div>
+        <p>Your premier destination for beauty and wellness.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <a href="/HFABS/frontend/index.html">Home</a>
+        <a href="/HFABS/frontend/index.html#branches">Branches</a>
+        <a href="/HFABS/frontend/views/services.html">Services</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Happy Face & Body Spa. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="../public/js/navbar-loader.js"></script>
+  <script src="../public/js/branch-detail.js"></script>
+</body>
+</html>

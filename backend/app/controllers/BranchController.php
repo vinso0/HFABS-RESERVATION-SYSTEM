@@ -73,6 +73,23 @@ class BranchController extends Controller
         header('Content-Type: application/json');
         echo json_encode($categories);
     }
+
+    // Get reviews for a specific branch
+    // API endpoint: GET /api/branches/{id}/reviews
+    public function reviews($branchId)
+    {
+        $branchModel = $this->model('Branch');
+
+        $reviews = $branchModel->getBranchReviews($branchId);
+        $summary = $branchModel->getBranchRatingSummary($branchId);
+
+        header('Content-Type: application/json');
+        echo json_encode([
+            'summary' => $summary,
+            'reviews' => $reviews
+        ]);
+    }
+
 }
 
 ?>
