@@ -1,0 +1,122 @@
+/**
+ * toast.js — Reusable toast notifications + confirm dialog
+ * Usage:
+ *   Toast.success('Reservation cancelled!')
+ *   Toast.error('Something went wrong.')
+ *   Toast.warning('Please select a date.')
+ *   Toast.info('Loading...')
+ *   const ok = await Toast.confirm('Are you sure you want to cancel?')
+ */
+
+const Toast = (() => {
+  // ── Container ──────────────────────────────────────────────────
+  function getContainer() {
+    let el = document.getElementById('toast-container');
+    if (!el) {
+      el = document.createElement('div');
+      el.id = 'toast-container';
+      document.body.appendChild(el);
+    }
+    return el;
+  }
+
+  // ── Icons ──────────────────────────────────────────────────────
+  const ICONS = {
+    success: `<svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>`,
+    error:   `<svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-1-9a1 1 0 012 0v4a1 1 0 01-2 0V9zm1-5a1 1 0 100 2 1 1 0 000-2z" clip-rule="evenodd"/></svg>`,
+    warning: `<svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>`,
+    info:    `<svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>`,
+  };
+
+  // ── Show toast ─────────────────────────────────────────────────
+  function show(message, type = 'info', duration = 4000) {
+    const container = getContainer();
+
+    const toast = document.createElement('div');
+    toast.className = `toast toast--${type}`;
+    toast.innerHTML = `
+      <span class="toast__icon">${ICONS[type]}</span>
+      <span class="toast__msg">${message}</span>
+      <button class="toast__close" aria-label="Dismiss">
+        <svg viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+        </svg>
+      </button>
+      <div class="toast__progress"></div>
+    `;
+
+    container.appendChild(toast);
+
+    // Trigger enter animation
+    requestAnimationFrame(() => toast.classList.add('toast--show'));
+
+    // Progress bar animation
+    const progress = toast.querySelector('.toast__progress');
+    progress.style.transitionDuration = `${duration}ms`;
+    requestAnimationFrame(() => progress.classList.add('toast__progress--run'));
+
+    // Auto dismiss
+    const timer = setTimeout(() => dismiss(toast), duration);
+
+    // Manual dismiss
+    toast.querySelector('.toast__close').addEventListener('click', () => {
+      clearTimeout(timer);
+      dismiss(toast);
+    });
+  }
+
+  function dismiss(toast) {
+    toast.classList.remove('toast--show');
+    toast.classList.add('toast--hide');
+    toast.addEventListener('transitionend', () => toast.remove(), { once: true });
+  }
+
+  // ── Confirm dialog ─────────────────────────────────────────────
+  function confirm(message, { confirmText = 'Confirm', cancelText = 'Cancel', type = 'warning' } = {}) {
+    return new Promise((resolve) => {
+      const overlay = document.createElement('div');
+      overlay.className = 'toast-confirm-overlay';
+      overlay.innerHTML = `
+        <div class="toast-confirm toast-confirm--${type}">
+          <div class="toast-confirm__icon">${ICONS[type]}</div>
+          <p class="toast-confirm__msg">${message}</p>
+          <div class="toast-confirm__actions">
+            <button class="toast-confirm__btn toast-confirm__btn--cancel">${cancelText}</button>
+            <button class="toast-confirm__btn toast-confirm__btn--confirm toast-confirm__btn--${type}">${confirmText}</button>
+          </div>
+        </div>
+      `;
+
+      document.body.appendChild(overlay);
+      requestAnimationFrame(() => overlay.classList.add('toast-confirm-overlay--show'));
+
+      overlay.querySelector('.toast-confirm__btn--confirm').addEventListener('click', () => {
+        close(overlay);
+        resolve(true);
+      });
+
+      overlay.querySelector('.toast-confirm__btn--cancel').addEventListener('click', () => {
+        close(overlay);
+        resolve(false);
+      });
+
+      // Click outside to cancel
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) { close(overlay); resolve(false); }
+      });
+    });
+  }
+
+  function close(overlay) {
+    overlay.classList.remove('toast-confirm-overlay--show');
+    overlay.addEventListener('transitionend', () => overlay.remove(), { once: true });
+  }
+
+  return {
+    success: (msg, duration)           => show(msg, 'success', duration),
+    error:   (msg, duration)           => show(msg, 'error',   duration ?? 5000),
+    warning: (msg, duration)           => show(msg, 'warning', duration),
+    info:    (msg, duration)           => show(msg, 'info',    duration),
+    confirm,
+  };
+})();

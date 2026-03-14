@@ -1,8 +1,3 @@
-/**
- * Dynamic Navbar Loader
- * Loads the appropriate navbar component based on the page type and user authentication status
- */
-
 class NavbarLoader {
   constructor() {
     this.navbarContainerId = 'navbar-container';
@@ -20,27 +15,30 @@ class NavbarLoader {
 
   getNavbarType() {
     const currentPath = window.location.pathname;
-    const isLoggedIn = this.isLoggedIn();
 
     if (currentPath.includes('admin') || currentPath.includes('superadmin')) {
       return null;
     }
 
-    if (isLoggedIn) {
-      return 'loggedIn';
-    }
-
-    return 'guest';
+    return this.isLoggedIn() ? 'loggedIn' : 'guest';
   }
 
   getComponentPath() {
-    const currentPath = window.location.pathname;
+    return window.location.pathname.includes('views/')
+      ? './components/'
+      : './views/components/';
+  }
 
-    if (currentPath.includes('views/')) {
-      return './components/';
-    }
-
-    return './views/components/';
+  isHomePage() {
+    const p = window.location.pathname.toLowerCase();
+    return (
+      p === '/' ||
+      p.endsWith('/index.html') ||
+      p.endsWith('/customer-home.php') ||
+      p.endsWith('/frontend/') ||
+      /\/hfabs\/?$/.test(p) ||
+      /\/frontend\/?$/.test(p)
+    );
   }
 
   async loadNavbar() {
@@ -64,22 +62,16 @@ class NavbarLoader {
       const navbarFile = this.navbarTypes[navbarType];
       const response = await fetch(componentPath + navbarFile);
 
-      if (!response.ok) {
-        throw new Error(`Failed to load navbar: ${response.status}`);
-      }
+      if (!response.ok) throw new Error(`Failed to load navbar: ${response.status}`);
 
       const navbarHtml = await response.text();
-      const adjustedHtml = this.adjustPaths(navbarHtml);
-
-      container.innerHTML = adjustedHtml;
+      container.innerHTML = this.adjustPaths(navbarHtml);
 
       this.initializeBurgerMenu();
       this.initializeLogout();
-      this.initializeServicesLink();   // ← called here, inside loadNavbar
-      this.initializeSmartNavLinks();
+      this.initializeNavLinks();   // single unified handler
 
       console.debug(`Successfully loaded ${navbarType} navbar`);
-
     } catch (error) {
       console.error('Error loading navbar:', error);
       container.innerHTML = '<div class="navbar-error">Error loading navbar</div>';
@@ -87,28 +79,17 @@ class NavbarLoader {
   }
 
   adjustPaths(html) {
-    const currentPath = window.location.pathname;
-    const isInViewsDir = currentPath.includes('views/');
-
-    if (isInViewsDir) {
-      return html.replace(/\.\/public\//g, '../public/');
-    } else {
-      return html;
-    }
+    return window.location.pathname.includes('views/')
+      ? html.replace(/\.\/public\//g, '../public/')
+      : html;
   }
 
   initializeLogout() {
-    const logoutLinks = document.querySelectorAll('#logout-link, #logout-link-mobile');
-
-    logoutLinks.forEach(link => {
+    document.querySelectorAll('#logout-link, #logout-link-mobile').forEach(link => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
-
         localStorage.removeItem('token');
         localStorage.removeItem('userData');
-
-        console.log('User logged out, data cleared from localStorage');
-
         window.location.href = link.getAttribute('href');
       });
     });
@@ -133,97 +114,62 @@ class NavbarLoader {
     }
   }
 
-  initializeServicesLink() {
-    const currentPath = window.location.pathname;
-    const pathLower = currentPath.toLowerCase();
-
-    const isHomePage =
-      pathLower === '/' ||
-      pathLower.endsWith('/index.html') ||
-      pathLower.endsWith('/customer-home.php') ||
-      pathLower.endsWith('/frontend/') ||
-      pathLower.endsWith('/hfabs/') ||
-      /\/hfabs\/?$/.test(pathLower) ||
-      /\/frontend\/?$/.test(pathLower);
-
-    console.debug('[NavbarLoader] Current path:', currentPath);
-    console.debug('[NavbarLoader] isHomePage:', isHomePage);
-
-    const servicesLinks = document.querySelectorAll(
-      '.nav-link[href*="services"], .nav-dropdown-link[href*="services"]'
-    );
-
-    console.debug('[NavbarLoader] Services links found:', servicesLinks.length);
-
-    servicesLinks.forEach(link => {
-      if (isHomePage) {
-        link.setAttribute('href', '#services');
-        link.addEventListener('click', (e) => {
-          e.preventDefault();
-          const target = document.getElementById('services');
-          if (target) {
-            target.scrollIntoView({ behavior: 'smooth' });
-          }
-        });
-      } else {
-        link.setAttribute('href', '/HFABS/frontend/views/services.html');
-      }
-    });
-
-    const branchLinks = document.querySelectorAll(
-      '.nav-link[href*="branches"], .nav-dropdown-link[href*="branches"]'
-    );
-    branchLinks.forEach(link => {
-      if (isHomePage) {
-        link.setAttribute('href', '#branches');
-        link.addEventListener('click', (e) => {
-          e.preventDefault();
-          const target = document.getElementById('branches');
-          if (target) target.scrollIntoView({ behavior: 'smooth' });
-        });
-      } else {
-        link.setAttribute('href', '/HFABS/frontend/views/branches.html');
-      }
-    });
-  }
-
   /**
-   * Handle smart nav links with data-scroll-target
-   * - On home/customer-home: smooth scroll to section
-   * - On any other page: navigate to home page with hash
+   * Single unified nav link handler.
+   *
+   * Rules per link type:
+   *  - [data-nav="services"]  → services.html OR #services scroll on home
+   *  - [data-nav="branches"]  → always home page #branches (scroll or redirect)
+   *  - [data-scroll-target]   → same smart scroll/redirect logic
    */
-  initializeSmartNavLinks() {
-    const isHomePage =
-      window.location.pathname.endsWith('index.html') ||
-      window.location.pathname.endsWith('customer-home.php') ||
-      window.location.pathname === '/' ||
-      window.location.pathname.endsWith('/HFABS/frontend/');
+  initializeNavLinks() {
+    const onHome    = this.isHomePage();
+    const isLoggedIn = this.isLoggedIn();
 
-    const links = document.querySelectorAll('[data-scroll-target]');
+    const homeUrl = isLoggedIn
+      ? '/HFABS/frontend/views/customer-home.php'
+      : '/HFABS/frontend/index.html';
 
-    links.forEach(link => {
-      const target = link.getAttribute('data-scroll-target');
+    const closeMobileMenu = () => {
+      document.getElementById('nav-dropdown')?.classList.remove('active');
+      document.getElementById('burger-menu')?.classList.remove('active');
+    };
 
-      if (isHomePage) {
-        // On home page — smooth scroll to section
-        link.setAttribute('href', `#${target}`);
-        link.addEventListener('click', (e) => {
-          e.preventDefault();
-          const section = document.getElementById(target);
-          if (section) {
-            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }
-          // Close mobile dropdown if open
-          document.getElementById('nav-dropdown')?.classList.remove('active');
-          document.getElementById('burger-menu')?.classList.remove('active');
-        });
+    const makeScrollHandler = (sectionId) => (e) => {
+      e.preventDefault();
+      document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      closeMobileMenu();
+    };
+
+    // ── Services links ──────────────────────────────
+    document.querySelectorAll('[data-nav="services"]').forEach(link => {
+      if (onHome) {
+        link.setAttribute('href', '#services');
+        link.addEventListener('click', makeScrollHandler('services'));
       } else {
-        // On any other page — go to correct home with hash
-        const isLoggedIn = this.isLoggedIn();
-        const homeUrl = isLoggedIn
-          ? `/HFABS/frontend/views/customer-home.php#${target}`
-          : `/HFABS/frontend/index.html#${target}`;
-        link.setAttribute('href', homeUrl);
+        link.setAttribute('href', `${homeUrl}#services`); // ← always go home#services
+      }
+    });
+
+    // ── Branches links — ALWAYS go home#branches ───
+    document.querySelectorAll('[data-nav="branches"]').forEach(link => {
+      if (onHome) {
+        link.setAttribute('href', '#branches');
+        link.addEventListener('click', makeScrollHandler('branches'));
+      } else {
+        // Navigate to home page and land on #branches
+        link.setAttribute('href', `${homeUrl}#branches`);
+      }
+    });
+
+    // ── Generic data-scroll-target links ───────────
+    document.querySelectorAll('[data-scroll-target]').forEach(link => {
+      const target = link.getAttribute('data-scroll-target');
+      if (onHome) {
+        link.setAttribute('href', `#${target}`);
+        link.addEventListener('click', makeScrollHandler(target));
+      } else {
+        link.setAttribute('href', `${homeUrl}#${target}`);
       }
     });
   }

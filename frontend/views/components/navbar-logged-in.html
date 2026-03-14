@@ -16,8 +16,8 @@
     <!-- MIDDLE: Nav Links -->
     <nav class="nav">
       <a href="/HFABS/frontend/views/customer-home.php" class="nav-link">Home</a>
-      <a href="/HFABS/frontend/views/services.html" class="nav-link">Services</a>
-      <a href="/HFABS/frontend/views/branches.html" class="nav-link">Branches</a>
+      <a href="#services" class="nav-link" data-nav="services">Services</a>
+      <a href="#branches" class="nav-link" data-nav="branches">Branches</a>
       <a href="/HFABS/frontend/views/customer-dashboard.php" class="nav-link">My Reservations</a>
       <a href="/HFABS/frontend/views/customer-profile.php" class="nav-link">Profile</a>
     </nav>
@@ -37,11 +37,11 @@
     <!-- MOBILE DROPDOWN -->
     <nav class="nav-dropdown" id="nav-dropdown">
       <a href="/HFABS/frontend/views/customer-home.php" class="nav-dropdown-link">Home</a>
-      <a href="/HFABS/frontend/views/services.html" class="nav-dropdown-link">Services</a>
-      <a href="#branches" class="nav-dropdown-link" data-scroll-target="branches">Branches</a>
+      <a href="#services" class="nav-dropdown-link" data-nav="services">Services</a>
+      <a href="#branches" class="nav-dropdown-link" data-nav="branches">Branches</a>
       <a href="/HFABS/frontend/views/customer-dashboard.php" class="nav-dropdown-link">My Reservations</a>
       <a href="/HFABS/frontend/views/customer-profile.php" class="nav-dropdown-link">Profile</a>
-      <a href="/HFABS/backend/public/index.php?url=auth/logout" class="nav-dropdown-link logout" id="logout-link-mobile">Logout</a>
+      <a href="/HFABS/backend/public/index.php?url=auth/logout" class="nav-dropdown-link" id="logout-link-mobile">Logout</a>
     </nav>
 
   </div>

@@ -7,7 +7,7 @@ const customers = [
         email: "john.doe@example.com",
         reservations: [
             {
-                id: "RES-1001",
+                id: "ID: 1",
                 service: "Full Body Massage",
                 duration: "60 minutes",
                 reservationDate: "2026-03-05",
@@ -15,11 +15,11 @@ const customers = [
                 scheduledTime: "10:00 AM",
                 status: "confirmed",
                 branch: "Main Branch",
-                price: "$150",
+                price: "₱150",
                 paymentStatus: "paid"
             },
             {
-                id: "RES-1005",
+                id: "Id: 5",
                 service: "Facial Treatment",
                 duration: "45 minutes",
                 reservationDate: "2026-03-03",
@@ -27,11 +27,11 @@ const customers = [
                 scheduledTime: "2:00 PM",
                 status: "completed",
                 branch: "Downtown Branch",
-                price: "$85",
+                price: "₱85",
                 paymentStatus: "paid"
             },
             {
-                id: "RES-1020",
+                id: "Id: 20",
                 service: "Hair Styling",
                 duration: "30 minutes",
                 reservationDate: "2026-02-20",
@@ -39,7 +39,7 @@ const customers = [
                 scheduledTime: "3:30 PM",
                 status: "completed",
                 branch: "Main Branch",
-                price: "$75",
+                price: "₱75",
                 paymentStatus: "paid"
             }
         ]
@@ -51,7 +51,7 @@ const customers = [
         email: "jane.smith@example.com",
         reservations: [
             {
-                id: "RES-1008",
+                id: "Id: 8",
                 service: "Nail Art",
                 duration: "90 minutes",
                 reservationDate: "2026-03-08",
@@ -59,11 +59,11 @@ const customers = [
                 scheduledTime: "11:00 AM",
                 status: "confirmed",
                 branch: "East Side Branch",
-                price: "$60",
+                price: "₱60",
                 paymentStatus: "pending"
             },
             {
-                id: "RES-1015",
+                id: "15",
                 service: "Body Scrub",
                 duration: "60 minutes",
                 reservationDate: "2026-03-01",
@@ -71,7 +71,7 @@ const customers = [
                 scheduledTime: "10:30 AM",
                 status: "completed",
                 branch: "Main Branch",
-                price: "$95",
+                price: "₱95",
                 paymentStatus: "paid"
             }
         ]
@@ -83,7 +83,7 @@ const customers = [
         email: "mike.johnson@example.com",
         reservations: [
             {
-                id: "RES-1010",
+                id: "10",
                 service: "Hot Stone Massage",
                 duration: "75 minutes",
                 reservationDate: "2026-03-10",
@@ -91,7 +91,7 @@ const customers = [
                 scheduledTime: "4:00 PM",
                 status: "confirmed",
                 branch: "West Side Branch",
-                price: "$120",
+                price: "₱120",
                 paymentStatus: "paid"
             }
         ]
@@ -103,7 +103,7 @@ const customers = [
         email: "emily.davis@example.com",
         reservations: [
             {
-                id: "RES-1003",
+                id: "3",
                 service: "Hair Color",
                 duration: "90 minutes",
                 reservationDate: "2026-02-25",
@@ -111,11 +111,11 @@ const customers = [
                 scheduledTime: "1:00 PM",
                 status: "completed",
                 branch: "Main Branch",
-                price: "$110",
+                price: "₱110",
                 paymentStatus: "paid"
             },
             {
-                id: "RES-1007",
+                id: "7",
                 service: "Hair Cut",
                 duration: "30 minutes",
                 reservationDate: "2026-02-15",
@@ -123,11 +123,11 @@ const customers = [
                 scheduledTime: "10:00 AM",
                 status: "completed",
                 branch: "Downtown Branch",
-                price: "$45",
+                price: "₱45",
                 paymentStatus: "paid"
             },
             {
-                id: "RES-1018",
+                id: "18",
                 service: "Facial Treatment",
                 duration: "45 minutes",
                 reservationDate: "2026-02-10",
@@ -135,11 +135,11 @@ const customers = [
                 scheduledTime: "3:00 PM",
                 status: "completed",
                 branch: "East Side Branch",
-                price: "$85",
+                price: "₱85",
                 paymentStatus: "paid"
             },
             {
-                id: "RES-1025",
+                id: "25",
                 service: "Manicure",
                 duration: "30 minutes",
                 reservationDate: "2026-02-05",
@@ -147,7 +147,7 @@ const customers = [
                 scheduledTime: "11:00 AM",
                 status: "completed",
                 branch: "West Side Branch",
-                price: "$50",
+                price: "₱50",
                 paymentStatus: "paid"
             }
         ]
@@ -159,7 +159,7 @@ const customers = [
         email: "chris.wilson@example.com",
         reservations: [
             {
-                id: "RES-1012",
+                id: "12",
                 service: "Deep Tissue Massage",
                 duration: "60 minutes",
                 reservationDate: "2026-03-05",
@@ -167,11 +167,11 @@ const customers = [
                 scheduledTime: "5:00 PM",
                 status: "rescheduled",
                 branch: "Main Branch",
-                price: "$130",
+                price: "₱130",
                 paymentStatus: "paid"
             },
             {
-                id: "RES-1022",
+                id: "22",
                 service: "Swedish Massage",
                 duration: "60 minutes",
                 reservationDate: "2026-02-25",
@@ -179,7 +179,7 @@ const customers = [
                 scheduledTime: "2:30 PM",
                 status: "completed",
                 branch: "Downtown Branch",
-                price: "$100",
+                price: "₱100",
                 paymentStatus: "paid"
             }
         ]
@@ -191,7 +191,7 @@ const customers = [
         email: "sarah.brown@example.com",
         reservations: [
             {
-                id: "RES-1016",
+                id: "6",
                 service: "Pedicure",
                 duration: "60 minutes",
                 reservationDate: "2026-03-06",
@@ -199,11 +199,11 @@ const customers = [
                 scheduledTime: "9:00 AM",
                 status: "confirmed",
                 branch: "East Side Branch",
-                price: "$55",
+                price: "₱55",
                 paymentStatus: "pending"
             },
             {
-                id: "RES-1019",
+                id: "9",
                 service: "Hair Treatment",
                 duration: "45 minutes",
                 reservationDate: "2026-02-20",
@@ -211,11 +211,11 @@ const customers = [
                 scheduledTime: "1:30 PM",
                 status: "completed",
                 branch: "West Side Branch",
-                price: "$90",
+                price: "₱90",
                 paymentStatus: "paid"
             },
             {
-                id: "RES-1023",
+                id: "23",
                 service: "Facial Treatment",
                 duration: "45 minutes",
                 reservationDate: "2026-02-15",
@@ -223,7 +223,7 @@ const customers = [
                 scheduledTime: "4:00 PM",
                 status: "completed",
                 branch: "Main Branch",
-                price: "$85",
+                price: "₱85",
                 paymentStatus: "paid"
             }
         ]
@@ -235,7 +235,7 @@ const customers = [
         email: "david.lee@example.com",
         reservations: [
             {
-                id: "RES-1021",
+                id: "21",
                 service: "Back Massage",
                 duration: "45 minutes",
                 reservationDate: "2026-03-10",
@@ -243,7 +243,7 @@ const customers = [
                 scheduledTime: "3:00 PM",
                 status: "confirmed",
                 branch: "Downtown Branch",
-                price: "$75",
+                price: "₱75",
                 paymentStatus: "paid"
             }
         ]
@@ -255,7 +255,7 @@ const customers = [
         email: "lisa.garcia@example.com",
         reservations: [
             {
-                id: "RES-1004",
+                id: "4",
                 service: "Full Body Massage",
                 duration: "60 minutes",
                 reservationDate: "2026-03-01",
@@ -263,11 +263,11 @@ const customers = [
                 scheduledTime: "11:30 AM",
                 status: "completed",
                 branch: "East Side Branch",
-                price: "$150",
+                price: "₱150",
                 paymentStatus: "paid"
             },
             {
-                id: "RES-1009",
+                id: "19",
                 service: "Facial Treatment",
                 duration: "45 minutes",
                 reservationDate: "2026-02-25",
@@ -275,11 +275,11 @@ const customers = [
                 scheduledTime: "9:30 AM",
                 status: "completed",
                 branch: "West Side Branch",
-                price: "$85",
+                price: "₱85",
                 paymentStatus: "paid"
             },
             {
-                id: "RES-1011",
+                id: "11",
                 service: "Nail Polish Change",
                 duration: "15 minutes",
                 reservationDate: "2026-02-20",
@@ -287,7 +287,7 @@ const customers = [
                 scheduledTime: "2:00 PM",
                 status: "completed",
                 branch: "Main Branch",
-                price: "$25",
+                price: "₱25",
                 paymentStatus: "paid"
             }
         ]

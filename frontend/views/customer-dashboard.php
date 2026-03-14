@@ -18,6 +18,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'customer') {
   <link rel="stylesheet" href="../public/css/landing.css" />
   <link rel="stylesheet" href="../public/css/customer-dashboard.css" />
   <link rel="stylesheet" href="../public/css/pagination.css" />
+  <link rel="stylesheet" href="../public/css/toast.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
@@ -224,6 +225,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'customer') {
   <script src="../public/js/navbar-loader.js"></script>
   <script src="../public/js/pagination.js"></script>
   <script src="../public/js/customer-dashboard.js"></script>
+  <script src="../public/js/toast.js"></script>
   <script>
     // Rating stars functionality
     document.querySelectorAll('.rating-stars input[type="radio"]').forEach(radio => {

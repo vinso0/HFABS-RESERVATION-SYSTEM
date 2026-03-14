@@ -274,32 +274,31 @@ function viewReservationDetails(reservationId) {
 
 // Function to cancel reservation
 async function cancelReservation(reservationId) {
-    if (confirm('Are you sure you want to cancel this reservation?')) {
-        try {
-            const response = await fetch('/HFABS/backend/public/index.php?url=reservation/cancelReservation', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                credentials: 'same-origin',
-                body: JSON.stringify({ reservation_id: reservationId })
-            });
+  const confirmed = await Toast.confirm(
+    'Are you sure you want to cancel this reservation? This cannot be undone.',
+    { confirmText: 'Yes, Cancel It', cancelText: 'Keep It', type: 'error' }
+  );
+  if (!confirmed) return;
 
-            const result = await response.json();
+  try {
+    const response = await fetch('/HFABS/backend/public/index.php?url=reservation/cancelReservation', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      credentials: 'same-origin',
+      body: JSON.stringify({ reservation_id: reservationId })
+    });
+    const result = await response.json();
 
-            if (result.success) {
-                alert('Reservation cancelled successfully!');
-                // Refresh reservations list
-                location.reload();
-            } else {
-                alert('Failed to cancel reservation: ' + result.message);
-            }
-        } catch (error) {
-            console.error('Error cancelling reservation:', error);
-            alert('Failed to cancel reservation. Please try again.');
-        }
+    if (result.success) {
+      Toast.success('Reservation cancelled successfully!');
+      setTimeout(() => location.reload(), 1500);
+    } else {
+      Toast.error('Failed to cancel reservation: ' + result.message);
     }
+  } catch (error) {
+    console.error('Error cancelling reservation:', error);
+    Toast.error('Failed to cancel reservation. Please try again.');
+  }
 }
 
 // Calendar and Time Picker Logic
@@ -548,46 +547,36 @@ function openRescheduleModal(reservationId) {
 
 // Function to reschedule reservation
 async function rescheduleReservation() {
-    const reservationId = document.getElementById('rescheduleReservationId').value;
-    const newDate = selectedDate;
-    const newTime = selectedTime;
-    const reason = document.getElementById('rescheduleReason').value;
+  const reservationId = document.getElementById('rescheduleReservationId').value;
+  const newDate = selectedDate;
+  const newTime = selectedTime;
+  const reason = document.getElementById('rescheduleReason').value;
 
-    if (!newDate || !newTime) {
-        alert('Please select both date and time');
-        return;
+  if (!newDate || !newTime) {
+    Toast.warning('Please select both a date and a time slot.');
+    return;
+  }
+
+  try {
+    const response = await fetch('/HFABS/backend/public/index.php?url=reservation/rescheduleReservation', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      credentials: 'same-origin',
+      body: JSON.stringify({ reservation_id: reservationId, new_date: newDate, new_time: newTime, reason })
+    });
+    const result = await response.json();
+
+    if (result.success) {
+      Toast.success('Reservation rescheduled successfully!');
+      closeRescheduleModal();
+      setTimeout(() => location.reload(), 1500);
+    } else {
+      Toast.error('Failed to reschedule: ' + result.message);
     }
-
-    try {
-        const response = await fetch('/HFABS/backend/public/index.php?url=reservation/rescheduleReservation', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            credentials: 'same-origin',
-            body: JSON.stringify({
-                reservation_id: reservationId,
-                new_date: newDate,
-                new_time: newTime,
-                reason: reason
-            })
-        });
-
-        const result = await response.json();
-
-        if (result.success) {
-            alert('Reservation rescheduled successfully!');
-            // Close modal and refresh reservations list
-            closeRescheduleModal();
-            location.reload();
-        } else {
-            alert('Failed to reschedule reservation: ' + result.message);
-        }
-    } catch (error) {
-        console.error('Error rescheduling reservation:', error);
-        alert('Failed to reschedule reservation. Please try again.');
-    }
+  } catch (error) {
+    console.error('Error rescheduling reservation:', error);
+    Toast.error('Failed to reschedule reservation. Please try again.');
+  }
 }
 
 // Function to open review modal
@@ -652,112 +641,84 @@ function openEditReviewModal(reservationId) {
 
 // Function to submit review
 async function submitReview() {
-    const reservationId = document.getElementById('reviewReservationId').value;
-    const branchId = document.getElementById('reviewBranchId').value;
-    const rating = document.getElementById('reviewRating').value;
-    const comment = document.getElementById('reviewComment').value;
+  const reservationId = document.getElementById('reviewReservationId').value;
+  const branchId = document.getElementById('reviewBranchId').value;
+  const rating = document.getElementById('reviewRating').value;
+  const comment = document.getElementById('reviewComment').value;
 
-    if (!rating || !comment) {
-        alert('Please provide both rating and comment');
+  if (!rating || !comment.trim()) {
+    Toast.warning('Please provide both a rating and a comment.');
+    return;
+  }
+
+  const reservation = window.currentReservations.find(r => r.reservation_id === parseInt(reservationId));
+  if (!reservation || reservation.services.length === 0) {
+    Toast.error('No services found for this reservation.');
+    return;
+  }
+
+  try {
+    for (const service of reservation.services) {
+      const response = await fetch('/HFABS/backend/public/index.php?url=reservation/submitFeedback', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify({ reservation_service_id: service.reservation_service_id, branch_id: branchId, rating, comment })
+      });
+      const result = await response.json();
+      if (!result.success) {
+        Toast.error('Failed to submit review: ' + result.message);
         return;
+      }
     }
-
-    // Get reservation services to submit feedback for each service
-    const reservation = window.currentReservations.find(r => r.reservation_id === parseInt(reservationId));
-    if (!reservation || reservation.services.length === 0) {
-        alert('No services found for this reservation');
-        return;
-    }
-
-    try {
-        // Submit feedback for each service
-        for (const service of reservation.services) {
-            const response = await fetch('/HFABS/backend/public/index.php?url=reservation/submitFeedback', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                credentials: 'same-origin',
-                body: JSON.stringify({
-                    reservation_service_id: service.reservation_service_id,
-                    branch_id: branchId,
-                    rating: rating,
-                    comment: comment
-                })
-            });
-
-            const result = await response.json();
-
-            if (!result.success) {
-                alert('Failed to submit feedback for service: ' + result.message);
-                return;
-            }
-        }
-
-        alert('Feedback submitted successfully!');
-        // Close modal and refresh reservations list
-        closeReviewModal();
-        location.reload();
-    } catch (error) {
-        console.error('Error submitting feedback:', error);
-        alert('Failed to submit feedback. Please try again.');
-    }
+    Toast.success('Review submitted successfully! Thank you for your feedback. 🌟');
+    closeReviewModal();
+    setTimeout(() => location.reload(), 1800);
+  } catch (error) {
+    console.error('Error submitting feedback:', error);
+    Toast.error('Failed to submit review. Please try again.');
+  }
 }
 
 // Function to update review
 async function updateReview() {
-    const reservationId = document.getElementById('reviewReservationId').value;
-    const branchId = document.getElementById('reviewBranchId').value;
-    const rating = document.getElementById('reviewRating').value;
-    const comment = document.getElementById('reviewComment').value;
+  const reservationId = document.getElementById('reviewReservationId').value;
+  const branchId = document.getElementById('reviewBranchId').value;
+  const rating = document.getElementById('reviewRating').value;
+  const comment = document.getElementById('reviewComment').value;
 
-    if (!rating || !comment) {
-        alert('Please provide both rating and comment');
+  if (!rating || !comment.trim()) {
+    Toast.warning('Please provide both a rating and a comment.');
+    return;
+  }
+
+  const reservation = window.currentReservations.find(r => r.reservation_id === parseInt(reservationId));
+  if (!reservation || reservation.services.length === 0) {
+    Toast.error('No services found for this reservation.');
+    return;
+  }
+
+  try {
+    for (const service of reservation.services) {
+      const response = await fetch('/HFABS/backend/public/index.php?url=reservation/submitFeedback', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify({ reservation_service_id: service.reservation_service_id, branch_id: branchId, rating, comment })
+      });
+      const result = await response.json();
+      if (!result.success) {
+        Toast.error('Failed to update review: ' + result.message);
         return;
+      }
     }
-
-    // Get reservation services to update feedback for each service
-    const reservation = window.currentReservations.find(r => r.reservation_id === parseInt(reservationId));
-    if (!reservation || reservation.services.length === 0) {
-        alert('No services found for this reservation');
-        return;
-    }
-
-    try {
-        // Update feedback for each service
-        for (const service of reservation.services) {
-            const response = await fetch('/HFABS/backend/public/index.php?url=reservation/submitFeedback', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                credentials: 'same-origin',
-                body: JSON.stringify({
-                    reservation_service_id: service.reservation_service_id,
-                    branch_id: branchId,
-                    rating: rating,
-                    comment: comment
-                })
-            });
-
-            const result = await response.json();
-
-            if (!result.success) {
-                alert('Failed to update feedback for service: ' + result.message);
-                return;
-            }
-        }
-
-        alert('Feedback updated successfully!');
-        // Close modal and refresh reservations list
-        closeReviewModal();
-        location.reload();
-    } catch (error) {
-        console.error('Error updating feedback:', error);
-        alert('Failed to update feedback. Please try again.');
-    }
+    Toast.success('Review updated successfully!');
+    closeReviewModal();
+    setTimeout(() => location.reload(), 1800);
+  } catch (error) {
+    console.error('Error updating feedback:', error);
+    Toast.error('Failed to update review. Please try again.');
+  }
 }
 
 // Make updateReview globally accessible

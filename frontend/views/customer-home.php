@@ -7,7 +7,8 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 // Pass first name to the page for personalized greeting
-$firstName = $_SESSION['first_name'] ?? 'Guest';
+$rawUsername  = $_SESSION['user_name'] ?? 'Guest';
+$firstName    = ucfirst(strtok($rawUsername, ' _-.'));
 ?>
 <!DOCTYPE html>
 <html lang="en">

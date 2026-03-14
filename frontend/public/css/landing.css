@@ -1044,8 +1044,16 @@ main {
   }
   .nav { display: none; }
   .nav-actions { display: none; }
-  .burger-menu { display: flex; }
+  .burger-menu {
+    display: flex;
+    margin-left: auto; /* Push burger to right side */
+  }
   .nav-dropdown { display: block; }
+  /* Adjust grid layout for mobile */
+  .header-container {
+    grid-template-columns: auto auto; /* Logo | Burger */
+    justify-content: space-between; /* Space them apart */
+  }
 
   /* Hero */
   .hero-content-wrapper {
