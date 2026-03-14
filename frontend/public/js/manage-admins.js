@@ -152,9 +152,9 @@ function openEditModal(admin) {
 // ── Save (Add or Edit) ──
 function saveAdmin(e) {
     e.preventDefault();
-    const id       = document.getElementById('editUserId').value;
+    const id = document.getElementById('editUserId').value;
     const branchId = parseInt(document.getElementById('fieldBranch').value) || null;
-    const branch   = branchesData.find(function (b) { return b.branch_id === branchId; });
+    const branch = branchesData.find(function (b) { return b.branch_id === branchId; });
 
     if (id) {
         const idx = adminsData.findIndex(function (a) { return a.user_id == id; });
@@ -166,26 +166,32 @@ function saveAdmin(e) {
             adminsData[idx].branch_id      = branchId;
             adminsData[idx].branch_name    = branch ? branch.branch_name : '';
             adminsData[idx].is_active      = parseInt(document.getElementById('fieldStatus').value);
+
+            closeModal('adminModal');
+            renderAdmins(adminsData);
+            showToast('Admin account updated successfully.', 'success', 'Admin Updated');
         }
     } else {
         adminsData.push({
-            user_id:        Date.now(),
-            username:       document.getElementById('fieldUsername').value,
-            email:          document.getElementById('fieldEmail').value,
+            user_id: Date.now(),
+            username: document.getElementById('fieldUsername').value,
+            email: document.getElementById('fieldEmail').value,
             contact_number: document.getElementById('fieldContact').value,
-            password:       '',
-            role:           document.getElementById('fieldRole').value,
-            branch_id:      branchId,
-            branch_name:    branch ? branch.branch_name : '',
-            is_active:      parseInt(document.getElementById('fieldStatus').value),
-            deleted_at:     null,
-            created_at:     new Date().toISOString()
+            password: '',
+            role: document.getElementById('fieldRole').value,
+            branch_id: branchId,
+            branch_name: branch ? branch.branch_name : '',
+            is_active: parseInt(document.getElementById('fieldStatus').value),
+            deleted_at: null,
+            created_at: new Date().toISOString()
         });
-    }
 
-    closeModal('adminModal');
-    filterAdmins(); // Reapply filters to update displayed data
+        closeModal('adminModal');
+        renderAdmins(adminsData);
+        showToast('New admin account added successfully.', 'success', 'Admin Added');
+    }
 }
+
 
 // ── Open Delete Modal ──
 function openDeleteModal(id, name) {
@@ -198,8 +204,10 @@ function openDeleteModal(id, name) {
 function confirmDelete() {
     adminsData = adminsData.filter(function (a) { return a.user_id !== deleteTargetId; });
     closeModal('deleteModal');
-    filterAdmins(); // Reapply filters to update displayed data
+    renderAdmins(adminsData);
+    showToast('Admin account deleted successfully.', 'success', 'Admin Deleted');
 }
+
 
 // ── Close Any Modal ──
 function closeModal(id) {

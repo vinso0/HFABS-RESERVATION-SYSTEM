@@ -115,27 +115,33 @@ function saveBranch(e) {
     e.preventDefault();
     const id = document.getElementById('editBranchId').value;
     const payload = {
-        branch_id:         id ? parseInt(id) : Date.now(),
-        branch_name:       document.getElementById('bName').value,
-        branch_location:   document.getElementById('bLocation').value,
-        contact_number:    document.getElementById('bContact').value,
-        email:             document.getElementById('bEmail').value,
-        opening_time:      document.getElementById('bOpenTime').value + ':00',
-        closing_time:      document.getElementById('bCloseTime').value + ':00',
+        branch_id: id ? parseInt(id) : Date.now(),
+        branch_name: document.getElementById('bName').value,
+        branch_location: document.getElementById('bLocation').value,
+        contact_number: document.getElementById('bContact').value,
+        email: document.getElementById('bEmail').value,
+        opening_time: document.getElementById('bOpenTime').value + ':00',
+        closing_time: document.getElementById('bCloseTime').value + ':00',
         down_payment_rate: parseFloat(document.getElementById('bDownRate').value),
-        status:            document.getElementById('bStatus').value
+        status: document.getElementById('bStatus').value
     };
 
     if (id) {
         const idx = branchesData.findIndex(function (b) { return b.branch_id == id; });
-        if (idx > -1) branchesData[idx] = payload;
+        if (idx > -1) {
+            branchesData[idx] = payload;
+            closeModal('branchModal');
+            renderBranches(branchesData);
+            showToast('Branch details updated successfully.', 'success', 'Branch Updated');
+        }
     } else {
         branchesData.push(payload);
+        closeModal('branchModal');
+        renderBranches(branchesData);
+        showToast('New branch added successfully.', 'success', 'Branch Added');
     }
-
-    closeModal('branchModal');
-    filterBranches(); // Reapply filters to update displayed data
 }
+
 
 // ── Open Delete Modal ──
 function openDeleteBranchModal(id, name) {
@@ -148,7 +154,8 @@ function openDeleteBranchModal(id, name) {
 function confirmDeleteBranch() {
     branchesData = branchesData.filter(function (b) { return b.branch_id !== deleteBranchTargetId; });
     closeModal('deleteBranchModal');
-    filterBranches(); // Reapply filters to update displayed data
+    renderBranches(branchesData);
+    showToast('Branch deleted successfully.', 'success', 'Branch Deleted');
 }
 
 // ── Close Modal ──

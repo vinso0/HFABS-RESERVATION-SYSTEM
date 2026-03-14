@@ -108,6 +108,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'superadmin') {
     </main>
 
     <script src="../public/js/superadmin-sidebar.js"></script>
+    <script src="../public/js/superadmin-toast.js"></script>
     <script src="../public/js/superadmin-dashboard.js"></script>
 </body>
 </html>

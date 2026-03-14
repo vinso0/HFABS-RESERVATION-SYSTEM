@@ -1,5 +1,7 @@
 <header class="page-header">
     <div class="page-header-left">
+        <h1 id="page-title">Dashboard</h1>
+        <p id="page-subtitle">Welcome back! Here's your system overview.</p>
     </div>
     <div class="user-info">
         <div class="user-profile">
@@ -26,3 +28,5 @@
         </div>
     </div>
 </header>
+
+<div id="toast-container" class="toast-container"></div>
