@@ -2,14 +2,15 @@
 
 class Reservation extends Database
 {
+    public function confirmReservation($reservationId)
+    {
+        // Assuming you have a database connection property like $this->db
+        $query = "UPDATE reservations SET status = 'confirmed' WHERE reservation_id = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param("s", $reservationId);
+        return $stmt->execute();
+    }
 
-    public function confirmReservation($reservationId) {
-    // Assuming you have a database connection property like $this->db
-    $query = "UPDATE reservations SET status = 'confirmed' WHERE reservation_id = ?";
-    $stmt = $this->db->prepare($query);
-    $stmt->bind_param("s", $reservationId);
-    return $stmt->execute();
-}
     public function getReservationsByUserId($userId)
     {
         $query = "
@@ -122,8 +123,8 @@ class Reservation extends Database
     public function rescheduleReservation($reservationId, $newDate, $newTime, $reason = '')
     {
         // Validate input parameters first
-        if (!$this->isValidReservationId($reservationId) || 
-            !$this->isValidDate($newDate) || 
+        if (!$this->isValidReservationId($reservationId) ||
+            !$this->isValidDate($newDate) ||
             !$this->isValidTime($newTime)) {
             return false;
         }
@@ -187,12 +188,12 @@ class Reservation extends Database
                     
                     $newScheduleStmt = $this->db->prepare($newScheduleQuery);
                     $newScheduleStmt->bind_param(
-                        'isssis', 
-                        $serviceRow['reservation_service_id'], 
-                        $newDate, 
-                        $formattedStartTime, 
-                        $formattedEndTime, 
-                        $scheduleRow['reservation_schedule_id'], 
+                        'isssis',
+                        $serviceRow['reservation_service_id'],
+                        $newDate,
+                        $formattedStartTime,
+                        $formattedEndTime,
+                        $scheduleRow['reservation_schedule_id'],
                         $reason
                     );
                     $newScheduleStmt->execute();

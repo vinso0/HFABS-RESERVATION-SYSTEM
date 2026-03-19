@@ -247,7 +247,7 @@ class ReservationController extends Controller
             exit;
         }
         
-        if (!isset($_SESSION['role']) || !in_array($_SESSION['role'], ['admin', 'cashier'])) {
+        if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
             http_response_code(401);
             echo json_encode([
                 'success' => false,
@@ -295,7 +295,7 @@ class ReservationController extends Controller
             exit;
         }
         
-        if (!isset($_SESSION['role']) || !in_array($_SESSION['role'], ['admin', 'cashier'])) {
+        if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
             http_response_code(401);
             echo json_encode([
                 'success' => false,
@@ -345,7 +345,7 @@ class ReservationController extends Controller
         }
         
         // Check if user is logged in and is an admin
-        if (!isset($_SESSION['user_id']) || !in_array($_SESSION['role'], ['admin', 'cashier'])) {
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
             http_response_code(401);
             echo json_encode([
                 'success' => false,
@@ -395,6 +395,9 @@ class ReservationController extends Controller
     {
         header('Content-Type: application/json');
         
+        // Debug: Log method entry
+        error_log('[' . date('Y-m-d H:i:s') . '] adminRescheduleReservation method called');
+        
         require_once __DIR__ . '/../config/config.php';
         
         if (session_status() === PHP_SESSION_NONE) {
@@ -411,10 +414,26 @@ class ReservationController extends Controller
             exit;
         }
         
+        // Only handle POST requests
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            http_response_code(405);
+            echo json_encode([
+                'success' => false,
+                'message' => 'Method not allowed. Only POST requests are accepted.'
+            ]);
+            exit;
+        }
+        
         // Get reschedule data from POST
         $data = json_decode(file_get_contents('php://input'), true);
         
+        // Debug: Log the received data with timestamp
+        error_log('[' . date('Y-m-d H:i:s') . '] Admin reschedule request - Method: ' . $_SERVER['REQUEST_METHOD'] . ', Data: ' . print_r($data, true));
+        
         if (!isset($data['reservation_id'], $data['new_date'], $data['new_time'])) {
+            error_log('Missing fields - reservation_id: ' . (isset($data['reservation_id']) ? 'yes' : 'no') . 
+                     ', new_date: ' . (isset($data['new_date']) ? 'yes' : 'no') . 
+                     ', new_time: ' . (isset($data['new_time']) ? 'yes' : 'no'));
             http_response_code(400);
             echo json_encode([
                 'success' => false,
@@ -424,15 +443,44 @@ class ReservationController extends Controller
         }
         
         // Load reservation model
+        error_log('[' . date('Y-m-d H:i:s') . '] Loading reservation model...');
         $reservationModel = $this->model('Reservation');
         
+        if (!$reservationModel) {
+            error_log('[' . date('Y-m-d H:i:s') . '] Failed to load reservation model');
+            http_response_code(500);
+            echo json_encode([
+                'success' => false,
+                'message' => 'Failed to load reservation model'
+            ]);
+            exit;
+        }
+        
+        error_log('[' . date('Y-m-d H:i:s') . '] Attempting to reschedule reservation ID: ' . $data['reservation_id'] . 
+                 ' to date: ' . $data['new_date'] . ' time: ' . $data['new_time'] . ' reason: ' . ($data['reason'] ?? 'Updated by admin'));
+        
         // Reschedule reservation
-        $result = $reservationModel->rescheduleReservation(
-            $data['reservation_id'],
-            $data['new_date'],
-            $data['new_time'],
-            $data['reason'] ?? 'Rescheduled by admin'
-        );
+        try {
+            $result = $reservationModel->adminReschedule(
+                $data['reservation_id'],
+                $data['new_date'],
+                $data['new_time'],
+                $data['reason'] ?? 'Rescheduled by admin'
+            );
+            
+            error_log('[' . date('Y-m-d H:i:s') . '] Reschedule result: ' . ($result ? 'success' : 'failure'));
+            
+        } catch (Exception $e) {
+            error_log('[' . date('Y-m-d H:i:s') . '] Exception during reschedule: ' . $e->getMessage());
+            error_log('[' . date('Y-m-d H:i:s') . '] Exception trace: ' . $e->getTraceAsString());
+            
+            http_response_code(500);
+            echo json_encode([
+                'success' => false,
+                'message' => 'Exception during reschedule: ' . $e->getMessage()
+            ]);
+            exit;
+        }
         
         if ($result) {
             echo json_encode([
@@ -446,6 +494,74 @@ class ReservationController extends Controller
                 'message' => 'Failed to reschedule reservation'
             ]);
         }
+        
+        exit;
+    }
+
+    public function checkAvailability()
+    {
+        header('Content-Type: application/json');
+        
+        require_once __DIR__ . '/../config/config.php';
+        
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        
+        // Debug: Log method entry
+        error_log('[' . date('Y-m-d H:i:s') . '] checkAvailability called');
+        
+        // Check if user is logged in
+        if (!isset($_SESSION['user_id'])) {
+            error_log('[' . date('Y-m-d H:i:s') . '] User not authenticated in checkAvailability');
+            http_response_code(401);
+            echo json_encode([
+                'success' => false,
+                'message' => 'User not authenticated'
+            ]);
+            exit;
+        }
+        
+        // Get parameters
+        $date = $_GET['date'] ?? '';
+        $time = $_GET['time'] ?? '';
+        $serviceId = $_GET['serviceId'] ?? '';
+        
+        error_log('[' . date('Y-m-d H:i:s') . '] checkAvailability parameters: date=' . $date . ', time=' . $time . ', serviceId=' . $serviceId);
+        
+        if (!$date || !$time || !$serviceId) {
+            error_log('[' . date('Y-m-d H:i:s') . '] Missing parameters in checkAvailability');
+            http_response_code(400);
+            echo json_encode([
+                'success' => false,
+                'message' => 'Missing required parameters: date, time, serviceId'
+            ]);
+            exit;
+        }
+        
+        // Load reservation model
+        $reservationModel = $this->model('Reservation');
+        
+        if (!$reservationModel) {
+            error_log('[' . date('Y-m-d H:i:s') . '] Failed to load reservation model in checkAvailability');
+            http_response_code(500);
+            echo json_encode([
+                'success' => false,
+                'message' => 'Failed to load reservation model'
+            ]);
+            exit;
+        }
+        
+        // Check if there's an existing reservation for this date and time
+        error_log('[' . date('Y-m-d H:i:s') . '] Calling checkTimeSlotAvailability with: date=' . $date . ', time=' . $time . ', serviceId=' . $serviceId);
+        $isAvailable = $reservationModel->checkTimeSlotAvailability($date, $time, $serviceId);
+        
+        error_log('[' . date('Y-m-d H:i:s') . '] checkTimeSlotAvailability result: ' . ($isAvailable ? 'AVAILABLE' : 'NOT AVAILABLE'));
+        
+        echo json_encode([
+            'success' => true,
+            'available' => $isAvailable
+        ]);
         
         exit;
     }

@@ -19,20 +19,31 @@ class PaymentController extends Controller {
     // get input
     $input = json_decode(file_get_contents('php://input'), true);
     
-    // DEBUG: Log the input to verify metadata
-    error_log("=== PAYMENT CONTROLLER DEBUG ===");
-    error_log("Input received: " . print_r($input, true));
+    // Log to main error log
+    error_log("Payment Request: " . json_encode($input));
     
-    // convert amount to int
-    $amount_in_cents = (int)(round($input['amount'] * 100)); 
+    // Validate input
+    if (!$input || !isset($input['amount']) || !isset($input['reservation_id'])) {
+        header('Content-Type: application/json', true, 400);
+        echo json_encode(['error' => 'Invalid request: amount and reservation_id are required']);
+        return;
+    }
+    
+    // convert amount to int and validate
+    $amount = floatval($input['amount']);
+    if ($amount < 1.00 || $amount > 999999.99) {
+        header('Content-Type: application/json', true, 400);
+        echo json_encode(['error' => 'Amount must be between 1.00 and 999,999.99 PHP']);
+        return;
+    }
+    
+    $amount_in_cents = (int)(round($amount * 100)); 
     $reservationId = (string)$input['reservation_id'];
     
     // Get metadata from input or use defaults
     $metadata = $input['metadata'] ?? [
         'reservation_id' => $reservationId
     ];
-    
-    error_log("Metadata being sent to PayMongo: " . print_r($metadata, true));
 
     // payload
     $payload = json_encode([
@@ -60,7 +71,7 @@ class PaymentController extends Controller {
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Crucial for Localhost
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); 
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
         'Content-Type: application/json',
         'accept: application/json',

@@ -82,10 +82,15 @@ function capitalize(str) {
 // Function to format time for display
 function formatTime(timeString) {
     if (!timeString) return 'N/A';
-    const [hours, minutes] = timeString.split(':');
-    const hour = parseInt(hours);
-    const ampm = hour >= 12 ? 'PM' : 'AM';
-    const displayHour = hour % 12 || 12;
+    
+    // Handle both HH:MM and HH:MM:SS formats
+    const timeParts = timeString.split(':');
+    const hours = parseInt(timeParts[0]);
+    const minutes = timeParts[1] || '00';
+    
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    const displayHour = hours % 12 || 12;
+    
     return `${displayHour}:${minutes} ${ampm}`;
 }
 
@@ -314,9 +319,20 @@ if (!document.querySelector('style[data-notification-animations]')) {
     document.head.appendChild(style);
 }
 
+// Global variable to prevent duplicate submissions
+let isSubmitting = false;
+
 // Function to handle edit form submission
 async function handleEditReservation(event) {
     event.preventDefault();
+    
+    // Prevent duplicate submissions
+    if (isSubmitting) {
+        console.log('Submission already in progress, ignoring duplicate request');
+        return;
+    }
+    
+    isSubmitting = true;
     
     const reservationId = document.getElementById('editReservationId').value;
     const newDate = document.getElementById('editReservationDate').value;
@@ -325,6 +341,7 @@ async function handleEditReservation(event) {
     
     if (!reservationId || !newDate || !newTime || !newStatus) {
         showNotification('Please fill in all required fields.', 'error');
+        isSubmitting = false;
         return;
     }
     
@@ -338,26 +355,32 @@ async function handleEditReservation(event) {
         // Check if date/time changed
         const dateChanged = reservation && (reservation.reservation_date !== newDate || reservation.start_time !== newTime);
         
-        if (dateChanged && newStatus !== 'rescheduled') {
+        if (dateChanged) {
             // If date/time changed, we need to reschedule first
-            const rescheduleResponse = await fetch('../../backend/public/index.php?url=reservation/adminReschedule', {
+            const requestData = {
+                reservation_id: parseInt(reservationId),
+                new_date: newDate,
+                new_time: newTime,
+                reason: 'Updated by admin'
+            };
+            
+            // Debug: Log the request data
+            console.log('Sending reschedule request:', requestData);
+            
+            const rescheduleResponse = await fetch('../../backend/public/index.php?url=reservation/rescheduleReservation', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 credentials: 'same-origin',
-                body: JSON.stringify({
-                    reservation_id: parseInt(reservationId),
-                    new_date: newDate,
-                    new_time: newTime,
-                    reason: 'Updated by admin'
-                })
+                body: JSON.stringify(requestData)
             });
             
             const rescheduleResult = await rescheduleResponse.json();
             
             if (!rescheduleResult.success) {
                 showNotification('Failed to reschedule: ' + rescheduleResult.message, 'error');
+                isSubmitting = false;
                 return;
             }
         }
@@ -380,6 +403,7 @@ async function handleEditReservation(event) {
             
             if (!result.success) {
                 showNotification('Failed to update status: ' + result.message, 'error');
+                isSubmitting = false;
                 return;
             }
         }
@@ -397,6 +421,8 @@ async function handleEditReservation(event) {
     } catch (error) {
         console.error('Error updating reservation:', error);
         showNotification('Failed to update reservation. Please try again.', 'error');
+    } finally {
+        isSubmitting = false;
     }
 }
 

@@ -8888,3 +8888,393 @@ Stack trace:
 )
 
 [07-Mar-2026 12:07:17 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[19-Mar-2026 02:01:00 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[19-Mar-2026 02:01:00 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[19-Mar-2026 02:01:00 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[19-Mar-2026 02:01:00 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[19-Mar-2026 02:03:13 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 9
+    [user_name] => adminqc
+    [email] => admin@qc
+    [role] => admin
+    [branch_id] => 2
+    [branch_name] => quezon city branch
+)
+
+[19-Mar-2026 02:03:13 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[19-Mar-2026 02:03:13 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 9
+    [user_name] => adminqc
+    [email] => admin@qc
+    [role] => admin
+    [branch_id] => 2
+    [branch_name] => quezon city branch
+)
+
+[19-Mar-2026 02:03:13 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[19-Mar-2026 02:03:42 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[19-Mar-2026 02:03:42 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[19-Mar-2026 02:03:42 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[19-Mar-2026 02:03:42 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[19-Mar-2026 02:14:36 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[19-Mar-2026 02:14:36 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[19-Mar-2026 02:14:37 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[19-Mar-2026 02:14:37 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[19-Mar-2026 02:14:38 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[19-Mar-2026 02:14:38 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[19-Mar-2026 02:14:38 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[19-Mar-2026 02:14:38 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[19-Mar-2026 02:14:40 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[19-Mar-2026 02:14:40 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[19-Mar-2026 02:14:41 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[19-Mar-2026 02:14:41 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[19-Mar-2026 02:14:41 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[19-Mar-2026 02:14:41 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[19-Mar-2026 02:18:14 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[19-Mar-2026 02:18:18 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\xampp\htdocs\HFABS\backend\app\core\Database.php:9
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Database.php(9): mysqli->__construct('localhost', 'root', Object(SensitiveParameterValue), 'hfabs')
+#1 C:\xampp\htdocs\HFABS\backend\app\core\Controller.php(8): Database->__construct()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(320): Controller->model('Reservation')
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getAllReservations()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\core\Database.php on line 9
+[19-Mar-2026 02:18:44 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[19-Mar-2026 02:18:49 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\xampp\htdocs\HFABS\backend\app\core\Database.php:9
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Database.php(9): mysqli->__construct('localhost', 'root', Object(SensitiveParameterValue), 'hfabs')
+#1 C:\xampp\htdocs\HFABS\backend\app\core\Controller.php(8): Database->__construct()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(320): Controller->model('Reservation')
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getAllReservations()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\core\Database.php on line 9
+[19-Mar-2026 02:19:14 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[19-Mar-2026 02:19:18 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\xampp\htdocs\HFABS\backend\app\core\Database.php:9
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Database.php(9): mysqli->__construct('localhost', 'root', Object(SensitiveParameterValue), 'hfabs')
+#1 C:\xampp\htdocs\HFABS\backend\app\core\Controller.php(8): Database->__construct()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(320): Controller->model('Reservation')
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getAllReservations()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\core\Database.php on line 9
+[19-Mar-2026 02:19:44 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[19-Mar-2026 02:19:48 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\xampp\htdocs\HFABS\backend\app\core\Database.php:9
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Database.php(9): mysqli->__construct('localhost', 'root', Object(SensitiveParameterValue), 'hfabs')
+#1 C:\xampp\htdocs\HFABS\backend\app\core\Controller.php(8): Database->__construct()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(320): Controller->model('Reservation')
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getAllReservations()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\core\Database.php on line 9
+[19-Mar-2026 02:20:14 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[19-Mar-2026 02:20:18 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\xampp\htdocs\HFABS\backend\app\core\Database.php:9
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Database.php(9): mysqli->__construct('localhost', 'root', Object(SensitiveParameterValue), 'hfabs')
+#1 C:\xampp\htdocs\HFABS\backend\app\core\Controller.php(8): Database->__construct()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(320): Controller->model('Reservation')
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getAllReservations()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\core\Database.php on line 9
+[19-Mar-2026 02:20:44 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[19-Mar-2026 02:20:48 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\xampp\htdocs\HFABS\backend\app\core\Database.php:9
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Database.php(9): mysqli->__construct('localhost', 'root', Object(SensitiveParameterValue), 'hfabs')
+#1 C:\xampp\htdocs\HFABS\backend\app\core\Controller.php(8): Database->__construct()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(320): Controller->model('Reservation')
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getAllReservations()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\core\Database.php on line 9
+[19-Mar-2026 02:21:14 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[19-Mar-2026 02:21:18 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\xampp\htdocs\HFABS\backend\app\core\Database.php:9
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Database.php(9): mysqli->__construct('localhost', 'root', Object(SensitiveParameterValue), 'hfabs')
+#1 C:\xampp\htdocs\HFABS\backend\app\core\Controller.php(8): Database->__construct()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(320): Controller->model('Reservation')
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getAllReservations()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\core\Database.php on line 9
+[19-Mar-2026 02:21:44 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[19-Mar-2026 02:21:48 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\xampp\htdocs\HFABS\backend\app\core\Database.php:9
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Database.php(9): mysqli->__construct('localhost', 'root', Object(SensitiveParameterValue), 'hfabs')
+#1 C:\xampp\htdocs\HFABS\backend\app\core\Controller.php(8): Database->__construct()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(320): Controller->model('Reservation')
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getAllReservations()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\core\Database.php on line 9
+[19-Mar-2026 02:22:27 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[19-Mar-2026 02:22:31 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\xampp\htdocs\HFABS\backend\app\core\Database.php:9
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Database.php(9): mysqli->__construct('localhost', 'root', Object(SensitiveParameterValue), 'hfabs')
+#1 C:\xampp\htdocs\HFABS\backend\app\core\Controller.php(8): Database->__construct()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(320): Controller->model('Reservation')
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getAllReservations()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\core\Database.php on line 9
+[19-Mar-2026 02:23:27 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[19-Mar-2026 02:23:31 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\xampp\htdocs\HFABS\backend\app\core\Database.php:9
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Database.php(9): mysqli->__construct('localhost', 'root', Object(SensitiveParameterValue), 'hfabs')
+#1 C:\xampp\htdocs\HFABS\backend\app\core\Controller.php(8): Database->__construct()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(320): Controller->model('Reservation')
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getAllReservations()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\core\Database.php on line 9
+[19-Mar-2026 02:24:27 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[19-Mar-2026 02:24:31 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\xampp\htdocs\HFABS\backend\app\core\Database.php:9
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Database.php(9): mysqli->__construct('localhost', 'root', Object(SensitiveParameterValue), 'hfabs')
+#1 C:\xampp\htdocs\HFABS\backend\app\core\Controller.php(8): Database->__construct()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(320): Controller->model('Reservation')
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getAllReservations()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\core\Database.php on line 9
+[19-Mar-2026 02:25:27 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[19-Mar-2026 02:25:31 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\xampp\htdocs\HFABS\backend\app\core\Database.php:9
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Database.php(9): mysqli->__construct('localhost', 'root', Object(SensitiveParameterValue), 'hfabs')
+#1 C:\xampp\htdocs\HFABS\backend\app\core\Controller.php(8): Database->__construct()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(320): Controller->model('Reservation')
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getAllReservations()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\core\Database.php on line 9
+[19-Mar-2026 02:26:27 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[19-Mar-2026 02:26:31 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\xampp\htdocs\HFABS\backend\app\core\Database.php:9
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Database.php(9): mysqli->__construct('localhost', 'root', Object(SensitiveParameterValue), 'hfabs')
+#1 C:\xampp\htdocs\HFABS\backend\app\core\Controller.php(8): Database->__construct()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(320): Controller->model('Reservation')
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getAllReservations()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\core\Database.php on line 9

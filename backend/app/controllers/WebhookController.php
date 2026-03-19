@@ -1,4 +1,14 @@
 <?php
+/**
+ * Webhook Controller for PayMongo Integration
+ * 
+ * LOGGING STRATEGY:
+ * - Error log: Only important events (webhook events, payments, errors)
+ * - Debug logs: Full payload saved to daily rotated files (webhook_debug_YYYY-MM-DD.log)
+ * - Database: All webhook events logged to webhook_events table
+ * 
+ * This keeps the main error.log clean while preserving detailed debug info when needed
+ */
 class WebhookController extends Controller {
     private $paymentModel;
     private $webhookEventModel;
@@ -11,27 +21,6 @@ class WebhookController extends Controller {
     public function handle() {
         $rawPayload = file_get_contents('php://input');
         $payload = json_decode(file_get_contents('php://input'), true);
-        
-        // DEBUG: Log to dedicated webhook file
-        $logFile = 'C:\xampp\htdocs\HFABS\backend\logs\webhook_debug.log';
-        $logData = [
-            'timestamp' => date('Y-m-d H:i:s'),
-            'raw_payload' => $rawPayload,
-            'decoded_payload' => $payload,
-            'headers' => getallheaders(),
-            'request_method' => $_SERVER['REQUEST_METHOD'],
-            'content_type' => $_SERVER['CONTENT_TYPE'] ?? 'not set'
-        ];
-        
-        file_put_contents($logFile, json_encode($logData, JSON_PRETTY_PRINT) . "\n\n", FILE_APPEND);
-        
-        // Also log to error log for immediate visibility
-        error_log("=== WEBHOOK DEBUG ===");
-        error_log("Raw Payload: " . $rawPayload);
-        error_log("Decoded Payload: " . print_r($payload, true));
-        error_log("Headers: " . print_r(getallheaders(), true));
-        error_log("Request Method: " . $_SERVER['REQUEST_METHOD']);
-        error_log("==================");
         
         if (!$payload) {
             error_log("Webhook Error: Invalid JSON payload");
@@ -49,9 +38,10 @@ class WebhookController extends Controller {
             return;
         }
 
-        error_log("Webhook Event Type: " . $event);
-
-        // Log the webhook event
+        // Only log important webhook events to error log
+        error_log("Webhook Event: " . $event);
+        
+        // Log webhook event to database
         $this->webhookEventModel->logEvent($event, $payload);
 
         switch ($event) {
@@ -88,17 +78,12 @@ private function handlePaymentPaid($payload) {
     $amountPaid = $payment['amount'] / 100;
     $paymentMethod = $checkoutSession['payment_method_used'] ?? 'paymongo';
 
-    error_log("Webhook Debug - Extracted Data:");
-    error_log("Reservation ID: " . $reservationId);
-    error_log("User ID: " . $userId);
-    error_log("Branch ID: " . $branchId);
-    error_log("Total Price: " . $totalPrice);
-    error_log("Amount Paid: " . $amountPaid);
-    error_log("Payment Method: " . $paymentMethod);
-    error_log("PayMongo Payment ID: " . $paymongoPaymentId);
+    // Enhanced logging for debugging
+    error_log("WEBHOOK PAYMENT DEBUG - Reservation: $reservationId, User: $userId, Amount: $amountPaid, Method: $paymentMethod, PayMongo ID: $paymongoPaymentId");
+    error_log("WEBHOOK METADATA DEBUG: " . json_encode($metadata));
 
     if (!$reservationId) {
-        error_log("Webhook Error: reservation_id missing in metadata.");
+        error_log("Webhook Error: reservation_id missing in metadata for payment: $paymongoPaymentId");
         return;
     }
 
@@ -108,43 +93,71 @@ private function handlePaymentPaid($payload) {
     // Check if reservation exists, if not create it
     $existingReservation = $reservationModel->getReservationById($reservationId);
     if (!$existingReservation && $userId && $branchId && $totalPrice) {
+        error_log("WEBHOOK: Creating missing reservation $reservationId for user $userId");
+        
         // Create the reservation first
+        $scheduleDate = $metadata['schedule_date'] ?? null;
         $newReservationId = $reservationModel->insertReservation(
             $userId, 
             $branchId, 
             $totalPrice, 
-            'pending'
+            'pending',
+            $scheduleDate
         );
         
         if ($newReservationId) {
             $reservationId = $newReservationId;
-            error_log("Created new reservation ID: $reservationId from webhook");
+            error_log("WEBHOOK: Successfully created reservation ID: $reservationId from webhook payment");
         } else {
-            error_log("Failed to create reservation from webhook for user_id: $userId");
+            error_log("WEBHOOK ERROR: Failed to create reservation from webhook for user_id: $userId");
             return;
         }
     } elseif (!$existingReservation) {
-        error_log("Reservation ID $reservationId not found and insufficient metadata to create new reservation");
-        error_log("Missing - User ID: " . ($userId ? 'YES' : 'NO') . ", Branch ID: " . ($branchId ? 'YES' : 'NO') . ", Total Price: " . ($totalPrice ? 'YES' : 'NO'));
+        error_log("WEBHOOK ERROR: Reservation $reservationId not found and insufficient metadata to create. Available metadata: " . json_encode($metadata));
         return;
     }
 
-    // Create payment record using the existing createPayment function
+    // Create payment record
+    $services = $metadata['services'] ?? [];
+    
+    // Handle services data - PayMongo might send it as a string instead of array
+    if (is_string($services)) {
+        $services = json_decode($services, true) ?? [];
+    }
+    
+    $scheduleData = [];
+    
+    // Extract schedule data from metadata if available
+    if (isset($metadata['schedule_date']) && isset($metadata['start_time']) && isset($metadata['end_time'])) {
+        $scheduleData = [
+            'schedule_date' => $metadata['schedule_date'],
+            'start_time' => $metadata['start_time'],
+            'end_time' => $metadata['end_time'],
+            'is_rescheduled' => 0,
+            'previous_schedule_id' => null,
+            'reschedule_reason' => null
+        ];
+        error_log("WEBHOOK: Schedule data prepared: " . json_encode($scheduleData));
+    }
+    
+    error_log("WEBHOOK: Attempting to create payment record...");
+    
     $paymentId = $this->paymentModel->createPayment(
         $reservationId, 
         $amountPaid, 
         $paymentMethod, 
         'paid',
-        $paymongoPaymentId
+        $paymongoPaymentId,
+        $services,
+        $scheduleData
     );
 
     if ($paymentId) {
         // Confirm the reservation
         $reservationModel->confirmReservation($reservationId);
-        
-        error_log("Payment $paymentId created and Reservation $reservationId confirmed.");
+        error_log("WEBHOOK SUCCESS: Payment processed successfully - Reservation ID: $reservationId, Payment ID: $paymentId, Amount: $amountPaid");
     } else {
-        error_log("Failed to create payment record for Reservation ID: " . $reservationId);
+        error_log("WEBHOOK ERROR: Failed to create payment for Reservation ID: $reservationId. Check database logs for details.");
     }
 }
 
@@ -155,7 +168,7 @@ private function handlePaymentPaid($payload) {
         $reservationId = $paymentData['metadata']['reservation_id'] ?? null;
 
         if (!$reservationId) {
-            error_log("Webhook received but no reservation_id found in metadata");
+            error_log("Webhook Error: Payment failed but no reservation_id found in metadata");
             return;
         }
 
@@ -169,7 +182,9 @@ private function handlePaymentPaid($payload) {
         );
 
         if (!$updated) {
-            error_log("Failed to update payment status for reservation ID: " . $reservationId);
+            error_log("Webhook Error: Failed to update payment status for reservation ID: $reservationId");
+        } else {
+            error_log("Payment failed - Reservation ID: $reservationId, Payment ID: $paymongoPaymentId");
         }
     }
 }

@@ -183,18 +183,95 @@ function selectDate(date, element) {
 async function loadTimeSlots(date) {
   try {
     const branchId = selectedBranch.id;
-    const dateStr = date.toISOString().split('T')[0];
+    const dateStr = date.getFullYear() + '-' + 
+                    String(date.getMonth() + 1).padStart(2, '0') + '-' + 
+                    String(date.getDate()).padStart(2, '0');
     
-    // API call would go here
-    // const response = await fetch(`${API_BASE_URL}/branches/${branchId}/available-slots?date=${dateStr}&service=${selectedService.serviceid}`);
-    
-    // For now, use dummy data
+    // Generate time slots
     generateTimeSlots();
+    
+    // Check availability for each time slot
+    await checkTimeSlotAvailability(dateStr);
     
   } catch (error) {
     console.error('Error loading time slots:', error);
     generateTimeSlots();
   }
+}
+
+async function checkTimeSlotAvailability(dateStr) {
+  console.log('🔍 Checking availability for date:', dateStr);
+  console.log('🔍 Service ID:', selectedService.serviceid);
+  console.log('🔍 Service details:', selectedService);
+  
+  const timeSlotElements = document.querySelectorAll('.time-slot');
+  console.log('🔍 Found time slots:', timeSlotElements.length);
+  
+  for (let i = 0; i < timeSlotElements.length; i++) {
+    const slot = timeSlotElements[i];
+    const timeText = slot.textContent.trim();
+    
+    try {
+      // Convert time to 24-hour format for API
+      const time24 = convertTo24Hour(timeText);
+      console.log(`🕐 Checking ${timeText} (${time24})...`);
+      
+      // Check availability via API
+      const apiUrl = `../../backend/public/index.php?url=reservation/checkAvailability&date=${dateStr}&time=${time24}&serviceId=${selectedService.serviceid}`;
+      console.log(`📡 API URL: ${apiUrl}`);
+      
+      const response = await fetch(apiUrl);
+      console.log(`📡 Response status: ${response.status} ${response.statusText}`);
+      
+      if (response.ok) {
+        const result = await response.json();
+        console.log(`📊 API Response for ${timeText}:`, result);
+        
+        if (!result.available) {
+          // Disable the slot if not available
+          slot.classList.add('disabled');
+          slot.disabled = true;
+          slot.title = 'This time slot is already booked';
+          console.log(`❌ ${timeText} is UNAVAILABLE - already booked`);
+        } else {
+          // Enable the slot and add click listener
+          slot.addEventListener('click', () => selectTime(timeText, slot));
+          slot.title = 'Available';
+          console.log(`✅ ${timeText} is AVAILABLE - enabled for selection`);
+        }
+      } else {
+        console.error(`❌ API Error for ${timeText}: ${response.status} ${response.statusText}`);
+        // If API fails, enable the slot (fallback behavior)
+        slot.addEventListener('click', () => selectTime(timeText, slot));
+        slot.title = 'Available (API error fallback)';
+        console.log(`⚠️  ${timeText} enabled due to API error`);
+      }
+    } catch (error) {
+      console.error(`💥 Exception checking ${timeText}:`, error);
+      // If API fails, enable the slot (fallback behavior)
+      slot.addEventListener('click', () => selectTime(timeText, slot));
+      slot.title = 'Available (exception fallback)';
+      console.log(`⚠️  ${timeText} enabled due to exception`);
+    }
+  }
+  
+  console.log('✅ Availability check completed');
+}
+
+function convertTo24Hour(time12) {
+  // Convert time from "HH:MM AM/PM" format to "HH:MM" 24-hour format
+  const time = time12.trim();
+  const [timePart, period] = time.split(' ');
+  const [hours, minutes] = timePart.split(':');
+  
+  let hours24 = parseInt(hours);
+  if (period === 'PM' && hours24 !== 12) {
+    hours24 += 12;
+  } else if (period === 'AM' && hours24 === 12) {
+    hours24 = 0;
+  }
+  
+  return `${hours24.toString().padStart(2, '0')}:${minutes}`;
 }
 
 function generateTimeSlots() {
@@ -218,14 +295,8 @@ function renderTimeSlots() {
     slot.className = 'time-slot';
     slot.textContent = time;
     
-    // Randomly disable some slots for demo (you'd check actual availability)
-    const isAvailable = Math.random() > 0.3;
-    if (!isAvailable) {
-      slot.classList.add('disabled');
-      slot.disabled = true;
-    } else {
-      slot.addEventListener('click', () => selectTime(time, slot));
-    }
+    // Initially enable all slots - they will be disabled if not available
+    slot.title = 'Checking availability...';
     
     timeSlotsContainer.appendChild(slot);
   });
@@ -257,10 +328,12 @@ function proceedToPayment() {
   const bookingData = {
     service: selectedService,
     branch: selectedBranch,
-    date: selectedDate.toISOString().split('T')[0],
+    date: selectedDate.getFullYear() + '-' + 
+         String(selectedDate.getMonth() + 1).padStart(2, '0') + '-' + 
+         String(selectedDate.getDate()).padStart(2, '0'),
     time: selectedTime,
     totalPrice: parseFloat(selectedService.price),
-    downpayment: parseFloat(selectedService.price) * 0.5
+    downpayment: Math.max(parseFloat(selectedService.price) * 0.5, 1.00) // Ensure minimum 1.00 PHP
   };
   
   sessionStorage.setItem('bookingData', JSON.stringify(bookingData));
