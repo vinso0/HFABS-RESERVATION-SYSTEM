@@ -17,6 +17,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     <link rel="stylesheet" href="../public/css/admin-services.css">
     <link rel="stylesheet" href="../public/css/pagination.css">
     <link rel="stylesheet" href="../public/css/admin-services-modal.css">
+    <link rel="stylesheet" href="../public/css/toast.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -100,6 +101,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
 
     <?php include 'components/admin-services-modal.php'; ?>
 
+    <script src="../public/js/toast.js"></script>
     <script src="../public/js/pagination.js"></script>
     <script src="../public/js/admin-services.js"></script>
 </body>

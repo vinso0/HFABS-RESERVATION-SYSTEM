@@ -167,7 +167,7 @@ function loadCategories() {
         })
         .catch(error => {
             console.error('Error loading categories:', error);
-            showNotification('Failed to load categories', 'error');
+            Toast.error('Failed to load categories');
         });
 }
 
@@ -182,7 +182,7 @@ function loadBranchCategories() {
         })
         .catch(error => {
             console.error('Error loading branch categories:', error);
-            showNotification('Failed to load branch categories', 'error');
+            Toast.error('Failed to load branch categories');
         });
 }
 
@@ -201,7 +201,7 @@ function loadServices() {
         .catch(error => {
             console.error('Error loading services:', error);
             showEmptyState();
-            showNotification('Failed to load services', 'error');
+            Toast.error('Failed to load services');
         });
 }
 
@@ -544,23 +544,23 @@ function handleAddServiceSubmit(e) {
         
         // Validate required fields
         if (!categorySelect.value) {
-            showNotification('Please select a category', 'error');
+            Toast.error('Please select a category');
             return;
         }
         if (!serviceNameInput.value.trim()) {
-            showNotification('Please enter a service name', 'error');
+            Toast.error('Please enter a service name');
             return;
         }
         if (!serviceDescInput.value.trim()) {
-            showNotification('Please enter a description', 'error');
+            Toast.error('Please enter a description');
             return;
         }
         if (!servicePriceInput.value) {
-            showNotification('Please enter a price', 'error');
+            Toast.error('Please enter a price');
             return;
         }
         if (!serviceDurationInput.value) {
-            showNotification('Please enter duration', 'error');
+            Toast.error('Please enter duration');
             return;
         }
         
@@ -586,7 +586,7 @@ function handleAddServiceSubmit(e) {
         const serviceAvailableInput = document.getElementById('serviceAvailableAdd');
         
         if (!defaultServiceId) {
-            showNotification('Please select a service', 'error');
+            Toast.error('Please select a service');
             return;
         }
         
@@ -615,7 +615,7 @@ function handleAddServiceSubmit(e) {
     .then(result => {
         if (result.success) {
             // Show success notification (no browser alert to avoid "localhost says" prefix)
-            showNotification('Service created successfully', 'success');
+            Toast.success('Service created successfully');
             closeAddServiceModal();
             loadDefaultServices();
             loadServices();
@@ -623,15 +623,15 @@ function handleAddServiceSubmit(e) {
             // Check for duplicate service error
             const errorMsg = result.message || result.error || 'Operation failed';
             if (errorMsg.includes('already exists') || errorMsg.includes('duplicate')) {
-                showNotification('This service already exists for this branch. Please select a different service or edit the existing one.', 'error');
+                Toast.error('This service already exists for this branch. Please select a different service or edit the existing one.');
             } else {
-                showNotification(errorMsg, 'error');
+                Toast.error(errorMsg);
             }
         }
     })
     .catch(error => {
         console.error('Error adding service:', error);
-        showNotification('Service already exists, please try other services', 'error');
+        Toast.error('Service already exists, please try other services');
     });
 }
 
@@ -646,7 +646,7 @@ function handleEditServiceSubmit(e) {
     const branchId = getCurrentBranchId();
     
     if (!branchServiceOverrideId) {
-        showNotification('Invalid service ID', 'error');
+        Toast.error('Invalid service ID');
         return;
     }
     
@@ -658,7 +658,7 @@ function handleEditServiceSubmit(e) {
     
     // Validate required fields
     if (!serviceNameInput.value.trim()) {
-        showNotification('Please enter a service name', 'error');
+        Toast.error('Please enter a service name');
         return;
     }
     
@@ -682,16 +682,16 @@ function handleEditServiceSubmit(e) {
     .then(res => res.json())
     .then(result => {
         if (result.success) {
-            showNotification('Service updated successfully', 'success');
+            Toast.success('Service updated successfully');
             closeEditServiceModal();
             loadServices();
         } else {
-            showNotification(result.message || 'Operation failed', 'error');
+            Toast.error(result.message || 'Operation failed');
         }
     })
     .catch(error => {
         console.error('Error updating service:', error);
-        showNotification('Failed to update service', 'error');
+        Toast.error('Failed to update service');
     });
 }
 
@@ -716,17 +716,17 @@ function handleDeleteService() {
     .then(res => res.json())
     .then(result => {
         if (result.success) {
-            showNotification('Service deleted successfully', 'success');
+            Toast.success('Service deleted successfully');
             closeDeleteModal();
             loadDefaultServices();
             loadServices();
         } else {
-            showNotification(result.message || 'Operation failed', 'error');
+            Toast.error(result.message || 'Operation failed');
         }
     })
     .catch(error => {
         console.error('Error deleting service:', error);
-        showNotification('Failed to delete service', 'error');
+        Toast.error('Failed to delete service');
     });
 }
 
@@ -742,7 +742,7 @@ function handleCapacityUpdate(e) {
     const branchId = getCurrentBranchId();
     
     if (!categoryId || !capacity) {
-        showNotification('Please fill in all required fields', 'error');
+        Toast.error('Please fill in all required fields');
         return;
     }
     
@@ -764,16 +764,16 @@ function handleCapacityUpdate(e) {
     .then(res => res.json())
     .then(result => {
         if (result.success) {
-            showNotification('Category capacity updated successfully', 'success');
+            Toast.success('Category capacity updated successfully');
             closeEditCapacityModal();
             loadBranchCategories();
         } else {
-            showNotification(result.message || 'Operation failed', 'error');
+            Toast.error(result.message || 'Operation failed');
         }
     })
     .catch(error => {
         console.error('Error updating capacity:', error);
-        showNotification('Failed to update capacity', 'error');
+        Toast.error('Failed to update capacity');
     });
 }
 
@@ -802,48 +802,3 @@ function getCategoryIcon(categoryId) {
     };
     return icons[categoryId] || '<i class="fas fa-tag"></i>';
 }
-
-function showNotification(message, type = 'info') {
-    const notification = document.createElement('div');
-    notification.className = `notification ${type}`;
-    notification.innerHTML = `
-        <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-info-circle'}"></i>
-        <span>${message}</span>
-    `;
-    notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        padding: 15px 25px;
-        border-radius: 8px;
-        color: white;
-        font-weight: 500;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        z-index: 10000;
-        animation: slideIn 0.3s ease;
-        background-color: ${type === 'success' ? '#28a745' : type === 'error' ? '#dc3545' : '#17a2b8'};
-    `;
-    
-    document.body.appendChild(notification);
-    
-    setTimeout(() => {
-        notification.style.animation = 'slideOut 0.3s ease';
-        setTimeout(() => notification.remove(), 300);
-    }, 3000);
-}
-
-// Add CSS animations dynamically
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes slideIn {
-        from { transform: translateX(100%); opacity: 0; }
-        to { transform: translateX(0); opacity: 1; }
-    }
-    @keyframes slideOut {
-        from { transform: translateX(0); opacity: 1; }
-        to { transform: translateX(100%); opacity: 0; }
-    }
-`;
-document.head.appendChild(style);
