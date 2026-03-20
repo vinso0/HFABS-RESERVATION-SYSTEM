@@ -5,6 +5,7 @@
     padding: 28px 28px 48px;
     background: #f7f7f8;
     min-height: 100vh;
+    overflow-x: hidden;
 }
 
 .dashboard-section { max-width: 1100px; }

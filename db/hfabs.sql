@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 06, 2026 at 03:57 PM
+-- Generation Time: Mar 20, 2026 at 10:26 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -100,6 +100,38 @@ INSERT INTO `branch_category_overrides` (`branch_category_override_id`, `branch_
 (6, 2, 3, NULL, NULL, NULL, NULL, '2026-02-07 06:29:09', '2026-02-07 06:29:09'),
 (7, 1, 4, NULL, NULL, NULL, NULL, '2026-02-07 06:29:09', '2026-02-07 06:29:09'),
 (8, 2, 4, NULL, NULL, NULL, NULL, '2026-02-07 06:29:09', '2026-02-07 06:29:09');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `branch_packages`
+--
+
+CREATE TABLE `branch_packages` (
+  `package_id` int(11) NOT NULL,
+  `branch_id` int(15) NOT NULL,
+  `package_name` varchar(100) NOT NULL,
+  `description` text DEFAULT NULL,
+  `package_price` decimal(10,2) NOT NULL,
+  `total_duration_minutes` int(11) NOT NULL DEFAULT 0,
+  `is_available` tinyint(1) NOT NULL DEFAULT 1,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `branch_package_services`
+--
+
+CREATE TABLE `branch_package_services` (
+  `package_service_id` int(11) NOT NULL,
+  `package_id` int(11) NOT NULL,
+  `branch_service_override_id` int(11) NOT NULL,
+  `sort_order` int(11) NOT NULL DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -250,12 +282,7 @@ CREATE TABLE `payments` (
 --
 
 INSERT INTO `payments` (`payment_id`, `paymongo_payment_id`, `reservation_id`, `amount_paid`, `payment_method`, `status`, `created_at`) VALUES
-(1, 'test_1769766719', 1, 100.00, 'gcash', 'paid', '2026-01-09 11:41:29'),
-(2, NULL, 1, 100.00, 'gcash', 'paid', '2026-01-28 05:25:41'),
-(4, 'paymongo_test_1769578052', 1, 150.00, 'gcash', 'paid', '2026-01-28 05:27:32'),
-(5, 'pay_test_123', 1, 150.00, 'gcash', 'paid', '2026-01-28 07:09:30'),
-(7, 'pay_test_123456789', 1, 150.00, 'gcash', 'paid', '2026-01-30 08:48:23'),
-(8, NULL, 1, 100.00, 'gcash', 'paid', '2026-01-30 09:51:59');
+(1, 'test_1769766719', 1, 800.00, 'gcash', 'paid', '2026-01-09 11:41:29');
 
 -- --------------------------------------------------------
 
@@ -321,6 +348,7 @@ CREATE TABLE `reservation_services` (
   `reservation_id` int(11) NOT NULL,
   `default_service_id` int(11) NOT NULL,
   `branch_service_override_id` int(11) DEFAULT NULL,
+  `booked_package_id` int(11) DEFAULT NULL,
   `remaining_balance` decimal(10,2) NOT NULL,
   `booked_service_name` varchar(60) NOT NULL,
   `booked_description` text NOT NULL,
@@ -333,11 +361,11 @@ CREATE TABLE `reservation_services` (
 -- Dumping data for table `reservation_services`
 --
 
-INSERT INTO `reservation_services` (`reservation_service_id`, `reservation_id`, `default_service_id`, `branch_service_override_id`, `remaining_balance`, `booked_service_name`, `booked_description`, `booked_duration_minutes`, `booked_unit_price`, `booked_category_name`) VALUES
-(1, 1, 11, NULL, 800.00, 'Aromatherapy Massage', 'Essential oil massage therapy', 60, 1600.00, 'massage'),
-(2, 2, 1, 1, 375.00, 'Hair Spa Treatment', 'Deep conditioning hair treatment', 60, 750.00, 'hair'),
-(3, 3, 1, 1, 375.00, 'Hair Spa Treatment', 'Deep conditioning hair treatment', 60, 750.00, 'hair'),
-(4, 4, 3, NULL, 125.00, 'Classic Manicure', 'Basic nail care and polish', 60, 350.00, 'nail');
+INSERT INTO `reservation_services` (`reservation_service_id`, `reservation_id`, `default_service_id`, `branch_service_override_id`, `booked_package_id`, `remaining_balance`, `booked_service_name`, `booked_description`, `booked_duration_minutes`, `booked_unit_price`, `booked_category_name`) VALUES
+(1, 1, 11, NULL, NULL, 800.00, 'Aromatherapy Massage', 'Essential oil massage therapy', 60, 1600.00, 'massage'),
+(2, 2, 1, 1, NULL, 375.00, 'Hair Spa Treatment', 'Deep conditioning hair treatment', 60, 750.00, 'hair'),
+(3, 3, 1, 1, NULL, 375.00, 'Hair Spa Treatment', 'Deep conditioning hair treatment', 60, 750.00, 'hair'),
+(4, 4, 3, NULL, NULL, 125.00, 'Classic Manicure', 'Basic nail care and polish', 60, 350.00, 'nail');
 
 -- --------------------------------------------------------
 
@@ -396,6 +424,22 @@ ALTER TABLE `branch_category_overrides`
   ADD PRIMARY KEY (`branch_category_override_id`),
   ADD UNIQUE KEY `uq_branch_category` (`branch_id`,`default_category_id`),
   ADD KEY `idx_default_category_id` (`default_category_id`);
+
+--
+-- Indexes for table `branch_packages`
+--
+ALTER TABLE `branch_packages`
+  ADD PRIMARY KEY (`package_id`),
+  ADD KEY `fk_pkg_branch` (`branch_id`);
+
+--
+-- Indexes for table `branch_package_services`
+--
+ALTER TABLE `branch_package_services`
+  ADD PRIMARY KEY (`package_service_id`),
+  ADD UNIQUE KEY `uq_pkg_service` (`package_id`,`branch_service_override_id`),
+  ADD KEY `fk_pkgsvc_package` (`package_id`),
+  ADD KEY `fk_pkgsvc_bso` (`branch_service_override_id`);
 
 --
 -- Indexes for table `branch_service_overrides`
@@ -459,7 +503,8 @@ ALTER TABLE `reservation_services`
   ADD KEY `reservation_service` (`default_service_id`),
   ADD KEY `service_reservation` (`reservation_id`),
   ADD KEY `idx_default_service_id` (`default_service_id`),
-  ADD KEY `idx_branch_service_override_id` (`branch_service_override_id`);
+  ADD KEY `idx_branch_service_override_id` (`branch_service_override_id`),
+  ADD KEY `fk_rs_package` (`booked_package_id`);
 
 --
 -- Indexes for table `users`
@@ -490,6 +535,18 @@ ALTER TABLE `branch`
 --
 ALTER TABLE `branch_category_overrides`
   MODIFY `branch_category_override_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
+-- AUTO_INCREMENT for table `branch_packages`
+--
+ALTER TABLE `branch_packages`
+  MODIFY `package_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `branch_package_services`
+--
+ALTER TABLE `branch_package_services`
+  MODIFY `package_service_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `branch_service_overrides`
@@ -564,6 +621,19 @@ ALTER TABLE `branch_category_overrides`
   ADD CONSTRAINT `fk_bco_default_category` FOREIGN KEY (`default_category_id`) REFERENCES `default_services_categories` (`service_category_id`);
 
 --
+-- Constraints for table `branch_packages`
+--
+ALTER TABLE `branch_packages`
+  ADD CONSTRAINT `fk_pkg_branch` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`branch_id`);
+
+--
+-- Constraints for table `branch_package_services`
+--
+ALTER TABLE `branch_package_services`
+  ADD CONSTRAINT `fk_pkgsvc_bso` FOREIGN KEY (`branch_service_override_id`) REFERENCES `branch_service_overrides` (`branch_service_override_id`),
+  ADD CONSTRAINT `fk_pkgsvc_package` FOREIGN KEY (`package_id`) REFERENCES `branch_packages` (`package_id`);
+
+--
 -- Constraints for table `branch_service_overrides`
 --
 ALTER TABLE `branch_service_overrides`
@@ -610,6 +680,7 @@ ALTER TABLE `reservation_schedule`
 ALTER TABLE `reservation_services`
   ADD CONSTRAINT `fk_rs_branch_service_override` FOREIGN KEY (`branch_service_override_id`) REFERENCES `branch_service_overrides` (`branch_service_override_id`),
   ADD CONSTRAINT `fk_rs_default_service` FOREIGN KEY (`default_service_id`) REFERENCES `default_services` (`service_id`),
+  ADD CONSTRAINT `fk_rs_package` FOREIGN KEY (`booked_package_id`) REFERENCES `branch_packages` (`package_id`),
   ADD CONSTRAINT `service_reservation` FOREIGN KEY (`reservation_id`) REFERENCES `reservations` (`reservation_id`);
 
 --

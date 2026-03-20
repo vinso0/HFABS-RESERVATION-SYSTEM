@@ -1,0 +1,502 @@
+/* Transactions Section */
+
+.transactions-section h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #d91a7e;
+    margin-bottom: 4px;
+}
+
+.subtitle-text {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 24px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 4px;
+}
+
+/* ===== SUMMARY CARDS ===== */
+.summary-cards {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.summary-card {
+    flex: 1;
+    min-width: 180px;
+    background: #fff;
+    border-radius: 12px;
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+    border-left: 4px solid transparent;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.summary-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+.total-card  { border-left-color: #d91a7e; }
+.paid-card   { border-left-color: #0d894f; }
+.unpaid-card { border-left-color: #c77700; }
+
+.card-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.total-card  .card-icon { background: #d91a7e; color: #fff; }
+.paid-card   .card-icon { background: #0d894f; color: #fff; }
+.unpaid-card .card-icon { background: #c77700; color: #fff; }
+
+.card-icon i {
+    font-size: 20px;
+}
+
+.card-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-label {
+    font-size: 12px;
+    color: #888;
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.card-value {
+    font-size: 26px;
+    font-weight: 700;
+    color: #1a1a2e;
+    line-height: 1;
+}
+
+/* ===== FILTER SECTION ===== */
+.filter-section {
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: center;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    padding: 10px 16px;
+    flex: 1;
+    min-width: 200px;
+}
+
+.search-box i {
+    color: #666;
+    font-size: 12px;
+}
+
+.search-box input {
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 13px;
+    width: 100%;
+    color: #333;
+}
+
+.filter-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.filter-dropdown {
+    display: inline-flex;
+    align-items: center;
+    background-color: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    padding: 10px 16px;
+    gap: 10px;
+}
+
+.filter-dropdown i {
+    color: #666;
+    font-size: 12px;
+}
+
+.filter-dropdown select {
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 11px;
+    color: #333;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.date-filter {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    padding: 10px 16px;
+}
+
+.date-filter label {
+    font-size: 11px;
+    color: #666;
+    font-weight: 500;
+}
+
+.date-filter input[type="date"] {
+    border: 1px solid #e5e5e5;
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 11px;
+    color: #333;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.date-filter input[type="date"]:focus {
+    outline: none;
+    border-color: #d91a7e;
+    box-shadow: 0 0 0 2px rgba(217, 26, 126, 0.1);
+}
+
+.btn-filter, .btn-clear {
+    padding: 6px 14px;
+    border: none;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-filter {
+    background-color: #d91a7e;
+    color: #fff;
+}
+
+.btn-filter:hover {
+    background-color: #b01565;
+}
+
+.btn-clear {
+    background-color: #f0f0f0;
+    color: #666;
+}
+
+.btn-clear:hover {
+    background-color: #e0e0e0;
+}
+
+/* ===== TABLE ===== */
+.table-container {
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.transactions-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.transactions-table thead {
+    background-color: #fafafa;
+}
+
+.transactions-table th {
+    padding: 16px 20px;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 600;
+    color: #d91a7e;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.transactions-table tbody tr {
+    border-bottom: 1px solid #f0f0f0;
+    transition: background-color 0.2s ease;
+}
+
+.transactions-table tbody tr:hover {
+    background-color: #fef1f8;
+}
+
+.transactions-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.transactions-table td {
+    padding: 18px 20px;
+    font-size: 13px;
+    color: #333;
+}
+
+/* Status Badges */
+.status-badge {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.status-badge.paid {
+    background-color: #0d894f;
+    color: #fff;
+}
+
+.status-badge.unpaid {
+    background-color: #fff4e6;
+    color: #c77700;
+}
+
+/* Method Badges */
+.method-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.method-gcash {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.method-maya {
+    background: #e3f2fd;
+    color: #1565c0;
+}
+
+/* PayMongo ref */
+.ref-text {
+    font-size: 11px;
+    color: #999;
+    font-family: monospace;
+}
+
+.ref-none {
+    color: #ccc;
+    font-style: italic;
+    font-size: 12px;
+}
+
+/* Loading & Empty */
+.loading-row td {
+    text-align: center;
+    padding: 3rem 0;
+}
+
+.loading-spinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    color: #d91a7e;
+}
+
+.loading-spinner i {
+    font-size: 2rem;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.loading-spinner span {
+    font-size: 13px;
+    color: #666;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 3rem;
+    color: #999;
+}
+
+.empty-state i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: #d5d5d5;
+}
+
+.empty-state p {
+    font-size: 15px;
+    margin-bottom: 0.5rem;
+    color: #666;
+}
+
+.empty-state .subtitle {
+    font-size: 13px;
+    color: #999;
+}
+
+/* ===== MODAL ===== */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-box {
+    background: #fff;
+    border-radius: 14px;
+    width: 480px;
+    max-width: 95vw;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    overflow: hidden;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #d91a7e;
+    padding: 18px 24px;
+    color: #fff;
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 1.05rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.4rem;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+}
+
+.modal-body {
+    padding: 24px;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 0.9rem;
+}
+
+.detail-row:last-child {
+    border-bottom: none;
+}
+
+.detail-label {
+    color: #888;
+    font-weight: 500;
+}
+
+.detail-value {
+    color: #333;
+    font-weight: 600;
+    text-align: right;
+    max-width: 60%;
+    word-break: break-word;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .table-container {
+        overflow-x: auto;
+    }
+    
+    .transactions-table {
+        min-width: 1000px;
+    }
+}
+
+@media (max-width: 768px) {
+    .transactions-section h2 {
+        font-size: 24px;
+    }
+    
+    .table-container {
+        border-radius: 8px;
+    }
+    
+    .filter-section {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+    
+    .search-box {
+        width: 100%;
+    }
+    
+    .filter-dropdown {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .date-filter {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+    
+    .date-filter input[type="date"] {
+        width: 100%;
+    }
+    
+    .date-filter button {
+        width: 100%;
+    }
+    
+    .summary-cards {
+        flex-direction: column;
+    }
+    
+    .summary-card {
+        min-width: 100%;
+    }
+}

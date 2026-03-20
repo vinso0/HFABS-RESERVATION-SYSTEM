@@ -1,6 +1,14 @@
 .page-header {
+    position: relative;
+    width: 100%;
+    left: 0;
+    right: 0;
+    top: 0;
+}
+
+.page-flex {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     padding: 10px 24px;
     background-color: #fff;

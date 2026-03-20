@@ -33,6 +33,10 @@
             <i class="fas fa-cut"></i>
             <span>Services</span>
         </a>
+        <a href="admin-transactions.php" class="nav-item">
+            <i class="fas fa-file-invoice-dollar"></i>
+            <span>Transactions</span>
+        </a>
         <a href="admin-customers.php" class="nav-item">
             <i class="far fa-user"></i>
             <span>Customers</span>
