@@ -140,6 +140,90 @@ function renderServices(cat) {
   `).join('');
 }
 
+// ── Load Packages ─────────────────────────────────────
+async function loadBranchPackages() {
+  const grid = document.getElementById('branchPackagesGrid');
+
+  try {
+    const res = await fetch(`${API_BASE}packages/getPublicPackages/${branchId}`);
+    const result = await res.json();
+
+    if (!result.success || !result.data.length) {
+      grid.innerHTML = '<p class="no-data">No packages available at this branch.</p>';
+      return;
+    }
+
+    grid.innerHTML = result.data.map(pkg => {
+      const serviceTags = (pkg.included_services || '')
+        .split(',')
+        .map(s => s.trim())
+        .filter(Boolean)
+        .map(s => `<span class="package-service-tag">${s}</span>`)
+        .join('');
+
+      const unavailable = pkg.is_available == 0;
+
+      return `
+        <div class="package-card ${unavailable ? 'unavailable' : ''}">
+          <div class="package-card-header">
+            <h3 class="package-card-name">${pkg.package_name}</h3>
+            <span class="package-card-price">₱${parseFloat(pkg.package_price).toLocaleString('en-PH', { minimumFractionDigits: 2 })}</span>
+          </div>
+          ${pkg.description ? `<p class="package-card-desc">${pkg.description}</p>` : ''}
+          <div class="package-card-meta">
+            <span><i class="fas fa-hourglass-half"></i>${pkg.total_duration_minutes} mins</span>
+            <span><i class="fas fa-layer-group"></i>${pkg.service_count} services</span>
+          </div>
+          <div class="package-services-label">Included Services</div>
+          <div class="package-service-tags">${serviceTags || '<span class="package-service-tag">—</span>'}</div>
+          ${unavailable
+            ? '<span class="package-unavailable-badge">Currently Unavailable</span>'
+            : `<button class="package-book-btn" onclick="bookPackage(${pkg.package_id}, '${pkg.package_name.replace(/'/g, "\\'")}', ${pkg.package_price}, ${pkg.total_duration_minutes})">
+                <i class="fas fa-calendar-check"></i> Book This Package
+              </button>`
+          }
+        </div>
+      `;
+    }).join('');
+
+  } catch (e) {
+    grid.innerHTML = '<p class="no-data">Failed to load packages.</p>';
+    console.error('[Packages]', e);
+  }
+}
+
+function bookPackage(packageId, packageName, packagePrice, durationMinutes) {
+  // Check login first
+  const token = localStorage.getItem('token');
+  const userData = localStorage.getItem('userData');
+
+  if (!token || !userData) {
+    alert('Please log in first to book a package.');
+    window.location.href = './customer-login.html';
+    return;
+  }
+
+  // Build a package booking object — mirrors the single-service format
+  // but adds booked_package_id so booking.js and payment.js can handle it
+  const packageData = {
+    is_package: true,
+    package_id: packageId,
+    servicename: packageName,
+    price: packagePrice,
+    duration: `${durationMinutes} mins`,
+    duration_minutes: durationMinutes,
+    category: 'Package',
+    description: ''
+  };
+
+  sessionStorage.setItem('selectedServices', JSON.stringify([packageData]));
+  sessionStorage.setItem('selectedBranchId', branchId);
+  sessionStorage.setItem('selectedBranchName', document.querySelector('.branch-hero-title')?.textContent || '');
+
+  window.location.href = './booking.html';
+}
+
+
 // ── Load Reviews ──────────────────────────────────────
 async function loadBranchReviews() {
   const grid    = document.getElementById('reviewsGrid');
@@ -238,4 +322,5 @@ function generateStars(rating) {
 // ── Init ──────────────────────────────────────────────
 loadBranchInfo();
 loadBranchServices();
+loadBranchPackages();
 loadBranchReviews();

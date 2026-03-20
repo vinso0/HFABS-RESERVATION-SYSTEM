@@ -172,4 +172,27 @@ class PackagesController extends Controller
 
         $this->jsonResponse($result);
     }
+
+    public function getPublicPackages($branchId = null)
+    {
+        header('Content-Type: application/json');
+
+        if (!$branchId || !is_numeric($branchId)) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'message' => 'Invalid branch ID']);
+            exit;
+        }
+
+        $branchId = (int)$branchId;
+
+        $packageModel = $this->model('Package');
+        $packages = $packageModel->getAvailablePackagesForBranch($branchId);
+
+        echo json_encode([
+            'success' => true,
+            'data'    => $packages
+        ]);
+
+        exit;
+    }
 }

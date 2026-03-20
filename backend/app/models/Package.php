@@ -460,4 +460,53 @@ class Package extends Database
             ];
         }
     }
+
+    public function getAvailablePackagesForBranch($branchId)
+    {
+        $sql = "
+            SELECT
+                bp.package_id,
+                bp.package_name,
+                bp.description,
+                bp.package_price,
+                bp.total_duration_minutes,
+                bp.is_available,
+                GROUP_CONCAT(
+                    COALESCE(NULLIF(bso.display_name, ''), ds.service_name)
+                    ORDER BY bps.sort_order ASC
+                    SEPARATOR ', '
+                ) AS included_services,
+                COUNT(bps.branch_service_override_id) AS service_count
+            FROM branch_packages bp
+            LEFT JOIN branch_package_services bps
+                ON bp.package_id = bps.package_id
+            LEFT JOIN branch_service_overrides bso
+                ON bps.branch_service_override_id = bso.branch_service_override_id
+            LEFT JOIN default_services ds
+                ON ds.service_id = bso.default_service_id
+            WHERE bp.branch_id = ?
+            AND bp.is_available = 1
+            GROUP BY
+                bp.package_id,
+                bp.package_name,
+                bp.description,
+                bp.package_price,
+                bp.total_duration_minutes,
+                bp.is_available
+            ORDER BY bp.package_name ASC
+        ";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bind_param('i', $branchId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $packages = [];
+        while ($row = $result->fetch_assoc()) {
+            $packages[] = $row;
+        }
+
+        $stmt->close();
+        return $packages;
+    }
 }

@@ -118,7 +118,8 @@ function displayBookingSummary() {
   });
   
   // Display summary
-  document.getElementById('serviceName').textContent = service.servicename;
+  document.getElementById('serviceName').textContent =
+  (bookingData.is_package ? 'Package: ' : '') + service.servicename;
   document.getElementById('serviceDuration').textContent = service.duration || 'N/A';
   document.getElementById('branchName').textContent = branch.name;
   document.getElementById('bookingDate').textContent = formattedDate;
@@ -157,10 +158,23 @@ async function processPayment(paymentMethod) {
         console.log('Branch:', branch);
 
         // Prepare services data for metadata
-        const serviceDuration = parseInt(bookingData.service.duration) || 60; // Ensure we have a valid duration
-        console.log('Service duration from booking data:', bookingData.service.duration, 'Parsed as:', serviceDuration);
-        
-        const servicesData = [{
+        // Build services metadata — handles both single service and package
+        let servicesData;
+        const serviceDuration = parseInt(bookingData.service.duration_minutes || bookingData.service.duration) || 60;
+
+        if (bookingData.is_package && bookingData.booked_package_id) {
+          // Package booking — services will be resolved by the webhook from branch_package_services
+          servicesData = [{
+            is_package: true,
+            booked_package_id: bookingData.booked_package_id,
+            package_name: bookingData.service.servicename,
+            price: bookingData.service.price,
+            duration_minutes: serviceDuration,
+            remaining_balance: bookingData.totalPrice - bookingData.downpayment
+          }];
+        } else {
+          // Single service booking — existing behaviour
+          servicesData = [{
             service_name: bookingData.service.servicename,
             price: bookingData.service.price || bookingData.totalPrice,
             duration_minutes: serviceDuration,
@@ -169,7 +183,8 @@ async function processPayment(paymentMethod) {
             default_service_id: bookingData.service.serviceid,
             branch_service_override_id: null,
             remaining_balance: bookingData.totalPrice - bookingData.downpayment
-        }];
+          }];
+        }
 
         // Prepare schedule data for metadata
         const scheduleData = {

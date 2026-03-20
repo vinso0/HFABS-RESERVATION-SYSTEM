@@ -52,13 +52,14 @@ function loadBookingData() {
 function displayServiceInfo() {
   const price = parseFloat(selectedService.price);
   const downpayment = price * 0.5;
-  
-  document.getElementById('serviceName').textContent = `Book: ${selectedService.servicename}`;
+
+  // Package label vs service label
+  const label = selectedService.is_package ? 'Book Package:' : 'Book:';
+  document.getElementById('serviceName').textContent = `${label} ${selectedService.servicename}`;
   document.getElementById('servicePrice').textContent = `₱${price.toFixed(2)}`;
   document.getElementById('serviceDuration').textContent = `Duration: ${selectedService.duration || 'N/A'}`;
   document.getElementById('serviceDownpayment').textContent = `Downpayment: ₱${downpayment.toFixed(2)}`;
 }
-
 
 function setupEventListeners() {
   document.getElementById('prevMonth').addEventListener('click', () => {
@@ -323,21 +324,23 @@ function updateProceedButton() {
 // Proceed to Payment
 function proceedToPayment() {
   if (!selectedDate || !selectedTime) return;
-  
-  // Store booking data
+
+  const price = parseFloat(selectedService.price);
+  const downpayment = Math.max(price * 0.5, 1.00);
+
   const bookingData = {
-    service: selectedService,
+    service: selectedService,                   // contains is_package + package_id if a package
     branch: selectedBranch,
-    date: selectedDate.getFullYear() + '-' + 
-         String(selectedDate.getMonth() + 1).padStart(2, '0') + '-' + 
-         String(selectedDate.getDate()).padStart(2, '0'),
+    date: selectedDate.getFullYear() + '-' +
+          String(selectedDate.getMonth() + 1).padStart(2, '0') + '-' +
+          String(selectedDate.getDate()).padStart(2, '0'),
     time: selectedTime,
-    totalPrice: parseFloat(selectedService.price),
-    downpayment: Math.max(parseFloat(selectedService.price) * 0.5, 1.00) // Ensure minimum 1.00 PHP
+    totalPrice: price,
+    downpayment: downpayment,
+    is_package: selectedService.is_package || false,
+    booked_package_id: selectedService.is_package ? selectedService.package_id : null
   };
-  
+
   sessionStorage.setItem('bookingData', JSON.stringify(bookingData));
-  
-  // Redirect to payment page
   window.location.href = './payment.html';
 }

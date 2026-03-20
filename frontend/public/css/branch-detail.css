@@ -284,6 +284,131 @@
   margin-left: auto;
 }
 
+/* ── Packages Block ── */
+.branch-packages-block {
+  margin-top: 52px;
+}
+
+.branch-packages-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.package-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  border: 1px solid #f0eeff;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.package-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(124, 58, 237, 0.12);
+}
+
+.package-card.unavailable {
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.package-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.package-card-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #2c2c2c;
+  margin: 0;
+}
+
+.package-card-price {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #7c3aed;
+  white-space: nowrap;
+}
+
+.package-card-desc {
+  font-size: 0.88rem;
+  color: #777;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.package-card-meta {
+  display: flex;
+  gap: 14px;
+  font-size: 0.84rem;
+  color: #888;
+}
+
+.package-card-meta i {
+  color: #7c3aed;
+  margin-right: 4px;
+}
+
+.package-services-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.package-service-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.package-service-tag {
+  background: #f3f0ff;
+  color: #5b21b6;
+  border-radius: 999px;
+  padding: 5px 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.package-book-btn {
+  margin-top: auto;
+  background: #7c3aed;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 13px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+  width: 100%;
+}
+
+.package-book-btn:hover {
+  background: #6d28d9;
+}
+
+.package-unavailable-badge {
+  background: #fee2e2;
+  color: #b91c1c;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+
 /* ── Reviews Block ── */
 .branch-reviews-block {
   padding-top: 1rem;
