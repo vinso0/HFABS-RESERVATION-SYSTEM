@@ -176,12 +176,7 @@ async function loadBranchPackages() {
           </div>
           <div class="package-services-label">Included Services</div>
           <div class="package-service-tags">${serviceTags || '<span class="package-service-tag">—</span>'}</div>
-          ${unavailable
-            ? '<span class="package-unavailable-badge">Currently Unavailable</span>'
-            : `<button class="package-book-btn" onclick="bookPackage(${pkg.package_id}, '${pkg.package_name.replace(/'/g, "\\'")}', ${pkg.package_price}, ${pkg.total_duration_minutes})">
-                <i class="fas fa-calendar-check"></i> Book This Package
-              </button>`
-          }
+          ${unavailable ? '<span class="package-unavailable-badge">Unavailable</span>' : ''}
         </div>
       `;
     }).join('');
@@ -192,42 +187,13 @@ async function loadBranchPackages() {
   }
 }
 
-function bookPackage(packageId, packageName, packagePrice, durationMinutes) {
-  // Check login first
-  const token = localStorage.getItem('token');
-  const userData = localStorage.getItem('userData');
-
-  if (!token || !userData) {
-    alert('Please log in first to book a package.');
-    window.location.href = './customer-login.html';
-    return;
-  }
-
-  // Build a package booking object — mirrors the single-service format
-  // but adds booked_package_id so booking.js and payment.js can handle it
-  const packageData = {
-    is_package: true,
-    package_id: packageId,
-    servicename: packageName,
-    price: packagePrice,
-    duration: `${durationMinutes} mins`,
-    duration_minutes: durationMinutes,
-    category: 'Package',
-    description: ''
-  };
-
-  sessionStorage.setItem('selectedServices', JSON.stringify([packageData]));
-  sessionStorage.setItem('selectedBranchId', branchId);
-  sessionStorage.setItem('selectedBranchName', document.querySelector('.branch-hero-title')?.textContent || '');
-
-  window.location.href = './booking.html';
-}
-
-
 // ── Load Reviews ──────────────────────────────────────
+let allReviews = [];
+
 async function loadBranchReviews() {
   const grid    = document.getElementById('reviewsGrid');
   const summary = document.getElementById('reviewsSummary');
+  const filter  = document.getElementById('reviewsFilter');
 
   try {
     const res  = await fetch(`${API_BASE}branch/${branchId}/reviews`);
@@ -235,12 +201,12 @@ async function loadBranchReviews() {
 
     const totalReviews  = data?.summary?.total_reviews  ?? 0;
     const averageRating = parseFloat(data?.summary?.average_rating ?? 0);
-    const reviews       = data?.reviews ?? [];
+    allReviews          = data?.reviews ?? [];
 
     // ── Rating Overview (matches admin-feedback layout) ──
     // Calculate per-star breakdown from reviews array
     const ratingCounts = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
-    reviews.forEach(r => {
+    allReviews.forEach(r => {
       const star = Math.round(r.rating);
       if (ratingCounts[star] !== undefined) ratingCounts[star]++;
     });
@@ -275,35 +241,56 @@ async function loadBranchReviews() {
         </div>
       </div>`;
 
-    // ── Individual Review Cards ──
-    if (!reviews.length) {
-      grid.innerHTML = `
-        <div class="no-reviews">
-          <i class="fas fa-comments"></i>
-          <p>No reviews yet for this branch.</p>
-          <p class="no-reviews-sub">Be the first to leave a review after your visit!</p>
-        </div>`;
-      return;
-    }
+    // Setup star filter event listeners
+    filter.querySelectorAll('.star-filter').forEach(btn => {
+      btn.addEventListener('click', () => {
+        filter.querySelectorAll('.star-filter').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderReviews(btn.dataset.stars);
+      });
+    });
 
-    grid.innerHTML = reviews.map(r => `
-      <div class="review-card">
-        <div class="review-card-top">
-          <div class="reviewer-avatar">${r.customer_name?.charAt(0).toUpperCase() ?? '?'}</div>
-          <div class="reviewer-info">
-            <span class="reviewer-name">${r.customer_name ?? 'Anonymous'}</span>
-            <span class="review-time">${timeAgo(r.created_at)}</span>
-          </div>
-          <div class="review-stars">${generateStars(r.rating)}</div>
-        </div>
-        <p class="review-body">${r.comment || '<em>No comment provided.</em>'}</p>
-      </div>
-    `).join('');
+    // Initial render - show all reviews
+    renderReviews('all');
 
   } catch (e) {
     grid.innerHTML = '<p class="no-data">Failed to load reviews.</p>';
     console.error('[Reviews] Error:', e);
   }
+}
+
+function renderReviews(starFilter) {
+  const grid = document.getElementById('reviewsGrid');
+  
+  let filteredReviews = allReviews;
+  if (starFilter !== 'all') {
+    const filterRating = parseInt(starFilter);
+    filteredReviews = allReviews.filter(r => Math.round(r.rating) === filterRating);
+  }
+
+  if (!filteredReviews.length) {
+    grid.innerHTML = `
+      <div class="no-reviews">
+        <i class="fas fa-comments"></i>
+        <p>No reviews found${starFilter !== 'all' ? ` for ${starFilter} stars` : ''}.</p>
+        <p class="no-reviews-sub">Try adjusting your filter or check back later!</p>
+      </div>`;
+    return;
+  }
+
+  grid.innerHTML = filteredReviews.map(r => `
+    <div class="review-card">
+      <div class="review-card-top">
+        <div class="reviewer-avatar">${r.customer_name?.charAt(0).toUpperCase() ?? '?'}</div>
+        <div class="reviewer-info">
+          <span class="reviewer-name">${r.customer_name ?? 'Anonymous'}</span>
+          <span class="review-time">${timeAgo(r.created_at)}</span>
+        </div>
+        <div class="review-stars">${generateStars(r.rating)}</div>
+      </div>
+      <p class="review-body">${r.comment || '<em>No comment provided.</em>'}</p>
+    </div>
+  `).join('');
 }
 
 // Replaces the old renderStars() — matches admin-feedback generateStars()

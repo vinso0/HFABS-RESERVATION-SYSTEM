@@ -1,87 +1,66 @@
-// API Configuration
-// Updated base URL to match the backend API location
 const API_BASE_URL = '/HFABS/backend/public/index.php?url';
 
-// State Management
 let allServices = [];
-let selectedServices = new Map(); // serviceid -> service object
+let allPackages = [];                         // ✅ packages state
+let selectedServices = new Map();
+let selectedPackage = null;                   // ✅ selected package state
 let currentCategory = 'all';
 
-// Initialize page
-document.addEventListener('DOMContentLoaded', async function() {
+document.addEventListener('DOMContentLoaded', async function () {
   initializePage();
 });
 
 async function initializePage() {
   const urlParams = new URLSearchParams(window.location.search);
   const branchId = urlParams.get('branch');
-  
+
   if (!branchId) {
     showError('No branch selected. Please go back and select a branch.');
     return;
   }
-  
+
   await Promise.all([
     loadBranchInfo(branchId),
-    loadServices(branchId)
+    loadServices(branchId),
+    loadPackages(branchId)    // ✅ load packages in parallel
   ]);
-  
-  // Setup event listeners after data is loaded
+
   setupEventListeners();
 }
 
-// Setup event listeners
 function setupEventListeners() {
-  // Category tabs
   const tabBtns = document.querySelectorAll('.tab-btn');
-  console.log('Found tab buttons:', tabBtns.length); // Check if we find any buttons
   tabBtns.forEach(btn => {
-    btn.addEventListener('click', function() {
-      console.log('Tab clicked:', this.dataset.category);
-      // Update active state
+    btn.addEventListener('click', function () {
       tabBtns.forEach(b => b.classList.remove('active'));
       this.classList.add('active');
-      
-      // Filter services
       currentCategory = this.dataset.category;
-      filterServices(currentCategory);
+
+      // ✅ Route to package view or service filter
+      if (currentCategory === 'packages') {
+        document.getElementById('categoryTitle').textContent = 'Packages';
+        displayPackages(allPackages);
+      } else {
+        filterServices(currentCategory);
+      }
     });
   });
-  
-  // Continue button
-  const continueBtn = document.getElementById('continueBtn');
-  continueBtn.addEventListener('click', handleContinue);
+
+  document.getElementById('continueBtn').addEventListener('click', handleContinue);
 }
 
-// Load branch information
 async function loadBranchInfo(branchId) {
   try {
     const response = await fetch(`${API_BASE_URL}=branch/${branchId}`);
-    
-    if (!response.ok) {
-      throw new Error('Failed to fetch branch info');
-    }
-    
+    if (!response.ok) throw new Error('Failed to fetch branch info');
     const branch = await response.json();
     displayBranchInfo(branch);
-    
   } catch (error) {
     console.error('Error loading branch info:', error);
-    
-    // Fallback to dummy data
     const dummyBranches = {
-      '1': {
-        branchid: 1,
-        branchname: 'Happy Face & Body Spa - Caloocan',
-        location: '102 Caimito Rd., Caloocan City, Unit 1D, Caimito Place'
-      },
-      '2': {
-        branchid: 2,
-        branchname: 'Happy Face & Body Spa - Quezon City',
-        location: '850 Atherton, Quezon City'
-      }
+      '1': { branchid: 1, branchname: 'Happy Face & Body Spa - Caloocan', location: '102 Caimito Rd., Caloocan City' },
+      '2': { branchid: 2, branchname: 'Happy Face & Body Spa - Quezon City', location: '850 Atherton, Quezon City' }
     };
-    
     displayBranchInfo(dummyBranches[branchId] || dummyBranches['1']);
   }
 }
@@ -91,206 +70,83 @@ function displayBranchInfo(branch) {
   document.getElementById('branchAddress').textContent = branch.location;
 }
 
-// Load services for selected branch
 async function loadServices(branchId) {
   try {
-    console.log('Loading services for branch:', branchId);
-    const url = `${API_BASE_URL}=branch/${branchId}/services`;
-    console.log('API URL:', url);
-    
-    const response = await fetch(url);
-    
-    console.log('Response status:', response.status);
-    
-    if (!response.ok) {
-      throw new Error('Failed to fetch services');
-    }
-    
-    const services = await response.json();
-    console.log('Services data:', services);
-    
-    allServices = services;
+    const response = await fetch(`${API_BASE_URL}=branch/${branchId}/services`);
+    if (!response.ok) throw new Error('Failed to fetch services');
+    allServices = await response.json();
     displayServices(allServices);
-    
   } catch (error) {
     console.error('Error loading services:', error);
     loadDummyServices(branchId);
   }
 }
 
-// Load dummy services
+// ✅ New: load packages for the branch
+async function loadPackages(branchId) {
+  try {
+    const response = await fetch(`${API_BASE_URL}=packages/getPublicPackages/${branchId}`);
+    if (!response.ok) throw new Error('Failed to fetch packages');
+    const result = await response.json();
+    allPackages = result.success ? result.data : [];
+  } catch (error) {
+    console.error('Error loading packages:', error);
+    allPackages = [];
+  }
+}
+
 function loadDummyServices(branchId) {
   const allDummyServices = [
-    {
-      serviceid: 1,
-      servicename: "Hair Spa Treatment",
-      description: "Deep conditioning hair treatment with premium products to nourish and revitalize your hair.",
-      price: 1800.00,
-      duration: "5 min",
-      isavailable: 1,
-      category: "Hair Services"
-    },
-    {
-      serviceid: 2,
-      servicename: "Hair Rebonding",
-      description: "Permanent hair straightening treatment for sleek, smooth, and manageable hair.",
-      price: 3500.00,
-      duration: "5 min",
-      isavailable: 1,
-      category: "Hair Services"
-    },
-    {
-      serviceid: 3,
-      servicename: "Classic Manicure",
-      description: "Basic nail care and polish application with hand massage for perfectly groomed nails.",
-      price: 350.00,
-      duration: "5 min",
-      isavailable: 1,
-      category: "Nail Services"
-    },
-    {
-      serviceid: 4,
-      servicename: "Gel Pedicure",
-      description: "Long-lasting gel nail treatment with foot spa and massage for beautiful, durable nails.",
-      price: 600.00,
-      duration: "5 min",
-      isavailable: 1,
-      category: "Nail Services"
-    },
-    {
-      serviceid: 5,
-      servicename: "Deep Cleansing Facial",
-      description: "Deep pore cleansing facial that removes impurities and refreshes your skin.",
-      price: 1200.00,
-      duration: "5 min",
-      isavailable: 1,
-      category: "Facial Services"
-    },
-    {
-      serviceid: 6,
-      servicename: "Anti-Aging Facial",
-      description: "Rejuvenating facial treatment designed to reduce fine lines and restore youthful glow.",
-      price: 2000.00,
-      duration: "5 min",
-      isavailable: 1,
-      category: "Facial Services"
-    },
-    {
-      serviceid: 7,
-      servicename: "Keratin Treatment",
-      description: "Smoothing keratin therapy that eliminates frizz and adds shine to your hair.",
-      price: 4500.00,
-      duration: "5 min",
-      isavailable: 1,
-      category: "Hair Services"
-    },
-    {
-      serviceid: 8,
-      servicename: "Hair Botox",
-      description: "Deep repair treatment that restores damaged hair and improves hair texture.",
-      price: 3800.00,
-      duration: "5 min",
-      isavailable: 1,
-      category: "Hair Services"
-    },
-    {
-      serviceid: 9,
-      servicename: "Swedish Massage",
-      description: "Relaxing full body massage using gentle, flowing strokes to ease tension and stress.",
-      price: 1500.00,
-      duration: "5 min",
-      isavailable: 1,
-      category: "Massage Services"
-    },
-    {
-      serviceid: 10,
-      servicename: "Hot Stone Therapy",
-      description: "Therapeutic hot stone massage that promotes deep relaxation and muscle relief.",
-      price: 2000.00,
-      duration: "5 min",
-      isavailable: 1,
-      category: "Massage Services"
-    },
-    {
-      serviceid: 11,
-      servicename: "Aromatherapy Massage",
-      description: "Essential oil massage therapy that combines relaxation with therapeutic benefits.",
-      price: 1600.00,
-      duration: "5 min",
-      isavailable: 1,
-      category: "Massage Services"
-    }
+    { serviceid: 1, servicename: "Hair Spa Treatment", description: "Deep conditioning hair treatment.", price: 1800.00, duration: "60 min", isavailable: 1, category: "Hair Services" },
+    { serviceid: 2, servicename: "Hair Rebonding", description: "Permanent hair straightening.", price: 3500.00, duration: "120 min", isavailable: 1, category: "Hair Services" },
+    { serviceid: 3, servicename: "Classic Manicure", description: "Basic nail care and polish.", price: 350.00, duration: "30 min", isavailable: 1, category: "Nail Services" },
+    { serviceid: 4, servicename: "Gel Pedicure", description: "Long-lasting gel nail treatment.", price: 600.00, duration: "45 min", isavailable: 1, category: "Nail Services" },
+    { serviceid: 5, servicename: "Deep Cleansing Facial", description: "Deep pore cleansing facial.", price: 1200.00, duration: "60 min", isavailable: 1, category: "Facial Services" },
+    { serviceid: 9, servicename: "Swedish Massage", description: "Relaxing full body massage.", price: 1500.00, duration: "60 min", isavailable: 1, category: "Massage Services" },
+    { serviceid: 10, servicename: "Hot Stone Therapy", description: "Therapeutic hot stone massage.", price: 2000.00, duration: "60 min", isavailable: 1, category: "Massage Services" }
   ];
-  
-  // Filter services based on branch
-  if (branchId === '1') {
-    allServices = allDummyServices;
-  } else if (branchId === '2') {
-    allServices = allDummyServices.filter(s => [1, 2, 5, 6].includes(s.serviceid));
-  } else {
-    allServices = [];
-  }
-  
+  allServices = branchId === '2' ? allDummyServices.filter(s => [1, 2, 5].includes(s.serviceid)) : allDummyServices;
   displayServices(allServices);
 }
 
-// Filter services by category
 function filterServices(category) {
   const categoryTitle = document.getElementById('categoryTitle');
-  
   if (category === 'all') {
     categoryTitle.textContent = 'Featured';
     displayServices(allServices);
   } else {
     categoryTitle.textContent = category;
-    const filtered = allServices.filter(s => {
-      // Handle case where category might be lowercase in data but uppercase in UI
-      return s.category && s.category.toLowerCase().includes(category.toLowerCase());
-    });
-    displayServices(filtered);
+    displayServices(allServices.filter(s => s.category && s.category.toLowerCase().includes(category.toLowerCase())));
   }
 }
 
-// Display services in list
 function displayServices(services) {
   const servicesList = document.getElementById('servicesList');
-  console.log('Displaying services:', services);
-  console.log('Services container:', servicesList);
-  
+
   if (services.length === 0) {
     servicesList.innerHTML = '<div class="empty-state">No services available in this category.</div>';
     return;
   }
-  
+
   servicesList.innerHTML = '';
-  
   services.forEach(service => {
-    console.log('Processing service:', service);
-    const serviceItem = createServiceItem(service);
-    servicesList.appendChild(serviceItem);
+    servicesList.appendChild(createServiceItem(service));
   });
-  
-  console.log('Services displayed, count:', servicesList.children.length);
 }
 
-// Create service item element
 function createServiceItem(service) {
   const item = document.createElement('div');
   item.className = 'service-item';
   item.dataset.serviceid = service.serviceid;
-  
-  // Check if already selected
-  if (selectedServices.has(service.serviceid)) {
-    item.classList.add('selected');
-  }
-  
+
+  if (selectedServices.has(service.serviceid)) item.classList.add('selected');
+
   const isAvailable = service.isavailable === 1;
-  
   if (!isAvailable) {
     item.style.opacity = '0.5';
     item.style.cursor = 'not-allowed';
   }
-  
+
   item.innerHTML = `
     <div class="service-info">
       <div class="service-header">
@@ -302,130 +158,229 @@ function createServiceItem(service) {
     </div>
     <div class="service-action"></div>
   `;
-  
-  if (isAvailable) {
-    item.addEventListener('click', () => toggleService(service, item));
-  }
-  
+
+  if (isAvailable) item.addEventListener('click', () => toggleService(service, item));
   return item;
 }
 
+// ✅ New: render package cards inside the services list area
+function displayPackages(packages) {
+  const servicesList = document.getElementById('servicesList');
 
-// Toggle service selection (only one at a time)
+  if (!packages.length) {
+    servicesList.innerHTML = '<div class="empty-state">No packages available at this branch.</div>';
+    return;
+  }
+
+  servicesList.innerHTML = '';
+  packages.forEach(pkg => {
+    servicesList.appendChild(createPackageItem(pkg));
+  });
+}
+
+// ✅ New: create package item using same structure as service item
+function createPackageItem(pkg) {
+  const item = document.createElement('div');
+  item.className = 'service-item';
+  item.dataset.pkgid = pkg.package_id;
+
+  if (selectedPackage && selectedPackage.package_id === pkg.package_id) {
+    item.classList.add('selected');
+  }
+
+  const isAvailable = true; // Assume packages are always available for now
+  if (!isAvailable) {
+    item.style.opacity = '0.5';
+    item.style.cursor = 'not-allowed';
+  }
+
+  const tags = (pkg.included_services || '')
+    .split(',').map(s => s.trim()).filter(Boolean)
+    .map(s => `<span class="pkg-tag">${s}</span>`).join('');
+
+  item.innerHTML = `
+    <div class="service-info">
+      <div class="service-header">
+        <h3 class="service-name">
+          <span class="pkg-badge">Package</span> ${pkg.package_name}
+        </h3>
+        <span class="service-duration">${pkg.total_duration_minutes} mins</span>
+      </div>
+      ${pkg.description ? `<p class="service-description">${pkg.description}</p>` : ''}
+      <div class="pkg-tags">${tags}</div>
+      <p class="service-price">₱${parseFloat(pkg.package_price).toFixed(2)}</p>
+    </div>
+    <div class="service-action"></div>
+  `;
+
+  if (isAvailable) {
+    item.addEventListener('click', () => selectPackage(pkg.package_id, item));
+  }
+
+  return item;
+}
+
+// ✅ New: select/deselect a package (clears any service selection)
+function selectPackage(packageId, itemElement = null) {
+  const pkg = allPackages.find(p => p.package_id === packageId);
+  if (!pkg) return;
+
+  if (selectedPackage && selectedPackage.package_id === packageId) {
+    // Deselect
+    selectedPackage = null;
+    document.querySelectorAll('[data-pkgid]').forEach(el => el.classList.remove('selected'));
+  } else {
+    // Select this package, clear any service selections
+    selectedPackage = pkg;
+    selectedServices.clear();
+    document.querySelectorAll('.service-item').forEach(el => el.classList.remove('selected'));
+    
+    if (itemElement) {
+      itemElement.classList.add('selected');
+    } else {
+      document.querySelector(`[data-pkgid="${packageId}"]`)?.classList.add('selected');
+    }
+  }
+
+  updateSummary();
+}
+
 function toggleService(service, itemElement) {
-  // If clicking the same service that's already selected, deselect it
+  // ✅ Selecting a service clears any package selection
+  if (selectedPackage) {
+    selectedPackage = null;
+  }
+
   if (selectedServices.has(service.serviceid)) {
     selectedServices.delete(service.serviceid);
     itemElement.classList.remove('selected');
   } else {
-    // Clear all previous selections
     selectedServices.clear();
-    
-    // Remove 'selected' class from all service items
-    document.querySelectorAll('.service-item').forEach(item => {
-      item.classList.remove('selected');
-    });
-    
-    // Add the new service
+    document.querySelectorAll('.service-item').forEach(item => item.classList.remove('selected'));
     selectedServices.set(service.serviceid, service);
     itemElement.classList.add('selected');
   }
-  
+
   updateSummary();
 }
 
-// Check if user is logged in
 function isLoggedIn() {
-  const token = localStorage.getItem('token');
-  const userData = localStorage.getItem('userData');
-  return !!(token && userData);
+  return !!(localStorage.getItem('token') && localStorage.getItem('userData'));
 }
 
-// Update summary sidebar
 function updateSummary() {
-  const selectedServicesContainer = document.getElementById('selectedServices');
+  const container = document.getElementById('selectedServices');
   const totalPrice = document.getElementById('totalPrice');
   const downpaymentPrice = document.getElementById('downpaymentPrice');
   const continueBtn = document.getElementById('continueBtn');
   const loginPrompt = document.getElementById('login-prompt');
 
+  // ✅ Handle package selected
+  if (selectedPackage) {
+    const price = parseFloat(selectedPackage.package_price);
+    const tags = (selectedPackage.included_services || '')
+      .split(',').map(s => s.trim()).filter(Boolean)
+      .map(s => `<span class="pkg-tag">${s}</span>`).join('');
+
+    container.innerHTML = `
+      <div class="selected-service">
+        <div class="selected-service-info">
+          <h4><span class="pkg-badge">Package</span> ${selectedPackage.package_name}</h4>
+          <p class="selected-service-duration">${selectedPackage.total_duration_minutes} mins</p>
+          <div class="pkg-tags" style="margin-top:6px">${tags}</div>
+        </div>
+        <span class="selected-service-price">₱${price.toFixed(2)}</span>
+      </div>
+    `;
+
+    totalPrice.textContent = `₱${price.toFixed(2)}`;
+    if (downpaymentPrice) downpaymentPrice.textContent = `₱${(price * 0.5).toFixed(2)}`;
+    continueBtn.disabled = !isLoggedIn();
+    loginPrompt.style.display = isLoggedIn() ? 'none' : 'block';
+    return;
+  }
+
+  // Handle service(s) selected
   if (selectedServices.size === 0) {
-    selectedServicesContainer.innerHTML = '<p class="empty-selection">No services selected yet</p>';
+    container.innerHTML = '<p class="empty-selection">No services selected yet</p>';
     totalPrice.textContent = '₱0';
     if (downpaymentPrice) downpaymentPrice.textContent = '₱0';
     continueBtn.disabled = true;
     loginPrompt.style.display = 'none';
-  } else {
-    let total = 0;
-    let html = '';
-
-    selectedServices.forEach(service => {
-      total += parseFloat(service.price);
-      html += `
-        <div class="selected-service">
-          <div class="selected-service-info">
-            <h4>${service.servicename}</h4>
-            <p class="selected-service-duration">${service.duration || 'N/A'}</p>
-          </div>
-          <span class="selected-service-price">₱${parseFloat(service.price).toFixed(2)}</span>
-        </div>
-      `;
-    });
-
-    selectedServicesContainer.innerHTML = html;
-    totalPrice.textContent = `₱${total.toFixed(2)}`;
-    if (downpaymentPrice) {
-      const downpayment = total * 0.5;
-      downpaymentPrice.textContent = `₱${downpayment.toFixed(2)}`;
-    }
-    
-    // Keep continue button disabled if user is not logged in
-    continueBtn.disabled = !isLoggedIn();
-    
-    // Show login prompt for guests
-    loginPrompt.style.display = isLoggedIn() ? 'none' : 'block';
+    return;
   }
+
+  let total = 0;
+  let html = '';
+  selectedServices.forEach(service => {
+    total += parseFloat(service.price);
+    html += `
+      <div class="selected-service">
+        <div class="selected-service-info">
+          <h4>${service.servicename}</h4>
+          <p class="selected-service-duration">${service.duration || 'N/A'}</p>
+        </div>
+        <span class="selected-service-price">₱${parseFloat(service.price).toFixed(2)}</span>
+      </div>
+    `;
+  });
+
+  container.innerHTML = html;
+  totalPrice.textContent = `₱${total.toFixed(2)}`;
+  if (downpaymentPrice) downpaymentPrice.textContent = `₱${(total * 0.5).toFixed(2)}`;
+  continueBtn.disabled = !isLoggedIn();
+  loginPrompt.style.display = isLoggedIn() ? 'none' : 'block';
 }
 
-
-// Handle continue button
 function handleContinue() {
-  if (selectedServices.size === 0) return;
-  
-  // Check if user is logged in
   if (!isLoggedIn()) {
     alert('Please log in first to continue with your booking.');
     window.location.href = './customer-login.html';
     return;
   }
-  
+
   const branchId = new URLSearchParams(window.location.search).get('branch');
   const branchName = document.getElementById('branchName').textContent;
-  const branchAddress = document.getElementById('branchAddress').textContent;
-  
-  // Store selected services and branch info
+
+  // ✅ Package booking path
+  if (selectedPackage) {
+    const packageData = {
+      is_package: true,
+      package_id: selectedPackage.package_id,
+      servicename: selectedPackage.package_name,
+      price: selectedPackage.package_price,
+      duration: `${selectedPackage.total_duration_minutes} mins`,
+      duration_minutes: selectedPackage.total_duration_minutes,
+      category: 'Package',
+      description: selectedPackage.description || ''
+    };
+
+    sessionStorage.setItem('selectedServices', JSON.stringify([packageData]));
+    sessionStorage.setItem('selectedBranchId', branchId);
+    sessionStorage.setItem('selectedBranchName', branchName);
+    sessionStorage.setItem('totalPrice', parseFloat(selectedPackage.package_price).toFixed(2));
+    window.location.href = './booking.html';
+    return;
+  }
+
+  // Existing single-service path
+  if (selectedServices.size === 0) return;
+
   const servicesArray = Array.from(selectedServices.values());
+  const total = servicesArray.reduce((sum, s) => sum + parseFloat(s.price), 0);
+
   sessionStorage.setItem('selectedServices', JSON.stringify(servicesArray));
   sessionStorage.setItem('selectedBranchId', branchId);
   sessionStorage.setItem('selectedBranchName', branchName);
-  
-  // Calculate total
-  const total = Array.from(selectedServices.values())
-    .reduce((sum, s) => sum + parseFloat(s.price), 0);
   sessionStorage.setItem('totalPrice', total.toFixed(2));
-  
-  // Redirect directly to booking page
   window.location.href = './booking.html';
 }
 
-
-// Error display
 function showError(message) {
-  const servicesList = document.getElementById('servicesList');
-  servicesList.innerHTML = `
+  document.getElementById('servicesList').innerHTML = `
     <div class="error-state">
       <p>${message}</p>
-      <button onclick="window.history.back()" style="margin-top: 1rem; padding: 0.75rem 1.5rem; background: var(--text-main); color: white; border: none; border-radius: 8px; cursor: pointer;">
+      <button onclick="window.history.back()" style="margin-top:1rem;padding:0.75rem 1.5rem;background:var(--text-main);color:white;border:none;border-radius:8px;cursor:pointer;">
         Go Back
       </button>
     </div>

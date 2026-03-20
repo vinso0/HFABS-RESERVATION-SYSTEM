@@ -246,6 +246,48 @@ main {
   font-weight: 300;
 }
 
+/* ── Package items in services list ── */
+.pkg-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--primary-pink-light);
+  color: var(--primary-pink);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 50px;
+  margin-right: 8px;
+  vertical-align: middle;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  border: 1px solid rgba(233, 30, 140, 0.2);
+}
+
+.pkg-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.pkg-tag {
+  background: #f8f9fa;
+  color: var(--text-muted);
+  border-radius: 50px;
+  padding: 4px 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  border: 1px solid var(--border-light);
+  transition: all var(--transition);
+}
+
+.pkg-tag:hover {
+  background: var(--primary-pink-light);
+  color: var(--primary-pink);
+  border-color: rgba(233, 30, 140, 0.3);
+}
+
 /* === Summary Sidebar === */
 .summary-sidebar {
   position: sticky;

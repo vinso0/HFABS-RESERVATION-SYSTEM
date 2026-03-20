@@ -1,19 +1,13 @@
 <?php
 
-class Branch
+class Branch extends Database
 {
-    private $db;
-
-    public function __construct()
-    {
-        $this->db = new Database();
-    }
 
     // Get all active branches
     // Returns an array of all branches that are active or have empty status (for backward compatibility)
     public function getAllBranches()
     {
-        $conn = $this->db->getConnection();
+        $conn = $this->getConnection();
         $sql = 'SELECT * FROM branch WHERE status = "active" OR status = ""';
         $result = $conn->query($sql);
         
@@ -31,7 +25,7 @@ class Branch
     // Returns a single branch record based on the provided branch ID
     public function getBranchById($id)
     {
-        $conn = $this->db->getConnection();
+        $conn = $this->getConnection();
         $sql = 'SELECT * FROM branch WHERE branch_id = ?';
         $stmt = $conn->prepare($sql);
         $stmt->bind_param('i', $id);
@@ -48,16 +42,17 @@ class Branch
     // Uses branch_service_overrides for branch-specific modifications
     public function getBranchServices($branchId)
     {
-        $conn = $this->db->getConnection();
+        $conn = $this->getConnection();
         
         // Get all branch service overrides with corresponding default services and categories
         $sql = 'SELECT
-                    bso.branch_service_override_id as serviceid,
+                    COALESCE(bso.default_service_id, bso.branch_service_override_id) as serviceid,
                     COALESCE(bso.display_name, ds.service_name) as servicename,
                     COALESCE(bso.description_override, ds.description) as description,
                     COALESCE(bso.price_override, ds.price) as price,
                     COALESCE(bso.duration_minutes_override, ds.duration_minutes) as duration,
                     ds.category_id,
+                    COALESCE(bso.default_service_id, bso.branch_service_override_id) as default_service_id,
                     CONCAT(
                         UCASE(LEFT(dsc.category_name, 1)),
                         SUBSTRING(dsc.category_name, 2)
@@ -104,7 +99,7 @@ class Branch
     // Uses branch_category_overrides for branch-specific modifications
     public function getBranchCategories($branchId)
     {
-        $conn = $this->db->getConnection();
+        $conn = $this->getConnection();
         
         $sql = 'SELECT
                     bco.branch_category_override_id as categoryid,
@@ -140,53 +135,70 @@ class Branch
         return $categories;
     }
 
-    // Get reviews for a specific branch with customer names
-    // API endpoint consumed by GET /api/branches/{id}/reviews
+    // Get reviews for a specific branch
+    // Returns all feedback/reviews for the specified branch with customer information
     public function getBranchReviews($branchId)
     {
-        $conn = $this->db->getConnection();
-
-        $sql = 'SELECT
-                    f.feedback_id,
+        $conn = $this->getConnection();
+        
+        $sql = 'SELECT 
                     f.rating,
                     f.comment,
                     f.created_at,
-                    u.username AS customer_name
+                    COALESCE(u.username, "Anonymous") as customer_name
                 FROM feedback f
-                JOIN users u ON f.user_id = u.user_id
+                LEFT JOIN users u ON f.user_id = u.user_id
                 WHERE f.branch_id = ?
                 ORDER BY f.created_at DESC';
-
+        
         $stmt = $conn->prepare($sql);
         $stmt->bind_param('i', $branchId);
         $stmt->execute();
-
+        
         $result = $stmt->get_result();
-
-        $reviews = [];
-        while ($row = $result->fetch_assoc()) {
-            $reviews[] = $row;
+        
+        $reviews = array();
+        if ($result && $result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $reviews[] = $row;
+            }
         }
-
+        
         return $reviews;
     }
 
-    // Get average rating and review count for a branch
+    // Get rating summary for a specific branch
+    // Returns summary statistics including average rating and total review count
     public function getBranchRatingSummary($branchId)
     {
-        $conn = $this->db->getConnection();
-
-        $sql = 'SELECT
-                    COUNT(*) AS total_reviews,
-                    ROUND(AVG(rating), 1) AS average_rating
+        $conn = $this->getConnection();
+        
+        $sql = 'SELECT 
+                    COUNT(*) as total_reviews,
+                    AVG(rating) as average_rating
                 FROM feedback
                 WHERE branch_id = ?';
-
+        
         $stmt = $conn->prepare($sql);
         $stmt->bind_param('i', $branchId);
         $stmt->execute();
-
+        
         $result = $stmt->get_result();
-        return $result->fetch_assoc();
+        
+        if ($result && $result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            return array(
+                'total_reviews' => (int)$row['total_reviews'],
+                'average_rating' => $row['average_rating'] ? round($row['average_rating'], 1) : 0
+            );
+        }
+        
+        return array(
+            'total_reviews' => 0,
+            'average_rating' => 0
+        );
     }
+
 }
+
+?>
