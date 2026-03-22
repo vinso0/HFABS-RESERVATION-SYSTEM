@@ -4,6 +4,9 @@ let allPackages = [];
 let branchServices = [];
 let editingPackageId = null;
 let deletingPackageId = null;
+let packagesPagination;
+let currentPage = 1;
+let itemsPerPage = 5;
 
 document.addEventListener('DOMContentLoaded', () => {
     loadPackages();
@@ -17,8 +20,20 @@ function bindEvents() {
     document.getElementById('cancelPackageBtn').addEventListener('click', closeModal);
     document.getElementById('packageForm').addEventListener('submit', submitPackageForm);
 
-    document.getElementById('searchPackage').addEventListener('input', renderPackages);
-    document.getElementById('availabilityFilter').addEventListener('change', renderPackages);
+    document.getElementById('searchPackage').addEventListener('input', () => {
+        currentPage = 1;
+        if (packagesPagination) {
+            packagesPagination.goToPage(1);
+        }
+        renderPackages();
+    });
+    document.getElementById('availabilityFilter').addEventListener('change', () => {
+        currentPage = 1;
+        if (packagesPagination) {
+            packagesPagination.goToPage(1);
+        }
+        renderPackages();
+    });
 
     document.getElementById('packageModal').addEventListener('click', function (e) {
         if (e.target === this) closeModal();
@@ -130,7 +145,28 @@ function renderPackages() {
         return;
     }
 
-    tbody.innerHTML = filtered.map(pkg => {
+    // Initialize pagination if not already initialized
+    if (!packagesPagination) {
+        packagesPagination = new Pagination({
+            totalItems: filtered.length,
+            itemsPerPage: itemsPerPage,
+            currentPage: currentPage,
+            onPageChange: function(page, perPage) {
+                currentPage = page;
+                itemsPerPage = perPage;
+                renderPackages();
+            }
+        });
+    }
+
+    // Update pagination with current filtered data
+    packagesPagination.updateTotalItems(filtered.length);
+
+    // Get current page range
+    const range = packagesPagination.getCurrentPageRange();
+    const pagePackages = filtered.slice(range.start, range.end);
+
+    tbody.innerHTML = pagePackages.map(pkg => {
         const tags = (pkg.included_services || '')
             .split(',')
             .map(item => item.trim())
@@ -156,10 +192,10 @@ function renderPackages() {
                 <td>
                     <div class="action-buttons">
                         <button class="action-btn edit-btn" onclick="openEditModal(${pkg.package_id})" title="Edit Package">
-                            <i class="fas fa-pen"></i>
+                           <i class="fas fa-edit"></i>
                         </button>
                         <button class="action-btn delete-btn" onclick="confirmDeletePackage(${pkg.package_id})" title="Delete Package">
-                            <i class="fas fa-trash"></i>
+                            <i class="fas fa-trash-alt"></i>
                         </button>
                     </div>
                 </td>

@@ -4,6 +4,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     header("Location: admin-login.html");
     exit;
 }
+$branchName = $_SESSION['branch_name'] ?? 'Your Branch';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,6 +15,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     <link rel="stylesheet" href="../public/css/admin-sidebar.css">
     <link rel="stylesheet" href="../public/css/admin-navbar.css">
     <link rel="stylesheet" href="../public/css/admin-packages.css">
+    <link rel="stylesheet" href="../public/css/pagination.css">
     <link rel="stylesheet" href="../public/css/toast.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -27,7 +29,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
             <div class="packages-header">
                 <div>
                     <h2>Packages</h2>
-                    <p class="subtitle-text">Create and manage package offers for your branch.</p>
+                    <p class="subtitle-text">Create and manage package offers for <?= htmlspecialchars($branchName) ?></p>
                 </div>
                 <button class="add-package-btn" id="openAddPackageBtn">
                     <i class="fas fa-plus"></i>
@@ -76,6 +78,8 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
                     </tbody>
                 </table>
             </div>
+
+            <?php include 'components/pagination.php'; ?>
         </section>
     </main>
 
@@ -176,6 +180,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     </div>
 
     <script src="../public/js/toast.js"></script>
+    <script src="../public/js/pagination.js"></script>
     <script src="../public/js/packages-data.js"></script>
 </body>
 </html>

@@ -199,6 +199,107 @@ class Branch extends Database
         );
     }
 
+        // ── Get full branch settings by branch_id ──
+    public function getBranchSettings($branchId)
+    {
+        $conn = $this->getConnection();
+        $stmt = $conn->prepare(
+            "SELECT branch_id, branch_name, branch_location, contact_number, email,
+                    opening_time, closing_time, down_payment_rate, status
+             FROM branch WHERE branch_id = ?"
+        );
+        $stmt->bind_param('i', $branchId);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_assoc();
+    }
+
+    // ── Update branch settings ──
+    public function updateBranchSettings($branchId, $data)
+    {
+        $conn = $this->getConnection();
+        $stmt = $conn->prepare(
+            "UPDATE branch
+             SET branch_location   = ?,
+                 contact_number    = ?,
+                 email             = ?,
+                 opening_time      = ?,
+                 closing_time      = ?,
+                 down_payment_rate  = ?
+             WHERE branch_id = ?"
+        );
+        $stmt->bind_param(
+            'sssssdi',
+            $data['branch_location'],
+            $data['contact_number'],
+            $data['email'],
+            $data['opening_time'],
+            $data['closing_time'],
+            $data['down_payment_rate'],
+            $branchId
+        );
+        return $stmt->execute();
+    }
+
+    // ── Get all closed dates for a branch ──
+    public function getClosedDates($branchId)
+    {
+        $conn = $this->getConnection();
+        $stmt = $conn->prepare(
+            "SELECT id, closed_date, reason
+             FROM branch_closed_dates
+             WHERE branch_id = ?
+             ORDER BY closed_date ASC"
+        );
+        $stmt->bind_param('i', $branchId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $dates = [];
+        while ($row = $result->fetch_assoc()) {
+            $dates[] = $row;
+        }
+        return $dates;
+    }
+
+    // ── Add a closed date ──
+    public function addClosedDate($branchId, $date, $reason = '')
+    {
+        $conn = $this->getConnection();
+        $stmt = $conn->prepare(
+            "INSERT IGNORE INTO branch_closed_dates (branch_id, closed_date, reason)
+             VALUES (?, ?, ?)"
+        );
+        $stmt->bind_param('iss', $branchId, $date, $reason);
+        return $stmt->execute();
+    }
+
+    // ── Remove a closed date by ID ──
+    public function removeClosedDate($id, $branchId)
+    {
+        $conn = $this->getConnection();
+        $stmt = $conn->prepare(
+            "DELETE FROM branch_closed_dates WHERE id = ? AND branch_id = ?"
+        );
+        $stmt->bind_param('ii', $id, $branchId);
+        return $stmt->execute();
+    }
+
+    // ── Get all closed dates as plain array (used by booking) ──
+    public function getClosedDatesByBranch($branchId)
+    {
+        $conn = $this->getConnection();
+        $stmt = $conn->prepare(
+            "SELECT closed_date FROM branch_closed_dates WHERE branch_id = ?"
+        );
+        $stmt->bind_param('i', $branchId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $dates = [];
+        while ($row = $result->fetch_assoc()) {
+            $dates[] = $row['closed_date'];
+        }
+        return $dates;
+    }
+
 }
 
 ?>

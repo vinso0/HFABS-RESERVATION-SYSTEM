@@ -62,10 +62,6 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
                         <span>Facial</span>
                     </button>
                 </div>
-                <button class="btn-manage-categories" id="manageCategoriesBtn">
-                    <i class="fas fa-cog"></i>
-                    <span>Manage Categories</span>
-                </button>
             </div>
 
             <!-- Services Table -->

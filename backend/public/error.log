@@ -13842,3 +13842,2529 @@ Stack trace:
 #2 {main}
   thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
 [20-Mar-2026 15:25:11 Europe/Berlin] Payment Request: {"amount":1,"reservation_id":"No.1774016711980","metadata":{"reservation_id":"No.1774016711980","user_id":2,"branch_id":"1","total_price":1,"services":[{"is_package":true,"booked_package_id":1,"package_name":"Pamper Me","price":"1.00","duration_minutes":210,"remaining_balance":0}],"schedule_date":"2026-03-21","start_time":"10:00:00","end_time":"13:30:00"}}
+[21-Mar-2026 03:58:10 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 03:58:10 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 03:58:10 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 03:58:10 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 03:58:43 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 03:58:43 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 03:58:44 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 03:58:44 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 03:58:45 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 03:58:45 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 03:58:46 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 03:58:46 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 03:58:47 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 03:58:47 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 03:58:48 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 03:58:48 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 03:58:48 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 03:58:48 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:00:03 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:00:03 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:00:05 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:00:05 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:00:06 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:00:06 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:00:08 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:00:08 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:00:13 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:00:13 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:00:31 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:00:31 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:01:01 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:01:01 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:01:18 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:01:18 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:01:22 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:01:22 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:01:22 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:01:22 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:01:22 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:01:22 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:01:24 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:01:24 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:01:24 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:01:24 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:01:24 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:01:24 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:01:25 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:01:25 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:01:26 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:01:26 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:01:26 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:01:26 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:01:26 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:01:26 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:01:27 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:01:27 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:01:28 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:01:28 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:01:29 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:01:29 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:01:29 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:01:29 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:01:29 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:01:29 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:01:30 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:01:30 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:01:30 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:01:30 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:01:31 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:01:31 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:01:31 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:01:31 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:01:33 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:01:33 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:01:33 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:01:33 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:01:40 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:01:40 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:02:54 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:02:54 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:02:57 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:02:57 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:02:58 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:02:58 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:02:59 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:02:59 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:02:59 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:02:59 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:02:59 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:02:59 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:12:19 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\xampp\htdocs\HFABS\backend\app\core\Database.php:9
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Database.php(9): mysqli->__construct('localhost', 'root', Object(SensitiveParameterValue), 'hfabs')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\TransactionController.php(37): Database->__construct()
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): TransactionController->getByBranch()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\core\Database.php on line 9
+[21-Mar-2026 04:12:25 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\xampp\htdocs\HFABS\backend\app\core\Database.php:9
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Database.php(9): mysqli->__construct('localhost', 'root', Object(SensitiveParameterValue), 'hfabs')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\TransactionController.php(37): Database->__construct()
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): TransactionController->getByBranch()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\core\Database.php on line 9
+[21-Mar-2026 04:15:49 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:15:49 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:15:49 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:15:49 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:16:06 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:16:06 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:16:08 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:16:08 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:16:08 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:16:08 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:16:35 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:16:35 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:16:39 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:16:39 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:20:35 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:20:35 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:22:15 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:22:15 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:22:16 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:22:16 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:22:17 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:22:17 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:22:17 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:22:17 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:22:18 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:22:18 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:22:19 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:22:19 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:22:19 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:22:19 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:22:20 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:22:20 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:22:22 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:22:22 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:22:50 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:22:50 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:23:20 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:23:20 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:23:50 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:23:50 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:24:20 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:24:20 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:24:50 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:24:50 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:25:20 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:25:20 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:25:50 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:25:50 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:26:51 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:26:51 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:27:52 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:27:52 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 04:28:53 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:28:58 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\xampp\htdocs\HFABS\backend\app\core\Database.php:9
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Database.php(9): mysqli->__construct('localhost', 'root', Object(SensitiveParameterValue), 'hfabs')
+#1 C:\xampp\htdocs\HFABS\backend\app\core\Controller.php(8): Database->__construct()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(320): Controller->model('Reservation')
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getAllReservations()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\core\Database.php on line 9
+[21-Mar-2026 04:29:54 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:29:58 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\xampp\htdocs\HFABS\backend\app\core\Database.php:9
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Database.php(9): mysqli->__construct('localhost', 'root', Object(SensitiveParameterValue), 'hfabs')
+#1 C:\xampp\htdocs\HFABS\backend\app\core\Controller.php(8): Database->__construct()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(320): Controller->model('Reservation')
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getAllReservations()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\core\Database.php on line 9
+[21-Mar-2026 04:30:56 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:31:00 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\xampp\htdocs\HFABS\backend\app\core\Database.php:9
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Database.php(9): mysqli->__construct('localhost', 'root', Object(SensitiveParameterValue), 'hfabs')
+#1 C:\xampp\htdocs\HFABS\backend\app\core\Controller.php(8): Database->__construct()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(320): Controller->model('Reservation')
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getAllReservations()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\core\Database.php on line 9
+[21-Mar-2026 04:31:56 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:32:01 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\xampp\htdocs\HFABS\backend\app\core\Database.php:9
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Database.php(9): mysqli->__construct('localhost', 'root', Object(SensitiveParameterValue), 'hfabs')
+#1 C:\xampp\htdocs\HFABS\backend\app\core\Controller.php(8): Database->__construct()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(320): Controller->model('Reservation')
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getAllReservations()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\core\Database.php on line 9
+[21-Mar-2026 04:32:57 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:33:01 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\xampp\htdocs\HFABS\backend\app\core\Database.php:9
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Database.php(9): mysqli->__construct('localhost', 'root', Object(SensitiveParameterValue), 'hfabs')
+#1 C:\xampp\htdocs\HFABS\backend\app\core\Controller.php(8): Database->__construct()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(320): Controller->model('Reservation')
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getAllReservations()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\core\Database.php on line 9
+[21-Mar-2026 04:33:58 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:34:02 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\xampp\htdocs\HFABS\backend\app\core\Database.php:9
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Database.php(9): mysqli->__construct('localhost', 'root', Object(SensitiveParameterValue), 'hfabs')
+#1 C:\xampp\htdocs\HFABS\backend\app\core\Controller.php(8): Database->__construct()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(320): Controller->model('Reservation')
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getAllReservations()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\core\Database.php on line 9
+[21-Mar-2026 04:36:38 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 04:36:42 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\xampp\htdocs\HFABS\backend\app\core\Database.php:9
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Database.php(9): mysqli->__construct('localhost', 'root', Object(SensitiveParameterValue), 'hfabs')
+#1 C:\xampp\htdocs\HFABS\backend\app\core\Controller.php(8): Database->__construct()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(320): Controller->model('Reservation')
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->getAllReservations()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\core\Database.php on line 9
+[21-Mar-2026 05:38:11 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: No connection could be made because the target machine actively refused it in C:\xampp\htdocs\HFABS\backend\app\core\Database.php:9
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Database.php(9): mysqli->__construct('localhost', 'root', Object(SensitiveParameterValue), 'hfabs')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\TransactionController.php(37): Database->__construct()
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): TransactionController->getByBranch()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\core\Database.php on line 9
+[21-Mar-2026 05:47:15 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 05:47:15 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 05:47:15 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 05:47:15 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 05:47:24 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 05:47:24 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 05:47:24 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 05:47:24 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 05:47:45 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 05:47:45 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 05:48:59 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 05:48:59 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 05:51:11 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 05:51:11 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 05:54:59 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 05:54:59 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 05:55:01 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 05:55:01 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 05:55:02 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 05:55:02 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 05:55:26 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 05:55:26 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 05:55:27 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 05:55:27 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 05:55:33 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 05:55:33 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 05:55:34 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 05:55:34 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 05:55:34 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 05:55:34 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 05:55:36 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 05:55:36 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 05:55:37 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 05:55:37 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 05:55:37 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 05:55:37 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 06:07:50 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 06:07:50 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 06:20:40 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 06:20:40 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 06:20:40 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 06:20:40 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 06:29:17 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 06:29:17 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 06:54:44 Europe/Berlin] [2026-03-21 06:54:44] checkAvailability called
+[21-Mar-2026 06:54:44 Europe/Berlin] [2026-03-21 06:54:44] checkAvailability parameters: date=2026-03-22, time=09:00, serviceId=1
+[21-Mar-2026 06:54:44 Europe/Berlin] [2026-03-21 06:54:44] Calling checkTimeSlotAvailability with: date=2026-03-22, time=09:00, serviceId=1
+[21-Mar-2026 06:54:44 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:44 Europe/Berlin] [2026-03-21 06:54:44] checkAvailability called
+[21-Mar-2026 06:54:44 Europe/Berlin] [2026-03-21 06:54:44] checkAvailability parameters: date=2026-03-22, time=10:00, serviceId=1
+[21-Mar-2026 06:54:44 Europe/Berlin] [2026-03-21 06:54:44] Calling checkTimeSlotAvailability with: date=2026-03-22, time=10:00, serviceId=1
+[21-Mar-2026 06:54:44 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:44 Europe/Berlin] [2026-03-21 06:54:44] checkAvailability called
+[21-Mar-2026 06:54:44 Europe/Berlin] [2026-03-21 06:54:44] checkAvailability parameters: date=2026-03-22, time=11:00, serviceId=1
+[21-Mar-2026 06:54:44 Europe/Berlin] [2026-03-21 06:54:44] Calling checkTimeSlotAvailability with: date=2026-03-22, time=11:00, serviceId=1
+[21-Mar-2026 06:54:44 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:44 Europe/Berlin] [2026-03-21 06:54:44] checkAvailability called
+[21-Mar-2026 06:54:44 Europe/Berlin] [2026-03-21 06:54:44] checkAvailability parameters: date=2026-03-22, time=12:00, serviceId=1
+[21-Mar-2026 06:54:44 Europe/Berlin] [2026-03-21 06:54:44] Calling checkTimeSlotAvailability with: date=2026-03-22, time=12:00, serviceId=1
+[21-Mar-2026 06:54:44 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:44 Europe/Berlin] [2026-03-21 06:54:44] checkAvailability called
+[21-Mar-2026 06:54:44 Europe/Berlin] [2026-03-21 06:54:44] checkAvailability parameters: date=2026-03-22, time=13:00, serviceId=1
+[21-Mar-2026 06:54:44 Europe/Berlin] [2026-03-21 06:54:44] Calling checkTimeSlotAvailability with: date=2026-03-22, time=13:00, serviceId=1
+[21-Mar-2026 06:54:44 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:44 Europe/Berlin] [2026-03-21 06:54:44] checkAvailability called
+[21-Mar-2026 06:54:44 Europe/Berlin] [2026-03-21 06:54:44] checkAvailability parameters: date=2026-03-22, time=14:00, serviceId=1
+[21-Mar-2026 06:54:44 Europe/Berlin] [2026-03-21 06:54:44] Calling checkTimeSlotAvailability with: date=2026-03-22, time=14:00, serviceId=1
+[21-Mar-2026 06:54:44 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:44 Europe/Berlin] [2026-03-21 06:54:44] checkAvailability called
+[21-Mar-2026 06:54:44 Europe/Berlin] [2026-03-21 06:54:44] checkAvailability parameters: date=2026-03-22, time=15:00, serviceId=1
+[21-Mar-2026 06:54:44 Europe/Berlin] [2026-03-21 06:54:44] Calling checkTimeSlotAvailability with: date=2026-03-22, time=15:00, serviceId=1
+[21-Mar-2026 06:54:44 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:44 Europe/Berlin] [2026-03-21 06:54:44] checkAvailability called
+[21-Mar-2026 06:54:44 Europe/Berlin] [2026-03-21 06:54:44] checkAvailability parameters: date=2026-03-22, time=16:00, serviceId=1
+[21-Mar-2026 06:54:44 Europe/Berlin] [2026-03-21 06:54:44] Calling checkTimeSlotAvailability with: date=2026-03-22, time=16:00, serviceId=1
+[21-Mar-2026 06:54:44 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:44 Europe/Berlin] [2026-03-21 06:54:44] checkAvailability called
+[21-Mar-2026 06:54:44 Europe/Berlin] [2026-03-21 06:54:44] checkAvailability parameters: date=2026-03-22, time=17:00, serviceId=1
+[21-Mar-2026 06:54:44 Europe/Berlin] [2026-03-21 06:54:44] Calling checkTimeSlotAvailability with: date=2026-03-22, time=17:00, serviceId=1
+[21-Mar-2026 06:54:44 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:44 Europe/Berlin] [2026-03-21 06:54:44] checkAvailability called
+[21-Mar-2026 06:54:44 Europe/Berlin] [2026-03-21 06:54:44] checkAvailability parameters: date=2026-03-22, time=18:00, serviceId=1
+[21-Mar-2026 06:54:44 Europe/Berlin] [2026-03-21 06:54:44] Calling checkTimeSlotAvailability with: date=2026-03-22, time=18:00, serviceId=1
+[21-Mar-2026 06:54:44 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:55 Europe/Berlin] [2026-03-21 06:54:55] checkAvailability called
+[21-Mar-2026 06:54:55 Europe/Berlin] [2026-03-21 06:54:55] checkAvailability parameters: date=2026-03-23, time=09:00, serviceId=1
+[21-Mar-2026 06:54:55 Europe/Berlin] [2026-03-21 06:54:55] Calling checkTimeSlotAvailability with: date=2026-03-23, time=09:00, serviceId=1
+[21-Mar-2026 06:54:55 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:55 Europe/Berlin] [2026-03-21 06:54:55] checkAvailability called
+[21-Mar-2026 06:54:55 Europe/Berlin] [2026-03-21 06:54:55] checkAvailability parameters: date=2026-03-23, time=10:00, serviceId=1
+[21-Mar-2026 06:54:55 Europe/Berlin] [2026-03-21 06:54:55] Calling checkTimeSlotAvailability with: date=2026-03-23, time=10:00, serviceId=1
+[21-Mar-2026 06:54:55 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:55 Europe/Berlin] [2026-03-21 06:54:55] checkAvailability called
+[21-Mar-2026 06:54:55 Europe/Berlin] [2026-03-21 06:54:55] checkAvailability parameters: date=2026-03-23, time=11:00, serviceId=1
+[21-Mar-2026 06:54:55 Europe/Berlin] [2026-03-21 06:54:55] Calling checkTimeSlotAvailability with: date=2026-03-23, time=11:00, serviceId=1
+[21-Mar-2026 06:54:55 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:55 Europe/Berlin] [2026-03-21 06:54:55] checkAvailability called
+[21-Mar-2026 06:54:55 Europe/Berlin] [2026-03-21 06:54:55] checkAvailability parameters: date=2026-03-23, time=12:00, serviceId=1
+[21-Mar-2026 06:54:55 Europe/Berlin] [2026-03-21 06:54:55] Calling checkTimeSlotAvailability with: date=2026-03-23, time=12:00, serviceId=1
+[21-Mar-2026 06:54:55 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:55 Europe/Berlin] [2026-03-21 06:54:55] checkAvailability called
+[21-Mar-2026 06:54:55 Europe/Berlin] [2026-03-21 06:54:55] checkAvailability parameters: date=2026-03-23, time=13:00, serviceId=1
+[21-Mar-2026 06:54:55 Europe/Berlin] [2026-03-21 06:54:55] Calling checkTimeSlotAvailability with: date=2026-03-23, time=13:00, serviceId=1
+[21-Mar-2026 06:54:55 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:55 Europe/Berlin] [2026-03-21 06:54:55] checkAvailability called
+[21-Mar-2026 06:54:55 Europe/Berlin] [2026-03-21 06:54:55] checkAvailability parameters: date=2026-03-23, time=14:00, serviceId=1
+[21-Mar-2026 06:54:55 Europe/Berlin] [2026-03-21 06:54:55] Calling checkTimeSlotAvailability with: date=2026-03-23, time=14:00, serviceId=1
+[21-Mar-2026 06:54:55 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:55 Europe/Berlin] [2026-03-21 06:54:55] checkAvailability called
+[21-Mar-2026 06:54:55 Europe/Berlin] [2026-03-21 06:54:55] checkAvailability parameters: date=2026-03-23, time=15:00, serviceId=1
+[21-Mar-2026 06:54:55 Europe/Berlin] [2026-03-21 06:54:55] Calling checkTimeSlotAvailability with: date=2026-03-23, time=15:00, serviceId=1
+[21-Mar-2026 06:54:55 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:55 Europe/Berlin] [2026-03-21 06:54:55] checkAvailability called
+[21-Mar-2026 06:54:55 Europe/Berlin] [2026-03-21 06:54:55] checkAvailability parameters: date=2026-03-23, time=16:00, serviceId=1
+[21-Mar-2026 06:54:55 Europe/Berlin] [2026-03-21 06:54:55] Calling checkTimeSlotAvailability with: date=2026-03-23, time=16:00, serviceId=1
+[21-Mar-2026 06:54:55 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:55 Europe/Berlin] [2026-03-21 06:54:55] checkAvailability called
+[21-Mar-2026 06:54:55 Europe/Berlin] [2026-03-21 06:54:55] checkAvailability parameters: date=2026-03-23, time=17:00, serviceId=1
+[21-Mar-2026 06:54:55 Europe/Berlin] [2026-03-21 06:54:55] Calling checkTimeSlotAvailability with: date=2026-03-23, time=17:00, serviceId=1
+[21-Mar-2026 06:54:55 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:55 Europe/Berlin] [2026-03-21 06:54:55] checkAvailability called
+[21-Mar-2026 06:54:55 Europe/Berlin] [2026-03-21 06:54:55] checkAvailability parameters: date=2026-03-23, time=18:00, serviceId=1
+[21-Mar-2026 06:54:55 Europe/Berlin] [2026-03-21 06:54:55] Calling checkTimeSlotAvailability with: date=2026-03-23, time=18:00, serviceId=1
+[21-Mar-2026 06:54:55 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] checkAvailability called
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] checkAvailability parameters: date=2026-03-24, time=09:00, serviceId=1
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] Calling checkTimeSlotAvailability with: date=2026-03-24, time=09:00, serviceId=1
+[21-Mar-2026 06:54:56 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] checkAvailability called
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] checkAvailability parameters: date=2026-03-24, time=10:00, serviceId=1
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] Calling checkTimeSlotAvailability with: date=2026-03-24, time=10:00, serviceId=1
+[21-Mar-2026 06:54:56 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] checkAvailability called
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] checkAvailability parameters: date=2026-03-24, time=11:00, serviceId=1
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] Calling checkTimeSlotAvailability with: date=2026-03-24, time=11:00, serviceId=1
+[21-Mar-2026 06:54:56 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] checkAvailability called
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] checkAvailability parameters: date=2026-03-24, time=12:00, serviceId=1
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] Calling checkTimeSlotAvailability with: date=2026-03-24, time=12:00, serviceId=1
+[21-Mar-2026 06:54:56 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] checkAvailability called
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] checkAvailability parameters: date=2026-03-24, time=13:00, serviceId=1
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] Calling checkTimeSlotAvailability with: date=2026-03-24, time=13:00, serviceId=1
+[21-Mar-2026 06:54:56 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] checkAvailability called
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] checkAvailability parameters: date=2026-03-24, time=14:00, serviceId=1
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] Calling checkTimeSlotAvailability with: date=2026-03-24, time=14:00, serviceId=1
+[21-Mar-2026 06:54:56 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] checkAvailability called
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] checkAvailability parameters: date=2026-03-24, time=15:00, serviceId=1
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] Calling checkTimeSlotAvailability with: date=2026-03-24, time=15:00, serviceId=1
+[21-Mar-2026 06:54:56 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] checkAvailability called
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] checkAvailability parameters: date=2026-03-24, time=16:00, serviceId=1
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] Calling checkTimeSlotAvailability with: date=2026-03-24, time=16:00, serviceId=1
+[21-Mar-2026 06:54:56 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] checkAvailability called
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] checkAvailability parameters: date=2026-03-24, time=17:00, serviceId=1
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] Calling checkTimeSlotAvailability with: date=2026-03-24, time=17:00, serviceId=1
+[21-Mar-2026 06:54:56 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] checkAvailability called
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] checkAvailability parameters: date=2026-03-24, time=18:00, serviceId=1
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] Calling checkTimeSlotAvailability with: date=2026-03-24, time=18:00, serviceId=1
+[21-Mar-2026 06:54:56 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] checkAvailability called
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] checkAvailability parameters: date=2026-03-25, time=09:00, serviceId=1
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] Calling checkTimeSlotAvailability with: date=2026-03-25, time=09:00, serviceId=1
+[21-Mar-2026 06:54:56 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] checkAvailability called
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] checkAvailability parameters: date=2026-03-25, time=10:00, serviceId=1
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] Calling checkTimeSlotAvailability with: date=2026-03-25, time=10:00, serviceId=1
+[21-Mar-2026 06:54:56 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] checkAvailability called
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] checkAvailability parameters: date=2026-03-25, time=11:00, serviceId=1
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] Calling checkTimeSlotAvailability with: date=2026-03-25, time=11:00, serviceId=1
+[21-Mar-2026 06:54:56 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] checkAvailability called
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] checkAvailability parameters: date=2026-03-25, time=12:00, serviceId=1
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] Calling checkTimeSlotAvailability with: date=2026-03-25, time=12:00, serviceId=1
+[21-Mar-2026 06:54:56 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] checkAvailability called
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] checkAvailability parameters: date=2026-03-25, time=13:00, serviceId=1
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] Calling checkTimeSlotAvailability with: date=2026-03-25, time=13:00, serviceId=1
+[21-Mar-2026 06:54:56 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] checkAvailability called
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] checkAvailability parameters: date=2026-03-25, time=14:00, serviceId=1
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] Calling checkTimeSlotAvailability with: date=2026-03-25, time=14:00, serviceId=1
+[21-Mar-2026 06:54:56 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] checkAvailability called
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] checkAvailability parameters: date=2026-03-25, time=15:00, serviceId=1
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] Calling checkTimeSlotAvailability with: date=2026-03-25, time=15:00, serviceId=1
+[21-Mar-2026 06:54:56 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] checkAvailability called
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] checkAvailability parameters: date=2026-03-25, time=16:00, serviceId=1
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] Calling checkTimeSlotAvailability with: date=2026-03-25, time=16:00, serviceId=1
+[21-Mar-2026 06:54:56 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] checkAvailability called
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] checkAvailability parameters: date=2026-03-25, time=17:00, serviceId=1
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] Calling checkTimeSlotAvailability with: date=2026-03-25, time=17:00, serviceId=1
+[21-Mar-2026 06:54:56 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] checkAvailability called
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] checkAvailability parameters: date=2026-03-25, time=18:00, serviceId=1
+[21-Mar-2026 06:54:56 Europe/Berlin] [2026-03-21 06:54:56] Calling checkTimeSlotAvailability with: date=2026-03-25, time=18:00, serviceId=1
+[21-Mar-2026 06:54:56 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability called
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability parameters: date=2026-03-26, time=09:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] Calling checkTimeSlotAvailability with: date=2026-03-26, time=09:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability called
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability parameters: date=2026-03-26, time=10:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] Calling checkTimeSlotAvailability with: date=2026-03-26, time=10:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability called
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability parameters: date=2026-03-26, time=11:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] Calling checkTimeSlotAvailability with: date=2026-03-26, time=11:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability called
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability parameters: date=2026-03-26, time=12:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] Calling checkTimeSlotAvailability with: date=2026-03-26, time=12:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability called
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability parameters: date=2026-03-26, time=13:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] Calling checkTimeSlotAvailability with: date=2026-03-26, time=13:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability called
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability parameters: date=2026-03-26, time=14:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] Calling checkTimeSlotAvailability with: date=2026-03-26, time=14:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability called
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability parameters: date=2026-03-26, time=15:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] Calling checkTimeSlotAvailability with: date=2026-03-26, time=15:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability called
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability parameters: date=2026-03-26, time=16:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] Calling checkTimeSlotAvailability with: date=2026-03-26, time=16:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability called
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability parameters: date=2026-03-26, time=17:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] Calling checkTimeSlotAvailability with: date=2026-03-26, time=17:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability called
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability parameters: date=2026-03-26, time=18:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] Calling checkTimeSlotAvailability with: date=2026-03-26, time=18:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability called
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability parameters: date=2026-03-27, time=09:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] Calling checkTimeSlotAvailability with: date=2026-03-27, time=09:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability called
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability parameters: date=2026-03-27, time=10:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] Calling checkTimeSlotAvailability with: date=2026-03-27, time=10:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability called
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability parameters: date=2026-03-27, time=11:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] Calling checkTimeSlotAvailability with: date=2026-03-27, time=11:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability called
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability parameters: date=2026-03-27, time=12:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] Calling checkTimeSlotAvailability with: date=2026-03-27, time=12:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability called
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability parameters: date=2026-03-27, time=13:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] Calling checkTimeSlotAvailability with: date=2026-03-27, time=13:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability called
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability parameters: date=2026-03-27, time=14:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] Calling checkTimeSlotAvailability with: date=2026-03-27, time=14:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability called
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability parameters: date=2026-03-27, time=15:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] Calling checkTimeSlotAvailability with: date=2026-03-27, time=15:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability called
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability parameters: date=2026-03-27, time=16:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] Calling checkTimeSlotAvailability with: date=2026-03-27, time=16:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability called
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability parameters: date=2026-03-27, time=17:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] Calling checkTimeSlotAvailability with: date=2026-03-27, time=17:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability called
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability parameters: date=2026-03-27, time=18:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] Calling checkTimeSlotAvailability with: date=2026-03-27, time=18:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability called
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability parameters: date=2026-03-28, time=09:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] Calling checkTimeSlotAvailability with: date=2026-03-28, time=09:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability called
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability parameters: date=2026-03-28, time=10:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] Calling checkTimeSlotAvailability with: date=2026-03-28, time=10:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability called
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability parameters: date=2026-03-28, time=11:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] Calling checkTimeSlotAvailability with: date=2026-03-28, time=11:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability called
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability parameters: date=2026-03-28, time=12:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] Calling checkTimeSlotAvailability with: date=2026-03-28, time=12:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability called
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability parameters: date=2026-03-28, time=13:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] Calling checkTimeSlotAvailability with: date=2026-03-28, time=13:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability called
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability parameters: date=2026-03-28, time=14:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] Calling checkTimeSlotAvailability with: date=2026-03-28, time=14:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability called
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability parameters: date=2026-03-28, time=15:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] Calling checkTimeSlotAvailability with: date=2026-03-28, time=15:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability called
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] checkAvailability parameters: date=2026-03-28, time=16:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:57] Calling checkTimeSlotAvailability with: date=2026-03-28, time=16:00, serviceId=1
+[21-Mar-2026 06:54:57 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability called
+[21-Mar-2026 06:54:57 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability parameters: date=2026-03-28, time=17:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] Calling checkTimeSlotAvailability with: date=2026-03-28, time=17:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability called
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability parameters: date=2026-03-28, time=18:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] Calling checkTimeSlotAvailability with: date=2026-03-28, time=18:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability called
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability parameters: date=2026-03-31, time=09:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] Calling checkTimeSlotAvailability with: date=2026-03-31, time=09:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability called
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability parameters: date=2026-03-31, time=10:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] Calling checkTimeSlotAvailability with: date=2026-03-31, time=10:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability called
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability parameters: date=2026-03-31, time=11:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] Calling checkTimeSlotAvailability with: date=2026-03-31, time=11:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability called
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability parameters: date=2026-03-31, time=12:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] Calling checkTimeSlotAvailability with: date=2026-03-31, time=12:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability called
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability parameters: date=2026-03-31, time=13:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] Calling checkTimeSlotAvailability with: date=2026-03-31, time=13:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability called
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability parameters: date=2026-03-31, time=14:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] Calling checkTimeSlotAvailability with: date=2026-03-31, time=14:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability called
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability parameters: date=2026-03-31, time=15:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] Calling checkTimeSlotAvailability with: date=2026-03-31, time=15:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability called
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability parameters: date=2026-03-31, time=16:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] Calling checkTimeSlotAvailability with: date=2026-03-31, time=16:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability called
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability parameters: date=2026-03-31, time=17:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] Calling checkTimeSlotAvailability with: date=2026-03-31, time=17:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability called
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability parameters: date=2026-03-31, time=18:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] Calling checkTimeSlotAvailability with: date=2026-03-31, time=18:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability called
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability parameters: date=2026-03-30, time=09:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] Calling checkTimeSlotAvailability with: date=2026-03-30, time=09:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability called
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability parameters: date=2026-03-30, time=10:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] Calling checkTimeSlotAvailability with: date=2026-03-30, time=10:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability called
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability parameters: date=2026-03-30, time=11:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] Calling checkTimeSlotAvailability with: date=2026-03-30, time=11:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability called
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability parameters: date=2026-03-30, time=12:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] Calling checkTimeSlotAvailability with: date=2026-03-30, time=12:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability called
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability parameters: date=2026-03-30, time=13:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] Calling checkTimeSlotAvailability with: date=2026-03-30, time=13:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability called
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability parameters: date=2026-03-30, time=14:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] Calling checkTimeSlotAvailability with: date=2026-03-30, time=14:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability called
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability parameters: date=2026-03-30, time=15:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] Calling checkTimeSlotAvailability with: date=2026-03-30, time=15:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability called
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability parameters: date=2026-03-30, time=16:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] Calling checkTimeSlotAvailability with: date=2026-03-30, time=16:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability called
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability parameters: date=2026-03-30, time=17:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] Calling checkTimeSlotAvailability with: date=2026-03-30, time=17:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability called
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability parameters: date=2026-03-30, time=18:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] Calling checkTimeSlotAvailability with: date=2026-03-30, time=18:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability called
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability parameters: date=2026-03-29, time=09:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] Calling checkTimeSlotAvailability with: date=2026-03-29, time=09:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability called
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability parameters: date=2026-03-29, time=10:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] Calling checkTimeSlotAvailability with: date=2026-03-29, time=10:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability called
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability parameters: date=2026-03-29, time=11:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] Calling checkTimeSlotAvailability with: date=2026-03-29, time=11:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability called
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability parameters: date=2026-03-29, time=12:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] Calling checkTimeSlotAvailability with: date=2026-03-29, time=12:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability called
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability parameters: date=2026-03-29, time=13:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] Calling checkTimeSlotAvailability with: date=2026-03-29, time=13:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability called
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability parameters: date=2026-03-29, time=14:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] Calling checkTimeSlotAvailability with: date=2026-03-29, time=14:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability called
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability parameters: date=2026-03-29, time=15:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] Calling checkTimeSlotAvailability with: date=2026-03-29, time=15:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability called
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:58] checkAvailability parameters: date=2026-03-29, time=16:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:59] Calling checkTimeSlotAvailability with: date=2026-03-29, time=16:00, serviceId=1
+[21-Mar-2026 06:54:58 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:59] checkAvailability called
+[21-Mar-2026 06:54:58 Europe/Berlin] [2026-03-21 06:54:59] checkAvailability parameters: date=2026-03-29, time=17:00, serviceId=1
+[21-Mar-2026 06:54:59 Europe/Berlin] [2026-03-21 06:54:59] Calling checkTimeSlotAvailability with: date=2026-03-29, time=17:00, serviceId=1
+[21-Mar-2026 06:54:59 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:54:59 Europe/Berlin] [2026-03-21 06:54:59] checkAvailability called
+[21-Mar-2026 06:54:59 Europe/Berlin] [2026-03-21 06:54:59] checkAvailability parameters: date=2026-03-29, time=18:00, serviceId=1
+[21-Mar-2026 06:54:59 Europe/Berlin] [2026-03-21 06:54:59] Calling checkTimeSlotAvailability with: date=2026-03-29, time=18:00, serviceId=1
+[21-Mar-2026 06:54:59 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:55:05 Europe/Berlin] [2026-03-21 06:55:05] checkAvailability called
+[21-Mar-2026 06:55:05 Europe/Berlin] [2026-03-21 06:55:05] checkAvailability parameters: date=2026-03-21, time=09:00, serviceId=1
+[21-Mar-2026 06:55:05 Europe/Berlin] [2026-03-21 06:55:05] Calling checkTimeSlotAvailability with: date=2026-03-21, time=09:00, serviceId=1
+[21-Mar-2026 06:55:05 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:55:05 Europe/Berlin] [2026-03-21 06:55:05] checkAvailability called
+[21-Mar-2026 06:55:05 Europe/Berlin] [2026-03-21 06:55:05] checkAvailability parameters: date=2026-03-21, time=10:00, serviceId=1
+[21-Mar-2026 06:55:05 Europe/Berlin] [2026-03-21 06:55:05] Calling checkTimeSlotAvailability with: date=2026-03-21, time=10:00, serviceId=1
+[21-Mar-2026 06:55:05 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:55:05 Europe/Berlin] [2026-03-21 06:55:05] checkAvailability called
+[21-Mar-2026 06:55:05 Europe/Berlin] [2026-03-21 06:55:05] checkAvailability parameters: date=2026-03-21, time=11:00, serviceId=1
+[21-Mar-2026 06:55:05 Europe/Berlin] [2026-03-21 06:55:05] Calling checkTimeSlotAvailability with: date=2026-03-21, time=11:00, serviceId=1
+[21-Mar-2026 06:55:05 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:55:05 Europe/Berlin] [2026-03-21 06:55:05] checkAvailability called
+[21-Mar-2026 06:55:05 Europe/Berlin] [2026-03-21 06:55:05] checkAvailability parameters: date=2026-03-21, time=12:00, serviceId=1
+[21-Mar-2026 06:55:05 Europe/Berlin] [2026-03-21 06:55:05] Calling checkTimeSlotAvailability with: date=2026-03-21, time=12:00, serviceId=1
+[21-Mar-2026 06:55:05 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:55:05 Europe/Berlin] [2026-03-21 06:55:05] checkAvailability called
+[21-Mar-2026 06:55:05 Europe/Berlin] [2026-03-21 06:55:05] checkAvailability parameters: date=2026-03-21, time=13:00, serviceId=1
+[21-Mar-2026 06:55:05 Europe/Berlin] [2026-03-21 06:55:05] Calling checkTimeSlotAvailability with: date=2026-03-21, time=13:00, serviceId=1
+[21-Mar-2026 06:55:05 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:55:05 Europe/Berlin] [2026-03-21 06:55:05] checkAvailability called
+[21-Mar-2026 06:55:05 Europe/Berlin] [2026-03-21 06:55:05] checkAvailability parameters: date=2026-03-21, time=14:00, serviceId=1
+[21-Mar-2026 06:55:05 Europe/Berlin] [2026-03-21 06:55:05] Calling checkTimeSlotAvailability with: date=2026-03-21, time=14:00, serviceId=1
+[21-Mar-2026 06:55:05 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:55:05 Europe/Berlin] [2026-03-21 06:55:05] checkAvailability called
+[21-Mar-2026 06:55:05 Europe/Berlin] [2026-03-21 06:55:05] checkAvailability parameters: date=2026-03-21, time=15:00, serviceId=1
+[21-Mar-2026 06:55:05 Europe/Berlin] [2026-03-21 06:55:05] Calling checkTimeSlotAvailability with: date=2026-03-21, time=15:00, serviceId=1
+[21-Mar-2026 06:55:05 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:55:05 Europe/Berlin] [2026-03-21 06:55:05] checkAvailability called
+[21-Mar-2026 06:55:05 Europe/Berlin] [2026-03-21 06:55:05] checkAvailability parameters: date=2026-03-21, time=16:00, serviceId=1
+[21-Mar-2026 06:55:05 Europe/Berlin] [2026-03-21 06:55:05] Calling checkTimeSlotAvailability with: date=2026-03-21, time=16:00, serviceId=1
+[21-Mar-2026 06:55:05 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:55:05 Europe/Berlin] [2026-03-21 06:55:05] checkAvailability called
+[21-Mar-2026 06:55:05 Europe/Berlin] [2026-03-21 06:55:05] checkAvailability parameters: date=2026-03-21, time=17:00, serviceId=1
+[21-Mar-2026 06:55:05 Europe/Berlin] [2026-03-21 06:55:05] Calling checkTimeSlotAvailability with: date=2026-03-21, time=17:00, serviceId=1
+[21-Mar-2026 06:55:05 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:55:05 Europe/Berlin] [2026-03-21 06:55:05] checkAvailability called
+[21-Mar-2026 06:55:05 Europe/Berlin] [2026-03-21 06:55:05] checkAvailability parameters: date=2026-03-21, time=18:00, serviceId=1
+[21-Mar-2026 06:55:05 Europe/Berlin] [2026-03-21 06:55:05] Calling checkTimeSlotAvailability with: date=2026-03-21, time=18:00, serviceId=1
+[21-Mar-2026 06:55:05 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkTimeSlotAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:557
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(29): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 557
+[21-Mar-2026 06:56:39 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 06:56:39 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 06:56:39 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 06:56:39 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 07:16:16 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 07:16:16 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 07:16:16 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 07:16:16 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 07:16:17 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 07:16:17 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 07:16:17 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 07:16:17 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 07:16:18 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 07:16:18 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 07:16:18 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 07:16:18 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 07:16:19 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 07:16:19 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 07:16:21 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 07:16:21 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 07:16:51 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 07:16:51 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 07:17:21 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 07:17:21 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 07:17:51 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 07:17:51 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 07:18:21 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 07:18:21 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 07:18:51 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 07:18:51 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 07:19:21 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 07:19:21 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 07:19:51 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 07:19:51 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 07:20:12 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 07:20:13 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 07:42:35 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+    [username] => testadmin
+)
+
+[21-Mar-2026 07:42:35 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 07:42:35 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+    [username] => testadmin
+)
+
+[21-Mar-2026 07:42:35 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 07:42:39 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+    [username] => testadmin
+)
+
+[21-Mar-2026 07:42:39 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 07:42:42 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+    [username] => testadmin
+)
+
+[21-Mar-2026 07:42:42 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 07:42:43 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+    [username] => testadmin
+)
+
+[21-Mar-2026 07:42:43 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 08:16:51 Europe/Berlin] Router received URL: feedback
+[21-Mar-2026 08:16:54 Europe/Berlin] Router received URL: customers
+[21-Mar-2026 08:17:01 Europe/Berlin] Router received URL: customers
+[21-Mar-2026 08:17:01 Europe/Berlin] Router received URL: customers
+[21-Mar-2026 08:17:46 Europe/Berlin] Router received URL: auth/login
+[21-Mar-2026 08:17:46 Europe/Berlin] Router received URL: branch/index
+[21-Mar-2026 08:17:46 Europe/Berlin] Router received URL: branch
+[21-Mar-2026 08:17:49 Europe/Berlin] Router received URL: auth/logout
+[21-Mar-2026 08:17:56 Europe/Berlin] Router received URL: auth/login
+[21-Mar-2026 08:17:56 Europe/Berlin] Router received URL: reservation/getAllReservations
+[21-Mar-2026 08:17:56 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 08:17:56 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 08:17:56 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[21-Mar-2026 08:17:56 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 08:17:56 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 08:17:58 Europe/Berlin] Router received URL: feedback
+[21-Mar-2026 08:17:58 Europe/Berlin] Router received URL: customers
+[21-Mar-2026 08:17:59 Europe/Berlin] Router received URL: feedback
+[21-Mar-2026 08:18:02 Europe/Berlin] Router received URL: feedback
+[21-Mar-2026 08:18:02 Europe/Berlin] Router received URL: feedback
+[21-Mar-2026 08:18:05 Europe/Berlin] Router received URL: feedback
+[21-Mar-2026 08:18:05 Europe/Berlin] Router received URL: feedback
+[21-Mar-2026 08:18:08 Europe/Berlin] Router received URL: feedback
+[21-Mar-2026 08:42:33 Europe/Berlin] Router received URL: packages/getBranchServices
+[21-Mar-2026 08:42:33 Europe/Berlin] Router received URL: packages/getAll
+[21-Mar-2026 08:42:37 Europe/Berlin] Router received URL: packages/getOne/4
+[21-Mar-2026 08:42:42 Europe/Berlin] Router received URL: packages/update
+[21-Mar-2026 08:42:42 Europe/Berlin] Router received URL: packages/getAll
+[21-Mar-2026 08:42:47 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[21-Mar-2026 08:42:47 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 08:42:47 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 08:42:47 Europe/Berlin] Router received URL: reservation/getAllReservations
+[21-Mar-2026 08:42:47 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 08:42:47 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 08:42:48 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[21-Mar-2026 08:42:48 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 08:42:48 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 08:42:48 Europe/Berlin] Router received URL: reservation/getAllReservations
+[21-Mar-2026 08:42:48 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[21-Mar-2026 08:42:48 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[21-Mar-2026 08:42:49 Europe/Berlin] Router received URL: services/index
+[21-Mar-2026 08:42:49 Europe/Berlin] Router received URL: services/categoriesList
+[21-Mar-2026 08:42:49 Europe/Berlin] Router received URL: services/branchCategories/1
+[21-Mar-2026 08:42:49 Europe/Berlin] Router received URL: services/branchServices/1

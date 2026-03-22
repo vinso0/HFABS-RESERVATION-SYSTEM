@@ -33,6 +33,10 @@
             <i class="fas fa-cut"></i>
             <span>Services</span>
         </a>
+        <a href="./admin-categories.php" class="nav-item">
+            <i class="fas fa-th-large"></i>
+            <span>Categories</span>
+        </a>
         <a href="./admin-packages.php" class="nav-item">
             <i class="fas fa-box-open"></i>
             <span>Packages</span>
@@ -48,6 +52,10 @@
         <a href="admin-feedback.php" class="nav-item">
             <i class="far fa-comment"></i>
             <span>Feedback</span>
+        </a>
+        <a href="admin-settings.php" class="nav-item">
+            <i class="fas fa-sliders-h"></i>
+            <span>Settings</span>
         </a>
         <?php endif; ?>
     </nav>

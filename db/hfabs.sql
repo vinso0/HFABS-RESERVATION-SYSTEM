@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 20, 2026 at 10:26 AM
+-- Generation Time: Mar 21, 2026 at 06:23 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -92,14 +92,14 @@ CREATE TABLE `branch_category_overrides` (
 --
 
 INSERT INTO `branch_category_overrides` (`branch_category_override_id`, `branch_id`, `default_category_id`, `display_name`, `description_override`, `capacity_override`, `is_active_override`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, NULL, NULL, 5, NULL, '2026-02-07 06:29:09', '2026-02-07 14:41:00'),
-(2, 2, 1, NULL, NULL, NULL, NULL, '2026-02-07 06:29:09', '2026-02-07 06:29:09'),
-(3, 1, 2, NULL, NULL, NULL, NULL, '2026-02-07 06:29:09', '2026-02-07 06:29:09'),
-(4, 2, 2, NULL, NULL, NULL, NULL, '2026-02-07 06:29:09', '2026-02-07 06:29:09'),
-(5, 1, 3, NULL, NULL, NULL, NULL, '2026-02-07 06:29:09', '2026-02-07 06:29:09'),
-(6, 2, 3, NULL, NULL, NULL, NULL, '2026-02-07 06:29:09', '2026-02-07 06:29:09'),
-(7, 1, 4, NULL, NULL, NULL, NULL, '2026-02-07 06:29:09', '2026-02-07 06:29:09'),
-(8, 2, 4, NULL, NULL, NULL, NULL, '2026-02-07 06:29:09', '2026-02-07 06:29:09');
+(1, 1, 1, NULL, NULL, 5, 1, '2026-02-07 06:29:09', '2026-03-21 05:22:19'),
+(2, 2, 1, NULL, NULL, NULL, 1, '2026-02-07 06:29:09', '2026-03-21 05:22:22'),
+(3, 1, 2, NULL, NULL, NULL, 1, '2026-02-07 06:29:09', '2026-03-21 05:22:24'),
+(4, 2, 2, NULL, NULL, NULL, 1, '2026-02-07 06:29:09', '2026-03-21 05:22:27'),
+(5, 1, 3, NULL, NULL, NULL, 1, '2026-02-07 06:29:09', '2026-03-21 05:22:30'),
+(6, 2, 3, NULL, NULL, NULL, 1, '2026-02-07 06:29:09', '2026-03-21 05:22:32'),
+(7, 1, 4, NULL, NULL, NULL, 1, '2026-02-07 06:29:09', '2026-03-21 05:22:34'),
+(8, 2, 4, NULL, NULL, NULL, 1, '2026-02-07 06:29:09', '2026-03-21 05:22:36');
 
 -- --------------------------------------------------------
 
@@ -119,6 +119,16 @@ CREATE TABLE `branch_packages` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `branch_packages`
+--
+
+INSERT INTO `branch_packages` (`package_id`, `branch_id`, `package_name`, `description`, `package_price`, `total_duration_minutes`, `is_available`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Pamper Me', 'Nail and hair combo for a full refresh', 1.00, 210, 1, '2026-03-20 09:26:39', '2026-03-20 14:06:54'),
+(2, 1, 'Total Wellness', 'Full body massage + facial combo', 4200.00, 180, 1, '2026-03-20 09:26:39', '2026-03-20 09:26:39'),
+(3, 2, 'Hair Royale', 'Complete hair treatment with nail care', 4200.00, 240, 1, '2026-03-20 09:26:39', '2026-03-20 09:26:39'),
+(4, 1, 'Nail Combo', 'Combination of Classic Manicure and Gel Pedicure', 900.00, 270, 0, '2026-03-20 11:06:40', '2026-03-20 11:07:15');
+
 -- --------------------------------------------------------
 
 --
@@ -132,6 +142,24 @@ CREATE TABLE `branch_package_services` (
   `sort_order` int(11) NOT NULL DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `branch_package_services`
+--
+
+INSERT INTO `branch_package_services` (`package_service_id`, `package_id`, `branch_service_override_id`, `sort_order`, `created_at`) VALUES
+(4, 2, 9, 1, '2026-03-20 09:29:30'),
+(5, 2, 11, 2, '2026-03-20 09:29:30'),
+(6, 2, 19, 3, '2026-03-20 09:29:30'),
+(7, 3, 2, 1, '2026-03-20 09:29:30'),
+(8, 3, 4, 2, '2026-03-20 09:29:30'),
+(9, 3, 16, 3, '2026-03-20 09:29:30'),
+(22, 1, 15, 1, '2026-03-20 11:05:33'),
+(23, 1, 17, 2, '2026-03-20 11:05:33'),
+(24, 1, 1, 3, '2026-03-20 11:05:33'),
+(28, 4, 15, 1, '2026-03-20 11:07:15'),
+(29, 4, 17, 2, '2026-03-20 11:07:15'),
+(30, 4, 7, 3, '2026-03-20 11:07:15');
 
 -- --------------------------------------------------------
 
@@ -157,7 +185,7 @@ CREATE TABLE `branch_service_overrides` (
 --
 
 INSERT INTO `branch_service_overrides` (`branch_service_override_id`, `branch_id`, `default_service_id`, `display_name`, `description_override`, `duration_minutes_override`, `price_override`, `is_available_override`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 'Hair Spa Treatment', 'Deep conditioning hair treatment', 60, 800.00, 1, '2026-02-07 06:27:40', '2026-02-21 09:28:22'),
+(1, 1, 1, 'Hair Spa Treatment', 'Deep conditioning hair treatment', 60, 800.00, 1, '2026-02-07 06:27:40', '2026-03-20 11:29:04'),
 (2, 2, 1, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
 (3, 1, 2, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
 (4, 2, 2, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
@@ -392,8 +420,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`user_id`, `username`, `email`, `contact_number`, `password`, `role`, `branch_id`, `is_active`, `deleted_at`, `created_at`) VALUES
 (1, 'cal branch admin', 'admin@admin', '', '$2y$10$FoP25bz38JnM5X.4tsIbo.tvJ.TkhPUSziAwgdSNG7Ugk310i1iOS', 'admin', 1, 1, NULL, '2026-01-09 11:42:55'),
-(2, 'Marie Johnson', 'cus@cus', '09345673453', '$2y$10$0LuBPG.O6c6cAEuQSftB6evQcj05FpLu955hneNKqwtwE7tiN4RHy', 'customer', NULL, 1, NULL, '2026-01-09 11:43:23'),
-(3, 'superadmin', 'super@super', '', '$2y$10$I1.9ERjHmtwVbWKKA.5s5eS0nmxIt7lccNII7hTCPgmkc1U9fJd1C', 'superadmin', NULL, 1, NULL, '2026-01-16 02:38:57'),
+(2, 'Marie Johnson', 'cus@cus', '09345673453', '$2y$10$/V5gBiWV0UcuG5eTjtACuOo1gndX1b4LJvDX0ry77SbyglLLHefry', 'customer', NULL, 1, NULL, '2026-01-09 11:43:23'),
+(3, 'superadmin', 'super@super', '', '$2y$10$/V5gBiWV0UcuG5eTjtACuOo1gndX1b4LJvDX0ry77SbyglLLHefry', 'superadmin', NULL, 1, NULL, '2026-01-16 02:38:57'),
 (4, 'kier', 'kier@kier', '123456789', '$2y$10$Gt/Eb/Wbx0D3ClCzf/Qqx.nv.bisN7Chveadx5Vhk354vBVEwPzx6', 'customer', NULL, 1, NULL, '2026-01-17 07:32:57'),
 (5, 'Kierloyd Vince Schofield', 'kier@email', '912345789', '$2y$10$zbOE4cRMEc4TOOsRE/.gae4eZKrbAl8.XwkLjUWVwZUmTT9gJ173.', 'customer', NULL, 1, NULL, '2026-01-17 08:34:32'),
 (6, 'Emma Jane', 'emma@gmail.com', '09103452674', '$2y$10$xeMnSgBQR2O7VWYNoCXDkuJCiKC1buOj2R9QQjkpwhguHC2czkXvG', 'customer', NULL, 1, NULL, '2026-02-13 16:39:27'),
@@ -540,13 +568,13 @@ ALTER TABLE `branch_category_overrides`
 -- AUTO_INCREMENT for table `branch_packages`
 --
 ALTER TABLE `branch_packages`
-  MODIFY `package_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `package_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `branch_package_services`
 --
 ALTER TABLE `branch_package_services`
-  MODIFY `package_service_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `package_service_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `branch_service_overrides`

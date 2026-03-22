@@ -11,7 +11,6 @@ let servicesData = [];
 let categoriesData = [];
 let branchCategoriesData = [];
 let selectedServiceId = null;
-let selectedCategoryId = null;
 let isCreateNewMode = false;
 let servicesPagination;
 
@@ -22,12 +21,10 @@ const API_BASE_URL = '../../backend/public/index.php?url';
 const servicesTableBody = document.getElementById('servicesTableBody');
 const categoryTabs = document.querySelectorAll('.category-tab');
 const addServiceBtn = document.getElementById('addServiceBtn');
-const manageCategoriesBtn = document.getElementById('manageCategoriesBtn');
 
 // Modal Elements
 const addServiceModal = document.getElementById('addServiceModal');
 const editServiceModal = document.getElementById('editServiceModal');
-const categoriesModal = document.getElementById('categoriesModal');
 const editCapacityModal = document.getElementById('editCapacityModal');
 const deleteModal = document.getElementById('deleteModal');
 
@@ -88,9 +85,6 @@ function initializeEventListeners() {
     // Add Service Button
     addServiceBtn.addEventListener('click', () => openAddServiceModal());
 
-    // Manage Categories Button
-    manageCategoriesBtn.addEventListener('click', () => openCategoriesModal());
-
     // Modal Close Buttons - Add Service Modal
     document.getElementById('closeAddModal').addEventListener('click', closeAddServiceModal);
     document.getElementById('cancelAddBtn').addEventListener('click', closeAddServiceModal);
@@ -99,9 +93,7 @@ function initializeEventListeners() {
     document.getElementById('closeEditModal').addEventListener('click', closeEditServiceModal);
     document.getElementById('cancelEditBtn').addEventListener('click', closeEditServiceModal);
 
-    // Modal Close Buttons - Categories Modal
-    document.getElementById('closeCategoriesModal').addEventListener('click', closeCategoriesModal);
-    document.getElementById('closeCategoriesBtn').addEventListener('click', closeCategoriesModal);
+    // Modal Close Buttons - Edit Capacity Modal
     document.getElementById('closeEditCapacityModal').addEventListener('click', closeEditCapacityModal);
     document.getElementById('closeDeleteModal').addEventListener('click', closeDeleteModal);
     document.getElementById('cancelDelete').addEventListener('click', closeDeleteModal);
@@ -111,7 +103,6 @@ function initializeEventListeners() {
     document.getElementById('addServiceForm').addEventListener('submit', handleAddServiceSubmit);
     // Form Submits - Edit Service
     document.getElementById('editServiceForm').addEventListener('submit', handleEditServiceSubmit);
-    document.getElementById('editCapacityForm').addEventListener('submit', handleCapacityUpdate);
 
     // Delete Confirm
     document.getElementById('confirmDelete').addEventListener('click', handleDeleteService);
@@ -129,7 +120,7 @@ function initializeEventListeners() {
     }
 
     // Click outside modal to close
-    [addServiceModal, editServiceModal, categoriesModal, editCapacityModal, deleteModal].forEach(modal => {
+    [addServiceModal, editServiceModal, editCapacityModal, deleteModal].forEach(modal => {
         modal.addEventListener('click', (e) => {
             if (e.target === modal) {
                 modal.classList.remove('active');
@@ -317,34 +308,6 @@ function populateCategorySelect() {
     }
 }
 
-function renderCategoriesList() {
-    const categoriesList = document.getElementById('categoriesList');
-    if (categoriesList) {
-        categoriesList.innerHTML = categoriesData.map(cat => {
-            const branchCat = branchCategoriesData.find(bc => bc.default_category_id == cat.service_category_id);
-            const capacity = branchCat ? branchCat.capacity : cat.def_capacity;
-            
-            return `
-                <div class="category-item">
-                    <div class="category-info">
-                        <div class="category-name">${branchCat?.display_name || cat.category_name}</div>
-                        <div class="category-details">${branchCat?.description || cat.description}</div>
-                    </div>
-                    <div class="category-actions">
-                        <div class="category-capacity">
-                            <i class="fas fa-users"></i>
-                            <span>${capacity} capacity</span>
-                        </div>
-                        <button class="btn-edit-capacity" onclick="openEditCapacityModal(${cat.service_category_id})" title="Edit Capacity">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                    </div>
-                </div>
-            `;
-        }).join('');
-    }
-}
-
 // ==========================================
 // ADD SERVICE MODAL FUNCTIONS
 // ==========================================
@@ -460,51 +423,6 @@ function closeEditServiceModal() {
     editServiceModal.classList.remove('active');
 }
 
-// ==========================================
-// CATEGORIES MODAL FUNCTIONS
-// ==========================================
-
-function openCategoriesModal() {
-    closeAllModals();
-    
-    renderCategoriesList();
-    categoriesModal.classList.add('active');
-}
-
-function closeCategoriesModal() {
-    categoriesModal.classList.remove('active');
-}
-
-function openEditCapacityModal(categoryId) {
-    closeEditCapacityModal();
-    
-    selectedCategoryId = categoryId;
-    const category = categoriesData.find(c => c.service_category_id == categoryId);
-    const branchCat = branchCategoriesData.find(bc => bc.default_category_id == categoryId);
-    
-    if (!category) return;
-    
-    // Populate modal
-    document.getElementById('editCategoryId').value = categoryId;
-    document.getElementById('editCategoryName').textContent = category.category_name;
-    document.getElementById('editCategoryDescription').textContent = category.description;
-    document.getElementById('branchCapacity').value = branchCat ? branchCat.capacity : category.def_capacity;
-    document.getElementById('defaultCapacityDisplay').textContent = category.def_capacity;
-    
-    // Set icon
-    const iconContainer = document.getElementById('editCategoryIcon');
-    const iconClass = getCategoryClass(categoryId);
-    iconContainer.className = `category-icon-large ${iconClass}`;
-    iconContainer.innerHTML = getCategoryIcon(categoryId);
-    
-    editCapacityModal.classList.add('active');
-}
-
-function closeEditCapacityModal() {
-    editCapacityModal.classList.remove('active');
-    selectedCategoryId = null;
-}
-
 function closeDeleteModal() {
     deleteModal.classList.remove('active');
     selectedServiceId = null;
@@ -514,7 +432,6 @@ function closeDeleteModal() {
 function closeAllModals() {
     addServiceModal.classList.remove('active');
     editServiceModal.classList.remove('active');
-    categoriesModal.classList.remove('active');
     editCapacityModal.classList.remove('active');
     deleteModal.classList.remove('active');
 }
@@ -727,53 +644,6 @@ function handleDeleteService() {
     .catch(error => {
         console.error('Error deleting service:', error);
         Toast.error('Failed to delete service');
-    });
-}
-
-// ==========================================
-// CAPACITY UPDATE
-// ==========================================
-
-function handleCapacityUpdate(e) {
-    e.preventDefault();
-    
-    const categoryId = document.getElementById('editCategoryId').value;
-    const capacity = document.getElementById('branchCapacity').value;
-    const branchId = getCurrentBranchId();
-    
-    if (!categoryId || !capacity) {
-        Toast.error('Please fill in all required fields');
-        return;
-    }
-    
-    const formData = {
-        branch_id: branchId,
-        default_category_id: parseInt(categoryId),
-        capacity_override: parseInt(capacity),
-        is_active_override: 1
-    };
-    
-    const url = `${API_BASE_URL}=services/updateCategoryCapacity`;
-    
-    fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-        credentials: 'same-origin'
-    })
-    .then(res => res.json())
-    .then(result => {
-        if (result.success) {
-            Toast.success('Category capacity updated successfully');
-            closeEditCapacityModal();
-            loadBranchCategories();
-        } else {
-            Toast.error(result.message || 'Operation failed');
-        }
-    })
-    .catch(error => {
-        console.error('Error updating capacity:', error);
-        Toast.error('Failed to update capacity');
     });
 }
 

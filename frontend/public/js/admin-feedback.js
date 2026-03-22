@@ -1,128 +1,102 @@
-// Sample feedback data for a specific branch
-const feedbackData = [
-    {
-        id: 1,
-        customerName: "John Doe",
-        rating: 5,
-        service: "Full Body Massage",
-        feedback: "Absolutely amazing experience! The masseuse was very skilled and the atmosphere was so relaxing. I fell asleep during the massage and woke up feeling completely refreshed. Will definitely be coming back!",
-        date: "2026-03-10",
-        time: "2:30 PM"
-    },
-    {
-        id: 2,
-        customerName: "Jane Smith",
-        rating: 4,
-        service: "Facial Treatment",
-        feedback: "Great facial! My skin feels so smooth and hydrated. The esthetician was very professional and knowledgeable about the products. Only reason for 4 stars is that the waiting area could be a bit more comfortable.",
-        date: "2026-03-09",
-        time: "11:00 AM"
-    },
-    {
-        id: 3,
-        customerName: "Mike Johnson",
-        rating: 5,
-        service: "Hot Stone Massage",
-        feedback: "Best hot stone massage I've ever had! The stones were perfectly heated and the therapist knew exactly where to apply pressure. The aroma therapy added to the wonderful experience. Highly recommend!",
-        date: "2026-03-08",
-        time: "4:00 PM"
-    },
-    {
-        id: 4,
-        customerName: "Emily Davis",
-        rating: 5,
-        service: "Hair Color",
-        feedback: "Love my new hair color! The stylist listened to exactly what I wanted and gave great recommendations. The salon environment is so cozy and the staff is very friendly. Will definitely return for my next touch-up.",
-        date: "2026-03-07",
-        time: "1:30 PM"
-    },
-    {
-        id: 5,
-        customerName: "Chris Wilson",
-        rating: 3,
-        service: "Deep Tissue Massage",
-        feedback: "The massage was good but the pressure was a bit too light for a deep tissue massage. I asked to adjust it and it improved, but still not as deep as I wanted. The therapist was very professional though.",
-        date: "2026-03-06",
-        time: "5:00 PM"
-    },
-    {
-        id: 6,
-        customerName: "Sarah Brown",
-        rating: 5,
-        service: "Pedicure",
-        feedback: "Excellent pedicure! The nail technician was very thorough and took her time. The polish has been on for a week now and still looks perfect. The spa chairs are so comfortable and the tea was a nice touch.",
-        date: "2026-03-05",
-        time: "10:00 AM"
-    },
-    {
-        id: 7,
-        customerName: "David Lee",
-        rating: 4,
-        service: "Back Massage",
-        feedback: "Great back massage! The therapist focused on my problem areas and relieved a lot of tension. The room was clean and well-maintained. Only suggestion is to add more music options.",
-        date: "2026-03-04",
-        time: "3:30 PM"
-    },
-    {
-        id: 8,
-        customerName: "Lisa Garcia",
-        rating: 5,
-        service: "Facial Treatment",
-        feedback: "Exceptional facial! My skin has never looked better. The esthetician used high-quality products and the facial included a relaxing scalp massage. I felt pampered from start to finish.",
-        date: "2026-03-03",
-        time: "9:30 AM"
-    },
-    {
-        id: 9,
-        customerName: "Robert Taylor",
-        rating: 5,
-        service: "Hair Cut",
-        feedback: "Perfect haircut! The stylist understood exactly what I wanted and executed it flawlessly. The salon has a great vibe and the staff is very welcoming. I've found my new regular barber!",
-        date: "2026-03-02",
-        time: "2:00 PM"
-    },
-    {
-        id: 10,
-        customerName: "Jennifer Martinez",
-        rating: 4,
-        service: "Manicure",
-        feedback: "Very good manicure! The nail technician was skilled and the polish application was smooth. The only issue was that the drying time was a bit longer than expected. Overall, a great experience.",
-        date: "2026-03-01",
-        time: "11:30 AM"
-    },
-    {
-        id: 11,
-        customerName: "James Anderson",
-        rating: 5,
-        service: "Swedish Massage",
-        feedback: "Heavenly Swedish massage! The therapist had the perfect touch - firm but gentle. The aroma therapy and soft music created the ideal relaxation environment. I left feeling completely rejuvenated.",
-        date: "2026-02-29",
-        time: "4:30 PM"
-    },
-    {
-        id: 12,
-        customerName: "Maria Thomas",
-        rating: 5,
-        service: "Nail Art",
-        feedback: "Absolutely stunning nail art! The technician is incredibly talented and created exactly what I wanted. The salon is clean and modern, and the staff is very professional. I've received so many compliments!",
-        date: "2026-02-28",
-        time: "1:00 PM"
-    }
-];
+// API base URL - adjust based on your environment (using URL param format)
+const API_BASE_URL = '../../backend/public/index.php?url=feedback';
 
-let filteredFeedback = [...feedbackData];
+// Store fetched feedback data
+let feedbackData = [];
+let filteredFeedback = [];
 let pagination;
-window.filteredFeedback = filteredFeedback; // Make filtered feedback globally accessible
-window.pagination = pagination; // Make pagination globally accessible
+
+// Fetch feedback from API
+async function fetchFeedback(search = '', minRating = 0) {
+    let url = `${API_BASE_URL}&search=${encodeURIComponent(search)}&min_rating=${encodeURIComponent(minRating)}`;
+    
+    const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include'
+    });
+
+    const responseText = await response.text();
+    
+    if (!response.ok) {
+        throw new Error(`Server error: ${response.status} - ${responseText}`);
+    }
+
+    try {
+        const result = JSON.parse(responseText);
+
+        if (result.success) {
+            feedbackData = result.data.map(feedback => ({
+                id: feedback.id,
+                customerName: feedback.customerName,
+                rating: feedback.rating,
+                service: feedback.service,
+                feedback: feedback.feedback,
+                date: feedback.date,
+                time: feedback.time
+            }));
+            return result;
+        } else {
+            throw new Error(result.message || 'Failed to fetch feedback');
+        }
+    } catch (e) {
+        if (e instanceof SyntaxError) {
+            throw new Error('Invalid JSON response: ' + responseText);
+        }
+        throw e;
+    }
+}
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Load feedback after a short delay for loading effect
-    setTimeout(loadFeedback, 800);
+    // Initialize pagination first
+    pagination = new Pagination({
+        totalItems: 0,
+        itemsPerPage: 6,
+        currentPage: 1,
+        onPageChange: function(page, itemsPerPage) {
+            // Get current filter values when page changes
+            const searchInput = document.getElementById('searchInput');
+            const filterSelect = document.getElementById('filterRating');
+            const searchTerm = searchInput?.value || '';
+            const filterValue = filterSelect?.value || 'all';
+            const minRating = filterValue === 'all' ? 0 : parseInt(filterValue);
+            loadFeedback(searchTerm, minRating);
+        }
+    });
+    window.pagination = pagination;
+    
+    // Load feedback immediately after pagination is set up
+    // Use setTimeout with 0 delay to run after DOMContentLoaded completes
+    setTimeout(async () => {
+        try {
+            const searchTerm = '';
+            const minRating = 0;
+            await loadFeedback(searchTerm, minRating);
+        } catch (error) {
+            const feedbackList = document.getElementById('feedbackList');
+            if (feedbackList) {
+                feedbackList.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <p>Failed to load feedback</p>
+                        <p class="subtitle">Please try again later</p>
+                    </div>
+                `;
+            }
+        }
+    }, 0);
     
     // Search functionality
     const searchInput = document.getElementById('searchInput');
+    let searchTimeout;
     searchInput.addEventListener('input', function() {
-        searchFeedback(searchInput.value);
+        // Debounce search
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            searchFeedback(searchInput.value);
+        }, 300);
     });
     
     // Filter functionality
@@ -130,96 +104,107 @@ document.addEventListener('DOMContentLoaded', function() {
     filterSelect.addEventListener('change', function() {
         filterFeedbackByRating(filterSelect.value);
     });
-    
-    // Calculate and display rating breakdown
-    calculateRatingBreakdown();
-    
-    // Initialize pagination
-    pagination = new Pagination({
-        totalItems: filteredFeedback.length,
-        itemsPerPage: 6,
-        currentPage: 1,
-        onPageChange: function(page, itemsPerPage) {
-            loadFeedback();
-        }
-    });
-    window.pagination = pagination; // Make pagination globally accessible
 });
 
-function loadFeedback() {
+async function loadFeedback(searchTerm = '', minRating = 0) {
     const feedbackList = document.getElementById('feedbackList');
-    feedbackList.innerHTML = '';
+    if (!feedbackList) return;
     
-    if (filteredFeedback.length === 0) {
-        feedbackList.innerHTML = `
-            <div class="empty-state">
-                <i class="fas fa-comments"></i>
-                <p>No feedback found</p>
-                <p class="subtitle">Try adjusting your search or filters</p>
+    feedbackList.innerHTML = `
+        <div class="loading-row">
+            <div class="loading-spinner">
+                <i class="fas fa-spinner fa-spin"></i>
+                <span>Loading feedback...</span>
             </div>
-        `;
-        pagination.updateTotalItems(0);
-        return;
-    }
+        </div>
+    `;
     
-    // Get current page range from pagination
-    const range = pagination.getCurrentPageRange();
-    const feedbackToDisplay = filteredFeedback.slice(range.start, range.end);
-    
-    feedbackToDisplay.forEach(feedback => {
-        const feedbackCard = document.createElement('div');
-        feedbackCard.className = 'feedback-card';
-        feedbackCard.innerHTML = `
-            <div class="feedback-header">
-                <div class="feedback-user">
-                    <div class="customer-name">${feedback.customerName}</div>
-                    <div class="feedback-time">${formatDateTime(feedback.date, feedback.time)}</div>
+    try {
+        const result = await fetchFeedback(searchTerm, minRating);
+        filteredFeedback = [...feedbackData];
+        
+        // Update rating breakdown with stats from API
+        if (result.stats) {
+            updateRatingBreakdown(result.stats);
+        } else {
+            calculateRatingBreakdown();
+        }
+        
+        if (filteredFeedback.length === 0) {
+            feedbackList.innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-comments"></i>
+                    <p>No feedback found</p>
+                    <p class="subtitle">Try adjusting your search or filters</p>
                 </div>
-                <div class="feedback-rating">
-                    <div class="feedback-stars">${generateStars(feedback.rating)}</div>
-                    <div class="feedback-service">
-                        <i class="fas fa-spa"></i>
-                        <span>${feedback.service}</span>
+            `;
+            pagination.updateTotalItems(0);
+            return;
+        }
+        
+        // Clear loading and display feedback
+        feedbackList.innerHTML = '';
+        
+        // Get current page range from pagination
+        const range = pagination.getCurrentPageRange();
+        const feedbackToDisplay = filteredFeedback.slice(range.start, range.end);
+        
+        feedbackToDisplay.forEach(feedback => {
+            const feedbackCard = document.createElement('div');
+            feedbackCard.className = 'feedback-card';
+            feedbackCard.innerHTML = `
+                <div class="feedback-header">
+                    <div class="feedback-user">
+                        <div class="customer-name">${feedback.customerName}</div>
+                        <div class="feedback-time">${formatDateTime(feedback.date, feedback.time)}</div>
+                    </div>
+                    <div class="feedback-rating">
+                        <div class="feedback-stars">${generateStars(feedback.rating)}</div>
+                        <div class="feedback-service">
+                            <i class="fas fa-spa"></i>
+                            <span>${feedback.service}</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="feedback-content">
-                <div class="feedback-text">${feedback.feedback}</div>
+                <div class="feedback-content">
+                    <div class="feedback-text">${feedback.feedback}</div>
+                </div>
+            `;
+            feedbackList.appendChild(feedbackCard);
+        });
+        
+        // Update pagination
+        pagination.updateTotalItems(filteredFeedback.length);
+    } catch (error) {
+        feedbackList.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-exclamation-circle"></i>
+                <p>Failed to load feedback</p>
+                <p class="subtitle">Please try again later</p>
             </div>
         `;
-        feedbackList.appendChild(feedbackCard);
-    });
-    
-    // Update pagination
-    pagination.updateTotalItems(filteredFeedback.length);
-}
-
-function searchFeedback(searchTerm) {
-    const term = searchTerm.toLowerCase();
-    filteredFeedback = feedbackData.filter(feedback =>
-        feedback.customerName.toLowerCase().includes(term) ||
-        feedback.service.toLowerCase().includes(term) ||
-        feedback.feedback.toLowerCase().includes(term)
-    );
-    
-    pagination.goToPage(1); // Reset to first page
-    loadFeedback();
-    calculateRatingBreakdown();
-}
-
-function filterFeedbackByRating(filterValue) {
-    if (filterValue === 'all') {
-        filteredFeedback = [...feedbackData];
-    } else {
-        const minRating = parseInt(filterValue);
-        filteredFeedback = feedbackData.filter(feedback => feedback.rating >= minRating);
     }
-    
-    pagination.goToPage(1); // Reset to first page
-    loadFeedback();
-    calculateRatingBreakdown();
 }
 
+// Search functionality
+function searchFeedback(searchTerm) {
+    const filterValue = document.getElementById('filterRating')?.value || 'all';
+    const minRating = filterValue === 'all' ? 0 : parseInt(filterValue);
+    
+    pagination.goToPage(1); // Reset to first page
+    loadFeedback(searchTerm, minRating);
+}
+
+// Filter functionality
+function filterFeedbackByRating(filterValue) {
+    const searchTerm = document.getElementById('searchInput')?.value || '';
+    const minRating = filterValue === 'all' ? 0 : parseInt(filterValue);
+    
+    pagination.goToPage(1); // Reset to first page
+    loadFeedback(searchTerm, minRating);
+}
+
+// Calculate rating breakdown from filtered data
 function calculateRatingBreakdown() {
     // Calculate overall rating
     const totalRating = filteredFeedback.reduce((sum, feedback) => sum + feedback.rating, 0);
@@ -267,6 +252,48 @@ function calculateRatingBreakdown() {
     }
 }
 
+// Update rating breakdown with stats from API
+function updateRatingBreakdown(stats) {
+    const overallRating = parseFloat(stats.averageRating).toFixed(1);
+    const totalReviews = stats.totalReviews || 0;
+    
+    // Update UI
+    document.getElementById('overallRating').textContent = overallRating;
+    document.getElementById('totalReviews').textContent = `${totalReviews} review${totalReviews !== 1 ? 's' : ''}`;
+    
+    // Update stars based on rating
+    const starContainer = document.getElementById('overallStars');
+    starContainer.innerHTML = generateStars(parseFloat(overallRating));
+    
+    // Update rating breakdown
+    const breakdownContainer = document.getElementById('ratingBreakdown');
+    breakdownContainer.innerHTML = '';
+    
+    const ratingCounts = {
+        5: parseInt(stats.fiveStars) || 0,
+        4: parseInt(stats.fourStars) || 0,
+        3: parseInt(stats.threeStars) || 0,
+        2: parseInt(stats.twoStars) || 0,
+        1: parseInt(stats.oneStar) || 0
+    };
+    
+    for (let i = 5; i >= 1; i--) {
+        const percentage = totalReviews > 0 ? Math.round((ratingCounts[i] / totalReviews) * 100) : 0;
+        
+        const barContainer = document.createElement('div');
+        barContainer.className = 'rating-bar-container';
+        barContainer.innerHTML = `
+            <div class="rating-number">${i} <i class="fas fa-star"></i></div>
+            <div class="rating-bar">
+                <div class="rating-progress" style="width: ${percentage}%"></div>
+            </div>
+            <div class="rating-count">${ratingCounts[i]}</div>
+        `;
+        
+        breakdownContainer.appendChild(barContainer);
+    }
+}
+
 function generateStars(rating) {
     const fullStars = Math.floor(rating);
     const hasHalfStar = rating % 1 !== 0;
@@ -295,5 +322,4 @@ function formatDateTime(dateString, timeString) {
     const formattedDate = date.toLocaleDateString('en-US', options);
     return `${formattedDate} at ${timeString}`;
 }
-
 

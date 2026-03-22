@@ -5,6 +5,9 @@ class Router
     public function run()
     {
         $url = $_GET['url'] ?? 'auth/login';
+        
+        // Debug: Log the incoming URL
+        error_log("Router received URL: " . $url);
         $url = explode('/', $url);
 
         // Handle API routes
@@ -53,6 +56,14 @@ class Router
                     } else {
                         http_response_code(404);
                         die("Method reviews not found in controller $controllerName");
+                    }
+                } elseif (isset($url[2]) && $url[2] === 'reservations') {
+                    // If next segment is 'reservations', call reservations() with user ID
+                    if (method_exists($controller, 'reservations')) {
+                        call_user_func_array(array($controller, 'reservations'), array($method));
+                    } else {
+                        http_response_code(404);
+                        die("Method reservations not found in controller $controllerName");
                     }
                 } else {
                     // Otherwise, call show() with ID

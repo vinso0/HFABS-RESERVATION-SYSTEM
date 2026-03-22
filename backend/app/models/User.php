@@ -47,4 +47,261 @@ class User extends Database
 
         return $stmt->get_result()->fetch_assoc();
     }
+
+    public function updateProfile($userId, $username, $email, $contactNumber)
+    {
+        // Check if email is taken by another user
+        $check = $this->db->prepare(
+            "SELECT user_id FROM users WHERE email = ? AND user_id != ?"
+        );
+        $check->bind_param("si", $email, $userId);
+        $check->execute();
+        $existing = $check->get_result()->fetch_assoc();
+
+        if ($existing) {
+            return ['success' => false, 'message' => 'Email is already in use.'];
+        }
+
+        $stmt = $this->db->prepare(
+            "UPDATE users SET username = ?, email = ?, contact_number = ? WHERE user_id = ?"
+        );
+        $stmt->bind_param("sssi", $username, $email, $contactNumber, $userId);
+        $result = $stmt->execute();
+
+        if (!$result) {
+            error_log("Update profile error: " . $stmt->error);
+            return ['success' => false, 'message' => 'Failed to update profile.'];
+        }
+
+        return ['success' => true];
+    }
+
+    public function getPasswordById($userId)
+    {
+        $stmt = $this->db->prepare(
+            "SELECT password FROM users WHERE user_id = ?"
+        );
+        $stmt->bind_param("i", $userId);
+        $stmt->execute();
+        $row = $stmt->get_result()->fetch_assoc();
+        return $row['password'] ?? null;
+    }
+
+    public function changePassword($userId, $newHashedPassword)
+    {
+        $stmt = $this->db->prepare(
+            "UPDATE users SET password = ? WHERE user_id = ?"
+        );
+        $stmt->bind_param("si", $newHashedPassword, $userId);
+        $result = $stmt->execute();
+
+        if (!$result) {
+            error_log("Change password error: " . $stmt->error);
+            return false;
+        }
+
+        return true;
+    }
+
+    // GET ALL CUSTOMERS WITH RESERVATION COUNT
+    public function getAllCustomers($branchId = null, $search = '', $filterReservations = '')
+    {
+        $query = "
+            SELECT 
+                u.user_id as id,
+                u.username as name,
+                u.email,
+                u.contact_number as contact,
+                COUNT(DISTINCT r.reservation_id) as reservation_count
+            FROM users u
+            LEFT JOIN reservations r ON u.user_id = r.user_id
+            WHERE u.role = 'customer'
+        ";
+
+        $params = [];
+        $types = '';
+
+        // Add branch filter if provided
+        if ($branchId !== null) {
+            $query .= " AND r.branch_id = ?";
+            $params[] = $branchId;
+            $types .= 'i';
+        }
+
+        // Add search filter
+        if (!empty($search)) {
+            $query .= " AND (u.username LIKE ? OR u.email LIKE ? OR u.contact_number LIKE ?)";
+            $searchTerm = "%$search%";
+            $params[] = $searchTerm;
+            $params[] = $searchTerm;
+            $params[] = $searchTerm;
+            $types .= 'sss';
+        }
+
+        $query .= " GROUP BY u.user_id, u.username, u.email, u.contact_number";
+
+        // Add reservation count filter
+        if (!empty($filterReservations)) {
+            if ($filterReservations === '1-5') {
+                $query .= " HAVING reservation_count BETWEEN 1 AND 5";
+            } elseif ($filterReservations === '6-10') {
+                $query .= " HAVING reservation_count BETWEEN 6 AND 10";
+            } elseif ($filterReservations === '11-20') {
+                $query .= " HAVING reservation_count BETWEEN 11 AND 20";
+            } elseif ($filterReservations === '20+') {
+                $query .= " HAVING reservation_count > 20";
+            }
+        }
+
+        $query .= " ORDER BY reservation_count DESC, u.username ASC";
+
+        $stmt = $this->db->prepare($query);
+        if (!empty($params)) {
+            $stmt->bind_param($types, ...$params);
+        }
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $customers = [];
+        while ($row = $result->fetch_assoc()) {
+            $customers[] = $row;
+        }
+
+        return $customers;
+    }
+
+    // GET CUSTOMER RESERVATIONS BY USER ID
+    public function getCustomerReservationsByUserId($userId, $branchId = null)
+    {
+        $query = "
+            SELECT 
+                r.reservation_id,
+                r.reservation_date,
+                r.status,
+                r.total_price,
+                b.branch_name,
+                b.branch_id
+            FROM reservations r
+            LEFT JOIN branch b ON r.branch_id = b.branch_id
+            WHERE r.user_id = ?
+        ";
+
+        $params = [$userId];
+        $types = 'i';
+
+        if ($branchId !== null) {
+            $query .= " AND r.branch_id = ?";
+            $params[] = $branchId;
+            $types .= 'i';
+        }
+
+        $query .= " ORDER BY r.reservation_date DESC";
+
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param($types, ...$params);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $reservations = [];
+        while ($row = $result->fetch_assoc()) {
+            // Get services for each reservation
+            $servicesQuery = "
+                SELECT
+                    rs.reservation_service_id,
+                    rs.booked_service_name as service_name,
+                    rs.booked_unit_price as price,
+                    rs.booked_duration_minutes as duration_minutes,
+                    rs.booked_category_name as category_name
+                FROM reservation_services rs
+                WHERE rs.reservation_id = ?
+            ";
+            
+            $servicesStmt = $this->db->prepare($servicesQuery);
+            $servicesStmt->bind_param('i', $row['reservation_id']);
+            $servicesStmt->execute();
+            $servicesResult = $servicesStmt->get_result();
+            
+            $services = [];
+            while ($serviceRow = $servicesResult->fetch_assoc()) {
+                $services[] = $serviceRow;
+            }
+            
+            // Get schedule information (from first service)
+            $scheduleQuery = "
+                SELECT 
+                    rsch.schedule_date,
+                    rsch.start_time,
+                    rsch.end_time
+                FROM reservation_schedule rsch
+                WHERE rsch.reservation_service_id = (
+                    SELECT rs2.reservation_service_id 
+                    FROM reservation_services rs2 
+                    WHERE rs2.reservation_id = ? 
+                    LIMIT 1
+                )
+            ";
+            
+            $scheduleStmt = $this->db->prepare($scheduleQuery);
+            $scheduleStmt->bind_param('i', $row['reservation_id']);
+            $scheduleStmt->execute();
+            $scheduleResult = $scheduleStmt->get_result();
+            
+            $schedule = null;
+            if ($scheduleRow = $scheduleResult->fetch_assoc()) {
+                $schedule = $scheduleRow;
+            }
+            
+            // Combine services into service names string
+            $serviceNames = implode(', ', array_map(function($s) {
+                return $s['service_name'];
+            }, $services));
+            
+            // Calculate total duration
+            $totalDuration = array_sum(array_map(function($s) {
+                return intval($s['duration_minutes']);
+            }, $services));
+            
+            // Add services and schedule to the reservation
+            $row['services'] = $services;
+            $row['service_name'] = $serviceNames ?: 'N/A';
+            $row['duration_minutes'] = $totalDuration ?: 0;
+            $row['schedule_date'] = $schedule ? $schedule['schedule_date'] : null;
+            $row['start_time'] = $schedule ? $schedule['start_time'] : null;
+            $row['end_time'] = $schedule ? $schedule['end_time'] : null;
+            
+            $reservations[] = $row;
+        }
+
+        return $reservations;
+    }
+
+    // GET TOTAL CUSTOMER COUNT
+    public function getTotalCustomerCount($branchId = null)
+    {
+        $query = "
+            SELECT COUNT(DISTINCT u.user_id) as total
+            FROM users u
+            LEFT JOIN reservations r ON u.user_id = r.user_id
+            WHERE u.role = 'customer'
+        ";
+
+        $params = [];
+        $types = '';
+
+        if ($branchId !== null) {
+            $query .= " AND r.branch_id = ?";
+            $params[] = $branchId;
+            $types .= 'i';
+        }
+
+        $stmt = $this->db->prepare($query);
+        if (!empty($params)) {
+            $stmt->bind_param($types, ...$params);
+        }
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+
+        return $row['total'] ?? 0;
+    }
 }
