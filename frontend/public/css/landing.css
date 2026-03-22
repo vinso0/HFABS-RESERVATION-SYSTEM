@@ -208,7 +208,7 @@ body::before {
 
 /* Version B: Glassmorphism override */
 .header.header--glass {
-  background: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.20);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border: 1px solid rgba(255, 255, 255, 0.65);

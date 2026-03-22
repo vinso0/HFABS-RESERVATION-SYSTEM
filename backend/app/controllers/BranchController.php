@@ -44,6 +44,7 @@ class BranchController extends Controller
             'branchname' => $branch['branch_name'],
             'location' => $branch['branch_location'],
             'contact_number' => $branch['contact_number'],
+            'email' => $branch['email'],
             'opening_time' => $branch['opening_time'],
             'closing_time' => $branch['closing_time']
         );
@@ -281,6 +282,145 @@ class BranchController extends Controller
 
         echo json_encode(['success' => true, 'data' => $dates]);
         exit;
+    }
+
+    // POST ?url=branch/sendInquiry
+    public function sendInquiry()
+    {
+        header('Content-Type: application/json');
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            http_response_code(405);
+            echo json_encode(['success' => false, 'message' => 'Method not allowed']);
+            exit;
+        }
+
+        $input = json_decode(file_get_contents('php://input'), true);
+        
+        $branchId = (int) ($input['branch_id'] ?? 0);
+        $name = trim($input['name'] ?? '');
+        $email = trim($input['email'] ?? '');
+        $subject = trim($input['subject'] ?? '');
+        $message = trim($input['message'] ?? '');
+
+        // Validate required fields
+        if (!$branchId || !$name || !$email || !$subject || !$message) {
+            http_response_code(422);
+            echo json_encode(['success' => false, 'message' => 'All fields are required.']);
+            exit;
+        }
+
+        // Validate email format
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            http_response_code(422);
+            echo json_encode(['success' => false, 'message' => 'Invalid email address.']);
+            exit;
+        }
+
+        // Get branch details
+        $branchModel = $this->model('Branch');
+        $branch = $branchModel->getBranchById($branchId);
+
+        if (!$branch) {
+            http_response_code(404);
+            echo json_encode(['success' => false, 'message' => 'Branch not found.']);
+            exit;
+        }
+
+        $branchEmail = $branch['email'];
+        $branchName = $branch['branch_name'];
+
+        if (empty($branchEmail)) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'message' => 'This branch does not have an email address configured.']);
+            exit;
+        }
+
+        // Load email configuration
+        $emailConfig = require __DIR__ . '/../../config/email.php';
+
+        // Send email using PHPMailer
+        require_once __DIR__ . '/../../../vendor/phpmailer/phpmailer/src/PHPMailer.php';
+        require_once __DIR__ . '/../../../vendor/phpmailer/phpmailer/src/SMTP.php';
+        require_once __DIR__ . '/../../../vendor/phpmailer/phpmailer/src/Exception.php';
+
+        $mail = new \PHPMailer\PHPMailer\PHPMailer(true);
+
+        try {
+            // Server settings
+            $mail->isSMTP();
+            $mail->Host = $emailConfig['host'];
+            $mail->SMTPAuth = true;
+            $mail->Username = $emailConfig['username'];
+            $mail->Password = $emailConfig['password'];
+            $mail->SMTPSecure = $emailConfig['encryption'];
+            $mail->Port = $emailConfig['port'];
+
+            // Recipients
+            $mail->setFrom($emailConfig['from_email'], $emailConfig['from_name']);
+            $mail->addAddress($branchEmail, $branchName);
+            $mail->addReplyTo($email, $name);
+
+            // Content
+            $mail->isHTML(true);
+            $mail->Subject = "Inquiry: $subject";
+            
+            $htmlBody = "
+                <html>
+                <head>
+                    <style>
+                        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                        .header { background-color: #f8bbd9; padding: 20px; text-align: center; border-radius: 5px 5px 0 0; }
+                        .header h2 { color: #c2185b; margin: 0; }
+                        .content { background-color: #f9f9f9; padding: 20px; border: 1px solid #ddd; border-top: none; border-radius: 0 0 5px 5px; }
+                        .field { margin-bottom: 15px; }
+                        .label { font-weight: bold; color: #555; }
+                        .value { margin-top: 5px; padding: 10px; background-color: #fff; border: 1px solid #eee; border-radius: 3px; }
+                        .message-box { white-space: pre-wrap; }
+                    </style>
+                </head>
+                <body>
+                    <div class='container'>
+                        <div class='header'>
+                            <h2>New Inquiry from $branchName</h2>
+                        </div>
+                        <div class='content'>
+                            <div class='field'>
+                                <div class='label'>From:</div>
+                                <div class='value'>$name</div>
+                            </div>
+                            <div class='field'>
+                                <div class='label'>Email:</div>
+                                <div class='value'>$email</div>
+                            </div>
+                            <div class='field'>
+                                <div class='label'>Subject:</div>
+                                <div class='value'>$subject</div>
+                            </div>
+                            <div class='field'>
+                                <div class='label'>Message:</div>
+                                <div class='value message-box'>$message</div>
+                            </div>
+                        </div>
+                    </div>
+                </body>
+                </html>
+            ";
+            
+            $mail->Body = $htmlBody;
+            $mail->AltBody = "From: $name\nEmail: $email\nSubject: $subject\n\nMessage:\n$message";
+
+            $mail->send();
+            
+            echo json_encode(['success' => true, 'message' => 'Your inquiry has been sent successfully!']);
+            exit;
+
+        } catch (\PHPMailer\PHPMailer\Exception $e) {
+            http_response_code(500);
+            echo json_encode(['success' => false, 'message' => 'Failed to send email. Please try again later.']);
+            exit;
+        }
     }
 
 }

@@ -15,7 +15,7 @@ async function loadProfile() {
     const data = await res.json();
 
     if (!data.success) {
-      showToast(data.message || 'Failed to load profile.', 'error');
+      Toast.error(data.message || 'Failed to load profile.');
       return;
     }
 
@@ -45,7 +45,7 @@ async function loadProfile() {
 
   } catch (err) {
     console.error('loadProfile error:', err);
-    showToast('Could not connect to server.', 'error');
+    Toast.error('Could not connect to server.');
   }
 }
 
@@ -83,16 +83,16 @@ async function submitEditProfile(e) {
     const data = await res.json();
 
     if (data.success) {
-      showToast('Profile updated successfully!', 'success');
+      Toast.success('Profile updated successfully!');
       await loadProfile();
       toggleEdit();
     } else {
-      showToast(data.message || 'Update failed.', 'error');
+      Toast.error(data.message || 'Update failed.');
     }
 
   } catch (err) {
     console.error('updateProfile error:', err);
-    showToast('Could not connect to server.', 'error');
+    Toast.error('Could not connect to server.');
   } finally {
     btn.disabled  = false;
     btn.innerHTML = '<i class="fas fa-check"></i> Save Changes';
@@ -108,12 +108,12 @@ async function submitChangePassword(e) {
   const confirmPw = document.getElementById('confirmPassword').value;
 
   if (newPw !== confirmPw) {
-    showToast('New passwords do not match.', 'error');
+    Toast.error('New passwords do not match.');
     return;
   }
 
   if (newPw.length < 6) {
-    showToast('Password must be at least 6 characters.', 'error');
+    Toast.error('Password must be at least 6 characters.');
     return;
   }
 
@@ -134,15 +134,15 @@ async function submitChangePassword(e) {
     const data = await res.json();
 
     if (data.success) {
-      showToast('Password changed successfully!', 'success');
+      Toast.success('Password changed successfully!');
       e.target.reset();
     } else {
-      showToast(data.message || 'Password update failed.', 'error');
+      Toast.error(data.message || 'Password update failed.');
     }
 
   } catch (err) {
     console.error('changePassword error:', err);
-    showToast('Could not connect to server.', 'error');
+    Toast.error('Could not connect to server.');
   } finally {
     btn.disabled  = false;
     btn.innerHTML = '<i class="fas fa-check"></i> Update Password';

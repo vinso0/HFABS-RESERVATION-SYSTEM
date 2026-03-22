@@ -36,6 +36,9 @@ async function loadBranchInfo() {
     const res    = await fetch(`${API_BASE}branch/${branchId}`);
     const branch = await res.json();
 
+    // Set branch ID for inquiry form
+    document.getElementById('inquiryBranchId').value = branch.branchid;
+
     // Hero
     document.title = `${branch.branchname} | Happy Face & Body Spa`;
     document.getElementById('branchHeroInfo').innerHTML = `
@@ -306,8 +309,61 @@ function generateStars(rating) {
 }
 
 
+// ── Inquiry Form Handling ──────────────────────────────
+function setupInquiryForm() {
+  const form = document.getElementById('inquiryForm');
+  if (!form) return;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const submitBtn = form.querySelector('.btn-send-inquiry');
+    const originalBtnText = submitBtn.innerHTML;
+    
+    // Disable button and show loading state
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+
+    const formData = {
+      branch_id: document.getElementById('inquiryBranchId').value,
+      name: document.getElementById('inquiryName').value.trim(),
+      email: document.getElementById('inquiryEmail').value.trim(),
+      subject: document.getElementById('inquirySubject').value.trim(),
+      message: document.getElementById('inquiryMessage').value.trim()
+    };
+
+    try {
+      const res = await fetch(`${API_BASE}branch/sendInquiry`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        Toast.success(data.message || 'Your inquiry has been sent successfully!');
+        form.reset();
+      } else {
+        Toast.error(data.message || 'Failed to send inquiry. Please try again.');
+      }
+    } catch (err) {
+      console.error('Inquiry error:', err);
+      Toast.error('Could not connect to server. Please try again later.');
+    } finally {
+      // Re-enable button
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = originalBtnText;
+    }
+  });
+}
+
 // ── Init ──────────────────────────────────────────────
 loadBranchInfo();
 loadBranchServices();
 loadBranchPackages();
 loadBranchReviews();
+setupInquiryForm();

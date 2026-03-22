@@ -66,8 +66,8 @@ function formatPrice(price) {
 }
 
 // Function to create reservation card HTML
-function createReservationCard(reservation) {
-    const servicesHtml = reservation.services.map(service => 
+function createReservationCard(reservation, index) {
+    const servicesHtml = reservation.services.map(service =>
         `<span class="service-tag">${service.service_name}</span>`
     ).join('');
 
@@ -78,7 +78,7 @@ function createReservationCard(reservation) {
     return `
         <div class="reservation-card">
             <div class="reservation-header">
-                <div class="reservation-id">ID: ${reservation.reservation_id}</div>
+                <div class="reservation-id">No. ${index + 1}</div>
                 <div class="reservation-status ${getStatusBadgeClass(reservation.status)}">
                     ${capitalize(reservation.status)}
                 </div>
@@ -175,8 +175,8 @@ function displayReservations(reservations, containerId) {
         return;
     }
     
-    const reservationsHtml = reservations.map(reservation => 
-        createReservationCard(reservation)
+    const reservationsHtml = reservations.map((reservation, index) =>
+        createReservationCard(reservation, index)
     ).join('');
     
     container.innerHTML = reservationsHtml;

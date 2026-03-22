@@ -1,60 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Login | HappyFace</title>
-    <link rel="stylesheet" href="../public/css/auth.css" />
-  </head>
-  <body>
-    <main class="auth-container">
-      <section class="auth-card">
-        <h1 class="auth-heading">Superadmin Login</h1>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Superadmin Login | Happy Face &amp; Body Spa</title>
+  <link rel="stylesheet" href="../public/css/auth.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    /* Superadmin-specific brand panel override */
+    .auth-brand {
+      background: linear-gradient(150deg, #0f172a 0%, #1e1b4b 55%, #312e81 100%);
+    }
+    .auth-brand-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(99, 102, 241, 0.25);
+      border: 1px solid rgba(99, 102, 241, 0.45);
+      color: #c7d2fe;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-top: 1rem;
+      position: relative;
+      z-index: 1;
+    }
+    /* Override button gradient for indigo theme */
+    .auth-btn {
+      background: linear-gradient(135deg, #6366f1, #4338ca);
+    }
+    .auth-btn:hover {
+      box-shadow: 0 6px 18px rgba(99, 102, 241, 0.40);
+    }
+    .auth-input-icon { color: #6366f1 !important; }
+    .form-input:focus {
+      border-color: #6366f1;
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+    }
+    .auth-link { color: #6366f1; }
+    .auth-link:hover { color: #4338ca; }
+  </style>
+</head>
+<body>
+  <main class="auth-container">
 
-        <form
-          class="auth-form"
-          method="POST"
-          id="superadmin-login-form"
-          action="../../backend/public/index.php?url=auth/login"
-        >
-          <div class="form-group">
-            <label class="form-label" for="superadmin-username">Username</label>
-            <input
-              class="form-input"
-              type="text"
-              id="superadmin-username"
-              name="username"
-              autocomplete="username"
-              required
-            />
+    <!-- Brand Panel -->
+    <div class="auth-brand">
+      <span class="auth-brand-inner-ring"></span>
+      <img src="../public/img/HFABS-LOGO.png" alt="HFABS Logo" class="auth-brand-logo" />
+      <div>
+        <div class="auth-brand-name">Happy Face &amp;<br>Body Spa</div>
+        <p class="auth-brand-tagline">System administration portal.</p>
+      </div>
+      <div class="auth-brand-badge">
+        <i class="fas fa-crown"></i> Super Admin
+      </div>
+      <div class="auth-brand-dots">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+
+    <!-- Form Panel -->
+    <section class="auth-card">
+      <h1 class="auth-heading">Superadmin Sign In</h1>
+      <p class="auth-subheading">Restricted access — authorized personnel only.</p>
+
+      <form class="auth-form" method="POST" id="superadmin-login-form"
+            action="../../backend/public/index.php?url=auth/login">
+        <div class="form-group">
+          <label class="form-label" for="superadmin-identifier">
+            <i class="fas fa-user" style="color:#6366f1;margin-right:5px;font-size:10px;"></i>
+            Username or Email
+          </label>
+          <input
+            class="form-input"
+            type="text"
+            id="superadmin-identifier"
+            name="username"
+            placeholder="Username or email address"
+            autocomplete="username"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="superadmin-password">
+            <i class="fas fa-lock auth-input-icon" style="margin-right:5px;font-size:10px;"></i>
+            Password
+          </label>
+          <div class="form-input-wrapper">
+            <input class="form-input" type="password" id="superadmin-password" name="password"
+                   placeholder="••••••••" autocomplete="current-password" required />
+            <button type="button" class="password-toggle"
+                    data-target="superadmin-password" tabindex="-1" aria-label="Show password"></button>
           </div>
+        </div>
 
-          <div class="form-group">
-            <label class="form-label" for="superadmin-password">Password</label>
-            <div class="form-input-wrapper">
-              <input
-                class="form-input"
-                type="password"
-                id="superadmin-password"
-                name="password"
-                autocomplete="current-password"
-                required
-              />
-              <button 
-                type="button" 
-                class="password-toggle" 
-                data-target="superadmin-password"
-                tabindex="-1" 
-                aria-label="Show password"
-              ></button>
-            </div>
-          </div>
+        <button class="auth-btn" type="submit">
+          <i class="fas fa-sign-in-alt"></i> Sign In
+        </button>
+      </form>
+    </section>
 
-          <button class="auth-btn" type="submit">Login</button>
-        </form>
-      </section>
-    </main>
-
-    <script src="../public/js/auth.js"></script>
-  </body>
+  </main>
+  <script src="../public/js/auth.js"></script>
+</body>
 </html>

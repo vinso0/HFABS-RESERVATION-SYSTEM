@@ -16368,3 +16368,269 @@ Stack trace:
 [21-Mar-2026 08:42:49 Europe/Berlin] Router received URL: services/categoriesList
 [21-Mar-2026 08:42:49 Europe/Berlin] Router received URL: services/branchCategories/1
 [21-Mar-2026 08:42:49 Europe/Berlin] Router received URL: services/branchServices/1
+[22-Mar-2026 12:09:47 Europe/Berlin] Router received URL: auth/login
+[22-Mar-2026 12:09:47 Europe/Berlin] Router received URL: branch/index
+[22-Mar-2026 12:09:47 Europe/Berlin] Router received URL: branch
+[22-Mar-2026 12:09:49 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[22-Mar-2026 12:10:47 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[22-Mar-2026 12:11:20 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[22-Mar-2026 12:11:34 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[22-Mar-2026 12:11:41 Europe/Berlin] Router received URL: branch/index
+[22-Mar-2026 12:11:41 Europe/Berlin] Router received URL: branch
+[22-Mar-2026 12:11:42 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[22-Mar-2026 12:12:58 Europe/Berlin] Router received URL: reservation/submitFeedback
+[22-Mar-2026 12:13:00 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[22-Mar-2026 12:15:34 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[22-Mar-2026 12:15:35 Europe/Berlin] Router received URL: auth/getProfile
+[22-Mar-2026 12:16:13 Europe/Berlin] Router received URL: auth/changePassword
+[22-Mar-2026 12:16:16 Europe/Berlin] Router received URL: auth/logout
+[22-Mar-2026 12:16:42 Europe/Berlin] Router received URL: auth/login
+[22-Mar-2026 12:16:42 Europe/Berlin] Router received URL: branch/index
+[22-Mar-2026 12:16:42 Europe/Berlin] Router received URL: branch
+[22-Mar-2026 12:16:50 Europe/Berlin] Router received URL: auth/logout
+[22-Mar-2026 12:28:50 Europe/Berlin] Router received URL: auth/login
+[22-Mar-2026 12:29:10 Europe/Berlin] Router received URL: auth/login
+[22-Mar-2026 12:29:10 Europe/Berlin] Router received URL: branch/index
+[22-Mar-2026 12:29:10 Europe/Berlin] Router received URL: branch
+[22-Mar-2026 12:29:29 Europe/Berlin] Router received URL: branch/1
+[22-Mar-2026 12:29:29 Europe/Berlin] Router received URL: branch/1/services
+[22-Mar-2026 12:29:29 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[22-Mar-2026 12:29:29 Europe/Berlin] Router received URL: branch/1/reviews
+[22-Mar-2026 12:29:39 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[22-Mar-2026 12:29:39 Europe/Berlin] Router received URL: branch/1/reviews
+[22-Mar-2026 12:29:39 Europe/Berlin] Router received URL: branch/1
+[22-Mar-2026 12:29:39 Europe/Berlin] Router received URL: branch/1/services
+[22-Mar-2026 12:31:58 Europe/Berlin] Router received URL: branch/1/services
+[22-Mar-2026 12:31:58 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[22-Mar-2026 12:31:58 Europe/Berlin] Router received URL: branch/1
+[22-Mar-2026 12:31:58 Europe/Berlin] Router received URL: branch/1/reviews
+[22-Mar-2026 12:32:05 Europe/Berlin] Router received URL: branch/index
+[22-Mar-2026 12:32:05 Europe/Berlin] Router received URL: branch
+[22-Mar-2026 12:32:15 Europe/Berlin] Router received URL: branch/index
+[22-Mar-2026 12:32:15 Europe/Berlin] Router received URL: branch
+[22-Mar-2026 12:32:33 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[22-Mar-2026 12:32:34 Europe/Berlin] Router received URL: branch/index
+[22-Mar-2026 12:32:34 Europe/Berlin] Router received URL: branch
+[22-Mar-2026 12:32:36 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[22-Mar-2026 12:32:36 Europe/Berlin] Router received URL: branch/index
+[22-Mar-2026 12:32:36 Europe/Berlin] Router received URL: branch
+[22-Mar-2026 12:32:38 Europe/Berlin] Router received URL: auth/getProfile
+[22-Mar-2026 12:32:39 Europe/Berlin] Router received URL: branch/index
+[22-Mar-2026 12:32:39 Europe/Berlin] Router received URL: branch
+[22-Mar-2026 12:32:40 Europe/Berlin] Router received URL: auth/getProfile
+[22-Mar-2026 12:32:41 Europe/Berlin] Router received URL: branch/index
+[22-Mar-2026 12:32:41 Europe/Berlin] Router received URL: branch
+[22-Mar-2026 12:32:43 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[22-Mar-2026 12:32:47 Europe/Berlin] Router received URL: branch/index
+[22-Mar-2026 12:32:47 Europe/Berlin] Router received URL: branch
+[22-Mar-2026 12:32:49 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[22-Mar-2026 12:32:50 Europe/Berlin] Router received URL: auth/getProfile
+[22-Mar-2026 12:32:52 Europe/Berlin] Router received URL: branch/index
+[22-Mar-2026 12:32:52 Europe/Berlin] Router received URL: branch
+[22-Mar-2026 12:32:53 Europe/Berlin] Router received URL: auth/getProfile
+[22-Mar-2026 12:32:58 Europe/Berlin] Router received URL: branch/index
+[22-Mar-2026 12:32:58 Europe/Berlin] Router received URL: branch
+[22-Mar-2026 12:32:59 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[22-Mar-2026 12:33:00 Europe/Berlin] Router received URL: branch/index
+[22-Mar-2026 12:33:00 Europe/Berlin] Router received URL: branch
+[22-Mar-2026 12:33:24 Europe/Berlin] Router received URL: branch/index
+[22-Mar-2026 12:33:24 Europe/Berlin] Router received URL: branch
+[22-Mar-2026 12:33:26 Europe/Berlin] Router received URL: branch/index
+[22-Mar-2026 12:33:26 Europe/Berlin] Router received URL: branch
+[22-Mar-2026 12:34:01 Europe/Berlin] Router received URL: branch/index
+[22-Mar-2026 12:34:01 Europe/Berlin] Router received URL: branch
+[22-Mar-2026 12:34:07 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[22-Mar-2026 12:34:30 Europe/Berlin] Router received URL: branch/index
+[22-Mar-2026 12:34:30 Europe/Berlin] Router received URL: branch
+[22-Mar-2026 12:34:31 Europe/Berlin] Router received URL: branch/1
+[22-Mar-2026 12:34:31 Europe/Berlin] Router received URL: branch/1/services
+[22-Mar-2026 12:34:31 Europe/Berlin] Router received URL: branch/1/reviews
+[22-Mar-2026 12:34:31 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[22-Mar-2026 12:34:48 Europe/Berlin] Router received URL: branch/sendInquiry
+[22-Mar-2026 12:34:48 Europe/Berlin] PHP Warning:  require_once(C:\xampp\htdocs\HFABS\backend\app\controllers/../../vendor/phpmailer/phpmailer/src/PHPMailer.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php on line 343
+[22-Mar-2026 12:34:48 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\controllers/../../vendor/phpmailer/phpmailer/src/PHPMailer.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php:343
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): BranchController->sendInquiry()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php on line 343
+[22-Mar-2026 12:34:51 Europe/Berlin] Router received URL: branch/sendInquiry
+[22-Mar-2026 12:34:51 Europe/Berlin] PHP Warning:  require_once(C:\xampp\htdocs\HFABS\backend\app\controllers/../../vendor/phpmailer/phpmailer/src/PHPMailer.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php on line 343
+[22-Mar-2026 12:34:51 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\controllers/../../vendor/phpmailer/phpmailer/src/PHPMailer.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php:343
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): BranchController->sendInquiry()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php on line 343
+[22-Mar-2026 12:34:51 Europe/Berlin] Router received URL: branch/sendInquiry
+[22-Mar-2026 12:34:51 Europe/Berlin] PHP Warning:  require_once(C:\xampp\htdocs\HFABS\backend\app\controllers/../../vendor/phpmailer/phpmailer/src/PHPMailer.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php on line 343
+[22-Mar-2026 12:34:51 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\controllers/../../vendor/phpmailer/phpmailer/src/PHPMailer.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php:343
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): BranchController->sendInquiry()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php on line 343
+[22-Mar-2026 12:34:51 Europe/Berlin] Router received URL: branch/sendInquiry
+[22-Mar-2026 12:34:52 Europe/Berlin] PHP Warning:  require_once(C:\xampp\htdocs\HFABS\backend\app\controllers/../../vendor/phpmailer/phpmailer/src/PHPMailer.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php on line 343
+[22-Mar-2026 12:34:52 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\controllers/../../vendor/phpmailer/phpmailer/src/PHPMailer.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php:343
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): BranchController->sendInquiry()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php on line 343
+[22-Mar-2026 12:34:52 Europe/Berlin] Router received URL: branch/sendInquiry
+[22-Mar-2026 12:34:52 Europe/Berlin] PHP Warning:  require_once(C:\xampp\htdocs\HFABS\backend\app\controllers/../../vendor/phpmailer/phpmailer/src/PHPMailer.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php on line 343
+[22-Mar-2026 12:34:52 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\controllers/../../vendor/phpmailer/phpmailer/src/PHPMailer.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php:343
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): BranchController->sendInquiry()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php on line 343
+[22-Mar-2026 12:34:52 Europe/Berlin] Router received URL: branch/sendInquiry
+[22-Mar-2026 12:34:52 Europe/Berlin] PHP Warning:  require_once(C:\xampp\htdocs\HFABS\backend\app\controllers/../../vendor/phpmailer/phpmailer/src/PHPMailer.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php on line 343
+[22-Mar-2026 12:34:52 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\controllers/../../vendor/phpmailer/phpmailer/src/PHPMailer.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php:343
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): BranchController->sendInquiry()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php on line 343
+[22-Mar-2026 12:34:52 Europe/Berlin] Router received URL: branch/sendInquiry
+[22-Mar-2026 12:34:52 Europe/Berlin] PHP Warning:  require_once(C:\xampp\htdocs\HFABS\backend\app\controllers/../../vendor/phpmailer/phpmailer/src/PHPMailer.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php on line 343
+[22-Mar-2026 12:34:52 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\controllers/../../vendor/phpmailer/phpmailer/src/PHPMailer.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php:343
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): BranchController->sendInquiry()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php on line 343
+[22-Mar-2026 12:34:53 Europe/Berlin] Router received URL: branch/sendInquiry
+[22-Mar-2026 12:34:53 Europe/Berlin] PHP Warning:  require_once(C:\xampp\htdocs\HFABS\backend\app\controllers/../../vendor/phpmailer/phpmailer/src/PHPMailer.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php on line 343
+[22-Mar-2026 12:34:53 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\controllers/../../vendor/phpmailer/phpmailer/src/PHPMailer.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php:343
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): BranchController->sendInquiry()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php on line 343
+[22-Mar-2026 12:34:53 Europe/Berlin] Router received URL: branch/sendInquiry
+[22-Mar-2026 12:34:53 Europe/Berlin] PHP Warning:  require_once(C:\xampp\htdocs\HFABS\backend\app\controllers/../../vendor/phpmailer/phpmailer/src/PHPMailer.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php on line 343
+[22-Mar-2026 12:34:53 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\controllers/../../vendor/phpmailer/phpmailer/src/PHPMailer.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php:343
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): BranchController->sendInquiry()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php on line 343
+[22-Mar-2026 12:34:53 Europe/Berlin] Router received URL: branch/sendInquiry
+[22-Mar-2026 12:34:53 Europe/Berlin] PHP Warning:  require_once(C:\xampp\htdocs\HFABS\backend\app\controllers/../../vendor/phpmailer/phpmailer/src/PHPMailer.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php on line 343
+[22-Mar-2026 12:34:53 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\controllers/../../vendor/phpmailer/phpmailer/src/PHPMailer.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php:343
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): BranchController->sendInquiry()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php on line 343
+[22-Mar-2026 12:37:29 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[22-Mar-2026 12:37:29 Europe/Berlin] Router received URL: branch/1
+[22-Mar-2026 12:37:29 Europe/Berlin] Router received URL: branch/1/services
+[22-Mar-2026 12:37:29 Europe/Berlin] Router received URL: branch/1/reviews
+[22-Mar-2026 12:37:44 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[22-Mar-2026 12:37:46 Europe/Berlin] Router received URL: branch
+[22-Mar-2026 12:37:46 Europe/Berlin] Router received URL: branch/index
+[22-Mar-2026 12:37:48 Europe/Berlin] Router received URL: branch/1/services
+[22-Mar-2026 12:37:48 Europe/Berlin] Router received URL: branch/1
+[22-Mar-2026 12:37:48 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[22-Mar-2026 12:37:48 Europe/Berlin] Router received URL: branch/1/reviews
+[22-Mar-2026 12:37:59 Europe/Berlin] Router received URL: branch/index
+[22-Mar-2026 12:38:00 Europe/Berlin] Router received URL: branch
+[22-Mar-2026 12:39:33 Europe/Berlin] Router received URL: branch/index
+[22-Mar-2026 12:39:33 Europe/Berlin] Router received URL: branch
+[22-Mar-2026 12:39:35 Europe/Berlin] Router received URL: branch/index
+[22-Mar-2026 12:39:35 Europe/Berlin] Router received URL: branch
+[22-Mar-2026 12:39:37 Europe/Berlin] Router received URL: branch/index
+[22-Mar-2026 12:39:37 Europe/Berlin] Router received URL: branch
+[22-Mar-2026 12:39:39 Europe/Berlin] Router received URL: branch/index
+[22-Mar-2026 12:39:39 Europe/Berlin] Router received URL: branch
+[22-Mar-2026 12:39:39 Europe/Berlin] Router received URL: branch/index
+[22-Mar-2026 12:39:39 Europe/Berlin] Router received URL: branch
+[22-Mar-2026 12:39:41 Europe/Berlin] Router received URL: branch/index
+[22-Mar-2026 12:39:41 Europe/Berlin] Router received URL: branch
+[22-Mar-2026 12:39:43 Europe/Berlin] Router received URL: branch/1
+[22-Mar-2026 12:39:43 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[22-Mar-2026 12:39:43 Europe/Berlin] Router received URL: branch/1/services
+[22-Mar-2026 12:39:43 Europe/Berlin] Router received URL: branch/1/reviews
+[22-Mar-2026 12:40:01 Europe/Berlin] Router received URL: branch/sendInquiry
+[22-Mar-2026 12:40:01 Europe/Berlin] PHP Warning:  require_once(C:\xampp\htdocs\HFABS\backend\app\controllers/../../vendor/phpmailer/phpmailer/src/PHPMailer.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php on line 343
+[22-Mar-2026 12:40:01 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\controllers/../../vendor/phpmailer/phpmailer/src/PHPMailer.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php:343
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): BranchController->sendInquiry()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php on line 343
+[22-Mar-2026 12:40:09 Europe/Berlin] Router received URL: branch/1/services
+[22-Mar-2026 12:40:09 Europe/Berlin] Router received URL: branch/1
+[22-Mar-2026 12:40:09 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[22-Mar-2026 12:40:09 Europe/Berlin] Router received URL: branch/1/reviews
+[22-Mar-2026 12:40:38 Europe/Berlin] Router received URL: branch/sendInquiry
+[22-Mar-2026 12:40:38 Europe/Berlin] PHP Warning:  require_once(C:\xampp\htdocs\HFABS\backend\app\controllers/../../vendor/phpmailer/phpmailer/src/PHPMailer.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php on line 343
+[22-Mar-2026 12:40:38 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\controllers/../../vendor/phpmailer/phpmailer/src/PHPMailer.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php:343
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): BranchController->sendInquiry()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php on line 343
+[22-Mar-2026 13:12:03 Europe/Berlin] Router received URL: branch/1
+[22-Mar-2026 13:12:03 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[22-Mar-2026 13:12:03 Europe/Berlin] Router received URL: branch/1/reviews
+[22-Mar-2026 13:12:03 Europe/Berlin] Router received URL: branch/1/services
+[22-Mar-2026 14:55:03 Europe/Berlin] Router received URL: branch/1/services
+[22-Mar-2026 14:55:03 Europe/Berlin] Router received URL: branch/1/reviews
+[22-Mar-2026 14:55:03 Europe/Berlin] Router received URL: branch/1
+[22-Mar-2026 14:55:03 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[22-Mar-2026 15:29:54 Europe/Berlin] Router received URL: branch/1
+[22-Mar-2026 15:29:54 Europe/Berlin] Router received URL: branch/1/services
+[22-Mar-2026 15:29:54 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[22-Mar-2026 15:29:54 Europe/Berlin] Router received URL: branch/1/reviews
+[22-Mar-2026 15:30:11 Europe/Berlin] Router received URL: branch/sendInquiry
+[22-Mar-2026 15:30:11 Europe/Berlin] PHP Warning:  require_once(C:\xampp\htdocs\HFABS\backend\app\controllers/../../vendor/phpmailer/phpmailer/src/PHPMailer.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php on line 343
+[22-Mar-2026 15:30:11 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\controllers/../../vendor/phpmailer/phpmailer/src/PHPMailer.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php:343
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): BranchController->sendInquiry()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php on line 343
+[22-Mar-2026 15:47:37 Europe/Berlin] Router received URL: branch/1/services
+[22-Mar-2026 15:47:37 Europe/Berlin] Router received URL: branch/1
+[22-Mar-2026 15:47:37 Europe/Berlin] Router received URL: branch/1/reviews
+[22-Mar-2026 15:47:37 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[22-Mar-2026 15:47:38 Europe/Berlin] Router received URL: auth/logout
+[22-Mar-2026 15:47:42 Europe/Berlin] Router received URL: auth/login
+[22-Mar-2026 15:47:44 Europe/Berlin] Router received URL: auth/login
+[22-Mar-2026 15:47:48 Europe/Berlin] Router received URL: auth/login
+[22-Mar-2026 15:47:51 Europe/Berlin] Router received URL: auth/login
+[22-Mar-2026 15:47:51 Europe/Berlin] Router received URL: branch/index
+[22-Mar-2026 15:47:51 Europe/Berlin] Router received URL: branch
+[22-Mar-2026 15:47:54 Europe/Berlin] Router received URL: branch/1/services
+[22-Mar-2026 15:47:54 Europe/Berlin] Router received URL: branch/1
+[22-Mar-2026 15:47:54 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[22-Mar-2026 15:47:54 Europe/Berlin] Router received URL: branch/1/reviews
+[22-Mar-2026 15:48:08 Europe/Berlin] Router received URL: branch/sendInquiry
+[22-Mar-2026 15:48:08 Europe/Berlin] PHP Warning:  require_once(C:\xampp\htdocs\HFABS\backend\app\controllers/../../vendor/phpmailer/phpmailer/src/PHPMailer.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php on line 343
+[22-Mar-2026 15:48:08 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\controllers/../../vendor/phpmailer/phpmailer/src/PHPMailer.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php:343
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): BranchController->sendInquiry()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php on line 343
+[22-Mar-2026 15:50:22 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[22-Mar-2026 15:50:22 Europe/Berlin] Router received URL: branch/1
+[22-Mar-2026 15:50:22 Europe/Berlin] Router received URL: branch/1/reviews
+[22-Mar-2026 15:50:22 Europe/Berlin] Router received URL: branch/1/services
+[22-Mar-2026 15:50:32 Europe/Berlin] Router received URL: branch/sendInquiry
+[22-Mar-2026 15:54:37 Europe/Berlin] Router received URL: branch/sendInquiry
+[22-Mar-2026 16:01:59 Europe/Berlin] Router received URL: branch/1/services
+[22-Mar-2026 16:01:59 Europe/Berlin] Router received URL: branch/1
+[22-Mar-2026 16:01:59 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[22-Mar-2026 16:01:59 Europe/Berlin] Router received URL: branch/1/reviews
+[22-Mar-2026 16:02:15 Europe/Berlin] Router received URL: branch/sendInquiry
+[22-Mar-2026 16:02:31 Europe/Berlin] Router received URL: branch/sendInquiry
+[22-Mar-2026 16:04:44 Europe/Berlin] Router received URL: branch/index
+[22-Mar-2026 16:04:44 Europe/Berlin] Router received URL: branch
+[22-Mar-2026 16:05:25 Europe/Berlin] Router received URL: branch/index
+[22-Mar-2026 16:05:25 Europe/Berlin] Router received URL: branch

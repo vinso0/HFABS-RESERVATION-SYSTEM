@@ -98,6 +98,43 @@
           </div>
         </div>
 
+        <!-- Inquiry Section -->
+        <div class="branch-inquiry-block">
+          <h2 class="block-title">Send Us an <span class="text-pink">Inquiry</span></h2>
+          <p class="block-subtitle">Have questions? Send us a message and we'll get back to you!</p>
+
+          <form id="inquiryForm" class="inquiry-form">
+            <input type="hidden" id="inquiryBranchId" name="branch_id">
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label for="inquiryName"><i class="fas fa-user"></i> Your Name</label>
+                <input type="text" id="inquiryName" name="name" placeholder="Enter your full name" required>
+              </div>
+              <div class="form-group">
+                <label for="inquiryEmail"><i class="fas fa-envelope"></i> Your Email</label>
+                <input type="email" id="inquiryEmail" name="email" placeholder="Enter your email address" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="inquirySubject"><i class="fas fa-tag"></i> Subject</label>
+              <input type="text" id="inquirySubject" name="subject" placeholder="What is this about?" required>
+            </div>
+
+            <div class="form-group">
+              <label for="inquiryMessage"><i class="fas fa-comment"></i> Message</label>
+              <textarea id="inquiryMessage" name="message" rows="5" placeholder="Type your message here..." required></textarea>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn-send-inquiry">
+                <i class="fas fa-paper-plane"></i> Send Inquiry
+              </button>
+            </div>
+          </form>
+        </div>
+
       </div>
     </section>
   </main>
@@ -125,6 +162,7 @@
   </footer>
 
   <script src="../public/js/navbar-loader.js"></script>
+  <script src="../public/js/toast.js"></script>
   <script src="../public/js/branch-detail.js"></script>
 </body>
 </html>
