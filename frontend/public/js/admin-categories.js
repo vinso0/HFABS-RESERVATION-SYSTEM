@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeEventListeners();
     loadCategories();
     loadBranchCategories();
+    loadDateCapacities(); 
 });
 
 // ==========================================
@@ -67,6 +68,21 @@ function initializeEventListeners() {
         if (e.target === editCategoryModal) {
             editCategoryModal.classList.remove('active');
         }
+    });
+
+    // Date Capacity Modal
+    document.getElementById('closeDateCapacityModal').addEventListener('click', closeDateCapacityModal);
+    document.getElementById('cancelDateCapacity').addEventListener('click', closeDateCapacityModal);
+    document.getElementById('dateCapacityModal').addEventListener('click', (e) => {
+        if (e.target === document.getElementById('dateCapacityModal')) closeDateCapacityModal();
+    });
+    document.getElementById('dateCapacityForm').addEventListener('submit', handleSaveDateCapacity);
+    document.getElementById('dcCategory').addEventListener('change', updateCurrentCapacityHint);
+
+    // Toggle capacity input visibility when "Fully Unavailable" is checked
+    document.getElementById('dcUnavailable').addEventListener('change', function () {
+        document.getElementById('dcCapacityGroup').style.display = this.checked ? 'none' : '';
+        if (this.checked) document.getElementById('dcCapacity').value = '';
     });
 }
 
@@ -277,4 +293,211 @@ function getCategoryIcon(categoryId) {
         5: '<i class="fas fa-face-smile"></i>'
     };
     return icons[categoryId] || '<i class="fas fa-tag"></i>';
+}
+
+// ==========================================
+// DATE CAPACITY OVERRIDES
+// ==========================================
+
+let dateCapacitiesData = [];
+
+async function loadDateCapacities() {
+    const list = document.getElementById('dateCapacityList');
+    try {
+        const res  = await fetch(`${API_BASE_URL}=services/dateCapacities`, { credentials: 'same-origin' });
+        const data = await res.json();
+
+        if (!data.success) { Toast.error('Failed to load date capacities'); return; }
+
+        dateCapacitiesData = data.data;
+        renderDateCapacityList();
+    } catch (err) {
+        console.error('loadDateCapacities:', err);
+        list.innerHTML = `<div class="empty-state"><i class="fas fa-exclamation-circle"></i><p>Failed to load</p></div>`;
+    }
+}
+
+function renderDateCapacityList() {
+    const list = document.getElementById('dateCapacityList');
+
+    if (!dateCapacitiesData.length) {
+        list.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-calendar-check"></i>
+                <p>No date-specific overrides set.</p>
+                <p class="subtitle">All categories will use their default branch capacity.</p>
+            </div>`;
+        return;
+    }
+
+    list.innerHTML = dateCapacitiesData.map(item => {
+        const isUnavailable = parseInt(item.capacity_override) === 0;
+
+        return `
+        <div class="category-item" id="dc-item-${item.id}">
+            <div class="category-info">
+                <div class="category-name">
+                    <i class="fas fa-calendar-day" style="color:${isUnavailable ? '#dc2626' : '#D91A7E'};margin-right:6px;font-size:12px;"></i>
+                    ${escapeHtml(item.category_name)}
+                    &nbsp;—&nbsp;
+                    <strong>${formatDateDisplay(item.override_date)}</strong>
+                    ${isUnavailable
+                        ? `<span style="margin-left:8px;background:#fee2e2;color:#dc2626;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;">FULLY UNAVAILABLE</span>`
+                        : ''}
+                </div>
+                <div class="category-details">
+                    ${item.reason
+                        ? `<i class="fas fa-tag" style="margin-right:4px;"></i>${escapeHtml(item.reason)}`
+                        : '<span style="color:#d1d5db;">No reason specified</span>'}
+                </div>
+            </div>
+            <div class="category-actions">
+                <div class="category-capacity" style="color:${isUnavailable ? '#dc2626' : '#D91A7E'};">
+                    <i class="fas fa-users"></i>
+                    <span>${isUnavailable ? 'Unavailable' : item.capacity_override + ' capacity'}</span>
+                </div>
+                <button class="btn-edit-category" style="background:#fee2e2;color:#dc2626;"
+                        onclick="removeDateCapacity(${item.id})" title="Remove override">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+function openDateCapacityModal() {
+    const select = document.getElementById('dcCategory');
+    select.innerHTML = '<option value="">— Select a category —</option>';
+
+    branchCategoriesData.forEach(bc => {
+        const cat  = categoriesData.find(c => c.service_category_id == bc.default_category_id);
+        const name = bc.display_name || cat?.category_name || `Category ${bc.default_category_id}`;
+        const opt  = document.createElement('option');
+        opt.value           = bc.branch_category_override_id;
+        opt.textContent     = name;
+        opt.dataset.capacity = bc.capacity;
+        select.appendChild(opt);
+    });
+
+    document.getElementById('dcDate').value          = '';
+    document.getElementById('dcCapacity').value      = '';
+    document.getElementById('dcReason').value        = '';
+    document.getElementById('dcCurrentCapacityHint').textContent = '';
+    document.getElementById('dcUnavailable').checked = false;
+    document.getElementById('dcCapacityGroup').style.display = '';
+    document.getElementById('dateCapacityModal').classList.add('active');
+}
+
+function closeDateCapacityModal() {
+    document.getElementById('dateCapacityModal').classList.remove('active');
+}
+
+function updateCurrentCapacityHint() {
+    const select   = document.getElementById('dcCategory');
+    const selected = select.options[select.selectedIndex];
+    const hint     = document.getElementById('dcCurrentCapacityHint');
+    if (selected && selected.dataset.capacity) {
+        hint.textContent = `Current branch capacity: ${selected.dataset.capacity}`;
+        hint.style.color = '#6b7280';
+    } else {
+        hint.textContent = '';
+    }
+}
+
+async function handleSaveDateCapacity(e) {
+    e.preventDefault();
+
+    const btn      = document.getElementById('saveDateCapacityBtn');
+    const origHtml = btn.innerHTML;
+    btn.disabled   = true;
+    btn.innerHTML  = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+
+    const branchCategoryOverrideId = parseInt(document.getElementById('dcCategory').value);
+    const date        = document.getElementById('dcDate').value;
+    const isUnavailable = document.getElementById('dcUnavailable').checked;
+    const reason      = document.getElementById('dcReason').value.trim();
+
+    // If "fully unavailable" is checked, force capacity to 0
+    const capacity = isUnavailable
+        ? 0
+        : parseInt(document.getElementById('dcCapacity').value);
+
+    // Warn if capacity >= current default (only when not marking as unavailable)
+    if (!isUnavailable) {
+        const select   = document.getElementById('dcCategory');
+        const selected = select.options[select.selectedIndex];
+        const current  = parseInt(selected?.dataset.capacity || 0);
+        if (capacity >= current && current > 0) {
+            if (!confirm(`The capacity you entered (${capacity}) is equal to or higher than the current branch capacity (${current}). Continue anyway?`)) {
+                btn.disabled  = false;
+                btn.innerHTML = origHtml;
+                return;
+            }
+        }
+    }
+
+    try {
+        const res  = await fetch(`${API_BASE_URL}=services/saveDateCapacity`, {
+            method:      'POST',
+            headers:     { 'Content-Type': 'application/json' },
+            credentials: 'same-origin',
+            body:        JSON.stringify({
+                branch_category_override_id: branchCategoryOverrideId,
+                override_date:    date,
+                capacity_override: capacity,
+                reason: reason || null
+            })
+        });
+        const data = await res.json();
+
+        if (data.success) {
+            Toast.success(isUnavailable ? 'Category marked as unavailable for that date!' : 'Date capacity saved!');
+            closeDateCapacityModal();
+            await loadDateCapacities();
+        } else {
+            Toast.error(data.message || 'Failed to save.');
+        }
+    } catch (err) {
+        console.error('handleSaveDateCapacity:', err);
+        Toast.error('Could not connect to server.');
+    } finally {
+        btn.disabled  = false;
+        btn.innerHTML = origHtml;
+    }
+}
+
+async function removeDateCapacity(id) {
+    if (!confirm('Remove this date capacity override? The category will revert to its default capacity for that day.')) return;
+
+    try {
+        const res  = await fetch(`${API_BASE_URL}=services/removeDateCapacity`, {
+            method:      'POST',
+            headers:     { 'Content-Type': 'application/json' },
+            credentials: 'same-origin',
+            body:        JSON.stringify({ id })
+        });
+        const data = await res.json();
+
+        if (data.success) {
+            Toast.success('Override removed.');
+            await loadDateCapacities();
+        } else {
+            Toast.error(data.message || 'Failed to remove.');
+        }
+    } catch (err) {
+        Toast.error('Could not connect to server.');
+    }
+}
+
+// ── Utilities (local to categories page) ──
+function formatDateDisplay(dateStr) {
+    if (!dateStr) return '—';
+    const d = new Date(dateStr + 'T00:00:00');
+    return d.toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' });
+}
+
+function escapeHtml(str) {
+    return String(str)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }

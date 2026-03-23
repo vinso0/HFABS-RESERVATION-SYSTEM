@@ -496,4 +496,86 @@ class Services
 
         return $stmt->execute();
     }
+
+    // ── Get all date-specific capacity overrides for a branch ──
+    public function getDateCapacities($branchId)
+    {
+        $conn = $this->db->getConnection();
+        $stmt = $conn->prepare("
+            SELECT cdc.id, cdc.branch_category_override_id, cdc.override_date,
+                cdc.capacity_override, cdc.reason,
+                COALESCE(bco.display_name, dsc.category_name) AS category_name
+            FROM category_date_capacity cdc
+            JOIN branch_category_overrides bco
+                ON bco.branch_category_override_id = cdc.branch_category_override_id
+            JOIN default_services_categories dsc
+                ON dsc.service_category_id = bco.default_category_id
+            WHERE cdc.branch_id = ?
+            AND cdc.override_date >= CURDATE()
+            ORDER BY cdc.override_date ASC, dsc.category_name ASC
+        ");
+        $stmt->bind_param('i', $branchId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $rows = [];
+        while ($row = $result->fetch_assoc()) $rows[] = $row;
+        return $rows;
+    }
+
+    // ── Add or update a date-specific capacity override ──
+    public function saveDateCapacity($branchId, $branchCategoryOverrideId, $date, $capacity, $reason)
+    {
+        $conn = $this->db->getConnection();
+        $stmt = $conn->prepare("
+            INSERT INTO category_date_capacity
+                (branch_id, branch_category_override_id, override_date, capacity_override, reason)
+            VALUES (?, ?, ?, ?, ?)
+            ON DUPLICATE KEY UPDATE
+                capacity_override = VALUES(capacity_override),
+                reason            = VALUES(reason)
+        ");
+        $stmt->bind_param('iisis', $branchId, $branchCategoryOverrideId, $date, $capacity, $reason);
+        return $stmt->execute();
+    }
+
+    // ── Remove a date-specific capacity override by ID ──
+    public function removeDateCapacity($id, $branchId)
+    {
+        $conn = $this->db->getConnection();
+        $stmt = $conn->prepare(
+            "DELETE FROM category_date_capacity WHERE id = ? AND branch_id = ?"
+        );
+        $stmt->bind_param('ii', $id, $branchId);
+        return $stmt->execute() && $conn->affected_rows > 0;
+    }
+
+    // ── Get effective capacity for a category on a given date ──
+    public function getEffectiveCapacity($branchId, $branchCategoryOverrideId, $date)
+    {
+        $conn = $this->db->getConnection();
+
+        // 1. Check date-specific override first
+        $stmt = $conn->prepare("
+            SELECT capacity_override FROM category_date_capacity
+            WHERE branch_id = ? AND branch_category_override_id = ? AND override_date = ?
+        ");
+        $stmt->bind_param('iis', $branchId, $branchCategoryOverrideId, $date);
+        $stmt->execute();
+        $row = $stmt->get_result()->fetch_assoc();
+        if ($row) return (int) $row['capacity_override'];
+
+        // 2. Fallback to branch category default
+        $stmt = $conn->prepare("
+            SELECT COALESCE(bco.capacity_override, dsc.def_capacity) AS capacity
+            FROM branch_category_overrides bco
+            JOIN default_services_categories dsc ON dsc.service_category_id = bco.default_category_id
+            WHERE bco.branch_category_override_id = ? AND bco.branch_id = ?
+        ");
+        $stmt->bind_param('ii', $branchCategoryOverrideId, $branchId);
+        $stmt->execute();
+        $row = $stmt->get_result()->fetch_assoc();
+        if ($row) return (int) $row['capacity'];
+
+        return null;
+    }
 }

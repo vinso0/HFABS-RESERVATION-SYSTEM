@@ -300,6 +300,89 @@ class Branch extends Database
         return $dates;
     }
 
+    // ── Get all blocked days of week for a branch ──
+    public function getBlockedDays($branchId)
+    {
+        $conn = $this->getConnection();
+        $stmt = $conn->prepare(
+            "SELECT id, day_of_week FROM branch_blocked_days WHERE branch_id = ? ORDER BY day_of_week ASC"
+        );
+        $stmt->bind_param('i', $branchId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $days = [];
+        while ($row = $result->fetch_assoc()) {
+            $days[] = $row;
+        }
+        return $days;
+    }
+
+    // ── Save (replace) blocked days for a branch ──
+    public function saveBlockedDays($branchId, array $days)
+    {
+        $conn = $this->getConnection();
+        // Delete existing
+        $stmt = $conn->prepare("DELETE FROM branch_blocked_days WHERE branch_id = ?");
+        $stmt->bind_param('i', $branchId);
+        $stmt->execute();
+
+        // Insert new
+        if (!empty($days)) {
+            $stmt = $conn->prepare(
+                "INSERT IGNORE INTO branch_blocked_days (branch_id, day_of_week) VALUES (?, ?)"
+            );
+            foreach ($days as $day) {
+                $day = (int) $day;
+                if ($day >= 0 && $day <= 6) {
+                    $stmt->bind_param('ii', $branchId, $day);
+                    $stmt->execute();
+                }
+            }
+        }
+        return true;
+    }
+
+    // ── Get blocked days as plain integer array (used by booking calendar) ──
+    public function getBlockedDaysByBranch($branchId)
+    {
+        $conn = $this->getConnection();
+        $stmt = $conn->prepare(
+            "SELECT day_of_week FROM branch_blocked_days WHERE branch_id = ?"
+        );
+        $stmt->bind_param('i', $branchId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $days = [];
+        while ($row = $result->fetch_assoc()) {
+            $days[] = (int) $row['day_of_week'];
+        }
+        return $days;
+    }
+
+    // ── Check if a specific date is blocked (closed date OR blocked day) ──
+    public function isDateBlocked($branchId, $date)
+    {
+        $conn = $this->getConnection();
+
+        // Check specific closed date
+        $stmt = $conn->prepare(
+            "SELECT id FROM branch_closed_dates WHERE branch_id = ? AND closed_date = ?"
+        );
+        $stmt->bind_param('is', $branchId, $date);
+        $stmt->execute();
+        if ($stmt->get_result()->num_rows > 0) return true;
+
+        // Check recurring blocked day (DAYOFWEEK: 1=Sun, 2=Mon ... 7=Sat → subtract 1 for 0-indexed)
+        $stmt = $conn->prepare(
+            "SELECT id FROM branch_blocked_days 
+            WHERE branch_id = ? AND day_of_week = (DAYOFWEEK(?) - 1)"
+        );
+        $stmt->bind_param('is', $branchId, $date);
+        $stmt->execute();
+        if ($stmt->get_result()->num_rows > 0) return true;
+
+        return false;
+    }
 }
 
 ?>

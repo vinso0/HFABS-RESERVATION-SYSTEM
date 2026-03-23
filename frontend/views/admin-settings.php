@@ -130,7 +130,7 @@ $displayRole = ucfirst($_SESSION['role']);
       </div>
 
       <!-- ══════════════════════════════════════════
-           TAB 3 — Closed Dates
+          TAB 3 — Closed Dates
       ══════════════════════════════════════════ -->
       <div class="tab-panel" id="tab-closedDates">
         <div class="settings-two-col">
@@ -165,7 +165,7 @@ $displayRole = ucfirst($_SESSION['role']);
               <div class="form-group">
                 <label><i class="fas fa-calendar-day"></i> Selected Date</label>
                 <input type="text" id="selectedDateDisplay" readonly
-                       placeholder="Click a date above to select" />
+                      placeholder="Click a date above to select" />
                 <input type="hidden" id="selectedDateValue" />
               </div>
               <div class="form-group">
@@ -179,24 +179,59 @@ $displayRole = ucfirst($_SESSION['role']);
             </div>
           </div>
 
-          <!-- Closed Dates List Panel -->
-          <div class="settings-card">
-            <div class="settings-card-header">
-              <h3><i class="fas fa-calendar-times"></i> Closed Dates</h3>
-              <span class="dates-count-badge" id="datesBadge">0</span>
-            </div>
-            <div class="settings-card-divider"></div>
+          <!-- Right column: stacked cards -->
+          <div style="display:flex; flex-direction:column; gap:24px;">
 
-            <div id="closedDatesList" class="closed-dates-list">
-              <div class="dates-loading">
-                <div class="dash-spinner"></div> Loading...
+            <!-- ── NEW: Recurring Blocked Days Card ── -->
+            <div class="settings-card">
+              <div class="settings-card-header">
+                <h3><i class="fas fa-calendar-week"></i> Recurring Blocked Days</h3>
+              </div>
+              <div class="settings-card-divider"></div>
+              <p style="font-size:13px;color:#6b7280;margin-bottom:14px;">
+                Select days of the week that are <strong>always closed</strong>. Customers will not be able to book on these days.
+              </p>
+
+              <div class="blocked-days-grid" id="blockedDaysGrid">
+                <?php
+                $dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+                foreach ($dayNames as $i => $name):
+                ?>
+                <label class="blocked-day-label" id="day-label-<?= $i ?>">
+                  <input type="checkbox" class="blocked-day-cb" value="<?= $i ?>" id="day-<?= $i ?>" />
+                  <span class="blocked-day-name"><?= $name ?></span>
+                </label>
+                <?php endforeach; ?>
+              </div>
+
+              <div class="form-actions" style="margin-top:16px;">
+                <button type="button" class="btn-save" id="saveBlockedDaysBtn" onclick="saveBlockedDays()">
+                  <i class="fas fa-save"></i> Save Blocked Days
+                </button>
               </div>
             </div>
-          </div>
+
+            <!-- Closed Dates List Panel -->
+            <div class="settings-card">
+              <div class="settings-card-header">
+                <h3><i class="fas fa-calendar-times"></i> Closed Dates</h3>
+                <span class="dates-count-badge" id="datesBadge">0</span>
+              </div>
+              <div class="settings-card-divider"></div>
+
+              <div id="closedDatesList" class="closed-dates-list">
+                <div class="dates-loading">
+                  <div class="dash-spinner"></div> Loading...
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /.right column -->
 
         </div>
       </div>
       <!-- /.tab-panel -->
+
 
     </section>
   </main>

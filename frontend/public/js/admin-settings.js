@@ -15,14 +15,15 @@ document.addEventListener('DOMContentLoaded', () => {
   initTabs();
   loadSettings();
   loadClosedDates();
+  loadBlockedDays();
   renderCalendar();
 
-  // Live time display for time inputs
   document.getElementById('openingTime')
     .addEventListener('change', e => updateTimeDisplay('openingTimeDisplay', e.target.value));
   document.getElementById('closingTime')
     .addEventListener('change', e => updateTimeDisplay('closingTimeDisplay', e.target.value));
 });
+
 
 // ════════════════════════════════════════════════════════════════
 //  TABS
@@ -385,4 +386,69 @@ function showToast(msg, type = 'info') {
     <span>${msg}</span>`;
   container.appendChild(toast);
   setTimeout(() => toast.remove(), 3500);
+}
+
+// ════════════════════════════════════════════════════════════════
+//  BLOCKED DAYS — Load
+// ════════════════════════════════════════════════════════════════
+async function loadBlockedDays() {
+  try {
+    const res  = await fetch(`${API}/getBlockedDays`, { credentials: 'same-origin' });
+    const data = await res.json();
+    if (!data.success) return;
+
+    const blockedSet = new Set(data.data.map(d => d.day_of_week));
+
+    document.querySelectorAll('.blocked-day-cb').forEach(cb => {
+      const checked = blockedSet.has(parseInt(cb.value));
+      cb.checked = checked;
+      cb.closest('.blocked-day-label').classList.toggle('is-blocked', checked);
+    });
+
+    // Toggle class on checkbox change for visual feedback
+    document.querySelectorAll('.blocked-day-cb').forEach(cb => {
+      cb.addEventListener('change', function () {
+        this.closest('.blocked-day-label').classList.toggle('is-blocked', this.checked);
+      });
+    });
+
+  } catch (err) {
+    console.error('loadBlockedDays:', err);
+  }
+}
+
+// ════════════════════════════════════════════════════════════════
+//  BLOCKED DAYS — Save
+// ════════════════════════════════════════════════════════════════
+async function saveBlockedDays() {
+  const btn = document.getElementById('saveBlockedDaysBtn');
+  setLoading(btn, true, 'Saving...');
+
+  const selected = [];
+  document.querySelectorAll('.blocked-day-cb:checked').forEach(cb => {
+    selected.push(parseInt(cb.value));
+  });
+
+  try {
+    const res  = await fetch(`${API}/saveBlockedDays`, {
+      method:      'POST',
+      headers:     { 'Content-Type': 'application/json', Accept: 'application/json' },
+      credentials: 'same-origin',
+      body:        JSON.stringify({ blocked_days: selected }),
+    });
+    const data = await res.json();
+
+    if (data.success) {
+      showToast('Blocked days saved successfully!', 'success');
+      flashSaveIndicator();
+      renderCalendar(); // refresh calendar to reflect blocked days
+    } else {
+      showToast(data.message || 'Failed to save blocked days.', 'error');
+    }
+  } catch (err) {
+    console.error('saveBlockedDays:', err);
+    showToast('Could not connect to server.', 'error');
+  } finally {
+    setLoading(btn, false, '<i class="fas fa-save"></i> Save Blocked Days');
+  }
 }

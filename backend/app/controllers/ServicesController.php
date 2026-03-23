@@ -788,4 +788,115 @@ class ServicesController extends Controller
             echo json_encode(array('success' => false, 'error' => 'Failed to delete branch category'));
         }
     }
+
+    // ── GET ?url=services/dateCapacities ──
+    public function dateCapacities()
+    {
+        header('Content-Type: application/json');
+        if (session_status() === PHP_SESSION_NONE) session_start();
+
+        if (!isset($_SESSION['user_id']) || !in_array($_SESSION['role'], ['admin', 'cashier'])) {
+            http_response_code(401);
+            echo json_encode(['success' => false, 'message' => 'Unauthorized']);
+            exit;
+        }
+
+        $branchId = (int) ($_SESSION['branch_id'] ?? 0);
+        $data     = $this->servicesModel->getDateCapacities($branchId);
+
+        echo json_encode(['success' => true, 'data' => $data]);
+        exit;
+    }
+
+    // ── POST ?url=services/saveDateCapacity ──
+    public function saveDateCapacity()
+    {
+        header('Content-Type: application/json');
+        if (session_status() === PHP_SESSION_NONE) session_start();
+
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+            http_response_code(401);
+            echo json_encode(['success' => false, 'message' => 'Unauthorized']);
+            exit;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            http_response_code(405);
+            echo json_encode(['success' => false, 'message' => 'Method not allowed']);
+            exit;
+        }
+
+        $input    = json_decode(file_get_contents('php://input'), true);
+        $branchId = (int) ($_SESSION['branch_id'] ?? 0);
+
+        $branchCategoryOverrideId = (int) ($input['branch_category_override_id'] ?? 0);
+        $date     = trim($input['override_date'] ?? '');
+        $capacity = (int) ($input['capacity_override'] ?? 0);
+        $reason   = trim($input['reason'] ?? '');
+
+        if (!$branchCategoryOverrideId || !$date || $capacity < 0) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'message' => 'Missing or invalid fields: branch_category_override_id, override_date, capacity_override']);
+            exit;
+        }
+
+        // Validate date format
+        if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $date) || !strtotime($date)) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'message' => 'Invalid date format. Use YYYY-MM-DD.']);
+            exit;
+        }
+
+        // Reject past dates
+        if ($date < date('Y-m-d')) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'message' => 'Cannot set capacity for a past date.']);
+            exit;
+        }
+
+        $result = $this->servicesModel->saveDateCapacity(
+            $branchId, $branchCategoryOverrideId, $date, $capacity, $reason ?: null
+        );
+
+        if ($result) {
+            echo json_encode(['success' => true, 'message' => 'Date capacity saved successfully.']);
+        } else {
+            http_response_code(500);
+            echo json_encode(['success' => false, 'message' => 'Failed to save date capacity.']);
+        }
+        exit;
+    }
+
+    // ── POST ?url=services/removeDateCapacity ──
+    public function removeDateCapacity()
+    {
+        header('Content-Type: application/json');
+        if (session_status() === PHP_SESSION_NONE) session_start();
+
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+            http_response_code(401);
+            echo json_encode(['success' => false, 'message' => 'Unauthorized']);
+            exit;
+        }
+
+        $input    = json_decode(file_get_contents('php://input'), true);
+        $id       = (int) ($input['id'] ?? 0);
+        $branchId = (int) ($_SESSION['branch_id'] ?? 0);
+
+        if (!$id) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'message' => 'Missing id.']);
+            exit;
+        }
+
+        $result = $this->servicesModel->removeDateCapacity($id, $branchId);
+
+        if ($result) {
+            echo json_encode(['success' => true, 'message' => 'Date capacity removed.']);
+        } else {
+            http_response_code(500);
+            echo json_encode(['success' => false, 'message' => 'Failed to remove date capacity.']);
+        }
+        exit;
+    }
 }

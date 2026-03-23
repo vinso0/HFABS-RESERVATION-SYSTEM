@@ -423,6 +423,75 @@ class BranchController extends Controller
         }
     }
 
+    // GET ?url=branch/getBlockedDays
+    public function getBlockedDays()
+    {
+        header('Content-Type: application/json');
+        if (session_status() === PHP_SESSION_NONE) session_start();
+
+        if (!isset($_SESSION['user_id']) || !in_array($_SESSION['role'], ['admin', 'cashier'])) {
+            http_response_code(401);
+            echo json_encode(['success' => false, 'message' => 'Unauthorized']);
+            exit;
+        }
+
+        $branchId    = (int) ($_SESSION['branch_id'] ?? 0);
+        $branchModel = $this->model('Branch');
+        $days        = $branchModel->getBlockedDays($branchId);
+
+        echo json_encode(['success' => true, 'data' => $days]);
+        exit;
+    }
+
+    // POST ?url=branch/saveBlockedDays
+    public function saveBlockedDays()
+    {
+        header('Content-Type: application/json');
+        if (session_status() === PHP_SESSION_NONE) session_start();
+
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+            http_response_code(401);
+            echo json_encode(['success' => false, 'message' => 'Unauthorized']);
+            exit;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            http_response_code(405);
+            echo json_encode(['success' => false, 'message' => 'Method not allowed']);
+            exit;
+        }
+
+        $input    = json_decode(file_get_contents('php://input'), true);
+        $days     = $input['blocked_days'] ?? [];
+        $branchId = (int) ($_SESSION['branch_id'] ?? 0);
+
+        // Validate: must be array of integers 0–6
+        $days = array_filter(array_map('intval', (array) $days), fn($d) => $d >= 0 && $d <= 6);
+
+        $branchModel = $this->model('Branch');
+        $branchModel->saveBlockedDays($branchId, array_values($days));
+
+        echo json_encode(['success' => true, 'message' => 'Blocked days saved successfully.']);
+        exit;
+    }
+
+    // GET ?url=branch/blockedDaysPublic  (used by customer booking calendar)
+    public function blockedDaysPublic()
+    {
+        header('Content-Type: application/json');
+
+        $branchId = (int) ($_GET['branch_id'] ?? 0);
+        if (!$branchId) {
+            echo json_encode(['success' => false, 'message' => 'branch_id required']);
+            exit;
+        }
+
+        $branchModel = $this->model('Branch');
+        $days        = $branchModel->getBlockedDaysByBranch($branchId);
+
+        echo json_encode(['success' => true, 'data' => $days]);
+        exit;
+    }
 }
 
 ?>

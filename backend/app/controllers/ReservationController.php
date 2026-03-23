@@ -498,19 +498,72 @@ class ReservationController extends Controller
         exit;
     }
 
-    public function checkAvailability()
+    public function checkPackageAvailability()
     {
         header('Content-Type: application/json');
         
         require_once __DIR__ . '/../config/config.php';
         
+        // Get parameters from query string
+        $date = $_GET['date'] ?? '';
+        $time = $_GET['time'] ?? '';
+        $packageId = $_GET['packageId'] ?? '';
+        
+        error_log('[' . date('Y-m-d H:i:s') . '] checkPackageAvailability called');
+        error_log('[' . date('Y-m-d H:i:s') . '] checkPackageAvailability parameters: date=' . $date . ', time=' . $time . ', packageId=' . $packageId);
+        
+        // Validate parameters
+        if (empty($date) || empty($time) || empty($packageId)) {
+            http_response_code(422);
+            echo json_encode([
+                'success' => false,
+                'message' => 'Date, time, and packageId are required'
+            ]);
+            exit;
+        }
+        
+        // Load reservation model
+        $reservationModel = $this->model('Reservation');
+        
+        if (!$reservationModel) {
+            error_log('[' . date('Y-m-d H:i:s') . '] Failed to load reservation model in checkPackageAvailability');
+            http_response_code(500);
+            echo json_encode([
+                'success' => false,
+                'message' => 'Failed to load reservation model'
+            ]);
+            exit;
+        }
+        
+        // Check package availability
+        error_log('[' . date('Y-m-d H:i:s') . '] Calling checkPackageServiceTimeAvailability with: date=' . $date . ', time=' . $time . ', packageId=' . $packageId);
+        $isAvailable = $reservationModel->checkPackageServiceTimeAvailability($date, $time, $packageId);
+        
+        error_log('[' . date('Y-m-d H:i:s') . '] checkPackageServiceTimeAvailability result: ' . ($isAvailable ? 'AVAILABLE' : 'NOT AVAILABLE'));
+        
+        echo json_encode([
+            'success' => true,
+            'available' => $isAvailable,
+            'date' => $date,
+            'time' => $time,
+            'packageId' => $packageId
+        ]);
+        
+        exit;
+    }
+
+    public function checkAvailability()
+    {
+        header('Content-Type: application/json');
+
+        require_once __DIR__ . '/../config/config.php';
+
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
-        
-        // Debug: Log method entry
+
         error_log('[' . date('Y-m-d H:i:s') . '] checkAvailability called');
-        
+
         // Check if user is logged in
         if (!isset($_SESSION['user_id'])) {
             error_log('[' . date('Y-m-d H:i:s') . '] User not authenticated in checkAvailability');
@@ -521,14 +574,14 @@ class ReservationController extends Controller
             ]);
             exit;
         }
-        
+
         // Get parameters
-        $date = $_GET['date'] ?? '';
-        $time = $_GET['time'] ?? '';
+        $date      = $_GET['date']      ?? '';
+        $time      = $_GET['time']      ?? '';
         $serviceId = $_GET['serviceId'] ?? '';
-        
+
         error_log('[' . date('Y-m-d H:i:s') . '] checkAvailability parameters: date=' . $date . ', time=' . $time . ', serviceId=' . $serviceId);
-        
+
         if (!$date || !$time || !$serviceId) {
             error_log('[' . date('Y-m-d H:i:s') . '] Missing parameters in checkAvailability');
             http_response_code(400);
@@ -538,10 +591,83 @@ class ReservationController extends Controller
             ]);
             exit;
         }
-        
-        // Load reservation model
+
+        // ── NEW: Get branch_id from session ──
+        $branchId = (int) ($_SESSION['branch_id'] ?? 0);
+
+        // ── NEW CHECK 1: Blocked date or recurring blocked day ──
+        if ($branchId) {
+            $branchModel = $this->model('Branch');
+            if ($branchModel->isDateBlocked($branchId, $date)) {
+                error_log('[' . date('Y-m-d H:i:s') . '] Date is blocked: ' . $date);
+                echo json_encode([
+                    'success'   => true,
+                    'available' => false,
+                    'reason'    => 'This date is not available for booking.'
+                ]);
+                exit;
+            }
+        }
+
+        // ── NEW CHECK 2: Date-specific category capacity ──
+        if ($branchId) {
+            $servicesModel = $this->model('Services');
+            $conn = (new Database())->getConnection();
+
+            // Find the branch_category_override_id for this service
+            $stmt = $conn->prepare("
+                SELECT bco.branch_category_override_id
+                FROM branch_service_overrides bso
+                JOIN default_services ds ON ds.service_id = bso.default_service_id
+                JOIN branch_category_overrides bco
+                    ON bco.default_category_id = ds.category_id
+                    AND bco.branch_id = bso.branch_id
+                WHERE bso.branch_service_override_id = ?
+                AND bso.branch_id = ?
+            ");
+            $stmt->bind_param('ii', $serviceId, $branchId);
+            $stmt->execute();
+            $catRow = $stmt->get_result()->fetch_assoc();
+
+            if ($catRow) {
+                $branchCategoryOverrideId = (int) $catRow['branch_category_override_id'];
+                $effectiveCapacity = $servicesModel->getEffectiveCapacity($branchId, $branchCategoryOverrideId, $date);
+
+                if ($effectiveCapacity !== null) {
+                    $stmt2 = $conn->prepare("
+                        SELECT COUNT(*) AS booking_count
+                        FROM reservations r
+                        JOIN branch_service_overrides bso ON bso.branch_service_override_id = r.service_id
+                        JOIN default_services ds ON ds.service_id = bso.default_service_id
+                        JOIN branch_category_overrides bco
+                            ON bco.default_category_id = ds.category_id
+                            AND bco.branch_id = r.branch_id
+                        WHERE r.reservation_date = ?
+                        AND bco.branch_category_override_id = ?
+                        AND r.branch_id = ?
+                        AND r.status NOT IN ('cancelled', 'rejected')
+                    ");
+                    $stmt2->bind_param('sii', $date, $branchCategoryOverrideId, $branchId);
+                    $stmt2->execute();
+                    $countRow     = $stmt2->get_result()->fetch_assoc();
+                    $bookingCount = (int) ($countRow['booking_count'] ?? 0);
+
+                    if ($bookingCount >= $effectiveCapacity) {
+                        error_log('[' . date('Y-m-d H:i:s') . '] Category capacity full for date: ' . $date);
+                        echo json_encode([
+                            'success'   => true,
+                            'available' => false,
+                            'reason'    => 'This category is fully booked for the selected date.'
+                        ]);
+                        exit;
+                    }
+                }
+            }
+        }
+
+        // ── ORIGINAL: Time slot availability check (unchanged) ──
         $reservationModel = $this->model('Reservation');
-        
+
         if (!$reservationModel) {
             error_log('[' . date('Y-m-d H:i:s') . '] Failed to load reservation model in checkAvailability');
             http_response_code(500);
@@ -551,18 +677,17 @@ class ReservationController extends Controller
             ]);
             exit;
         }
-        
-        // Check if there's an existing reservation for this date and time
-        error_log('[' . date('Y-m-d H:i:s') . '] Calling checkTimeSlotAvailability with: date=' . $date . ', time=' . $time . ', serviceId=' . $serviceId);
-        $isAvailable = $reservationModel->checkTimeSlotAvailability($date, $time, $serviceId);
-        
-        error_log('[' . date('Y-m-d H:i:s') . '] checkTimeSlotAvailability result: ' . ($isAvailable ? 'AVAILABLE' : 'NOT AVAILABLE'));
-        
+
+        error_log('[' . date('Y-m-d H:i:s') . '] Calling checkServiceTimeAvailability with: date=' . $date . ', time=' . $time . ', serviceId=' . $serviceId);
+        $isAvailable = $reservationModel->checkServiceTimeAvailability($date, $time, $serviceId);
+
+        error_log('[' . date('Y-m-d H:i:s') . '] checkServiceTimeAvailability result: ' . ($isAvailable ? 'AVAILABLE' : 'NOT AVAILABLE'));
+
         echo json_encode([
-            'success' => true,
+            'success'   => true,
             'available' => $isAvailable
         ]);
-        
+
         exit;
     }
 }
