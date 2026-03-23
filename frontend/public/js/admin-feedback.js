@@ -56,7 +56,6 @@ document.addEventListener('DOMContentLoaded', function() {
         itemsPerPage: 6,
         currentPage: 1,
         onPageChange: function(page, itemsPerPage) {
-            // Get current filter values when page changes
             const searchInput = document.getElementById('searchInput');
             const filterSelect = document.getElementById('filterRating');
             const searchTerm = searchInput?.value || '';
@@ -68,12 +67,9 @@ document.addEventListener('DOMContentLoaded', function() {
     window.pagination = pagination;
     
     // Load feedback immediately after pagination is set up
-    // Use setTimeout with 0 delay to run after DOMContentLoaded completes
     setTimeout(async () => {
         try {
-            const searchTerm = '';
-            const minRating = 0;
-            await loadFeedback(searchTerm, minRating);
+            await loadFeedback('', 0);
         } catch (error) {
             const feedbackList = document.getElementById('feedbackList');
             if (feedbackList) {
@@ -92,7 +88,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('searchInput');
     let searchTimeout;
     searchInput.addEventListener('input', function() {
-        // Debounce search
         clearTimeout(searchTimeout);
         searchTimeout = setTimeout(() => {
             searchFeedback(searchInput.value);
@@ -142,6 +137,9 @@ async function loadFeedback(searchTerm = '', minRating = 0) {
             return;
         }
         
+        // ✅ FIX: Update total FIRST so getCurrentPageRange() uses correct values
+        pagination.updateTotalItems(filteredFeedback.length);
+
         // Clear loading and display feedback
         feedbackList.innerHTML = '';
         
@@ -173,8 +171,6 @@ async function loadFeedback(searchTerm = '', minRating = 0) {
             feedbackList.appendChild(feedbackCard);
         });
         
-        // Update pagination
-        pagination.updateTotalItems(filteredFeedback.length);
     } catch (error) {
         feedbackList.innerHTML = `
             <div class="empty-state">
@@ -190,8 +186,7 @@ async function loadFeedback(searchTerm = '', minRating = 0) {
 function searchFeedback(searchTerm) {
     const filterValue = document.getElementById('filterRating')?.value || 'all';
     const minRating = filterValue === 'all' ? 0 : parseInt(filterValue);
-    
-    pagination.goToPage(1); // Reset to first page
+    pagination.goToPage(1);
     loadFeedback(searchTerm, minRating);
 }
 
@@ -199,39 +194,27 @@ function searchFeedback(searchTerm) {
 function filterFeedbackByRating(filterValue) {
     const searchTerm = document.getElementById('searchInput')?.value || '';
     const minRating = filterValue === 'all' ? 0 : parseInt(filterValue);
-    
-    pagination.goToPage(1); // Reset to first page
+    pagination.goToPage(1);
     loadFeedback(searchTerm, minRating);
 }
 
 // Calculate rating breakdown from filtered data
 function calculateRatingBreakdown() {
-    // Calculate overall rating
     const totalRating = filteredFeedback.reduce((sum, feedback) => sum + feedback.rating, 0);
     const overallRating = filteredFeedback.length > 0 ? (totalRating / filteredFeedback.length).toFixed(1) : '0.0';
     
-    // Calculate rating distribution
-    const ratingCounts = {
-        5: 0,
-        4: 0,
-        3: 0,
-        2: 0,
-        1: 0
-    };
+    const ratingCounts = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
     
     filteredFeedback.forEach(feedback => {
         ratingCounts[feedback.rating]++;
     });
     
-    // Update UI
     document.getElementById('overallRating').textContent = overallRating;
     document.getElementById('totalReviews').textContent = `${filteredFeedback.length} review${filteredFeedback.length !== 1 ? 's' : ''}`;
     
-    // Update stars based on rating
     const starContainer = document.getElementById('overallStars');
     starContainer.innerHTML = generateStars(parseFloat(overallRating));
     
-    // Update rating breakdown
     const breakdownContainer = document.getElementById('ratingBreakdown');
     breakdownContainer.innerHTML = '';
     
@@ -257,15 +240,12 @@ function updateRatingBreakdown(stats) {
     const overallRating = parseFloat(stats.averageRating).toFixed(1);
     const totalReviews = stats.totalReviews || 0;
     
-    // Update UI
     document.getElementById('overallRating').textContent = overallRating;
     document.getElementById('totalReviews').textContent = `${totalReviews} review${totalReviews !== 1 ? 's' : ''}`;
     
-    // Update stars based on rating
     const starContainer = document.getElementById('overallStars');
     starContainer.innerHTML = generateStars(parseFloat(overallRating));
     
-    // Update rating breakdown
     const breakdownContainer = document.getElementById('ratingBreakdown');
     breakdownContainer.innerHTML = '';
     
@@ -322,4 +302,3 @@ function formatDateTime(dateString, timeString) {
     const formattedDate = date.toLocaleDateString('en-US', options);
     return `${formattedDate} at ${timeString}`;
 }
-

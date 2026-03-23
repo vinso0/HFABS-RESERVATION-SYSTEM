@@ -6,13 +6,7 @@ class TransactionController extends Controller
     {
         header('Content-Type: application/json');
 
-        require_once __DIR__ . '/../config/config.php';
-
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
-        // Auth check — admin or cashier only
+        // ── Auth check — same pattern as ReservationController ──
         if (!isset($_SESSION['user_id'])) {
             http_response_code(401);
             echo json_encode(['success' => false, 'message' => 'User not authenticated']);
@@ -21,7 +15,7 @@ class TransactionController extends Controller
 
         if (!isset($_SESSION['role']) || !in_array($_SESSION['role'], ['admin', 'cashier'])) {
             http_response_code(403);
-            echo json_encode(['success' => false, 'message' => 'User not authorized']);
+            echo json_encode(['success' => false, 'message' => 'User not authorized. Role: ' . ($_SESSION['role'] ?? 'none')]);
             exit;
         }
 
@@ -33,9 +27,7 @@ class TransactionController extends Controller
             exit;
         }
 
-        // Connect using the project's Database class (mysqli)
-        $database = new Database();
-        $db = $database->getConnection();
+        $db = (new Database())->getConnection();
 
         $sql = "
             SELECT

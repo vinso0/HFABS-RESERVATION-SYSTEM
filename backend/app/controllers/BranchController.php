@@ -38,15 +38,16 @@ class BranchController extends Controller
             return;
         }
         
-        // Format branch to match frontend expected structure
+        // ✅ FIXED — added down_payment_rate to the response
         $formattedBranch = array(
-            'branchid' => $branch['branch_id'],
-            'branchname' => $branch['branch_name'],
-            'location' => $branch['branch_location'],
-            'contact_number' => $branch['contact_number'],
-            'email' => $branch['email'],
-            'opening_time' => $branch['opening_time'],
-            'closing_time' => $branch['closing_time']
+            'branchid'          => $branch['branch_id'],
+            'branchname'        => $branch['branch_name'],
+            'location'          => $branch['branch_location'],
+            'contact_number'    => $branch['contact_number'],
+            'email'             => $branch['email'],
+            'opening_time'      => $branch['opening_time'],
+            'closing_time'      => $branch['closing_time'],
+            'down_payment_rate' => (float) $branch['down_payment_rate']  // ✅ ADD THIS LINE
         );
         
         header('Content-Type: application/json');

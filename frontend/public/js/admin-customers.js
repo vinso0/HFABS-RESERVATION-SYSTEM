@@ -13,21 +13,15 @@ async function fetchCustomers(search = '', filterReservations = '') {
     
     const response = await fetch(url, {
         method: 'GET',
-        headers: {
-            'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         credentials: 'include'
     });
 
     const responseText = await response.text();
-    
-    if (!response.ok) {
-        throw new Error(`Server error: ${response.status} - ${responseText}`);
-    }
+    if (!response.ok) throw new Error(`Server error: ${response.status} - ${responseText}`);
 
     try {
         const result = JSON.parse(responseText);
-
         if (result.success) {
             customers = result.data.map(customer => ({
                 id: customer.id,
@@ -41,45 +35,31 @@ async function fetchCustomers(search = '', filterReservations = '') {
             throw new Error(result.message || 'Failed to fetch customers');
         }
     } catch (e) {
-        if (e instanceof SyntaxError) {
-            throw new Error('Invalid JSON response: ' + responseText);
-        }
+        if (e instanceof SyntaxError) throw new Error('Invalid JSON response: ' + responseText);
         throw e;
     }
 }
 
 // Fetch customer reservations from API
 async function fetchCustomerReservations(userId) {
-    // Check cache first
-    if (customerReservationsCache[userId]) {
-        return customerReservationsCache[userId];
-    }
+    if (customerReservationsCache[userId]) return customerReservationsCache[userId];
 
     const url = `../../backend/public/index.php?url=customers/${userId}/reservations`;
-    
     const response = await fetch(url, {
         method: 'GET',
-        headers: {
-            'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         credentials: 'include'
     });
 
     const responseText = await response.text();
-    
-    if (!response.ok) {
-        throw new Error(`Server error: ${response.status} - ${responseText}`);
-    }
+    if (!response.ok) throw new Error(`Server error: ${response.status} - ${responseText}`);
 
     try {
         const result = JSON.parse(responseText);
-
         if (result.success && result.data) {
-            // Transform data to match expected format - handle object (numeric keys) and array
             let dataArray = Array.isArray(result.data) ? result.data : Object.values(result.data);
-            // Filter out null values
             dataArray = dataArray.filter(res => res !== null && res !== undefined);
-            
+
             const reservations = dataArray.map(res => ({
                 id: `ID: ${res.reservation_id}`,
                 service: res.service_name || 'N/A',
@@ -93,17 +73,14 @@ async function fetchCustomerReservations(userId) {
                 paymentStatus: 'completed',
                 services: res.services || []
             }));
-            
-            // Cache the results
+
             customerReservationsCache[userId] = reservations;
             return reservations;
         } else {
             throw new Error(result.message || 'Failed to fetch reservations - no data returned');
         }
     } catch (e) {
-        if (e instanceof SyntaxError) {
-            throw new Error('Invalid JSON response: ' + responseText);
-        }
+        if (e instanceof SyntaxError) throw new Error('Invalid JSON response: ' + responseText);
         throw e;
     }
 }
@@ -128,67 +105,52 @@ const statusColors = {
 };
 
 document.addEventListener('DOMContentLoaded', function() {
-    
-    // Search functionality
+
     const searchInput = document.getElementById('searchInput');
     searchInput.addEventListener('input', function() {
         searchCustomers(searchInput.value);
     });
-    
-    // Filter functionality
+
     const filterSelect = document.getElementById('filterReservations');
     filterSelect.addEventListener('change', function() {
         filterCustomersByReservations(filterSelect.value);
     });
-    
+
     // Modal functionality
     const closeReservationsModal = document.getElementById('closeReservationsModal');
     const closeReservationsModalBtn = document.getElementById('closeReservationsModalBtn');
     const customerReservationsModal = document.getElementById('customerReservationsModal');
-    
-    closeReservationsModal.addEventListener('click', function() {
-        customerReservationsModal.classList.remove('show');
-    });
-    
-    closeReservationsModalBtn.addEventListener('click', function() {
-        customerReservationsModal.classList.remove('show');
-    });
-    
+
+    closeReservationsModal.addEventListener('click', () => customerReservationsModal.classList.remove('show'));
+    closeReservationsModalBtn.addEventListener('click', () => customerReservationsModal.classList.remove('show'));
     customerReservationsModal.addEventListener('click', function(e) {
-        if (e.target === customerReservationsModal) {
-            customerReservationsModal.classList.remove('show');
-        }
+        if (e.target === customerReservationsModal) customerReservationsModal.classList.remove('show');
     });
-    
+
     const closeReservationDetailsModal = document.getElementById('closeReservationDetailsModal');
     const closeReservationDetailsModalBtn = document.getElementById('closeReservationDetailsModalBtn');
     const reservationDetailsModal = document.getElementById('reservationDetailsModal');
-    
-    closeReservationDetailsModal.addEventListener('click', function() {
-        reservationDetailsModal.classList.remove('show');
-    });
-    
-    closeReservationDetailsModalBtn.addEventListener('click', function() {
-        reservationDetailsModal.classList.remove('show');
-    });
-    
+
+    closeReservationDetailsModal.addEventListener('click', () => reservationDetailsModal.classList.remove('show'));
+    closeReservationDetailsModalBtn.addEventListener('click', () => reservationDetailsModal.classList.remove('show'));
     reservationDetailsModal.addEventListener('click', function(e) {
-        if (e.target === reservationDetailsModal) {
-            reservationDetailsModal.classList.remove('show');
-        }
+        if (e.target === reservationDetailsModal) reservationDetailsModal.classList.remove('show');
     });
-    
+
     // Initialize pagination
     pagination = new Pagination({
         totalItems: 0,
         itemsPerPage: 5,
         currentPage: 1,
         onPageChange: function(page, itemsPerPage) {
-            loadCustomers();
+            // Only fires when user clicks a page number or next/prev
+            const searchTerm = document.getElementById('searchInput')?.value || '';
+            const filterVal = document.getElementById('filterReservations')?.value || '';
+            const apiFilter = (filterVal === 'all') ? '' : filterVal;
+            loadCustomers(searchTerm, apiFilter);
         }
     });
-    
-    // Now load customers (setTimeout ensures pagination is ready)
+
     setTimeout(async () => {
         try {
             await loadCustomers();
@@ -212,6 +174,7 @@ document.addEventListener('DOMContentLoaded', function() {
 async function loadCustomers(searchTerm = '', filterValue = '') {
     const tableBody = document.getElementById('customersTableBody');
     if (!tableBody) return;
+
     tableBody.innerHTML = `
         <tr class="loading-row">
             <td colspan="6">
@@ -222,11 +185,11 @@ async function loadCustomers(searchTerm = '', filterValue = '') {
             </td>
         </tr>
     `;
-    
+
     try {
         const result = await fetchCustomers(searchTerm, filterValue);
         filteredCustomers = [...customers];
-        
+
         if (filteredCustomers.length === 0) {
             tableBody.innerHTML = `
                 <tr>
@@ -240,14 +203,18 @@ async function loadCustomers(searchTerm = '', filterValue = '') {
             pagination.updateTotalItems(0);
             return;
         }
-        
-        // Clear loading and display customers
+
+        // ✅ Always reset to page 1 silently (no onPageChange fired) before computing range
+        pagination.currentPage = 1;
+
+        // ✅ Update total FIRST so getCurrentPageRange() uses the correct new count
+        pagination.updateTotalItems(filteredCustomers.length);
+
         tableBody.innerHTML = '';
-        
-        // Get current page range from pagination
+
         const range = pagination.getCurrentPageRange();
         const customersToDisplay = filteredCustomers.slice(range.start, range.end);
-        
+
         customersToDisplay.forEach(customer => {
             const row = document.createElement('tr');
             row.innerHTML = `
@@ -265,9 +232,7 @@ async function loadCustomers(searchTerm = '', filterValue = '') {
             `;
             tableBody.appendChild(row);
         });
-        
-        // Update pagination
-        pagination.updateTotalItems(filteredCustomers.length);
+
     } catch (error) {
         tableBody.innerHTML = `
             <tr>
@@ -284,36 +249,37 @@ async function loadCustomers(searchTerm = '', filterValue = '') {
 // Search functionality
 let searchTimeout;
 function searchCustomers(searchTerm) {
-    // Debounce search
     clearTimeout(searchTimeout);
     searchTimeout = setTimeout(() => {
-        const filterValue = document.getElementById('filterReservations')?.value || 'all';
-        pagination.goToPage(1);
-        loadCustomers(searchTerm, filterValue);
+        const filterVal = document.getElementById('filterReservations')?.value || '';
+        const apiFilter = (filterVal === 'all') ? '' : filterVal;
+        // ✅ Reset page silently — no onPageChange fired
+        pagination.currentPage = 1;
+        loadCustomers(searchTerm, apiFilter);
     }, 300);
 }
 
 // Filter functionality
 function filterCustomersByReservations(filterValue) {
     const searchTerm = document.getElementById('searchInput')?.value || '';
-    pagination.goToPage(1); // Reset to first page
-    loadCustomers(searchTerm, filterValue);
+    const apiFilter = (filterValue === 'all') ? '' : filterValue;
+    // ✅ Reset page silently — no onPageChange fired, avoids double loadCustomers()
+    pagination.currentPage = 1;
+    loadCustomers(searchTerm, apiFilter);
 }
 
 async function viewCustomerReservations(customerId) {
     const customer = customers.find(c => c.id === customerId);
     if (!customer) return;
-    
-    // Populate customer details
+
     document.getElementById('modalCustomerName').textContent = `${customer.name}'s Reservations`;
     document.getElementById('modalCustomerFullName').textContent = customer.name;
     document.getElementById('modalCustomerContact').textContent = customer.contact;
     document.getElementById('modalCustomerEmail').textContent = customer.email;
-    
-    // Show loading state
+
     const reservationsList = document.getElementById('reservationsList');
     const noReservationsDiv = document.getElementById('noReservations');
-    
+
     reservationsList.innerHTML = `
         <div class="loading-row">
             <div class="loading-spinner">
@@ -323,22 +289,19 @@ async function viewCustomerReservations(customerId) {
         </div>
     `;
     noReservationsDiv.style.display = 'none';
-    
-    // Show modal
     document.getElementById('customerReservationsModal').classList.add('show');
-    
+
     try {
-        // Fetch reservations from API
         const reservations = await fetchCustomerReservations(customerId);
         document.getElementById('modalTotalReservations').textContent = reservations.length;
-        
+
         if (reservations.length === 0) {
             reservationsList.innerHTML = '';
             noReservationsDiv.style.display = 'block';
         } else {
             noReservationsDiv.style.display = 'none';
             reservationsList.innerHTML = '';
-            
+
             reservations.forEach(reservation => {
                 const reservationItem = document.createElement('div');
                 reservationItem.className = 'reservation-item';
@@ -350,11 +313,7 @@ async function viewCustomerReservations(customerId) {
                     <div class="reservation-service">${reservation.service}</div>
                     <div class="reservation-date">${formatDate(reservation.scheduledDate)} at ${reservation.scheduledTime}</div>
                 `;
-                
-                reservationItem.addEventListener('click', function() {
-                    showReservationDetails(reservation);
-                });
-                
+                reservationItem.addEventListener('click', () => showReservationDetails(reservation));
                 reservationsList.appendChild(reservationItem);
             });
         }
@@ -371,8 +330,7 @@ async function viewCustomerReservations(customerId) {
 
 function showReservationDetails(reservation) {
     document.getElementById('modalReservationId').textContent = reservation.id;
-    
-    // Build services list HTML if available
+
     let servicesHtml = '';
     if (reservation.services && reservation.services.length > 0) {
         servicesHtml = '<ul class="services-list">';
@@ -383,7 +341,7 @@ function showReservationDetails(reservation) {
     } else {
         servicesHtml = reservation.service;
     }
-    
+
     const detailsDiv = document.getElementById('reservationDetails');
     detailsDiv.innerHTML = `
         <div class="reservation-detail-group">
@@ -396,7 +354,6 @@ function showReservationDetails(reservation) {
                 <span class="reservation-detail-value">${reservation.duration}</span>
             </div>
         </div>
-        
         <div class="reservation-detail-group">
             <div class="reservation-detail-item">
                 <span class="reservation-detail-label">Reservation Date:</span>
@@ -407,7 +364,6 @@ function showReservationDetails(reservation) {
                 <span class="reservation-detail-value">${formatDate(reservation.scheduledDate)} at ${reservation.scheduledTime}</span>
             </div>
         </div>
-        
         <div class="reservation-detail-group">
             <div class="reservation-detail-item">
                 <span class="reservation-detail-label">Price:</span>
@@ -421,7 +377,7 @@ function showReservationDetails(reservation) {
             </div>
         </div>
     `;
-    
+
     document.getElementById('reservationDetailsModal').classList.add('show');
 }
 
