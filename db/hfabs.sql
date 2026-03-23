@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 21, 2026 at 06:23 AM
+-- Generation Time: Mar 22, 2026 at 01:40 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -66,7 +66,7 @@ CREATE TABLE `branch` (
 --
 
 INSERT INTO `branch` (`branch_id`, `branch_name`, `branch_location`, `contact_number`, `opening_time`, `closing_time`, `down_payment_rate`, `email`, `status`) VALUES
-(1, 'caloocan branch', '102 Caimito Rd., Caloocan City, Unit 1D, Caimito Place', '09054543104', '10:00:00', '21:00:00', 0.5000, 'hfabscal@gmail.com', 'active'),
+(1, 'caloocan branch', '102 Caimito Rd., Caloocan City, Unit 1D, Caimito Place', '09231240241', '11:00:00', '21:00:00', 0.4000, 'arvinsocao2005@gmail.com', 'active'),
 (2, 'quezon city branch', '850 Atherton, Quezon City', '0946 178 23', '08:00:00', '20:00:00', 0.5000, 'hfabsqc@gmail.com', 'active');
 
 -- --------------------------------------------------------
@@ -92,14 +92,35 @@ CREATE TABLE `branch_category_overrides` (
 --
 
 INSERT INTO `branch_category_overrides` (`branch_category_override_id`, `branch_id`, `default_category_id`, `display_name`, `description_override`, `capacity_override`, `is_active_override`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, NULL, NULL, 5, 1, '2026-02-07 06:29:09', '2026-03-21 05:22:19'),
+(1, 1, 1, 'hair', 'hair related services', 10, 1, '2026-02-07 06:29:09', '2026-03-21 06:42:04'),
 (2, 2, 1, NULL, NULL, NULL, 1, '2026-02-07 06:29:09', '2026-03-21 05:22:22'),
 (3, 1, 2, NULL, NULL, NULL, 1, '2026-02-07 06:29:09', '2026-03-21 05:22:24'),
 (4, 2, 2, NULL, NULL, NULL, 1, '2026-02-07 06:29:09', '2026-03-21 05:22:27'),
 (5, 1, 3, NULL, NULL, NULL, 1, '2026-02-07 06:29:09', '2026-03-21 05:22:30'),
 (6, 2, 3, NULL, NULL, NULL, 1, '2026-02-07 06:29:09', '2026-03-21 05:22:32'),
-(7, 1, 4, NULL, NULL, NULL, 1, '2026-02-07 06:29:09', '2026-03-21 05:22:34'),
+(7, 1, 4, 'facial', 'facial related services', 5, 1, '2026-02-07 06:29:09', '2026-03-21 06:20:30'),
 (8, 2, 4, NULL, NULL, NULL, 1, '2026-02-07 06:29:09', '2026-03-21 05:22:36');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `branch_closed_dates`
+--
+
+CREATE TABLE `branch_closed_dates` (
+  `id` int(11) NOT NULL,
+  `branch_id` int(11) NOT NULL,
+  `closed_date` date NOT NULL,
+  `reason` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `branch_closed_dates`
+--
+
+INSERT INTO `branch_closed_dates` (`id`, `branch_id`, `closed_date`, `reason`, `created_at`) VALUES
+(1, 1, '2026-03-22', 'Vacation', '2026-03-21 05:53:37');
 
 -- --------------------------------------------------------
 
@@ -127,7 +148,7 @@ INSERT INTO `branch_packages` (`package_id`, `branch_id`, `package_name`, `descr
 (1, 1, 'Pamper Me', 'Nail and hair combo for a full refresh', 1.00, 210, 1, '2026-03-20 09:26:39', '2026-03-20 14:06:54'),
 (2, 1, 'Total Wellness', 'Full body massage + facial combo', 4200.00, 180, 1, '2026-03-20 09:26:39', '2026-03-20 09:26:39'),
 (3, 2, 'Hair Royale', 'Complete hair treatment with nail care', 4200.00, 240, 1, '2026-03-20 09:26:39', '2026-03-20 09:26:39'),
-(4, 1, 'Nail Combo', 'Combination of Classic Manicure and Gel Pedicure', 900.00, 270, 0, '2026-03-20 11:06:40', '2026-03-20 11:07:15');
+(4, 1, 'Nail Combo', 'Combination of Classic Manicure and Gel Pedicure', 900.00, 270, 1, '2026-03-20 11:06:40', '2026-03-21 07:42:42');
 
 -- --------------------------------------------------------
 
@@ -157,9 +178,9 @@ INSERT INTO `branch_package_services` (`package_service_id`, `package_id`, `bran
 (22, 1, 15, 1, '2026-03-20 11:05:33'),
 (23, 1, 17, 2, '2026-03-20 11:05:33'),
 (24, 1, 1, 3, '2026-03-20 11:05:33'),
-(28, 4, 15, 1, '2026-03-20 11:07:15'),
-(29, 4, 17, 2, '2026-03-20 11:07:15'),
-(30, 4, 7, 3, '2026-03-20 11:07:15');
+(31, 4, 15, 1, '2026-03-21 07:42:42'),
+(32, 4, 17, 2, '2026-03-21 07:42:42'),
+(33, 4, 7, 3, '2026-03-21 07:42:42');
 
 -- --------------------------------------------------------
 
@@ -287,7 +308,7 @@ CREATE TABLE `feedback` (
 
 INSERT INTO `feedback` (`feedback_id`, `reservation_service_id`, `user_id`, `branch_id`, `rating`, `comment`, `created_at`, `updated_at`) VALUES
 (1, 1, 2, 1, 1, 'Good service', '2026-01-09 11:40:45', '2026-02-14 14:10:59'),
-(12, 4, 2, 1, 5, 'Great Service', '2026-02-21 09:12:48', '2026-02-21 17:12:48');
+(12, 4, 2, 1, 5, 'Great Great', '2026-02-21 09:12:48', '2026-03-22 19:12:58');
 
 -- --------------------------------------------------------
 
@@ -420,7 +441,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`user_id`, `username`, `email`, `contact_number`, `password`, `role`, `branch_id`, `is_active`, `deleted_at`, `created_at`) VALUES
 (1, 'cal branch admin', 'admin@admin', '', '$2y$10$FoP25bz38JnM5X.4tsIbo.tvJ.TkhPUSziAwgdSNG7Ugk310i1iOS', 'admin', 1, 1, NULL, '2026-01-09 11:42:55'),
-(2, 'Marie Johnson', 'cus@cus', '09345673453', '$2y$10$/V5gBiWV0UcuG5eTjtACuOo1gndX1b4LJvDX0ry77SbyglLLHefry', 'customer', NULL, 1, NULL, '2026-01-09 11:43:23'),
+(2, 'Marie Johnson', 'cus@cus', '09345673453', '$2y$10$Zh0RAILVJJGe8525BrVTOegOa980Yeaec1KezqgbpQPvHWFoU2clS', 'customer', NULL, 1, NULL, '2026-01-09 11:43:23'),
 (3, 'superadmin', 'super@super', '', '$2y$10$/V5gBiWV0UcuG5eTjtACuOo1gndX1b4LJvDX0ry77SbyglLLHefry', 'superadmin', NULL, 1, NULL, '2026-01-16 02:38:57'),
 (4, 'kier', 'kier@kier', '123456789', '$2y$10$Gt/Eb/Wbx0D3ClCzf/Qqx.nv.bisN7Chveadx5Vhk354vBVEwPzx6', 'customer', NULL, 1, NULL, '2026-01-17 07:32:57'),
 (5, 'Kierloyd Vince Schofield', 'kier@email', '912345789', '$2y$10$zbOE4cRMEc4TOOsRE/.gae4eZKrbAl8.XwkLjUWVwZUmTT9gJ173.', 'customer', NULL, 1, NULL, '2026-01-17 08:34:32'),
@@ -452,6 +473,13 @@ ALTER TABLE `branch_category_overrides`
   ADD PRIMARY KEY (`branch_category_override_id`),
   ADD UNIQUE KEY `uq_branch_category` (`branch_id`,`default_category_id`),
   ADD KEY `idx_default_category_id` (`default_category_id`);
+
+--
+-- Indexes for table `branch_closed_dates`
+--
+ALTER TABLE `branch_closed_dates`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uq_branch_closed_date` (`branch_id`,`closed_date`);
 
 --
 -- Indexes for table `branch_packages`
@@ -565,6 +593,12 @@ ALTER TABLE `branch_category_overrides`
   MODIFY `branch_category_override_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
+-- AUTO_INCREMENT for table `branch_closed_dates`
+--
+ALTER TABLE `branch_closed_dates`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `branch_packages`
 --
 ALTER TABLE `branch_packages`
@@ -574,7 +608,7 @@ ALTER TABLE `branch_packages`
 -- AUTO_INCREMENT for table `branch_package_services`
 --
 ALTER TABLE `branch_package_services`
-  MODIFY `package_service_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `package_service_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `branch_service_overrides`
@@ -647,6 +681,12 @@ ALTER TABLE `audit_logs`
 ALTER TABLE `branch_category_overrides`
   ADD CONSTRAINT `fk_bco_branch` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`branch_id`),
   ADD CONSTRAINT `fk_bco_default_category` FOREIGN KEY (`default_category_id`) REFERENCES `default_services_categories` (`service_category_id`);
+
+--
+-- Constraints for table `branch_closed_dates`
+--
+ALTER TABLE `branch_closed_dates`
+  ADD CONSTRAINT `branch_closed_dates_ibfk_1` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`branch_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `branch_packages`
