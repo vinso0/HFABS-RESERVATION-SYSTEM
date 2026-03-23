@@ -107,7 +107,7 @@ function loadBookingData() {
 }
 
 function displayBookingSummary() {
-  const { service, branch, date, time, totalPrice, downpayment } = bookingData;
+  const { service, branch, date, time, totalPrice, downpayment, downpaymentRate } = bookingData;
   
   // Format date
   const dateObj = new Date(date);
@@ -117,14 +117,22 @@ function displayBookingSummary() {
     day: 'numeric' 
   });
   
-  // Display summary
+  // Display summary fields
   document.getElementById('serviceName').textContent =
-  (bookingData.is_package ? 'Package: ' : '') + service.servicename;
+    (bookingData.is_package ? 'Package: ' : '') + service.servicename;
   document.getElementById('serviceDuration').textContent = service.duration || 'N/A';
   document.getElementById('branchName').textContent = branch.name;
   document.getElementById('bookingDate').textContent = formattedDate;
   document.getElementById('bookingTime').textContent = time;
   
+  // ✅ Compute label dynamically from rate
+  const rate = downpaymentRate || 0.5; // fallback to 50% if missing
+  const ratePercent = Math.round(rate * 100);
+  const downpaymentLabelEl = document.getElementById('downpaymentLabel');
+  if (downpaymentLabelEl) {
+    downpaymentLabelEl.textContent = `Downpayment (${ratePercent}%):`;
+  }
+
   // Display prices
   const remainingBalance = totalPrice - downpayment;
   document.getElementById('totalPrice').textContent = `₱${totalPrice.toFixed(2)}`;

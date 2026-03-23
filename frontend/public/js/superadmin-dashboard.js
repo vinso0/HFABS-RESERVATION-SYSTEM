@@ -1,100 +1,78 @@
-// ── Mock Data — mirrors `users` table (role: admin/cashier) ──
-const mockAdmins = [
-    {
-        user_id: 1,
-        username: 'cal branch admin',
-        email: 'admin@admin',
-        contact_number: '',
-        password: '',
-        role: 'admin',
-        branch_id: 1,
-        branch_name: 'Caloocan Branch',
-        is_active: 1,
-        deleted_at: null,
-        created_at: '2026-01-09 11:42:55'
-    },
-    {
-        user_id: 7,
-        username: 'cal branch cashier',
-        email: 'cashier@gmail.com',
-        contact_number: '12342141',
-        password: '',
-        role: 'cashier',
-        branch_id: 1,
-        branch_name: 'Caloocan Branch',
-        is_active: 1,
-        deleted_at: null,
-        created_at: '2026-02-20 14:00:32'
-    }
-];
+const API = '../../backend/public/index.php?url=superadmin/';
 
-// ── Mock Data — mirrors `branch` table ──
-const mockBranches = [
-    {
-        branch_id: 1,
-        branch_name: 'Caloocan Branch',
-        branch_location: '102 Caimito Rd., Caloocan City, Unit 1D, Caimito Place',
-        contact_number: '09054543104',
-        opening_time: '10:00:00',
-        closing_time: '21:00:00',
-        down_payment_rate: 0.5,
-        email: 'hfabscal@gmail.com',
-        status: 'active'
-    },
-    {
-        branch_id: 2,
-        branch_name: 'Quezon City Branch',
-        branch_location: '850 Atherton, Quezon City',
-        contact_number: '0946 178 23',
-        opening_time: '08:00:00',
-        closing_time: '20:00:00',
-        down_payment_rate: 0.5,
-        email: 'hfabsqc@gmail.com',
-        status: 'active'
-    }
-];
-
-const MOCK_TOTAL_USERS = 7;
-
-function renderDashboardStats() {
-    const adminStaff   = mockAdmins.filter(u => u.role === 'admin' || u.role === 'cashier');
-    const activeAdmins = adminStaff.filter(u => u.is_active === 1);
-    const activeBranches = mockBranches.filter(b => b.status === 'active');
-    const inactiveBranches = mockBranches.filter(b => b.status === 'inactive');
-
-    document.getElementById('stat-total-admins').textContent   = adminStaff.length;
-    document.getElementById('stat-active-admins').textContent  = activeAdmins.length;
-    document.getElementById('stat-total-branches').textContent = mockBranches.length;
-    document.getElementById('ov-active-branches').textContent  = activeBranches.length;
-    document.getElementById('ov-inactive-branches').textContent = inactiveBranches.length;
-    document.getElementById('ov-total-users').textContent      = MOCK_TOTAL_USERS;
+function renderDashboardStats(data) {
+    document.getElementById('stat-total-admins').textContent    = data.total_admins;
+    document.getElementById('stat-active-admins').textContent   = data.active_admins;
+    document.getElementById('stat-total-branches').textContent  = data.total_branches;
+    document.getElementById('ov-active-branches').textContent   = data.active_branches;
+    document.getElementById('ov-inactive-branches').textContent = data.inactive_branches;
+    document.getElementById('ov-total-users').textContent       = data.total_users;
 }
 
-function renderRecentAdmins() {
+function renderRecentAdmins(admins) {
     const tbody = document.getElementById('recent-admins-tbody');
-    const adminStaff = mockAdmins.filter(u => u.role === 'admin' || u.role === 'cashier');
-
-    if (!adminStaff.length) {
-        tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><i class="fas fa-user-slash"></i><p>No admin accounts found.</p></div></td></tr>';
+    if (!admins.length) {
+        tbody.innerHTML = '<tr><td colspan="4"><div class="empty-state"><i class="fas fa-user-slash"></i><p>No admin accounts found.</p></div></td></tr>';
         return;
     }
-
-    tbody.innerHTML = adminStaff.map(function (admin) {
-        const date = new Date(admin.created_at).toLocaleDateString('en-PH', {
-            year: 'numeric', month: 'short', day: 'numeric'
-        });
-        const roleBadgeClass = admin.role === 'admin' ? 'badge-admin' : 'badge-cashier';
+    tbody.innerHTML = admins.map(function(admin) {
+        const activeClass = parseInt(admin.is_active) === 1 ? 'badge-active' : 'badge-inactive';
+        const activeLabel = parseInt(admin.is_active) === 1 ? 'Active' : 'Inactive';
+        const roleClass   = admin.role === 'admin' ? 'badge-admin' : 'badge-cashier';
         return '<tr>' +
             '<td><strong>' + admin.username + '</strong></td>' +
-            '<td>' + admin.email + '</td>' +
+            '<td><span class="badge ' + roleClass + '">' + admin.role + '</span></td>' +
             '<td>' + (admin.branch_name || '—') + '</td>' +
-            '<td><span class="badge ' + (admin.is_active ? 'badge-active' : 'badge-inactive') + '">' + (admin.is_active ? 'Active' : 'Inactive') + '</span></td>' +
-            '<td>' + date + '</td>' +
+            '<td><span class="badge ' + activeClass + '">' + activeLabel + '</span></td>' +
         '</tr>';
     }).join('');
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-    renderDashboardStats();
-    renderRecentAdmins();
-});
+function renderRecentBranches(branches) {
+    const tbody = document.getElementById('recent-branches-tbody');
+    if (!branches || !branches.length) {
+        tbody.innerHTML = '<tr><td colspan="3"><div class="empty-state"><i class="fas fa-store-slash"></i><p>No branches found.</p></div></td></tr>';
+        return;
+    }
+    function fmtTime(t) {
+        if (!t) return '—';
+        var p = t.split(':'), hr = parseInt(p[0]), mn = p[1];
+        return (hr % 12 || 12) + ':' + mn + ' ' + (hr < 12 ? 'AM' : 'PM');
+    }
+    tbody.innerHTML = branches.map(function(b) {
+        const statusClass = b.status === 'active' ? 'badge-active' : 'badge-inactive';
+        return '<tr>' +
+            '<td><strong style="text-transform:capitalize;">' + b.branch_name + '</strong></td>' +
+            '<td style="font-size:12px;">' + fmtTime(b.opening_time) + ' – ' + fmtTime(b.closing_time) + '</td>' +
+            '<td><span class="badge ' + statusClass + '">' + b.status + '</span></td>' +
+        '</tr>';
+    }).join('');
+}
+
+function loadDashboard() {
+    // Stats
+    fetch(API + 'dashboardStats')
+        .then(function(res) { return res.json(); })
+        .then(function(json) {
+            if (json.success) renderDashboardStats(json.data);
+        })
+        .catch(function(err) { console.error('Stats error:', err); });
+
+    // Recent admins
+    fetch(API + 'recentAdmins')
+        .then(function(res) { return res.json(); })
+        .then(function(json) {
+            if (json.success) renderRecentAdmins(json.data);
+        })
+        .catch(function(err) { console.error('Recent admins error:', err); });
+
+    // Branches for status table
+    fetch(API + 'branches')
+        .then(function(res) { return res.json(); })
+        .then(function(json) {
+            if (json.success) renderRecentBranches(json.data);
+        })
+        .catch(function(err) { console.error('Branches error:', err); });
+}
+
+document.addEventListener('DOMContentLoaded', loadDashboard);

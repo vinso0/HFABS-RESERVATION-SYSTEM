@@ -5,6 +5,7 @@ let allPackages = [];                         // ✅ packages state
 let selectedServices = new Map();
 let selectedPackage = null;                   // ✅ selected package state
 let currentCategory = 'all';
+let branchDownpaymentRate = 0.5;              // new
 
 document.addEventListener('DOMContentLoaded', async function () {
   initializePage();
@@ -68,6 +69,11 @@ async function loadBranchInfo(branchId) {
 function displayBranchInfo(branch) {
   document.getElementById('branchName').textContent = branch.branchname;
   document.getElementById('branchAddress').textContent = branch.location;
+
+  // ✅ Store dynamic downpayment rate from branch
+  if (branch.down_payment_rate !== undefined && branch.down_payment_rate !== null) {
+    branchDownpaymentRate = parseFloat(branch.down_payment_rate);
+  }
 }
 
 async function loadServices(branchId) {
@@ -275,9 +281,19 @@ function updateSummary() {
   const continueBtn = document.getElementById('continueBtn');
   const loginPrompt = document.getElementById('login-prompt');
 
+  const rate = branchDownpaymentRate; // e.g. 0.4 for 40%
+  const ratePercent = Math.round(rate * 100); // e.g. 40
+
+  // Update the downpayment label text if the element exists
+  const downpaymentLabel = document.getElementById('downpaymentLabel');
+  if (downpaymentLabel) {
+    downpaymentLabel.textContent = `Downpayment Amount (${ratePercent}%):`;
+  }
+
   // ✅ Handle package selected
   if (selectedPackage) {
     const price = parseFloat(selectedPackage.package_price);
+    const downpayment = price * rate;
     const tags = (selectedPackage.included_services || '')
       .split(',').map(s => s.trim()).filter(Boolean)
       .map(s => `<span class="pkg-tag">${s}</span>`).join('');
@@ -294,7 +310,7 @@ function updateSummary() {
     `;
 
     totalPrice.textContent = `₱${price.toFixed(2)}`;
-    if (downpaymentPrice) downpaymentPrice.textContent = `₱${(price * 0.5).toFixed(2)}`;
+    if (downpaymentPrice) downpaymentPrice.textContent = `₱${downpayment.toFixed(2)}`;
     continueBtn.disabled = !isLoggedIn();
     loginPrompt.style.display = isLoggedIn() ? 'none' : 'block';
     return;
@@ -325,13 +341,15 @@ function updateSummary() {
     `;
   });
 
+  const downpayment = total * rate;
   container.innerHTML = html;
   totalPrice.textContent = `₱${total.toFixed(2)}`;
-  if (downpaymentPrice) downpaymentPrice.textContent = `₱${(total * 0.5).toFixed(2)}`;
+  if (downpaymentPrice) downpaymentPrice.textContent = `₱${downpayment.toFixed(2)}`;
   continueBtn.disabled = !isLoggedIn();
   loginPrompt.style.display = isLoggedIn() ? 'none' : 'block';
 }
 
+// === REPLACE handleContinue() ===
 function handleContinue() {
   if (!isLoggedIn()) {
     alert('Please log in first to continue with your booking.');
@@ -359,6 +377,7 @@ function handleContinue() {
     sessionStorage.setItem('selectedBranchId', branchId);
     sessionStorage.setItem('selectedBranchName', branchName);
     sessionStorage.setItem('totalPrice', parseFloat(selectedPackage.package_price).toFixed(2));
+    sessionStorage.setItem('branchDownpaymentRate', branchDownpaymentRate); // ✅ pass rate
     window.location.href = './booking.html';
     return;
   }
@@ -373,6 +392,7 @@ function handleContinue() {
   sessionStorage.setItem('selectedBranchId', branchId);
   sessionStorage.setItem('selectedBranchName', branchName);
   sessionStorage.setItem('totalPrice', total.toFixed(2));
+  sessionStorage.setItem('branchDownpaymentRate', branchDownpaymentRate); // ✅ pass rate
   window.location.href = './booking.html';
 }
 

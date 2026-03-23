@@ -1,46 +1,43 @@
-// ── Mock Data — mirrors `branch` table schema ──
-let branchesData = [
-    {
-        branch_id: 1,
-        branch_name: 'caloocan branch',
-        branch_location: '102 Caimito Rd., Caloocan City, Unit 1D, Caimito Place',
-        contact_number: '09054543104',
-        opening_time: '10:00:00',
-        closing_time: '21:00:00',
-        down_payment_rate: 0.5,
-        email: 'hfabscal@gmail.com',
-        status: 'active'
-    },
-    {
-        branch_id: 2,
-        branch_name: 'quezon city branch',
-        branch_location: '850 Atherton, Quezon City',
-        contact_number: '0946 178 23',
-        opening_time: '08:00:00',
-        closing_time: '20:00:00',
-        down_payment_rate: 0.5,
-        email: 'hfabsqc@gmail.com',
-        status: 'active'
-    }
-];
+const API = '../../backend/public/index.php?url=superadmin/';
 
+let branchesData         = [];
 let deleteBranchTargetId = null;
-let filteredBranches = [...branchesData];
+let filteredBranches     = [];
 let pagination;
 
 // ── Format time to 12-hr ──
 function formatTime(t) {
     if (!t) return '—';
     var parts = t.split(':');
-    var hr = parseInt(parts[0]);
-    var min = parts[1];
+    var hr    = parseInt(parts[0]);
+    var min   = parts[1];
     return (hr % 12 || 12) + ':' + min + ' ' + (hr < 12 ? 'AM' : 'PM');
+}
+
+// ── Load branches from API ──
+function loadBranches() {
+    fetch(API + 'branches')
+        .then(function(res) { return res.json(); })
+        .then(function(json) {
+            if (json.success) {
+                branchesData     = json.data;
+                filteredBranches = [...branchesData];
+                pagination.updateTotalItems(filteredBranches.length);
+                renderBranches();
+            } else {
+                showToast(json.message || 'Failed to load branches.', 'error', 'Error');
+            }
+        })
+        .catch(function(err) {
+            console.error(err);
+            showToast('Network error loading branches.', 'error', 'Error');
+        });
 }
 
 // ── Render Table ──
 function renderBranches() {
-    const tbody   = document.getElementById('branches-tbody');
-    const countEl = document.getElementById('branch-count');
+    var tbody   = document.getElementById('branches-tbody');
+    var countEl = document.getElementById('branch-count');
     countEl.textContent = filteredBranches.length + ' record' + (filteredBranches.length !== 1 ? 's' : '');
 
     if (!filteredBranches.length) {
@@ -49,41 +46,41 @@ function renderBranches() {
         return;
     }
 
-    // Get current page range from pagination
-    const range = pagination.getCurrentPageRange();
-    const branchesToDisplay = filteredBranches.slice(range.start, range.end);
+    var range = pagination.getCurrentPageRange();
+    var slice = filteredBranches.slice(range.start, range.end);
 
-    tbody.innerHTML = branchesToDisplay.map(function (b) {
+    tbody.innerHTML = slice.map(function(b, idx) {
+        var statusClass = b.status === 'active' ? 'badge-active' : 'badge-inactive';
+        var safeName    = b.branch_name.replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/"/g,'&quot;');
         return '<tr>' +
-            '<td>' + b.branch_id + '</td>' +
+            '<td>' + (range.start + idx + 1) + '</td>' +
             '<td><strong style="text-transform:capitalize;">' + b.branch_name + '</strong></td>' +
             '<td style="max-width:180px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="' + b.branch_location + '">' + b.branch_location + '</td>' +
             '<td>' + (b.contact_number || '—') + '</td>' +
             '<td>' + (b.email || '—') + '</td>' +
-            '<td><span style="font-size:12px;">' + formatTime(b.opening_time) + ' – ' + formatTime(b.closing_time) + '</span></td>' +
-            '<td>' + (b.down_payment_rate * 100).toFixed(0) + '%</td>' +
-            '<td><span class="badge ' + (b.status === 'active' ? 'badge-active' : 'badge-inactive') + '">' + b.status + '</span></td>' +
+            '<td style="font-size:12px;">' + formatTime(b.opening_time) + ' – ' + formatTime(b.closing_time) + '</td>' +
+            '<td>' + (parseFloat(b.down_payment_rate) * 100).toFixed(0) + '%</td>' +
+            '<td><span class="badge ' + statusClass + '">' + b.status + '</span></td>' +
             '<td>' +
                 '<button class="btn btn-outline btn-icon btn-sm" onclick=\'openEditBranchModal(' + JSON.stringify(b) + ')\' title="Edit"><i class="fas fa-edit"></i></button> ' +
-                '<button class="btn btn-danger btn-icon btn-sm" onclick=\'openDeleteBranchModal(' + b.branch_id + ', "' + b.branch_name + '")\' title="Delete"><i class="fas fa-trash-alt"></i></button>' +
+                '<button class="btn btn-danger btn-icon btn-sm" onclick=\'openDeleteBranchModal(' + b.branch_id + ', "' + safeName + '")\' title="Delete"><i class="fas fa-trash-alt"></i></button>' +
             '</td>' +
         '</tr>';
     }).join('');
 
-    // Update pagination
     pagination.updateTotalItems(filteredBranches.length);
 }
 
 // ── Search / Filter ──
 function filterBranches() {
-    const q      = document.getElementById('branchSearch').value.toLowerCase();
-    const status = document.getElementById('statusFilter').value;
+    var q      = document.getElementById('branchSearch').value.toLowerCase();
+    var status = document.getElementById('statusFilter').value;
 
-    filteredBranches = branchesData.filter(function (b) {
+    filteredBranches = branchesData.filter(function(b) {
         return (!status || b.status === status) &&
                (b.branch_name.toLowerCase().includes(q) || b.branch_location.toLowerCase().includes(q));
     });
-    pagination.goToPage(1); // Reset to first page
+    pagination.goToPage(1);
     renderBranches();
 }
 
@@ -98,50 +95,65 @@ function openAddBranchModal() {
 // ── Open Edit Modal ──
 function openEditBranchModal(b) {
     document.getElementById('branchModalTitle').textContent = 'Edit Branch';
-    document.getElementById('editBranchId').value  = b.branch_id;
-    document.getElementById('bName').value         = b.branch_name;
-    document.getElementById('bLocation').value     = b.branch_location;
-    document.getElementById('bContact').value      = b.contact_number;
-    document.getElementById('bEmail').value        = b.email;
-    document.getElementById('bOpenTime').value     = b.opening_time.slice(0, 5);
-    document.getElementById('bCloseTime').value    = b.closing_time.slice(0, 5);
-    document.getElementById('bDownRate').value     = b.down_payment_rate;
-    document.getElementById('bStatus').value       = b.status;
+    document.getElementById('editBranchId').value           = b.branch_id;
+    document.getElementById('bName').value                  = b.branch_name;
+    document.getElementById('bLocation').value              = b.branch_location;
+    document.getElementById('bContact').value               = b.contact_number || '';
+    document.getElementById('bEmail').value                 = b.email || '';
+    document.getElementById('bOpenTime').value              = b.opening_time.slice(0, 5);
+    document.getElementById('bCloseTime').value             = b.closing_time.slice(0, 5);
+    document.getElementById('bDownRate').value              = b.down_payment_rate;
+    document.getElementById('bStatus').value                = b.status;
     document.getElementById('branchModal').classList.add('open');
 }
 
 // ── Save (Add or Edit) ──
 function saveBranch(e) {
     e.preventDefault();
-    const id = document.getElementById('editBranchId').value;
-    const payload = {
-        branch_id: id ? parseInt(id) : Date.now(),
-        branch_name: document.getElementById('bName').value,
-        branch_location: document.getElementById('bLocation').value,
-        contact_number: document.getElementById('bContact').value,
-        email: document.getElementById('bEmail').value,
-        opening_time: document.getElementById('bOpenTime').value + ':00',
-        closing_time: document.getElementById('bCloseTime').value + ':00',
+    var id = document.getElementById('editBranchId').value;
+
+    var payload = {
+        branch_name:       document.getElementById('bName').value.trim(),
+        branch_location:   document.getElementById('bLocation').value.trim(),
+        contact_number:    document.getElementById('bContact').value.trim(),
+        email:             document.getElementById('bEmail').value.trim(),
+        opening_time:      document.getElementById('bOpenTime').value + ':00',
+        closing_time:      document.getElementById('bCloseTime').value + ':00',
         down_payment_rate: parseFloat(document.getElementById('bDownRate').value),
-        status: document.getElementById('bStatus').value
+        status:            document.getElementById('bStatus').value
     };
 
-    if (id) {
-        const idx = branchesData.findIndex(function (b) { return b.branch_id == id; });
-        if (idx > -1) {
-            branchesData[idx] = payload;
-            closeModal('branchModal');
-            renderBranches(branchesData);
-            showToast('Branch details updated successfully.', 'success', 'Branch Updated');
-        }
-    } else {
-        branchesData.push(payload);
-        closeModal('branchModal');
-        renderBranches(branchesData);
-        showToast('New branch added successfully.', 'success', 'Branch Added');
-    }
-}
+    var url    = id ? API + 'branches/' + id : API + 'branches';
+    var method = id ? 'PUT' : 'POST';
 
+    var saveBtn = document.querySelector('#branchForm button[type="submit"]');
+    saveBtn.disabled = true;
+    saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving…';
+
+    fetch(url, {
+        method: method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+    })
+    .then(function(res) { return res.json(); })
+    .then(function(json) {
+        saveBtn.disabled = false;
+        saveBtn.innerHTML = '<i class="fas fa-save"></i> Save Branch';
+        if (json.success) {
+            closeModal('branchModal');
+            showToast(json.message, 'success', id ? 'Branch Updated' : 'Branch Added');
+            loadBranches();
+        } else {
+            showToast(json.message || 'Operation failed.', 'error', 'Error');
+        }
+    })
+    .catch(function(err) {
+        saveBtn.disabled = false;
+        saveBtn.innerHTML = '<i class="fas fa-save"></i> Save Branch';
+        console.error(err);
+        showToast('Network error. Please try again.', 'error', 'Error');
+    });
+}
 
 // ── Open Delete Modal ──
 function openDeleteBranchModal(id, name) {
@@ -152,10 +164,29 @@ function openDeleteBranchModal(id, name) {
 
 // ── Confirm Delete ──
 function confirmDeleteBranch() {
-    branchesData = branchesData.filter(function (b) { return b.branch_id !== deleteBranchTargetId; });
-    closeModal('deleteBranchModal');
-    renderBranches(branchesData);
-    showToast('Branch deleted successfully.', 'success', 'Branch Deleted');
+    var delBtn = document.querySelector('#deleteBranchModal .btn-danger');
+    delBtn.disabled = true;
+    delBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Deleting…';
+
+    fetch(API + 'branches/' + deleteBranchTargetId, { method: 'DELETE' })
+        .then(function(res) { return res.json(); })
+        .then(function(json) {
+            delBtn.disabled = false;
+            delBtn.innerHTML = '<i class="fas fa-trash-alt"></i> Delete';
+            closeModal('deleteBranchModal');
+            if (json.success) {
+                showToast(json.message, 'success', 'Branch Deleted');
+                loadBranches();
+            } else {
+                showToast(json.message || 'Delete failed.', 'error', 'Error');
+            }
+        })
+        .catch(function(err) {
+            delBtn.disabled = false;
+            delBtn.innerHTML = '<i class="fas fa-trash-alt"></i> Delete';
+            console.error(err);
+            showToast('Network error. Please try again.', 'error', 'Error');
+        });
 }
 
 // ── Close Modal ──
@@ -164,21 +195,18 @@ function closeModal(id) {
 }
 
 // ── Init ──
-document.addEventListener('DOMContentLoaded', function () {
-    // Initialize pagination
+document.addEventListener('DOMContentLoaded', function() {
     pagination = new Pagination({
-        totalItems: filteredBranches.length,
+        totalItems: 0,
         itemsPerPage: 10,
         currentPage: 1,
-        onPageChange: function(page, itemsPerPage) {
-            renderBranches();
-        }
+        onPageChange: function() { renderBranches(); }
     });
 
-    renderBranches();
+    loadBranches();
 
-    document.querySelectorAll('.modal-overlay').forEach(function (overlay) {
-        overlay.addEventListener('click', function (e) {
+    document.querySelectorAll('.modal-overlay').forEach(function(overlay) {
+        overlay.addEventListener('click', function(e) {
             if (e.target === overlay) overlay.classList.remove('open');
         });
     });

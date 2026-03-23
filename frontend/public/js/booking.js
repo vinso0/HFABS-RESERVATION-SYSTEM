@@ -51,15 +51,19 @@ function loadBookingData() {
 
 function displayServiceInfo() {
   const price = parseFloat(selectedService.price);
-  const downpayment = price * 0.5;
 
-  // Package label vs service label
+  // ✅ Read dynamic rate from sessionStorage (set by services.js)
+  const rate = parseFloat(sessionStorage.getItem('branchDownpaymentRate') || '0.5');
+  const ratePercent = Math.round(rate * 100);
+  const downpayment = price * rate;
+
   const label = selectedService.is_package ? 'Book Package:' : 'Book:';
   document.getElementById('serviceName').textContent = `${label} ${selectedService.servicename}`;
   document.getElementById('servicePrice').textContent = `₱${price.toFixed(2)}`;
   document.getElementById('serviceDuration').textContent = `Duration: ${selectedService.duration || 'N/A'}`;
-  document.getElementById('serviceDownpayment').textContent = `Downpayment: ₱${downpayment.toFixed(2)}`;
+  document.getElementById('serviceDownpayment').textContent = `Downpayment (${ratePercent}%): ₱${downpayment.toFixed(2)}`;
 }
+
 
 function setupEventListeners() {
   document.getElementById('prevMonth').addEventListener('click', () => {
@@ -326,10 +330,13 @@ function proceedToPayment() {
   if (!selectedDate || !selectedTime) return;
 
   const price = parseFloat(selectedService.price);
-  const downpayment = Math.max(price * 0.5, 1.00);
+
+  // ✅ Read dynamic rate from sessionStorage
+  const rate = parseFloat(sessionStorage.getItem('branchDownpaymentRate') || '0.5');
+  const downpayment = Math.max(price * rate, 1.00); // Minimum ₱1.00 for PayMongo
 
   const bookingData = {
-    service: selectedService,                   // contains is_package + package_id if a package
+    service: selectedService,
     branch: selectedBranch,
     date: selectedDate.getFullYear() + '-' +
           String(selectedDate.getMonth() + 1).padStart(2, '0') + '-' +
@@ -337,6 +344,7 @@ function proceedToPayment() {
     time: selectedTime,
     totalPrice: price,
     downpayment: downpayment,
+    downpaymentRate: rate,           // ✅ carry rate forward for payment.html
     is_package: selectedService.is_package || false,
     booked_package_id: selectedService.is_package ? selectedService.package_id : null
   };

@@ -17088,3 +17088,671 @@ Stack trace:
 )
 
 [23-Mar-2026 06:02:16 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[23-Mar-2026 06:02:56 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[23-Mar-2026 06:02:56 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[23-Mar-2026 06:02:56 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[23-Mar-2026 06:03:13 Europe/Berlin] Router received URL: reservation/getAllReservations
+[23-Mar-2026 06:03:13 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[23-Mar-2026 06:03:13 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[23-Mar-2026 06:03:14 Europe/Berlin] Router received URL: services/index
+[23-Mar-2026 06:03:14 Europe/Berlin] Router received URL: services/categoriesList
+[23-Mar-2026 06:03:14 Europe/Berlin] Router received URL: services/branchServices/1
+[23-Mar-2026 06:03:14 Europe/Berlin] Router received URL: services/branchCategories/1
+[23-Mar-2026 06:03:15 Europe/Berlin] Router received URL: reservation/getAllReservations
+[23-Mar-2026 06:03:15 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[23-Mar-2026 06:03:15 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[23-Mar-2026 06:03:15 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[23-Mar-2026 06:03:15 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[23-Mar-2026 06:03:15 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[23-Mar-2026 06:03:16 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[23-Mar-2026 06:03:16 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[23-Mar-2026 06:03:16 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[23-Mar-2026 06:03:17 Europe/Berlin] Router received URL: reservation/getAllReservations
+[23-Mar-2026 06:03:17 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[23-Mar-2026 06:03:17 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[23-Mar-2026 06:03:17 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[23-Mar-2026 06:03:17 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[23-Mar-2026 06:03:17 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[23-Mar-2026 06:03:22 Europe/Berlin] Router received URL: reservation/getAllReservations
+[23-Mar-2026 06:03:22 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[23-Mar-2026 06:03:22 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[23-Mar-2026 06:03:24 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[23-Mar-2026 06:03:24 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[23-Mar-2026 06:03:24 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[23-Mar-2026 06:03:25 Europe/Berlin] Router received URL: reservation/getAllReservations
+[23-Mar-2026 06:03:25 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[23-Mar-2026 06:03:25 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[23-Mar-2026 06:03:25 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[23-Mar-2026 06:03:25 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[23-Mar-2026 06:03:25 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[23-Mar-2026 06:05:34 Europe/Berlin] Router received URL: transaction/getByBranch
+[23-Mar-2026 06:07:33 Europe/Berlin] Router received URL: packages/getAll
+[23-Mar-2026 06:07:33 Europe/Berlin] Router received URL: packages/getBranchServices
+[23-Mar-2026 06:08:51 Europe/Berlin] Router received URL: auth/logout
+[23-Mar-2026 06:37:04 Europe/Berlin] Router received URL: auth/login
+[23-Mar-2026 06:37:04 Europe/Berlin] Router received URL: superadmin/branches
+[23-Mar-2026 06:37:04 Europe/Berlin] Router received URL: superadmin/recentAdmins
+[23-Mar-2026 06:37:04 Europe/Berlin] Router received URL: superadmin/dashboardStats
+[23-Mar-2026 06:37:18 Europe/Berlin] Router received URL: superadmin/branches
+[23-Mar-2026 06:37:18 Europe/Berlin] Router received URL: superadmin/admins
+[23-Mar-2026 06:37:19 Europe/Berlin] Router received URL: superadmin/branches
+[23-Mar-2026 06:37:19 Europe/Berlin] Router received URL: superadmin/branches
+[23-Mar-2026 06:37:19 Europe/Berlin] Router received URL: superadmin/admins
+[23-Mar-2026 06:37:20 Europe/Berlin] Router received URL: superadmin/dashboardStats
+[23-Mar-2026 06:37:20 Europe/Berlin] Router received URL: superadmin/recentAdmins
+[23-Mar-2026 06:37:20 Europe/Berlin] Router received URL: superadmin/branches
+[23-Mar-2026 06:37:21 Europe/Berlin] Router received URL: superadmin/branches
+[23-Mar-2026 06:37:21 Europe/Berlin] Router received URL: superadmin/admins
+[23-Mar-2026 06:37:21 Europe/Berlin] Router received URL: superadmin/branches
+[23-Mar-2026 06:37:22 Europe/Berlin] Router received URL: superadmin/admins
+[23-Mar-2026 06:37:22 Europe/Berlin] Router received URL: superadmin/branches
+[23-Mar-2026 06:37:22 Europe/Berlin] Router received URL: superadmin/branches
+[23-Mar-2026 06:37:22 Europe/Berlin] Router received URL: superadmin/admins
+[23-Mar-2026 06:37:24 Europe/Berlin] Router received URL: superadmin/recentAdmins
+[23-Mar-2026 06:37:24 Europe/Berlin] Router received URL: superadmin/dashboardStats
+[23-Mar-2026 06:37:24 Europe/Berlin] Router received URL: superadmin/branches
+[23-Mar-2026 06:37:24 Europe/Berlin] Router received URL: superadmin/branches
+[23-Mar-2026 06:37:24 Europe/Berlin] Router received URL: superadmin/admins
+[23-Mar-2026 06:37:25 Europe/Berlin] Router received URL: superadmin/branches
+[23-Mar-2026 06:37:26 Europe/Berlin] Router received URL: superadmin/admins
+[23-Mar-2026 06:37:26 Europe/Berlin] Router received URL: superadmin/branches
+[23-Mar-2026 06:37:27 Europe/Berlin] Router received URL: superadmin/branches
+[23-Mar-2026 06:37:42 Europe/Berlin] Router received URL: superadmin/branches/1
+[23-Mar-2026 06:37:42 Europe/Berlin] Router received URL: superadmin/branches
+[23-Mar-2026 06:38:08 Europe/Berlin] Router received URL: superadmin/admins
+[23-Mar-2026 06:38:08 Europe/Berlin] Router received URL: superadmin/branches
+[23-Mar-2026 06:38:41 Europe/Berlin] Router received URL: superadmin/admins
+[23-Mar-2026 06:38:41 Europe/Berlin] Router received URL: superadmin/admins
+[23-Mar-2026 06:38:54 Europe/Berlin] Router received URL: superadmin/admins/1
+[23-Mar-2026 06:38:54 Europe/Berlin] Router received URL: superadmin/admins
+[23-Mar-2026 06:39:24 Europe/Berlin] Router received URL: auth/login
+[23-Mar-2026 06:39:24 Europe/Berlin] Router received URL: reservation/getAllReservations
+[23-Mar-2026 06:39:24 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 9
+    [user_name] => qc branch admin
+    [email] => arvinsocao2005@gmail.com
+    [role] => admin
+    [branch_id] => 2
+    [branch_name] => quezon city branch
+)
+
+[23-Mar-2026 06:39:24 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[23-Mar-2026 06:39:24 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[23-Mar-2026 06:39:24 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 9
+    [user_name] => qc branch admin
+    [email] => arvinsocao2005@gmail.com
+    [role] => admin
+    [branch_id] => 2
+    [branch_name] => quezon city branch
+)
+
+[23-Mar-2026 06:39:24 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[23-Mar-2026 06:39:29 Europe/Berlin] Router received URL: auth/logout
+[23-Mar-2026 06:39:29 Europe/Berlin] Router received URL: public/views/admin-login.html
+[23-Mar-2026 06:39:40 Europe/Berlin] Router received URL: auth/login
+[23-Mar-2026 06:39:40 Europe/Berlin] Router received URL: reservation/getAllReservations
+[23-Mar-2026 06:39:40 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 9
+    [user_name] => qc branch admin
+    [email] => arvinsocao2005@gmail.com
+    [role] => admin
+    [branch_id] => 2
+    [branch_name] => quezon city branch
+)
+
+[23-Mar-2026 06:39:40 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[23-Mar-2026 06:39:40 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[23-Mar-2026 06:39:40 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 9
+    [user_name] => qc branch admin
+    [email] => arvinsocao2005@gmail.com
+    [role] => admin
+    [branch_id] => 2
+    [branch_name] => quezon city branch
+)
+
+[23-Mar-2026 06:39:40 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[23-Mar-2026 06:39:41 Europe/Berlin] Router received URL: auth/logout
+[23-Mar-2026 06:39:41 Europe/Berlin] Router received URL: public/views/admin-login.html
+[23-Mar-2026 06:40:12 Europe/Berlin] Router received URL: auth/login
+[23-Mar-2026 06:40:12 Europe/Berlin] Router received URL: reservation/getAllReservations
+[23-Mar-2026 06:40:12 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[23-Mar-2026 06:40:12 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[23-Mar-2026 06:40:12 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[23-Mar-2026 06:40:12 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[23-Mar-2026 06:40:12 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[23-Mar-2026 06:40:13 Europe/Berlin] Router received URL: auth/logout
+[23-Mar-2026 06:40:13 Europe/Berlin] Router received URL: public/views/admin-login.html
+[23-Mar-2026 06:40:17 Europe/Berlin] Router received URL: auth/logout
+[23-Mar-2026 06:40:17 Europe/Berlin] Router received URL: public/views/customer-login.html
+[23-Mar-2026 06:40:47 Europe/Berlin] Router received URL: public/views/customer-login.html
+[23-Mar-2026 06:40:48 Europe/Berlin] Router received URL: public/views/customer-login.html
+[23-Mar-2026 06:40:49 Europe/Berlin] Router received URL: public/views/customer-login.html
+[23-Mar-2026 06:45:00 Europe/Berlin] Router received URL: auth/login
+[23-Mar-2026 06:45:04 Europe/Berlin] Router received URL: auth/login
+[23-Mar-2026 06:45:04 Europe/Berlin] Router received URL: branch/index
+[23-Mar-2026 06:45:04 Europe/Berlin] Router received URL: branch
+[23-Mar-2026 06:45:06 Europe/Berlin] Router received URL: auth/logout
+[23-Mar-2026 06:45:06 Europe/Berlin] Router received URL: public/views/customer-login.html
+[23-Mar-2026 06:45:08 Europe/Berlin] Router received URL: public/views/customer-login.html
+[23-Mar-2026 06:45:20 Europe/Berlin] Router received URL: auth/login
+[23-Mar-2026 06:45:20 Europe/Berlin] Router received URL: branch/index
+[23-Mar-2026 06:45:20 Europe/Berlin] Router received URL: branch
+[23-Mar-2026 06:45:21 Europe/Berlin] Router received URL: auth/logout
+[23-Mar-2026 06:45:21 Europe/Berlin] Router received URL: public/views/customer-login.html
+[23-Mar-2026 06:47:07 Europe/Berlin] Router received URL: auth/login
+[23-Mar-2026 06:47:07 Europe/Berlin] Router received URL: branch/index
+[23-Mar-2026 06:47:08 Europe/Berlin] Router received URL: branch
+[23-Mar-2026 06:47:10 Europe/Berlin] Router received URL: branch
+[23-Mar-2026 06:47:10 Europe/Berlin] Router received URL: branch
+[23-Mar-2026 06:47:11 Europe/Berlin] Router received URL: branch/1
+[23-Mar-2026 06:47:11 Europe/Berlin] Router received URL: branch/1/services
+[23-Mar-2026 06:47:11 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[23-Mar-2026 06:47:15 Europe/Berlin] Router received URL: reservation/checkAvailability
+[23-Mar-2026 06:47:15 Europe/Berlin] [2026-03-23 06:47:15] checkAvailability called
+[23-Mar-2026 06:47:15 Europe/Berlin] [2026-03-23 06:47:15] checkAvailability parameters: date=2026-03-24, time=09:00, serviceId=1
+[23-Mar-2026 06:47:15 Europe/Berlin] [2026-03-23 06:47:15] Calling checkServiceTimeAvailability with: date=2026-03-24, time=09:00, serviceId=1
+[23-Mar-2026 06:47:15 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkServiceTimeAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:682
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 682
+[23-Mar-2026 06:47:15 Europe/Berlin] Router received URL: reservation/checkAvailability
+[23-Mar-2026 06:47:15 Europe/Berlin] [2026-03-23 06:47:15] checkAvailability called
+[23-Mar-2026 06:47:15 Europe/Berlin] [2026-03-23 06:47:15] checkAvailability parameters: date=2026-03-24, time=10:00, serviceId=1
+[23-Mar-2026 06:47:15 Europe/Berlin] [2026-03-23 06:47:15] Calling checkServiceTimeAvailability with: date=2026-03-24, time=10:00, serviceId=1
+[23-Mar-2026 06:47:15 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkServiceTimeAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:682
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 682
+[23-Mar-2026 06:47:15 Europe/Berlin] Router received URL: reservation/checkAvailability
+[23-Mar-2026 06:47:15 Europe/Berlin] [2026-03-23 06:47:15] checkAvailability called
+[23-Mar-2026 06:47:15 Europe/Berlin] [2026-03-23 06:47:15] checkAvailability parameters: date=2026-03-24, time=11:00, serviceId=1
+[23-Mar-2026 06:47:15 Europe/Berlin] [2026-03-23 06:47:15] Calling checkServiceTimeAvailability with: date=2026-03-24, time=11:00, serviceId=1
+[23-Mar-2026 06:47:15 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkServiceTimeAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:682
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 682
+[23-Mar-2026 06:47:16 Europe/Berlin] Router received URL: reservation/checkAvailability
+[23-Mar-2026 06:47:16 Europe/Berlin] [2026-03-23 06:47:16] checkAvailability called
+[23-Mar-2026 06:47:16 Europe/Berlin] [2026-03-23 06:47:16] checkAvailability parameters: date=2026-03-24, time=12:00, serviceId=1
+[23-Mar-2026 06:47:16 Europe/Berlin] [2026-03-23 06:47:16] Calling checkServiceTimeAvailability with: date=2026-03-24, time=12:00, serviceId=1
+[23-Mar-2026 06:47:16 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkServiceTimeAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:682
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 682
+[23-Mar-2026 06:47:16 Europe/Berlin] Router received URL: reservation/checkAvailability
+[23-Mar-2026 06:47:16 Europe/Berlin] [2026-03-23 06:47:16] checkAvailability called
+[23-Mar-2026 06:47:16 Europe/Berlin] [2026-03-23 06:47:16] checkAvailability parameters: date=2026-03-24, time=13:00, serviceId=1
+[23-Mar-2026 06:47:16 Europe/Berlin] [2026-03-23 06:47:16] Calling checkServiceTimeAvailability with: date=2026-03-24, time=13:00, serviceId=1
+[23-Mar-2026 06:47:16 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkServiceTimeAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:682
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 682
+[23-Mar-2026 06:47:16 Europe/Berlin] Router received URL: reservation/checkAvailability
+[23-Mar-2026 06:47:16 Europe/Berlin] [2026-03-23 06:47:16] checkAvailability called
+[23-Mar-2026 06:47:16 Europe/Berlin] [2026-03-23 06:47:16] checkAvailability parameters: date=2026-03-24, time=14:00, serviceId=1
+[23-Mar-2026 06:47:16 Europe/Berlin] [2026-03-23 06:47:16] Calling checkServiceTimeAvailability with: date=2026-03-24, time=14:00, serviceId=1
+[23-Mar-2026 06:47:16 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkServiceTimeAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:682
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 682
+[23-Mar-2026 06:47:16 Europe/Berlin] Router received URL: reservation/checkAvailability
+[23-Mar-2026 06:47:16 Europe/Berlin] [2026-03-23 06:47:16] checkAvailability called
+[23-Mar-2026 06:47:16 Europe/Berlin] [2026-03-23 06:47:16] checkAvailability parameters: date=2026-03-24, time=15:00, serviceId=1
+[23-Mar-2026 06:47:16 Europe/Berlin] [2026-03-23 06:47:16] Calling checkServiceTimeAvailability with: date=2026-03-24, time=15:00, serviceId=1
+[23-Mar-2026 06:47:16 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkServiceTimeAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:682
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 682
+[23-Mar-2026 06:47:16 Europe/Berlin] Router received URL: reservation/checkAvailability
+[23-Mar-2026 06:47:16 Europe/Berlin] [2026-03-23 06:47:16] checkAvailability called
+[23-Mar-2026 06:47:16 Europe/Berlin] [2026-03-23 06:47:16] checkAvailability parameters: date=2026-03-24, time=16:00, serviceId=1
+[23-Mar-2026 06:47:16 Europe/Berlin] [2026-03-23 06:47:16] Calling checkServiceTimeAvailability with: date=2026-03-24, time=16:00, serviceId=1
+[23-Mar-2026 06:47:16 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkServiceTimeAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:682
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 682
+[23-Mar-2026 06:47:16 Europe/Berlin] Router received URL: reservation/checkAvailability
+[23-Mar-2026 06:47:16 Europe/Berlin] [2026-03-23 06:47:16] checkAvailability called
+[23-Mar-2026 06:47:16 Europe/Berlin] [2026-03-23 06:47:16] checkAvailability parameters: date=2026-03-24, time=17:00, serviceId=1
+[23-Mar-2026 06:47:16 Europe/Berlin] [2026-03-23 06:47:16] Calling checkServiceTimeAvailability with: date=2026-03-24, time=17:00, serviceId=1
+[23-Mar-2026 06:47:16 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkServiceTimeAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:682
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 682
+[23-Mar-2026 06:47:16 Europe/Berlin] Router received URL: reservation/checkAvailability
+[23-Mar-2026 06:47:16 Europe/Berlin] [2026-03-23 06:47:16] checkAvailability called
+[23-Mar-2026 06:47:16 Europe/Berlin] [2026-03-23 06:47:16] checkAvailability parameters: date=2026-03-24, time=18:00, serviceId=1
+[23-Mar-2026 06:47:16 Europe/Berlin] [2026-03-23 06:47:16] Calling checkServiceTimeAvailability with: date=2026-03-24, time=18:00, serviceId=1
+[23-Mar-2026 06:47:16 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkServiceTimeAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:682
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 682
+[23-Mar-2026 06:47:51 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[23-Mar-2026 06:47:58 Europe/Berlin] Router received URL: branch/index
+[23-Mar-2026 06:47:58 Europe/Berlin] Router received URL: branch
+[23-Mar-2026 06:49:52 Europe/Berlin] Router received URL: branch/index
+[23-Mar-2026 06:49:52 Europe/Berlin] Router received URL: branch
+[23-Mar-2026 06:49:53 Europe/Berlin] Router received URL: branch
+[23-Mar-2026 06:49:53 Europe/Berlin] Router received URL: branch
+[23-Mar-2026 06:49:53 Europe/Berlin] Router received URL: branch/1
+[23-Mar-2026 06:49:53 Europe/Berlin] Router received URL: branch/1/services
+[23-Mar-2026 06:49:53 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[23-Mar-2026 06:49:58 Europe/Berlin] Router received URL: reservation/checkAvailability
+[23-Mar-2026 06:49:58 Europe/Berlin] [2026-03-23 06:49:58] checkAvailability called
+[23-Mar-2026 06:49:58 Europe/Berlin] [2026-03-23 06:49:58] checkAvailability parameters: date=2026-03-24, time=09:00, serviceId=9
+[23-Mar-2026 06:49:58 Europe/Berlin] [2026-03-23 06:49:58] Calling checkServiceTimeAvailability with: date=2026-03-24, time=09:00, serviceId=9
+[23-Mar-2026 06:49:58 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkServiceTimeAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:682
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 682
+[23-Mar-2026 06:49:58 Europe/Berlin] Router received URL: reservation/checkAvailability
+[23-Mar-2026 06:49:58 Europe/Berlin] [2026-03-23 06:49:58] checkAvailability called
+[23-Mar-2026 06:49:58 Europe/Berlin] [2026-03-23 06:49:58] checkAvailability parameters: date=2026-03-24, time=10:00, serviceId=9
+[23-Mar-2026 06:49:58 Europe/Berlin] [2026-03-23 06:49:58] Calling checkServiceTimeAvailability with: date=2026-03-24, time=10:00, serviceId=9
+[23-Mar-2026 06:49:58 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkServiceTimeAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:682
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 682
+[23-Mar-2026 06:49:58 Europe/Berlin] Router received URL: reservation/checkAvailability
+[23-Mar-2026 06:49:58 Europe/Berlin] [2026-03-23 06:49:58] checkAvailability called
+[23-Mar-2026 06:49:58 Europe/Berlin] [2026-03-23 06:49:58] checkAvailability parameters: date=2026-03-24, time=11:00, serviceId=9
+[23-Mar-2026 06:49:58 Europe/Berlin] [2026-03-23 06:49:58] Calling checkServiceTimeAvailability with: date=2026-03-24, time=11:00, serviceId=9
+[23-Mar-2026 06:49:58 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkServiceTimeAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:682
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 682
+[23-Mar-2026 06:49:58 Europe/Berlin] Router received URL: reservation/checkAvailability
+[23-Mar-2026 06:49:58 Europe/Berlin] [2026-03-23 06:49:58] checkAvailability called
+[23-Mar-2026 06:49:58 Europe/Berlin] [2026-03-23 06:49:58] checkAvailability parameters: date=2026-03-24, time=12:00, serviceId=9
+[23-Mar-2026 06:49:58 Europe/Berlin] [2026-03-23 06:49:58] Calling checkServiceTimeAvailability with: date=2026-03-24, time=12:00, serviceId=9
+[23-Mar-2026 06:49:58 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkServiceTimeAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:682
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 682
+[23-Mar-2026 06:49:58 Europe/Berlin] Router received URL: reservation/checkAvailability
+[23-Mar-2026 06:49:58 Europe/Berlin] [2026-03-23 06:49:58] checkAvailability called
+[23-Mar-2026 06:49:58 Europe/Berlin] [2026-03-23 06:49:58] checkAvailability parameters: date=2026-03-24, time=13:00, serviceId=9
+[23-Mar-2026 06:49:58 Europe/Berlin] [2026-03-23 06:49:58] Calling checkServiceTimeAvailability with: date=2026-03-24, time=13:00, serviceId=9
+[23-Mar-2026 06:49:58 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkServiceTimeAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:682
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 682
+[23-Mar-2026 06:49:58 Europe/Berlin] Router received URL: reservation/checkAvailability
+[23-Mar-2026 06:49:58 Europe/Berlin] [2026-03-23 06:49:58] checkAvailability called
+[23-Mar-2026 06:49:58 Europe/Berlin] [2026-03-23 06:49:58] checkAvailability parameters: date=2026-03-24, time=14:00, serviceId=9
+[23-Mar-2026 06:49:58 Europe/Berlin] [2026-03-23 06:49:58] Calling checkServiceTimeAvailability with: date=2026-03-24, time=14:00, serviceId=9
+[23-Mar-2026 06:49:58 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkServiceTimeAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:682
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 682
+[23-Mar-2026 06:49:58 Europe/Berlin] Router received URL: reservation/checkAvailability
+[23-Mar-2026 06:49:58 Europe/Berlin] [2026-03-23 06:49:58] checkAvailability called
+[23-Mar-2026 06:49:58 Europe/Berlin] [2026-03-23 06:49:58] checkAvailability parameters: date=2026-03-24, time=15:00, serviceId=9
+[23-Mar-2026 06:49:58 Europe/Berlin] [2026-03-23 06:49:58] Calling checkServiceTimeAvailability with: date=2026-03-24, time=15:00, serviceId=9
+[23-Mar-2026 06:49:58 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkServiceTimeAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:682
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 682
+[23-Mar-2026 06:49:58 Europe/Berlin] Router received URL: reservation/checkAvailability
+[23-Mar-2026 06:49:58 Europe/Berlin] [2026-03-23 06:49:58] checkAvailability called
+[23-Mar-2026 06:49:58 Europe/Berlin] [2026-03-23 06:49:58] checkAvailability parameters: date=2026-03-24, time=16:00, serviceId=9
+[23-Mar-2026 06:49:58 Europe/Berlin] [2026-03-23 06:49:58] Calling checkServiceTimeAvailability with: date=2026-03-24, time=16:00, serviceId=9
+[23-Mar-2026 06:49:58 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkServiceTimeAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:682
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 682
+[23-Mar-2026 06:49:58 Europe/Berlin] Router received URL: reservation/checkAvailability
+[23-Mar-2026 06:49:58 Europe/Berlin] [2026-03-23 06:49:58] checkAvailability called
+[23-Mar-2026 06:49:58 Europe/Berlin] [2026-03-23 06:49:58] checkAvailability parameters: date=2026-03-24, time=17:00, serviceId=9
+[23-Mar-2026 06:49:58 Europe/Berlin] [2026-03-23 06:49:58] Calling checkServiceTimeAvailability with: date=2026-03-24, time=17:00, serviceId=9
+[23-Mar-2026 06:49:58 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkServiceTimeAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:682
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 682
+[23-Mar-2026 06:49:58 Europe/Berlin] Router received URL: reservation/checkAvailability
+[23-Mar-2026 06:49:58 Europe/Berlin] [2026-03-23 06:49:58] checkAvailability called
+[23-Mar-2026 06:49:58 Europe/Berlin] [2026-03-23 06:49:58] checkAvailability parameters: date=2026-03-24, time=18:00, serviceId=9
+[23-Mar-2026 06:49:58 Europe/Berlin] [2026-03-23 06:49:58] Calling checkServiceTimeAvailability with: date=2026-03-24, time=18:00, serviceId=9
+[23-Mar-2026 06:49:58 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkServiceTimeAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:682
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 682
+[23-Mar-2026 06:52:57 Europe/Berlin] Router received URL: branch/index
+[23-Mar-2026 06:52:57 Europe/Berlin] Router received URL: branch
+[23-Mar-2026 06:52:58 Europe/Berlin] Router received URL: auth/logout
+[23-Mar-2026 06:53:07 Europe/Berlin] Router received URL: auth/login
+[23-Mar-2026 06:53:07 Europe/Berlin] Router received URL: reservation/getAllReservations
+[23-Mar-2026 06:53:07 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 9
+    [user_name] => qc branch admin
+    [email] => arvinsocao2005@gmail.com
+    [role] => admin
+    [branch_id] => 2
+    [branch_name] => quezon city branch
+)
+
+[23-Mar-2026 06:53:07 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[23-Mar-2026 06:53:07 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[23-Mar-2026 06:53:07 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 9
+    [user_name] => qc branch admin
+    [email] => arvinsocao2005@gmail.com
+    [role] => admin
+    [branch_id] => 2
+    [branch_name] => quezon city branch
+)
+
+[23-Mar-2026 06:53:07 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[23-Mar-2026 06:53:14 Europe/Berlin] Router received URL: auth/logout
+[23-Mar-2026 07:06:51 Europe/Berlin] Router received URL: auth/login
+[23-Mar-2026 07:06:57 Europe/Berlin] Router received URL: auth/login
+[23-Mar-2026 07:06:57 Europe/Berlin] Router received URL: branch/index
+[23-Mar-2026 07:06:57 Europe/Berlin] Router received URL: branch
+[23-Mar-2026 07:06:59 Europe/Berlin] Router received URL: auth/getProfile
+[23-Mar-2026 07:07:00 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[23-Mar-2026 07:07:00 Europe/Berlin] Router received URL: auth/getProfile
+[23-Mar-2026 07:07:03 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[23-Mar-2026 07:07:03 Europe/Berlin] Router received URL: branch/index
+[23-Mar-2026 07:07:03 Europe/Berlin] Router received URL: branch
+[23-Mar-2026 07:07:05 Europe/Berlin] Router received URL: branch/index
+[23-Mar-2026 07:07:05 Europe/Berlin] Router received URL: branch
+[23-Mar-2026 07:07:06 Europe/Berlin] Router received URL: branch
+[23-Mar-2026 07:07:06 Europe/Berlin] Router received URL: branch
+[23-Mar-2026 07:07:07 Europe/Berlin] Router received URL: branch/1/services
+[23-Mar-2026 07:07:07 Europe/Berlin] Router received URL: branch/1
+[23-Mar-2026 07:07:07 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[23-Mar-2026 07:07:12 Europe/Berlin] Router received URL: branch/1/services
+[23-Mar-2026 07:07:12 Europe/Berlin] Router received URL: branch/1
+[23-Mar-2026 07:07:12 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[23-Mar-2026 07:07:14 Europe/Berlin] Router received URL: branch/1
+[23-Mar-2026 07:07:14 Europe/Berlin] Router received URL: branch/1/services
+[23-Mar-2026 07:07:14 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[23-Mar-2026 07:07:17 Europe/Berlin] Router received URL: branch/1
+[23-Mar-2026 07:07:17 Europe/Berlin] Router received URL: branch/1/services
+[23-Mar-2026 07:07:17 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[23-Mar-2026 07:07:39 Europe/Berlin] Router received URL: branch/1
+[23-Mar-2026 07:07:39 Europe/Berlin] Router received URL: branch/1/services
+[23-Mar-2026 07:07:39 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[23-Mar-2026 07:07:47 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[23-Mar-2026 07:07:47 Europe/Berlin] Router received URL: branch/1
+[23-Mar-2026 07:07:47 Europe/Berlin] Router received URL: branch/1/services
+[23-Mar-2026 07:07:50 Europe/Berlin] Router received URL: branch
+[23-Mar-2026 07:07:50 Europe/Berlin] Router received URL: branch/index
+[23-Mar-2026 07:07:52 Europe/Berlin] Router received URL: branch/index
+[23-Mar-2026 07:07:52 Europe/Berlin] Router received URL: branch
+[23-Mar-2026 07:07:53 Europe/Berlin] Router received URL: branch
+[23-Mar-2026 07:07:53 Europe/Berlin] Router received URL: branch
+[23-Mar-2026 07:07:54 Europe/Berlin] Router received URL: branch/1
+[23-Mar-2026 07:07:54 Europe/Berlin] Router received URL: branch/1/services
+[23-Mar-2026 07:07:54 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[23-Mar-2026 07:10:40 Europe/Berlin] Router received URL: branch/1
+[23-Mar-2026 07:10:40 Europe/Berlin] Router received URL: branch/1/services
+[23-Mar-2026 07:10:40 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[23-Mar-2026 07:10:44 Europe/Berlin] Router received URL: branch/1
+[23-Mar-2026 07:10:44 Europe/Berlin] Router received URL: branch/1/services
+[23-Mar-2026 07:10:44 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[23-Mar-2026 07:10:49 Europe/Berlin] Router received URL: reservation/checkAvailability
+[23-Mar-2026 07:10:49 Europe/Berlin] [2026-03-23 07:10:49] checkAvailability called
+[23-Mar-2026 07:10:49 Europe/Berlin] [2026-03-23 07:10:49] checkAvailability parameters: date=2026-03-24, time=09:00, serviceId=1
+[23-Mar-2026 07:10:49 Europe/Berlin] [2026-03-23 07:10:49] Calling checkServiceTimeAvailability with: date=2026-03-24, time=09:00, serviceId=1
+[23-Mar-2026 07:10:49 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkServiceTimeAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:682
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 682
+[23-Mar-2026 07:10:49 Europe/Berlin] Router received URL: reservation/checkAvailability
+[23-Mar-2026 07:10:49 Europe/Berlin] [2026-03-23 07:10:49] checkAvailability called
+[23-Mar-2026 07:10:49 Europe/Berlin] [2026-03-23 07:10:49] checkAvailability parameters: date=2026-03-24, time=10:00, serviceId=1
+[23-Mar-2026 07:10:49 Europe/Berlin] [2026-03-23 07:10:49] Calling checkServiceTimeAvailability with: date=2026-03-24, time=10:00, serviceId=1
+[23-Mar-2026 07:10:49 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkServiceTimeAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:682
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 682
+[23-Mar-2026 07:10:49 Europe/Berlin] Router received URL: reservation/checkAvailability
+[23-Mar-2026 07:10:49 Europe/Berlin] [2026-03-23 07:10:49] checkAvailability called
+[23-Mar-2026 07:10:49 Europe/Berlin] [2026-03-23 07:10:49] checkAvailability parameters: date=2026-03-24, time=11:00, serviceId=1
+[23-Mar-2026 07:10:49 Europe/Berlin] [2026-03-23 07:10:49] Calling checkServiceTimeAvailability with: date=2026-03-24, time=11:00, serviceId=1
+[23-Mar-2026 07:10:49 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkServiceTimeAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:682
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 682
+[23-Mar-2026 07:10:49 Europe/Berlin] Router received URL: reservation/checkAvailability
+[23-Mar-2026 07:10:49 Europe/Berlin] [2026-03-23 07:10:49] checkAvailability called
+[23-Mar-2026 07:10:49 Europe/Berlin] [2026-03-23 07:10:49] checkAvailability parameters: date=2026-03-24, time=12:00, serviceId=1
+[23-Mar-2026 07:10:49 Europe/Berlin] [2026-03-23 07:10:49] Calling checkServiceTimeAvailability with: date=2026-03-24, time=12:00, serviceId=1
+[23-Mar-2026 07:10:49 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkServiceTimeAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:682
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 682
+[23-Mar-2026 07:10:49 Europe/Berlin] Router received URL: reservation/checkAvailability
+[23-Mar-2026 07:10:49 Europe/Berlin] [2026-03-23 07:10:49] checkAvailability called
+[23-Mar-2026 07:10:49 Europe/Berlin] [2026-03-23 07:10:49] checkAvailability parameters: date=2026-03-24, time=13:00, serviceId=1
+[23-Mar-2026 07:10:49 Europe/Berlin] [2026-03-23 07:10:49] Calling checkServiceTimeAvailability with: date=2026-03-24, time=13:00, serviceId=1
+[23-Mar-2026 07:10:49 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkServiceTimeAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:682
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 682
+[23-Mar-2026 07:10:49 Europe/Berlin] Router received URL: reservation/checkAvailability
+[23-Mar-2026 07:10:49 Europe/Berlin] [2026-03-23 07:10:49] checkAvailability called
+[23-Mar-2026 07:10:49 Europe/Berlin] [2026-03-23 07:10:49] checkAvailability parameters: date=2026-03-24, time=14:00, serviceId=1
+[23-Mar-2026 07:10:49 Europe/Berlin] [2026-03-23 07:10:49] Calling checkServiceTimeAvailability with: date=2026-03-24, time=14:00, serviceId=1
+[23-Mar-2026 07:10:49 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkServiceTimeAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:682
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 682
+[23-Mar-2026 07:10:49 Europe/Berlin] Router received URL: reservation/checkAvailability
+[23-Mar-2026 07:10:49 Europe/Berlin] [2026-03-23 07:10:49] checkAvailability called
+[23-Mar-2026 07:10:49 Europe/Berlin] [2026-03-23 07:10:49] checkAvailability parameters: date=2026-03-24, time=15:00, serviceId=1
+[23-Mar-2026 07:10:49 Europe/Berlin] [2026-03-23 07:10:49] Calling checkServiceTimeAvailability with: date=2026-03-24, time=15:00, serviceId=1
+[23-Mar-2026 07:10:49 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkServiceTimeAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:682
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 682
+[23-Mar-2026 07:10:49 Europe/Berlin] Router received URL: reservation/checkAvailability
+[23-Mar-2026 07:10:49 Europe/Berlin] [2026-03-23 07:10:49] checkAvailability called
+[23-Mar-2026 07:10:49 Europe/Berlin] [2026-03-23 07:10:49] checkAvailability parameters: date=2026-03-24, time=16:00, serviceId=1
+[23-Mar-2026 07:10:49 Europe/Berlin] [2026-03-23 07:10:49] Calling checkServiceTimeAvailability with: date=2026-03-24, time=16:00, serviceId=1
+[23-Mar-2026 07:10:49 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkServiceTimeAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:682
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 682
+[23-Mar-2026 07:10:49 Europe/Berlin] Router received URL: reservation/checkAvailability
+[23-Mar-2026 07:10:49 Europe/Berlin] [2026-03-23 07:10:49] checkAvailability called
+[23-Mar-2026 07:10:49 Europe/Berlin] [2026-03-23 07:10:49] checkAvailability parameters: date=2026-03-24, time=17:00, serviceId=1
+[23-Mar-2026 07:10:49 Europe/Berlin] [2026-03-23 07:10:49] Calling checkServiceTimeAvailability with: date=2026-03-24, time=17:00, serviceId=1
+[23-Mar-2026 07:10:49 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkServiceTimeAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:682
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 682
+[23-Mar-2026 07:10:49 Europe/Berlin] Router received URL: reservation/checkAvailability
+[23-Mar-2026 07:10:49 Europe/Berlin] [2026-03-23 07:10:49] checkAvailability called
+[23-Mar-2026 07:10:49 Europe/Berlin] [2026-03-23 07:10:49] checkAvailability parameters: date=2026-03-24, time=18:00, serviceId=1
+[23-Mar-2026 07:10:49 Europe/Berlin] [2026-03-23 07:10:49] Calling checkServiceTimeAvailability with: date=2026-03-24, time=18:00, serviceId=1
+[23-Mar-2026 07:10:49 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined method Reservation::checkServiceTimeAvailability() in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php:682
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): ReservationController->checkAvailability()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php on line 682
