@@ -581,6 +581,7 @@ async function rescheduleReservation() {
 
 // Function to open review modal
 function openReviewModal(reservationId) {
+    document.getElementById('reviewServiceId').value = reservation.services[0].reservation_service_id;
     const reservation = window.currentReservations.find(r => r.reservation_id === reservationId);
     if (!reservation) {
         alert('Reservation not found!');
@@ -753,7 +754,7 @@ async function submitReview() {
     });
 
     try {
-        const response = await fetch('../../backend/public/index.php?url=feedback/submit', {
+        const response = await fetch('/HFABS/backend/public/index.php?url=feedback/submit', {
             method: 'POST',
             credentials: 'include',
             body: formData   // Do NOT set Content-Type header — browser sets multipart boundary
@@ -877,13 +878,24 @@ function openViewReviewModal(reservationId) {
         }
 
         // Display all feedback comments
-        const commentsHtml = reservation.feedback.map(feedback => `
-            <div class="review-comment">
-                <div class="review-rating">${'★'.repeat(feedback.rating)}${'☆'.repeat(5 - feedback.rating)}</div>
-                <div class="review-text">${feedback.comment}</div>
-                <div class="review-date">${new Date(feedback.created_at).toLocaleDateString()}</div>
-            </div>
-        `).join('');
+        const commentsHtml = reservation.feedback.map(feedback => {
+            const photosHtml = (feedback.photos && feedback.photos.length > 0)
+                ? `<div class="review-photos">
+                        ${feedback.photos.map(p =>
+                            `<img src="/HFABS/backend/public/${p.photo_path}" alt="Review photo" class="review-photo-thumb">`
+                        ).join('')}
+                </div>`
+                : '';
+
+            return `
+                <div class="review-comment">
+                    <div class="review-rating">${'★'.repeat(feedback.rating)}${'☆'.repeat(5 - feedback.rating)}</div>
+                    <div class="review-text">${feedback.comment}</div>
+                    ${photosHtml}
+                    <div class="review-date">${new Date(feedback.created_at).toLocaleDateString()}</div>
+                </div>
+            `;
+        }).join('');
 
         reviewBody.innerHTML = `
             <div class="review-comments">
@@ -913,12 +925,6 @@ function openViewReviewModal(reservationId) {
 // Function to close view review modal
 function closeViewReviewModal() {
     document.getElementById('viewReviewModal').classList.remove('active');
-    document.body.style.overflow = '';
-}
-
-// Function to close review modal
-function closeReviewModal() {
-    document.getElementById('reviewModal').classList.remove('active');
     document.body.style.overflow = '';
 }
 

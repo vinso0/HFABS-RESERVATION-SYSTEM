@@ -21457,3 +21457,64 @@ Stack trace:
 [27-Mar-2026 17:50:43 Europe/Berlin] Router received URL: branch
 [27-Mar-2026 17:50:44 Europe/Berlin] Router received URL: reservation/getCustomerReservations
 [27-Mar-2026 17:50:53 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[27-Mar-2026 17:54:22 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[27-Mar-2026 17:55:41 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[27-Mar-2026 17:59:39 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[27-Mar-2026 17:59:58 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[27-Mar-2026 18:00:10 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[27-Mar-2026 18:00:11 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[27-Mar-2026 18:01:26 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[27-Mar-2026 18:01:46 Europe/Berlin] Router received URL: reservation/submitFeedback
+[27-Mar-2026 18:01:48 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[27-Mar-2026 18:01:51 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[27-Mar-2026 18:02:04 Europe/Berlin] Router received URL: auth/login
+[27-Mar-2026 18:02:04 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[27-Mar-2026 18:02:04 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[27-Mar-2026 18:02:04 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[27-Mar-2026 18:02:04 Europe/Berlin] Router received URL: reservation/getAllReservations
+[27-Mar-2026 18:02:04 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[27-Mar-2026 18:02:04 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[27-Mar-2026 18:02:04 Europe/Berlin] Router received URL: transaction/getByBranch
+[27-Mar-2026 18:02:06 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:02:18 Europe/Berlin] Router received URL: feedback/moderate
+[27-Mar-2026 18:02:19 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:02:21 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:02:21 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:02:22 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:02:22 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:02:23 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:02:23 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:02:26 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:03:49 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:04:29 Europe/Berlin] Router received URL: reservation/submitFeedback
+[27-Mar-2026 18:04:39 Europe/Berlin] Router received URL: auth/login
+[27-Mar-2026 18:04:42 Europe/Berlin] Router received URL: auth/login
+[27-Mar-2026 18:04:42 Europe/Berlin] Router received URL: branch/index
+[27-Mar-2026 18:04:42 Europe/Berlin] Router received URL: branch
+[27-Mar-2026 18:04:43 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[27-Mar-2026 18:05:06 Europe/Berlin] Router received URL: reservation/submitFeedback
+[27-Mar-2026 18:05:08 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[27-Mar-2026 18:05:14 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[27-Mar-2026 18:14:16 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[27-Mar-2026 18:16:58 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[27-Mar-2026 18:18:32 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[27-Mar-2026 18:18:42 Europe/Berlin] Router received URL: reservation/submitFeedback
+[27-Mar-2026 18:18:43 Europe/Berlin] Router received URL: reservation/getCustomerReservations

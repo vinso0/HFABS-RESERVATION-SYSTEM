@@ -99,6 +99,16 @@ class Reservation extends Database
             
             $feedback = [];
             while ($feedbackRow = $feedbackResult->fetch_assoc()) {
+                $photosQuery = "SELECT * FROM feedback_photos WHERE feedback_id = ? ORDER BY photo_order ASC";
+                $photosStmt = $this->db->prepare($photosQuery);
+                $photosStmt->bind_param('i', $feedbackRow['feedback_id']);
+                $photosStmt->execute();
+                $photosResult = $photosStmt->get_result();
+                $photos = [];
+                while ($photoRow = $photosResult->fetch_assoc()) {
+                    $photos[] = $photoRow;
+                }
+                $feedbackRow['photos'] = $photos;
                 $feedback[] = $feedbackRow;
             }
             
