@@ -29,29 +29,16 @@
           <div class="services-section">
             <h1 class="page-title">Services</h1>
 
+            <!-- Category Toggle Button (Mobile) -->
+            <button class="category-toggle" id="categoryToggle">
+              <span>Select Category</span>
+            </button>
+
             <!-- Category Tabs -->
-            <div class="category-tabs">
-              <button class="tab-btn active" data-category="all">
-                Featured
-              </button>
-              <button class="tab-btn" data-category="Hair Services">
-                Hair Services
-              </button>
-              <button class="tab-btn" data-category="Nail Services">
-                Nail Services
-              </button>
-              <button class="tab-btn" data-category="Facial Services">
-                Facial Services
-              </button>
-              <button class="tab-btn" data-category="Massage Services">
-                Massage Services
-              </button>
-              <button class="tab-btn" data-category="packages">Packages</button>
+            <div class="categories-tab" id="categoryTabs">
+              <!-- Category tabs are loaded dynamically from the database -->
             </div>
-
-            <!-- Current Category Title -->
-            <h2 class="category-title" id="categoryTitle">Featured</h2>
-
+            
             <!-- Services List -->
             <div id="servicesList" class="services-list">
               <div class="loading-state">Loading services...</div>
