@@ -28,6 +28,10 @@
             <i class="far fa-calendar"></i>
             <span>Reservations</span>
         </a>
+        <a href="admin-transactions.php" class="nav-item">
+            <i class="fas fa-file-invoice-dollar"></i>
+            <span>Transactions</span>
+        </a>
         <?php if ($_SESSION['role'] === 'admin'): ?>
         <a href="./admin-services.php" class="nav-item">
             <i class="fas fa-cut"></i>
@@ -40,10 +44,6 @@
         <a href="./admin-packages.php" class="nav-item">
             <i class="fas fa-box-open"></i>
             <span>Packages</span>
-        </a>
-        <a href="admin-transactions.php" class="nav-item">
-            <i class="fas fa-file-invoice-dollar"></i>
-            <span>Transactions</span>
         </a>
         <a href="admin-customers.php" class="nav-item">
             <i class="far fa-user"></i>

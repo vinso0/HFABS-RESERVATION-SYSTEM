@@ -237,7 +237,7 @@ class ReservationController extends Controller
         // Debug: Log session data (remove in production)
         error_log('Session data in getTodaysReservations: ' . print_r($_SESSION, true));
         
-        // Check if user is logged in and is an admin
+        // Check if user is logged in and is an admin or cashier
         if (!isset($_SESSION['user_id'])) {
             http_response_code(401);
             echo json_encode([
@@ -247,7 +247,7 @@ class ReservationController extends Controller
             exit;
         }
         
-        if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+        if (!isset($_SESSION['role']) || !in_array($_SESSION['role'], ['admin', 'cashier'])) {
             http_response_code(401);
             echo json_encode([
                 'success' => false,
@@ -285,7 +285,7 @@ class ReservationController extends Controller
         // Debug: Log session data (remove in production)
         error_log('Session data in getAllReservations: ' . print_r($_SESSION, true));
         
-        // Check if user is logged in and is an admin
+        // Check if user is logged in and is an admin or cashier
         if (!isset($_SESSION['user_id'])) {
             http_response_code(401);
             echo json_encode([
@@ -295,7 +295,7 @@ class ReservationController extends Controller
             exit;
         }
         
-        if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+        if (!isset($_SESSION['role']) || !in_array($_SESSION['role'], ['admin', 'cashier'])) {
             http_response_code(401);
             echo json_encode([
                 'success' => false,
@@ -344,8 +344,8 @@ class ReservationController extends Controller
             session_start();
         }
         
-        // Check if user is logged in and is an admin
-        if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+        // Check if user is logged in and is an admin or cashier
+        if (!isset($_SESSION['user_id']) || !in_array($_SESSION['role'], ['admin', 'cashier'])) {
             http_response_code(401);
             echo json_encode([
                 'success' => false,
@@ -404,8 +404,8 @@ class ReservationController extends Controller
             session_start();
         }
         
-        // Check if user is logged in and is an admin
-        if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+        // Check if user is logged in and is an admin or cashier
+        if (!isset($_SESSION['user_id']) || !in_array($_SESSION['role'], ['admin', 'cashier'])) {
             http_response_code(401);
             echo json_encode([
                 'success' => false,

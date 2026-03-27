@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 22, 2026 at 01:40 PM
+-- Generation Time: Mar 27, 2026 at 03:42 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -66,8 +66,21 @@ CREATE TABLE `branch` (
 --
 
 INSERT INTO `branch` (`branch_id`, `branch_name`, `branch_location`, `contact_number`, `opening_time`, `closing_time`, `down_payment_rate`, `email`, `status`) VALUES
-(1, 'caloocan branch', '102 Caimito Rd., Caloocan City, Unit 1D, Caimito Place', '09231240241', '11:00:00', '21:00:00', 0.4000, 'arvinsocao2005@gmail.com', 'active'),
+(1, 'caloocan branch', '102 Caimito Rd., Caloocan City, Unit 1D, Caimito Place', '09231240241', '11:00:00', '21:00:00', 0.4000, 'hfabscal@gmail.com', 'active'),
 (2, 'quezon city branch', '850 Atherton, Quezon City', '0946 178 23', '08:00:00', '20:00:00', 0.5000, 'hfabsqc@gmail.com', 'active');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `branch_blocked_days`
+--
+
+CREATE TABLE `branch_blocked_days` (
+  `id` int(11) NOT NULL,
+  `branch_id` int(11) NOT NULL,
+  `day_of_week` tinyint(1) NOT NULL COMMENT '0=Sunday, 1=Monday, ..., 6=Saturday',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -231,6 +244,39 @@ INSERT INTO `branch_service_overrides` (`branch_service_override_id`, `branch_id
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `branch_social_media`
+--
+
+CREATE TABLE `branch_social_media` (
+  `social_id` int(11) NOT NULL,
+  `branch_id` int(15) NOT NULL,
+  `platform` enum('facebook','instagram','tiktok','twitter','youtube','other') NOT NULL,
+  `url` varchar(500) NOT NULL,
+  `display_label` varchar(100) DEFAULT NULL,
+  `is_active` tinyint(1) NOT NULL DEFAULT 1,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `category_date_capacity`
+--
+
+CREATE TABLE `category_date_capacity` (
+  `id` int(11) NOT NULL,
+  `branch_id` int(11) NOT NULL,
+  `branch_category_override_id` int(11) NOT NULL COMMENT 'FK to branch_category_overrides',
+  `override_date` date NOT NULL,
+  `capacity_override` int(11) NOT NULL,
+  `reason` varchar(255) DEFAULT NULL COMMENT 'e.g. 2 stylists absent',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `default_services`
 --
 
@@ -309,6 +355,19 @@ CREATE TABLE `feedback` (
 INSERT INTO `feedback` (`feedback_id`, `reservation_service_id`, `user_id`, `branch_id`, `rating`, `comment`, `created_at`, `updated_at`) VALUES
 (1, 1, 2, 1, 1, 'Good service', '2026-01-09 11:40:45', '2026-02-14 14:10:59'),
 (12, 4, 2, 1, 5, 'Great Great', '2026-02-21 09:12:48', '2026-03-22 19:12:58');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `feedback_photos`
+--
+
+CREATE TABLE `feedback_photos` (
+  `photo_id` int(11) NOT NULL,
+  `feedback_id` int(11) NOT NULL,
+  `photo_path` varchar(500) NOT NULL,
+  `uploaded_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -427,6 +486,7 @@ CREATE TABLE `users` (
   `username` varchar(30) NOT NULL,
   `email` varchar(30) NOT NULL,
   `contact_number` varchar(15) NOT NULL,
+  `profile_picture` varchar(500) DEFAULT NULL,
   `password` varchar(255) NOT NULL,
   `role` enum('customer','admin','superadmin','cashier') NOT NULL,
   `branch_id` int(11) DEFAULT NULL,
@@ -439,14 +499,15 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`user_id`, `username`, `email`, `contact_number`, `password`, `role`, `branch_id`, `is_active`, `deleted_at`, `created_at`) VALUES
-(1, 'cal branch admin', 'admin@admin', '', '$2y$10$FoP25bz38JnM5X.4tsIbo.tvJ.TkhPUSziAwgdSNG7Ugk310i1iOS', 'admin', 1, 1, NULL, '2026-01-09 11:42:55'),
-(2, 'Marie Johnson', 'cus@cus', '09345673453', '$2y$10$Zh0RAILVJJGe8525BrVTOegOa980Yeaec1KezqgbpQPvHWFoU2clS', 'customer', NULL, 1, NULL, '2026-01-09 11:43:23'),
-(3, 'superadmin', 'super@super', '', '$2y$10$/V5gBiWV0UcuG5eTjtACuOo1gndX1b4LJvDX0ry77SbyglLLHefry', 'superadmin', NULL, 1, NULL, '2026-01-16 02:38:57'),
-(4, 'kier', 'kier@kier', '123456789', '$2y$10$Gt/Eb/Wbx0D3ClCzf/Qqx.nv.bisN7Chveadx5Vhk354vBVEwPzx6', 'customer', NULL, 1, NULL, '2026-01-17 07:32:57'),
-(5, 'Kierloyd Vince Schofield', 'kier@email', '912345789', '$2y$10$zbOE4cRMEc4TOOsRE/.gae4eZKrbAl8.XwkLjUWVwZUmTT9gJ173.', 'customer', NULL, 1, NULL, '2026-01-17 08:34:32'),
-(6, 'Emma Jane', 'emma@gmail.com', '09103452674', '$2y$10$xeMnSgBQR2O7VWYNoCXDkuJCiKC1buOj2R9QQjkpwhguHC2czkXvG', 'customer', NULL, 1, NULL, '2026-02-13 16:39:27'),
-(7, 'cal branch cashier', 'cashier@gmail.com', '12342141', '$2y$10$Av70HUCVbmUjJ2AfxIqtZO.F9hKYUA8mx.83DDfxO2Y/39wJV8Ame', 'cashier', 1, 1, NULL, '2026-02-20 14:00:32');
+INSERT INTO `users` (`user_id`, `username`, `email`, `contact_number`, `profile_picture`, `password`, `role`, `branch_id`, `is_active`, `deleted_at`, `created_at`) VALUES
+(1, 'cal branch admin', 'admin@admin', '0924258935', NULL, '$2y$10$FoP25bz38JnM5X.4tsIbo.tvJ.TkhPUSziAwgdSNG7Ugk310i1iOS', 'admin', 1, 1, NULL, '2026-01-09 11:42:55'),
+(2, 'Marie Johnson', 'cus@cus', '09345673453', NULL, '$2y$10$Zh0RAILVJJGe8525BrVTOegOa980Yeaec1KezqgbpQPvHWFoU2clS', 'customer', NULL, 1, NULL, '2026-01-09 11:43:23'),
+(3, 'superadmin', 'super@super', '', NULL, '$2y$10$/V5gBiWV0UcuG5eTjtACuOo1gndX1b4LJvDX0ry77SbyglLLHefry', 'superadmin', NULL, 1, NULL, '2026-01-16 02:38:57'),
+(4, 'kier', 'kier@kier', '123456789', NULL, '$2y$10$Gt/Eb/Wbx0D3ClCzf/Qqx.nv.bisN7Chveadx5Vhk354vBVEwPzx6', 'customer', NULL, 1, NULL, '2026-01-17 07:32:57'),
+(5, 'Kierloyd Vince Schofield', 'kier@email', '912345789', NULL, '$2y$10$zbOE4cRMEc4TOOsRE/.gae4eZKrbAl8.XwkLjUWVwZUmTT9gJ173.', 'customer', NULL, 1, NULL, '2026-01-17 08:34:32'),
+(6, 'Emma Jane', 'emma@gmail.com', '09103452674', NULL, '$2y$10$xeMnSgBQR2O7VWYNoCXDkuJCiKC1buOj2R9QQjkpwhguHC2czkXvG', 'customer', NULL, 1, NULL, '2026-02-13 16:39:27'),
+(7, 'cal branch cashier', 'cashier@gmail.com', '12342141', NULL, '$2y$10$FoP25bz38JnM5X.4tsIbo.tvJ.TkhPUSziAwgdSNG7Ugk310i1iOS', 'cashier', 1, 1, NULL, '2026-02-20 14:00:32'),
+(9, 'qc branch admin', 'arvinsocao2005@gmail.com', '09202342476', NULL, '$2y$10$MYXCLAaXJsynAlYbteroie0phAWcdJAVHkUMUef1tGKs5VF8rlS92', 'admin', 2, 1, NULL, '2026-03-23 05:38:41');
 
 --
 -- Indexes for dumped tables
@@ -465,6 +526,13 @@ ALTER TABLE `audit_logs`
 --
 ALTER TABLE `branch`
   ADD PRIMARY KEY (`branch_id`);
+
+--
+-- Indexes for table `branch_blocked_days`
+--
+ALTER TABLE `branch_blocked_days`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uq_branch_day` (`branch_id`,`day_of_week`);
 
 --
 -- Indexes for table `branch_category_overrides`
@@ -507,6 +575,21 @@ ALTER TABLE `branch_service_overrides`
   ADD KEY `idx_branchid` (`branch_id`);
 
 --
+-- Indexes for table `branch_social_media`
+--
+ALTER TABLE `branch_social_media`
+  ADD PRIMARY KEY (`social_id`),
+  ADD KEY `fk_social_branch` (`branch_id`);
+
+--
+-- Indexes for table `category_date_capacity`
+--
+ALTER TABLE `category_date_capacity`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uq_branch_cat_date` (`branch_id`,`branch_category_override_id`,`override_date`),
+  ADD KEY `fk_cdc_branch_cat` (`branch_category_override_id`);
+
+--
 -- Indexes for table `default_services`
 --
 ALTER TABLE `default_services`
@@ -527,6 +610,13 @@ ALTER TABLE `feedback`
   ADD UNIQUE KEY `reservation_id` (`reservation_service_id`),
   ADD KEY `user_feedback` (`user_id`),
   ADD KEY `branch_feedback` (`branch_id`);
+
+--
+-- Indexes for table `feedback_photos`
+--
+ALTER TABLE `feedback_photos`
+  ADD PRIMARY KEY (`photo_id`),
+  ADD KEY `fk_photo_feedback` (`feedback_id`);
 
 --
 -- Indexes for table `payments`
@@ -587,6 +677,12 @@ ALTER TABLE `branch`
   MODIFY `branch_id` int(15) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `branch_blocked_days`
+--
+ALTER TABLE `branch_blocked_days`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `branch_category_overrides`
 --
 ALTER TABLE `branch_category_overrides`
@@ -617,6 +713,18 @@ ALTER TABLE `branch_service_overrides`
   MODIFY `branch_service_override_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
+-- AUTO_INCREMENT for table `branch_social_media`
+--
+ALTER TABLE `branch_social_media`
+  MODIFY `social_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `category_date_capacity`
+--
+ALTER TABLE `category_date_capacity`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `default_services`
 --
 ALTER TABLE `default_services`
@@ -633,6 +741,12 @@ ALTER TABLE `default_services_categories`
 --
 ALTER TABLE `feedback`
   MODIFY `feedback_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT for table `feedback_photos`
+--
+ALTER TABLE `feedback_photos`
+  MODIFY `photo_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `payments`
@@ -662,7 +776,7 @@ ALTER TABLE `reservation_services`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Constraints for dumped tables
@@ -674,6 +788,12 @@ ALTER TABLE `users`
 ALTER TABLE `audit_logs`
   ADD CONSTRAINT `branch_audit` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`branch_id`),
   ADD CONSTRAINT `user_audit` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+--
+-- Constraints for table `branch_blocked_days`
+--
+ALTER TABLE `branch_blocked_days`
+  ADD CONSTRAINT `fk_bbd_branch` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`branch_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `branch_category_overrides`
@@ -709,6 +829,19 @@ ALTER TABLE `branch_service_overrides`
   ADD CONSTRAINT `fk_bso_default_service` FOREIGN KEY (`default_service_id`) REFERENCES `default_services` (`service_id`);
 
 --
+-- Constraints for table `branch_social_media`
+--
+ALTER TABLE `branch_social_media`
+  ADD CONSTRAINT `fk_social_branch` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`branch_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `category_date_capacity`
+--
+ALTER TABLE `category_date_capacity`
+  ADD CONSTRAINT `fk_cdc_branch` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`branch_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_cdc_branch_cat` FOREIGN KEY (`branch_category_override_id`) REFERENCES `branch_category_overrides` (`branch_category_override_id`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `default_services`
 --
 ALTER TABLE `default_services`
@@ -721,6 +854,12 @@ ALTER TABLE `feedback`
   ADD CONSTRAINT `branch_feedback` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`branch_id`),
   ADD CONSTRAINT `reservation_feedback` FOREIGN KEY (`reservation_service_id`) REFERENCES `reservation_services` (`reservation_service_id`),
   ADD CONSTRAINT `user_feedback` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+--
+-- Constraints for table `feedback_photos`
+--
+ALTER TABLE `feedback_photos`
+  ADD CONSTRAINT `fk_photo_feedback` FOREIGN KEY (`feedback_id`) REFERENCES `feedback` (`feedback_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `payments`

@@ -278,6 +278,7 @@ class AuthController extends Controller
 
             $redirect = match ($user['role']) {
                 'admin' => '/HFABS/frontend/views/admin-home.php',
+                'cashier' => '/HFABS/frontend/views/admin-home.php',
                 'superadmin' => '/HFABS/frontend/views/superadmin-home.php',
                 default => '/HFABS/frontend/views/customer-home.php',
             };
@@ -322,7 +323,7 @@ class AuthController extends Controller
         session_destroy();
         
         // Redirect to frontend login pages (not backend)
-        if($role === 'admin'){
+        if($role === 'admin' || $role === 'cashier'){
             header("Location: /HFABS/frontend/views/admin-login.html");
         } elseif($role === 'superadmin'){
             header("Location: /HFABS/frontend/views/superadmin-login.html");
