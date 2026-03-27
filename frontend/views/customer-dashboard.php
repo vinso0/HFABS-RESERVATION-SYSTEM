@@ -170,20 +170,22 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'customer') {
 
         <!-- Rating -->
         <div class="form-group">
-          <label>Rating:</label>
-          <div class="rating-stars">
-            <input type="radio" id="star5" name="rating" value="5" checked>
-            <label for="star5" title="Excellent">★</label>
-            <input type="radio" id="star4" name="rating" value="4">
-            <label for="star4" title="Very Good">★</label>
-            <input type="radio" id="star3" name="rating" value="3">
-            <label for="star3" title="Good">★</label>
-            <input type="radio" id="star2" name="rating" value="2">
-            <label for="star2" title="Fair">★</label>
-            <input type="radio" id="star1" name="rating" value="1">
-            <label for="star1" title="Poor">★</label>
-          </div>
-          <input type="hidden" id="reviewRating" value="5">
+            <div class="review-rating-row">
+                <span class="rating-label">Your Rating</span>
+                <div class="rating-stars">
+                    <input type="radio" id="star5" name="rating" value="5" checked>
+                    <label for="star5" title="Excellent">★</label>
+                    <input type="radio" id="star4" name="rating" value="4">
+                    <label for="star4" title="Very Good">★</label>
+                    <input type="radio" id="star3" name="rating" value="3">
+                    <label for="star3" title="Good">★</label>
+                    <input type="radio" id="star2" name="rating" value="2">
+                    <label for="star2" title="Fair">★</label>
+                    <input type="radio" id="star1" name="rating" value="1">
+                    <label for="star1" title="Poor">★</label>
+                </div>
+                <input type="hidden" id="reviewRating" value="5">
+            </div>
         </div>
 
         <!-- Comment -->
@@ -196,12 +198,14 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'customer') {
         <div class="form-group">
           <label>Photos <span class="upload-hint">(Optional — max 5 photos, 5MB each, JPG/PNG/WEBP)</span></label>
           <div class="photo-upload-area" id="photoUploadArea">
-            <input type="file" id="reviewPhotos" name="photos[]" accept=".jpg,.jpeg,.png,.webp" multiple style="display:none;">
-            <button type="button" class="btn-upload-trigger" onclick="document.getElementById('reviewPhotos').click()">
-              <i class="fas fa-camera"></i>
-              <span>Add Photos</span>
-            </button>
-            <p class="upload-subtext">or drag and drop here</p>
+              <input type="file" id="reviewPhotos" name="photos[]"
+                    accept=".jpg,.jpeg,.png,.webp" multiple style="display:none;">
+              <i class="fas fa-cloud-upload-alt photo-upload-icon"></i>
+              <button type="button" class="btn-upload-trigger"
+                      onclick="document.getElementById('reviewPhotos').click()">
+                  <i class="fas fa-camera"></i> Add Photos
+              </button>
+              <p class="upload-subtext">JPG, PNG, WEBP · max 5MB each · up to 5 photos</p>
           </div>
           <div id="photoPreviewContainer" class="photo-preview-container"></div>
           <p id="photoCountText" class="photo-count-text"></p>

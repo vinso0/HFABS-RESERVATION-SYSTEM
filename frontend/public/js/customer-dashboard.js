@@ -185,89 +185,74 @@ function displayReservations(reservations, containerId) {
 // Function to view reservation details (opens modal)
 function viewReservationDetails(reservationId) {
     const reservation = window.currentReservations.find(r => r.reservation_id === reservationId);
-    
-    if (!reservation) {
-        alert('Reservation not found!');
-        return;
-    }
-    
-    const servicesHtml = reservation.services.map(service => `
-        <li class="modal-service-item">
-            <div class="modal-detail">
-                <span class="modal-detail-label">Service</span>
-                <span class="modal-detail-value">${service.service_name}</span>
-            </div>
-            ${service.duration_minutes ? `
-                <div class="modal-detail">
-                    <span class="modal-detail-label">Duration</span>
-                    <span class="modal-detail-value">${service.duration_minutes} minutes</span>
-                </div>
-            ` : ''}
-        </li>
-    `).join('');
-    
+    if (!reservation) { alert('Reservation not found!'); return; }
+
     const scheduleDate = reservation.schedule?.schedule_date || reservation.reservation_date;
-    const startTime = reservation.schedule?.start_time ? formatTime(reservation.schedule.start_time) : '';
-    const endTime = reservation.schedule?.end_time ? formatTime(reservation.schedule.end_time) : '';
-    
-    const modalBody = document.getElementById('modalBody');
-    modalBody.innerHTML = `
-        <div class="modal-grid">
-            <div class="modal-detail">
-                <span class="modal-detail-label">Reservation ID</span>
-                <span class="modal-detail-value">${reservation.reservation_id}</span>
+    const startTime    = reservation.schedule?.start_time ? formatTime(reservation.schedule.start_time) : '';
+    const endTime      = reservation.schedule?.end_time   ? formatTime(reservation.schedule.end_time)   : '';
+
+    const servicesHtml = reservation.services.map(s => `
+        <div class="detail-row">
+            <span class="detail-row__label"><i class="fas fa-spa"></i> ${s.service_name}</span>
+            <span class="detail-row__value">${s.duration_minutes ? s.duration_minutes + ' mins' : '—'}</span>
+        </div>
+    `).join('');
+
+    document.getElementById('modalBody').innerHTML = `
+
+        <!-- Section: Schedule Info -->
+        <div class="modal-section">
+            <div class="modal-section-title">
+                <i class="fas fa-calendar-alt"></i> Schedule Info
             </div>
-            
-            <div class="modal-detail">
-                <span class="modal-detail-label">Branch</span>
-                <span class="modal-detail-value">${reservation.branch_name}</span>
+            <div class="detail-row">
+                <span class="detail-row__label">Branch</span>
+                <span class="detail-row__value">${reservation.branch_name}</span>
             </div>
-            
-            <div class="modal-detail">
-                <span class="modal-detail-label">Schedule Date</span>
-                <span class="modal-detail-value">${scheduleDate}</span>
+            <div class="detail-row">
+                <span class="detail-row__label">Date</span>
+                <span class="detail-row__value">${scheduleDate}</span>
             </div>
-            <div class="modal-detail">
-                <span class="modal-detail-label">Reservation Date</span>
-                <span class="modal-detail-value">${reservation.reservation_date}</span>
-            </div>
-            
             ${startTime ? `
-                <div class="modal-detail">
-                    <span class="modal-detail-label">Time</span>
-                    <span class="modal-detail-value">${startTime} - ${endTime}</span>
-                </div>
-            ` : ''}
-            
-            <div class="modal-detail">
-                <span class="modal-detail-label">Status</span>
-                <span class="modal-detail-value">
+            <div class="detail-row">
+                <span class="detail-row__label">Time</span>
+                <span class="detail-row__value">${startTime} – ${endTime}</span>
+            </div>` : ''}
+            <div class="detail-row">
+                <span class="detail-row__label">Status</span>
+                <span class="detail-row__value">
                     <span class="reservation-status ${getStatusBadgeClass(reservation.status)}">
                         ${capitalize(reservation.status)}
                     </span>
                 </span>
             </div>
-            
-            <div class="modal-detail">
-                <span class="modal-detail-label">Total Price</span>
-                <span class="modal-detail-value">${formatPrice(reservation.total_price)}</span>
+        </div>
+
+        <!-- Section: Services -->
+        <div class="modal-section">
+            <div class="modal-section-title">
+                <i class="fas fa-spa"></i> Services
             </div>
-            
-            <div class="modal-detail">
-                <span class="modal-detail-label">Remaining Balance</span>
-                <span class="modal-detail-value">${formatPrice(reservation.total_remaining_balance)}</span>
+            ${servicesHtml}
+        </div>
+
+        <!-- Section: Payment -->
+        <div class="modal-section">
+            <div class="modal-section-title">
+                <i class="fas fa-receipt"></i> Payment
+            </div>
+            <div class="detail-row">
+                <span class="detail-row__label">Total</span>
+                <span class="detail-row__value detail-row__value--price">${formatPrice(reservation.total_price)}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-row__label">Remaining Balance</span>
+                <span class="detail-row__value detail-row__value--balance">${formatPrice(reservation.total_remaining_balance)}</span>
             </div>
         </div>
-        
-        <div class="modal-services">
-            <h3>Services</h3>
-            <ul class="modal-service-list">
-                ${servicesHtml}
-            </ul>
-        </div>
+
     `;
-    
-    // Show modal
+
     document.getElementById('reservationModal').classList.add('active');
     document.body.style.overflow = 'hidden';
 }
@@ -581,17 +566,17 @@ async function rescheduleReservation() {
 
 // Function to open review modal
 function openReviewModal(reservationId) {
-    document.getElementById('reviewServiceId').value = reservation.services[0].reservation_service_id;
     const reservation = window.currentReservations.find(r => r.reservation_id === reservationId);
     if (!reservation) {
         alert('Reservation not found!');
         return;
     }
 
-    // Set reservation data in modal
+    // NOW reservation exists, safe to use it:
+    document.getElementById('reviewServiceId').value = reservation.services[0].reservation_service_id;
     document.getElementById('reviewReservationId').value = reservationId;
     document.getElementById('reviewBranchId').value = reservation.branch_id;
-    
+
     // Reset modal for new review
     document.querySelector('#reviewModal .modal-title').textContent = 'Leave a Review';
     document.querySelector('#reviewModal button.btn-primary').textContent = 'Submit Review';
@@ -599,11 +584,11 @@ function openReviewModal(reservationId) {
     document.getElementById('reviewComment').value = '';
     document.getElementById('reviewRating').value = '5';
     document.getElementById('star5').checked = true;
-    
-    // Show modal
+
     document.getElementById('reviewModal').classList.add('active');
     document.body.style.overflow = 'hidden';
 }
+
 
 // Function to open edit review modal
 function openEditReviewModal(reservationId) {
@@ -765,7 +750,7 @@ async function submitReview() {
         if (result.success) {
             showToast('Review submitted! It will appear after admin approval.', 'success');
             closeReviewModal();
-            loadReservations(); // Refresh reservation list
+            setTimeout(() => location.reload(), 1500);
         } else {
             showToast(result.message || 'Failed to submit review.', 'error');
         }
@@ -775,7 +760,6 @@ async function submitReview() {
 }
 
 function closeReviewModal() {
-    document.getElementById('reviewModal').style.display = 'none';
     document.getElementById('reviewComment').value = '';
     document.getElementById('reviewRating').value = '5';
     selectedPhotoFiles = [];
@@ -787,44 +771,58 @@ function closeReviewModal() {
 
 // Function to update review
 async function updateReview() {
-  const reservationId = document.getElementById('reviewReservationId').value;
-  const branchId = document.getElementById('reviewBranchId').value;
-  const rating = document.getElementById('reviewRating').value;
-  const comment = document.getElementById('reviewComment').value;
+    const reservationId = document.getElementById('reviewReservationId').value;
+    const branchId      = document.getElementById('reviewBranchId').value;
+    const rating        = document.getElementById('reviewRating').value;
+    const comment       = document.getElementById('reviewComment').value.trim();
 
-  if (!rating || !comment.trim()) {
-    Toast.warning('Please provide both a rating and a comment.');
-    return;
-  }
-
-  const reservation = window.currentReservations.find(r => r.reservation_id === parseInt(reservationId));
-  if (!reservation || reservation.services.length === 0) {
-    Toast.error('No services found for this reservation.');
-    return;
-  }
-
-  try {
-    for (const service of reservation.services) {
-      const response = await fetch('/HFABS/backend/public/index.php?url=reservation/submitFeedback', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        credentials: 'same-origin',
-        body: JSON.stringify({ reservation_service_id: service.reservation_service_id, branch_id: branchId, rating, comment })
-      });
-      const result = await response.json();
-      if (!result.success) {
-        Toast.error('Failed to update review: ' + result.message);
+    if (!rating || !comment) {
+        Toast.warning('Please provide both a rating and a comment.');
         return;
-      }
     }
-    Toast.success('Review updated successfully!');
-    closeReviewModal();
-    setTimeout(() => location.reload(), 1800);
-  } catch (error) {
-    console.error('Error updating feedback:', error);
-    Toast.error('Failed to update review. Please try again.');
-  }
+
+    const reservation = window.currentReservations.find(r => r.reservation_id === parseInt(reservationId));
+    if (!reservation || reservation.services.length === 0) {
+        Toast.error('No services found for this reservation.');
+        return;
+    }
+
+    // Use the first service (same as submitReview)
+    const reservationServiceId = reservation.services[0].reservation_service_id;
+
+    const formData = new FormData();
+    formData.append('reservation_service_id', reservationServiceId);
+    formData.append('branch_id', branchId);
+    formData.append('rating', rating);
+    formData.append('comment', comment);
+
+    // Include any newly selected photos
+    selectedPhotoFiles.forEach((file) => {
+        formData.append('photos[]', file);
+    });
+
+    try {
+        const response = await fetch('/HFABS/backend/public/index.php?url=feedback/submit', {
+            method: 'POST',
+            credentials: 'include',
+            body: formData  // No Content-Type header — browser handles multipart boundary
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            Toast.success('Review updated successfully!');
+            closeReviewModal();
+            setTimeout(() => location.reload(), 1500);
+        } else {
+            Toast.error(result.message || 'Failed to update review.');
+        }
+    } catch (error) {
+        console.error('Error updating review:', error);
+        Toast.error('Failed to update review. Please try again.');
+    }
 }
+
 
 // Make updateReview globally accessible
 window.updateReview = updateReview;
@@ -925,6 +923,11 @@ function openViewReviewModal(reservationId) {
 // Function to close view review modal
 function closeViewReviewModal() {
     document.getElementById('viewReviewModal').classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+function closeReviewModal() {
+    document.getElementById('reviewModal').classList.remove('active');
     document.body.style.overflow = '';
 }
 

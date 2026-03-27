@@ -21518,3 +21518,284 @@ Stack trace:
 [27-Mar-2026 18:18:32 Europe/Berlin] Router received URL: reservation/getCustomerReservations
 [27-Mar-2026 18:18:42 Europe/Berlin] Router received URL: reservation/submitFeedback
 [27-Mar-2026 18:18:43 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[27-Mar-2026 18:26:29 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[27-Mar-2026 18:26:38 Europe/Berlin] Router received URL: reservation/submitFeedback
+[27-Mar-2026 18:26:40 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[27-Mar-2026 18:27:27 Europe/Berlin] Router received URL: branch/index
+[27-Mar-2026 18:27:27 Europe/Berlin] Router received URL: branch
+[27-Mar-2026 18:27:41 Europe/Berlin] Router received URL: auth/login
+[27-Mar-2026 18:27:42 Europe/Berlin] Router received URL: branch/index
+[27-Mar-2026 18:27:42 Europe/Berlin] Router received URL: branch
+[27-Mar-2026 18:27:46 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[27-Mar-2026 18:28:00 Europe/Berlin] Router received URL: reservation/submitFeedback
+[27-Mar-2026 18:28:02 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[27-Mar-2026 18:29:51 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[27-Mar-2026 18:29:58 Europe/Berlin] Router received URL: feedback/submit
+[27-Mar-2026 18:30:00 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[27-Mar-2026 18:31:00 Europe/Berlin] Router received URL: auth/login
+[27-Mar-2026 18:31:00 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[27-Mar-2026 18:31:00 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[27-Mar-2026 18:31:00 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[27-Mar-2026 18:31:00 Europe/Berlin] Router received URL: reservation/getAllReservations
+[27-Mar-2026 18:31:00 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[27-Mar-2026 18:31:00 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[27-Mar-2026 18:31:00 Europe/Berlin] Router received URL: transaction/getByBranch
+[27-Mar-2026 18:31:02 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:31:18 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:31:18 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:31:22 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:31:22 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:31:23 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:31:23 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:31:23 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:31:23 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:31:24 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:31:24 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:31:24 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:31:24 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:31:54 Europe/Berlin] Router received URL: feedback/moderate
+[27-Mar-2026 18:31:55 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:31:57 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:31:57 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:31:58 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:31:58 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:31:58 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:31:58 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:31:59 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:31:59 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:31:59 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:31:59 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:32:00 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:32:00 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:32:03 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:32:03 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:32:08 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:32:08 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:32:14 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:32:16 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:32:16 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:32:18 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:32:18 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:32:18 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:32:18 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:32:19 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:32:19 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:32:19 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:32:19 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:32:20 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:32:20 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:32:20 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:32:20 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 18:38:50 Europe/Berlin] Router received URL: auth/login
+[27-Mar-2026 18:38:53 Europe/Berlin] Router received URL: auth/login
+[27-Mar-2026 18:38:53 Europe/Berlin] Router received URL: branch/index
+[27-Mar-2026 18:38:53 Europe/Berlin] Router received URL: branch
+[27-Mar-2026 18:38:55 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[27-Mar-2026 18:39:42 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[27-Mar-2026 18:41:44 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[27-Mar-2026 18:43:41 Europe/Berlin] Router received URL: branch/index
+[27-Mar-2026 18:43:41 Europe/Berlin] Router received URL: branch
+[27-Mar-2026 18:43:42 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[27-Mar-2026 18:44:29 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[27-Mar-2026 18:44:39 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[27-Mar-2026 18:44:56 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[27-Mar-2026 18:54:12 Europe/Berlin] Router received URL: branch/index
+[27-Mar-2026 18:54:12 Europe/Berlin] Router received URL: branch
+[27-Mar-2026 19:04:46 Europe/Berlin] Router received URL: branch/index
+[27-Mar-2026 19:04:46 Europe/Berlin] Router received URL: branch
+[27-Mar-2026 19:04:48 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[27-Mar-2026 19:04:50 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[27-Mar-2026 19:05:41 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[27-Mar-2026 19:06:42 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[27-Mar-2026 19:07:04 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[27-Mar-2026 19:07:24 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[27-Mar-2026 19:08:05 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[27-Mar-2026 19:09:26 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[27-Mar-2026 19:10:06 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[27-Mar-2026 19:10:27 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[27-Mar-2026 19:10:56 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[27-Mar-2026 19:11:06 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[27-Mar-2026 19:12:04 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[27-Mar-2026 19:12:15 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[27-Mar-2026 19:17:41 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:17:41 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:17:41 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:17:41 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:17:42 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:17:42 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:17:42 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:17:42 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:17:42 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:17:43 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:17:43 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:17:43 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:17:43 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:17:43 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:17:44 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:17:44 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:17:44 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:17:44 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:17:52 Europe/Berlin] Router received URL: auth/login
+[27-Mar-2026 19:17:53 Europe/Berlin] Router received URL: reservation/getAllReservations
+[27-Mar-2026 19:17:53 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[27-Mar-2026 19:17:53 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[27-Mar-2026 19:17:53 Europe/Berlin] Router received URL: transaction/getByBranch
+[27-Mar-2026 19:17:53 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[27-Mar-2026 19:17:53 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[27-Mar-2026 19:17:53 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[27-Mar-2026 19:17:55 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:18:03 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:18:03 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:18:18 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:18:18 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:18:18 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:18:18 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:18:20 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:18:20 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:18:21 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:18:21 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:18:22 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:18:22 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:18:24 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:18:24 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:18:25 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:18:25 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:18:27 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:18:27 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:18:28 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:18:28 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:18:30 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:18:30 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:18:33 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:18:52 Europe/Berlin] Router received URL: services/branchCategories/1
+[27-Mar-2026 19:18:52 Europe/Berlin] Router received URL: services/categoriesList
+[27-Mar-2026 19:18:52 Europe/Berlin] Router received URL: services/dateCapacities
+[27-Mar-2026 19:18:54 Europe/Berlin] Router received URL: packages/getAll
+[27-Mar-2026 19:18:54 Europe/Berlin] Router received URL: packages/getBranchServices
+[27-Mar-2026 19:18:57 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:19:01 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:19:03 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:19:03 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:19:06 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:19:06 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:19:07 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:19:07 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:19:08 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:19:08 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:19:08 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:19:08 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:19:08 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:19:08 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:19:10 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:19:10 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:20:13 Europe/Berlin] Router received URL: auth/login
+[27-Mar-2026 19:20:13 Europe/Berlin] Router received URL: branch/index
+[27-Mar-2026 19:20:13 Europe/Berlin] Router received URL: branch
+[27-Mar-2026 19:20:15 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[27-Mar-2026 19:21:03 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:21:03 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:21:04 Europe/Berlin] Router received URL: auth/logout
+[27-Mar-2026 19:21:13 Europe/Berlin] Router received URL: auth/login
+[27-Mar-2026 19:21:16 Europe/Berlin] Router received URL: auth/login
+[27-Mar-2026 19:21:16 Europe/Berlin] Router received URL: reservation/getAllReservations
+[27-Mar-2026 19:21:16 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[27-Mar-2026 19:21:16 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[27-Mar-2026 19:21:16 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[27-Mar-2026 19:21:16 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[27-Mar-2026 19:21:16 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[27-Mar-2026 19:21:16 Europe/Berlin] Router received URL: transaction/getByBranch
+[27-Mar-2026 19:21:17 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:21:36 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:22:09 Europe/Berlin] Router received URL: feedback/moderate
+[27-Mar-2026 19:22:10 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:22:18 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:22:18 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:22:19 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:22:19 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:22:19 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:22:19 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:22:20 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:22:20 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:22:21 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:22:21 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:22:21 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:22:21 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:22:22 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:22:22 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:22:22 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:22:22 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:22:22 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:22:22 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:22:23 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:22:23 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:22:23 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:22:23 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:22:23 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:22:23 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:22:24 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:22:24 Europe/Berlin] Router received URL: feedback
+[27-Mar-2026 19:23:51 Europe/Berlin] Router received URL: branch/index
+[27-Mar-2026 19:23:51 Europe/Berlin] Router received URL: branch
+[27-Mar-2026 19:23:52 Europe/Berlin] Router received URL: branch/1/services
+[27-Mar-2026 19:23:52 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[27-Mar-2026 19:23:52 Europe/Berlin] Router received URL: branch/1
+[27-Mar-2026 19:23:52 Europe/Berlin] Router received URL: branch/1/reviews
+[27-Mar-2026 19:24:41 Europe/Berlin] Router received URL: branch/sendInquiry
+[27-Mar-2026 19:37:34 Europe/Berlin] Router received URL: auth/login
+[27-Mar-2026 19:37:34 Europe/Berlin] Router received URL: branch/index
+[27-Mar-2026 19:37:34 Europe/Berlin] Router received URL: branch
+[27-Mar-2026 19:37:36 Europe/Berlin] Router received URL: reservation/getCustomerReservations
