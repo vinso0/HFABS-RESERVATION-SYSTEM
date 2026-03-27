@@ -159,65 +159,62 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'customer') {
 
   <!-- Review Modal -->
   <div id="reviewModal" class="modal">
-    <div class="modal-content">
-      <span class="modal-close">&times;</span>
+    <div class="modal-content modal-content--wide">
+      <span class="modal-close" onclick="closeReviewModal()">&times;</span>
       <h2 class="modal-title">Leave a Review</h2>
 
       <div class="modal-body">
         <input type="hidden" id="reviewReservationId">
         <input type="hidden" id="reviewBranchId">
-        
+        <input type="hidden" id="reviewServiceId">
+
+        <!-- Rating -->
         <div class="form-group">
-          <label for="reviewRating">Rating:</label>
+          <label>Rating:</label>
           <div class="rating-stars">
-              <input type="radio" id="star5" name="rating" value="5" checked>
-              <label for="star5" title="Excellent">★</label>
-              <input type="radio" id="star4" name="rating" value="4">
-              <label for="star4" title="Very Good">★</label>
-              <input type="radio" id="star3" name="rating" value="3">
-              <label for="star3" title="Good">★</label>
-              <input type="radio" id="star2" name="rating" value="2">
-              <label for="star2" title="Fair">★</label>
-              <input type="radio" id="star1" name="rating" value="1">
-              <label for="star1" title="Poor">★</label>
+            <input type="radio" id="star5" name="rating" value="5" checked>
+            <label for="star5" title="Excellent">★</label>
+            <input type="radio" id="star4" name="rating" value="4">
+            <label for="star4" title="Very Good">★</label>
+            <input type="radio" id="star3" name="rating" value="3">
+            <label for="star3" title="Good">★</label>
+            <input type="radio" id="star2" name="rating" value="2">
+            <label for="star2" title="Fair">★</label>
+            <input type="radio" id="star1" name="rating" value="1">
+            <label for="star1" title="Poor">★</label>
           </div>
           <input type="hidden" id="reviewRating" value="5">
         </div>
-        
+
+        <!-- Comment -->
         <div class="form-group">
-          <label for="reviewComment">Comment:</label>
+          <label for="reviewComment">Comment: <span class="required">*</span></label>
           <textarea id="reviewComment" rows="4" placeholder="Please share your experience..." required></textarea>
         </div>
-        
+
+        <!-- Photo Upload -->
+        <div class="form-group">
+          <label>Photos <span class="upload-hint">(Optional — max 5 photos, 5MB each, JPG/PNG/WEBP)</span></label>
+          <div class="photo-upload-area" id="photoUploadArea">
+            <input type="file" id="reviewPhotos" name="photos[]" accept=".jpg,.jpeg,.png,.webp" multiple style="display:none;">
+            <button type="button" class="btn-upload-trigger" onclick="document.getElementById('reviewPhotos').click()">
+              <i class="fas fa-camera"></i>
+              <span>Add Photos</span>
+            </button>
+            <p class="upload-subtext">or drag and drop here</p>
+          </div>
+          <div id="photoPreviewContainer" class="photo-preview-container"></div>
+          <p id="photoCountText" class="photo-count-text"></p>
+        </div>
+
         <div class="modal-actions">
           <button class="btn-primary" onclick="submitReview()">
-            <i class="fas fa-check"></i>
-            Submit Review
+            <i class="fas fa-check"></i> Submit Review
           </button>
           <button class="btn-cancel" onclick="closeReviewModal()">
-            <i class="fas fa-times"></i>
-            Cancel
+            <i class="fas fa-times"></i> Cancel
           </button>
         </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- View Review Modal -->
-  <div id="viewReviewModal" class="modal">
-    <div class="modal-content">
-      <span class="modal-close">&times;</span>
-      <h2 class="modal-title">Reservation Review</h2>
-
-      <div class="modal-body" id="viewReviewBody">
-        <!-- Modal content will be populated by JavaScript -->
-      </div>
-      
-      <div class="modal-actions">
-        <button class="btn-close" onclick="closeViewReviewModal()">
-          <i class="fas fa-times"></i>
-          Close
-        </button>
       </div>
     </div>
   </div>

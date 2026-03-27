@@ -1,0 +1,5 @@
+# backend/public/uploads/feedback/.htaccess
+<FilesMatch "\.php$">
+    Deny from all
+</FilesMatch>
+Options -Indexes

@@ -577,6 +577,128 @@
     font-weight: 600;
 }
 
+/* ==========================================
+   CATEGORY ROW — Icon + Visibility Badge
+   ========================================== */
+
+.category-icon-small {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: #fff;
+    margin-right: 4px;
+}
+
+.category-icon-small.hair    { background: linear-gradient(135deg, #ff6b6b, #ee5a52); }
+.category-icon-small.skin    { background: linear-gradient(135deg, #4ecdc4, #44a08d); }
+.category-icon-small.nails   { background: linear-gradient(135deg, #f7b731, #f79d00); }
+.category-icon-small.massage { background: linear-gradient(135deg, #a8e6cf, #7fcdbb); }
+.category-icon-small.facial  { background: linear-gradient(135deg, #ffd3e8, #ff9ff3); }
+.category-icon-small.other   { background: linear-gradient(135deg, #a29bfe, #6c5ce7); }
+
+/* Visibility Badge */
+.visibility-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-left: 10px;
+    vertical-align: middle;
+    letter-spacing: 0.2px;
+}
+
+.badge-active {
+    background: #dcfce7;
+    color: #16a34a;
+    border: 1px solid #bbf7d0;
+}
+
+.badge-inactive {
+    background: #f3f4f6;
+    color: #9ca3af;
+    border: 1px solid #e5e7eb;
+}
+
+/* ==========================================
+   QUICK TOGGLE SWITCH
+   ========================================== */
+
+.toggle-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.toggle-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #6b7280;
+    min-width: 48px;
+    text-align: right;
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+    cursor: pointer;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    inset: 0;
+    background: #d1d5db;
+    border-radius: 24px;
+    transition: background 0.25s ease;
+}
+
+.toggle-slider::before {
+    content: '';
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    left: 3px;
+    top: 3px;
+    background: white;
+    border-radius: 50%;
+    transition: transform 0.25s ease;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+
+.toggle-switch input:checked + .toggle-slider {
+    background: #d91a7e;
+}
+
+.toggle-switch input:checked + .toggle-slider::before {
+    transform: translateX(20px);
+}
+
+/* Inactive row dim effect */
+.category-item.inactive .category-icon-small {
+    filter: grayscale(60%);
+    opacity: 0.7;
+}
+
+.category-item.inactive .category-name {
+    color: #9ca3af;
+}
+
 
 /* Responsive Design */
 @media (max-width: 768px) {

@@ -5,7 +5,6 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     exit;
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,48 +19,58 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
 </head>
 <body>
     <?php include 'components/admin-sidebar.php'; ?>
-    
+
     <main class="main-content">
         <?php include 'components/admin-navbar.php'; ?>
 
         <section class="feedback-section">
-            <h2>Feedback & Reviews</h2>
-            <p class="subtitle-text">View and manage customer feedback for your branch</p>
+            <h2>Feedback &amp; Reviews</h2>
+            <p class="subtitle-text">Moderate and manage customer feedback for your branch</p>
 
             <!-- Rating Overview -->
             <div class="rating-overview">
                 <div class="overall-rating">
-                    <div class="rating-score" id="overallRating">4.8</div>
-                    <div class="rating-stars" id="overallStars">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <div class="total-reviews" id="totalReviews">128 reviews</div>
+                    <div class="rating-score" id="overallRating">—</div>
+                    <div class="rating-stars" id="overallStars"></div>
+                    <div class="total-reviews" id="totalReviews">0 reviews</div>
                 </div>
-                
-                <div class="rating-breakdown" id="ratingBreakdown">
-                    <!-- Rating breakdown will be populated by JavaScript -->
-                </div>
+                <div class="rating-breakdown" id="ratingBreakdown"></div>
             </div>
 
+            <!-- Moderation Status Tabs -->
+            <div class="status-tabs">
+                <button class="status-tab active" data-status="all">
+                    All
+                </button>
+                <button class="status-tab" data-status="pending">
+                    Pending <span class="tab-badge" id="pendingCount">0</span>
+                </button>
+                <button class="status-tab" data-status="approved">
+                    Approved
+                </button>
+                <button class="status-tab" data-status="rejected">
+                    Rejected
+                </button>
+                <button class="status-tab tab-flagged" data-status="flagged">
+                    <i class="fas fa-flag"></i> Flagged <span class="tab-badge tab-badge--red" id="flaggedCount">0</span>
+                </button>
+            </div>
+
+            <!-- Search & Filter -->
             <div class="filter-section">
                 <div class="filter-search">
                     <i class="fas fa-search"></i>
-                    <input type="text" id="searchInput" placeholder="Search reviews by customer name or service...">
+                    <input type="text" id="searchInput" placeholder="Search by customer name, service, or comment...">
                 </div>
-                
                 <div class="filter-rating">
                     <i class="fas fa-star"></i>
                     <select id="filterRating">
                         <option value="all">All Ratings</option>
                         <option value="5">5 Stars</option>
-                        <option value="4">4 Stars & Up</option>
-                        <option value="3">3 Stars & Up</option>
-                        <option value="2">2 Stars & Up</option>
-                        <option value="1">1 Star & Up</option>
+                        <option value="4">4 Stars &amp; Up</option>
+                        <option value="3">3 Stars &amp; Up</option>
+                        <option value="2">2 Stars &amp; Up</option>
+                        <option value="1">1 Star &amp; Up</option>
                     </select>
                 </div>
             </div>

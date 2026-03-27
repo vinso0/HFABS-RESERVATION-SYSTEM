@@ -72,20 +72,23 @@ class Branch extends Database
         $services = array();
         if ($result && $result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
-                // Format duration to be more readable (e.g., "60 min" instead of 60)
                 if (!empty($row['duration'])) {
                     $row['duration'] = $row['duration'] . ' min';
                 } else {
                     $row['duration'] = 'N/A';
                 }
-                
-                // Map category names to more user-friendly format (e.g., "hair" to "Hair Services")
+
                 if (!empty($row['category'])) {
-                    $row['category'] = ucfirst(strtolower($row['category'])) . ' Services';
+                    // Only append " Services" if the name doesn't already contain "service" (any case)
+                    if (stripos($row['category'], 'service') === false) {
+                        $row['category'] = ucfirst(strtolower($row['category'])) . ' Services';
+                    } else {
+                        $row['category'] = ucwords(strtolower($row['category']));
+                    }
                 } else {
                     $row['category'] = 'Other Services';
                 }
-                
+
                 $services[] = $row;
             }
         }
@@ -121,13 +124,17 @@ class Branch extends Database
         $categories = array();
         if ($result && $result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
-                // Map category names to more user-friendly format (e.g., "hair" to "Hair Services")
                 if (!empty($row['categoryname'])) {
-                    $row['categoryname'] = ucfirst(strtolower($row['categoryname'])) . ' Services';
+                    // Only append " Services" if the name doesn't already contain "service" (any case)
+                    if (stripos($row['categoryname'], 'service') === false) {
+                        $row['categoryname'] = ucfirst(strtolower($row['categoryname'])) . ' Services';
+                    } else {
+                        // Just normalize the casing — ucwords so "NAIL SERVICES" → "Nail Services"
+                        $row['categoryname'] = ucwords(strtolower($row['categoryname']));
+                    }
                 } else {
                     $row['categoryname'] = 'Other Services';
                 }
-                
                 $categories[] = $row;
             }
         }

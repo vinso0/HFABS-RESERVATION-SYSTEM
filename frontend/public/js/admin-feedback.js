@@ -1,304 +1,366 @@
-// API base URL - adjust based on your environment (using URL param format)
-const API_BASE_URL = '../../backend/public/index.php?url=feedback';
+const API_BASE_URL      = '../../backend/public/index.php?url=feedback';
+const MODERATE_URL      = '../../backend/public/index.php?url=feedback/moderate';
+const IMG_BASE_URL      = '../../backend/public/';
 
-// Store fetched feedback data
-let feedbackData = [];
-let filteredFeedback = [];
+let feedbackData      = [];
+let filteredFeedback  = [];
 let pagination;
+let currentStatusFilter = 'all';
 
-// Fetch feedback from API
-async function fetchFeedback(search = '', minRating = 0) {
-    let url = `${API_BASE_URL}&search=${encodeURIComponent(search)}&min_rating=${encodeURIComponent(minRating)}`;
-    
+// ─── Fetch ────────────────────────────────────────────────────────────
+async function fetchFeedback(search = '', minRating = 0, status = 'all') {
+    const url = `${API_BASE_URL}&search=${encodeURIComponent(search)}&min_rating=${encodeURIComponent(minRating)}&status=${encodeURIComponent(status)}`;
+
     const response = await fetch(url, {
         method: 'GET',
-        headers: {
-            'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         credentials: 'include'
     });
 
-    const responseText = await response.text();
-    
-    if (!response.ok) {
-        throw new Error(`Server error: ${response.status} - ${responseText}`);
+    const text = await response.text();
+    if (!response.ok) throw new Error(`Server error: ${response.status}`);
+
+    const result = JSON.parse(text);
+
+    if (result.success) {
+        feedbackData = result.data.map(f => ({
+            id:           f.id,
+            feedback_id:  f.feedback_id,
+            customerName: f.customerName,
+            rating:       f.rating,
+            service:      f.service,
+            feedback:     f.feedback,
+            date:         f.date,
+            time:         f.time,
+            status:       f.status,
+            is_flagged:   f.is_flagged,
+            admin_note:   f.admin_note,
+            photos:       f.photos || []
+        }));
+        return result;
     }
+    throw new Error(result.message || 'Failed to fetch feedback');
+}
 
-    try {
-        const result = JSON.parse(responseText);
+// ─── Moderate ─────────────────────────────────────────────────────────
+async function moderateFeedback(feedbackId, action, adminNote = null) {
+    const response = await fetch(MODERATE_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ feedback_id: feedbackId, action, admin_note: adminNote })
+    });
 
-        if (result.success) {
-            feedbackData = result.data.map(feedback => ({
-                id: feedback.id,
-                customerName: feedback.customerName,
-                rating: feedback.rating,
-                service: feedback.service,
-                feedback: feedback.feedback,
-                date: feedback.date,
-                time: feedback.time
-            }));
-            return result;
-        } else {
-            throw new Error(result.message || 'Failed to fetch feedback');
-        }
-    } catch (e) {
-        if (e instanceof SyntaxError) {
-            throw new Error('Invalid JSON response: ' + responseText);
-        }
-        throw e;
+    const result = await response.json();
+    return result;
+}
+
+// ─── Action Handlers ──────────────────────────────────────────────────
+async function approveFeedback(feedbackId) {
+    if (!confirm('Approve this feedback? It will be visible to customers.')) return;
+    const res = await moderateFeedback(feedbackId, 'approve');
+    if (res.success) {
+        showAdminToast('Feedback approved ✓', 'success');
+        loadFeedback(getSearchTerm(), getMinRating(), currentStatusFilter);
+    } else {
+        showAdminToast(res.message || 'Failed', 'error');
     }
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize pagination first
+async function rejectFeedback(feedbackId) {
+    const note = prompt('Reason for rejection (optional):');
+    if (note === null) return; // Cancelled
+    const res = await moderateFeedback(feedbackId, 'reject', note || null);
+    if (res.success) {
+        showAdminToast('Feedback rejected', 'warning');
+        loadFeedback(getSearchTerm(), getMinRating(), currentStatusFilter);
+    } else {
+        showAdminToast(res.message || 'Failed', 'error');
+    }
+}
+
+async function flagFeedback(feedbackId, currentFlagged) {
+    const action = currentFlagged == 1 ? 'unflag' : 'flag';
+    const res = await moderateFeedback(feedbackId, action);
+    if (res.success) {
+        showAdminToast(action === 'flag' ? 'Feedback flagged' : 'Flag removed', 'info');
+        loadFeedback(getSearchTerm(), getMinRating(), currentStatusFilter);
+    }
+}
+
+async function deleteFeedback(feedbackId) {
+    if (!confirm('Permanently delete this feedback? This cannot be undone.')) return;
+    const res = await moderateFeedback(feedbackId, 'delete');
+    if (res.success) {
+        showAdminToast('Feedback deleted', 'success');
+        loadFeedback(getSearchTerm(), getMinRating(), currentStatusFilter);
+    } else {
+        showAdminToast(res.message || 'Failed', 'error');
+    }
+}
+
+// ─── Helpers ──────────────────────────────────────────────────────────
+function getSearchTerm() { return document.getElementById('searchInput')?.value || ''; }
+function getMinRating()  {
+    const val = document.getElementById('filterRating')?.value || 'all';
+    return val === 'all' ? 0 : parseInt(val);
+}
+
+function showAdminToast(message, type = 'success') {
+    // Re-use existing toast if available, else alert
+    if (typeof showToast === 'function') {
+        showToast(message, type);
+    } else {
+        alert(message);
+    }
+}
+
+// ─── DOM Ready ────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', function () {
     pagination = new Pagination({
         totalItems: 0,
         itemsPerPage: 6,
         currentPage: 1,
-        onPageChange: function(page, itemsPerPage) {
-            const searchInput = document.getElementById('searchInput');
-            const filterSelect = document.getElementById('filterRating');
-            const searchTerm = searchInput?.value || '';
-            const filterValue = filterSelect?.value || 'all';
-            const minRating = filterValue === 'all' ? 0 : parseInt(filterValue);
-            loadFeedback(searchTerm, minRating);
+        onPageChange: function () {
+            loadFeedback(getSearchTerm(), getMinRating(), currentStatusFilter);
         }
     });
     window.pagination = pagination;
-    
-    // Load feedback immediately after pagination is set up
+
     setTimeout(async () => {
-        try {
-            await loadFeedback('', 0);
-        } catch (error) {
-            const feedbackList = document.getElementById('feedbackList');
-            if (feedbackList) {
-                feedbackList.innerHTML = `
-                    <div class="empty-state">
-                        <i class="fas fa-exclamation-circle"></i>
-                        <p>Failed to load feedback</p>
-                        <p class="subtitle">Please try again later</p>
-                    </div>
-                `;
-            }
-        }
+        try { await loadFeedback('', 0, 'all'); }
+        catch (e) { showError('Failed to load feedback'); }
     }, 0);
-    
-    // Search functionality
+
+    // Search
     const searchInput = document.getElementById('searchInput');
     let searchTimeout;
-    searchInput.addEventListener('input', function() {
+    searchInput?.addEventListener('input', function () {
         clearTimeout(searchTimeout);
         searchTimeout = setTimeout(() => {
-            searchFeedback(searchInput.value);
+            pagination.goToPage(1);
+            loadFeedback(searchInput.value, getMinRating(), currentStatusFilter);
         }, 300);
     });
-    
-    // Filter functionality
-    const filterSelect = document.getElementById('filterRating');
-    filterSelect.addEventListener('change', function() {
-        filterFeedbackByRating(filterSelect.value);
+
+    // Rating filter
+    const filterRating = document.getElementById('filterRating');
+    filterRating?.addEventListener('change', function () {
+        pagination.goToPage(1);
+        loadFeedback(getSearchTerm(), getMinRating(), currentStatusFilter);
+    });
+
+    // Status filter tabs
+    document.querySelectorAll('.status-tab').forEach(tab => {
+        tab.addEventListener('click', function () {
+            document.querySelectorAll('.status-tab').forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            currentStatusFilter = this.dataset.status;
+            pagination.goToPage(1);
+            loadFeedback(getSearchTerm(), getMinRating(), currentStatusFilter);
+        });
+    });
+
+    // Image lightbox close
+    document.getElementById('feedbackLightbox')?.addEventListener('click', function (e) {
+        if (e.target === this) closeLightbox();
     });
 });
 
-async function loadFeedback(searchTerm = '', minRating = 0) {
+// ─── Load & Render ────────────────────────────────────────────────────
+async function loadFeedback(searchTerm = '', minRating = 0, status = 'all') {
     const feedbackList = document.getElementById('feedbackList');
     if (!feedbackList) return;
-    
+
     feedbackList.innerHTML = `
         <div class="loading-row">
-            <div class="loading-spinner">
-                <i class="fas fa-spinner fa-spin"></i>
-                <span>Loading feedback...</span>
-            </div>
-        </div>
-    `;
-    
+            <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i><span>Loading feedback...</span></div>
+        </div>`;
+
     try {
-        const result = await fetchFeedback(searchTerm, minRating);
+        const result = await fetchFeedback(searchTerm, minRating, status);
         filteredFeedback = [...feedbackData];
-        
-        // Update rating breakdown with stats from API
-        if (result.stats) {
-            updateRatingBreakdown(result.stats);
-        } else {
-            calculateRatingBreakdown();
-        }
-        
+
+        if (result.stats) updateRatingBreakdown(result.stats);
+
+        // Update badge counts
+        updateStatusBadges(result.stats);
+
         if (filteredFeedback.length === 0) {
             feedbackList.innerHTML = `
                 <div class="empty-state">
                     <i class="fas fa-comments"></i>
                     <p>No feedback found</p>
                     <p class="subtitle">Try adjusting your search or filters</p>
-                </div>
-            `;
+                </div>`;
             pagination.updateTotalItems(0);
             return;
         }
-        
-        // ✅ FIX: Update total FIRST so getCurrentPageRange() uses correct values
-        pagination.updateTotalItems(filteredFeedback.length);
 
-        // Clear loading and display feedback
+        pagination.updateTotalItems(filteredFeedback.length);
         feedbackList.innerHTML = '';
-        
-        // Get current page range from pagination
+
         const range = pagination.getCurrentPageRange();
-        const feedbackToDisplay = filteredFeedback.slice(range.start, range.end);
-        
-        feedbackToDisplay.forEach(feedback => {
-            const feedbackCard = document.createElement('div');
-            feedbackCard.className = 'feedback-card';
-            feedbackCard.innerHTML = `
+        const toDisplay = filteredFeedback.slice(range.start, range.end);
+
+        toDisplay.forEach(feedback => {
+            const card = document.createElement('div');
+            card.className = `feedback-card ${feedback.is_flagged == 1 ? 'is-flagged' : ''} status-${feedback.status}`;
+
+            const statusBadge = `<span class="feedback-status-badge badge-${feedback.status}">${capitalise(feedback.status)}</span>`;
+            const flagBadge   = feedback.is_flagged == 1
+                ? `<span class="feedback-flag-badge"><i class="fas fa-flag"></i> Flagged</span>`
+                : '';
+
+            const photosHtml = feedback.photos && feedback.photos.length > 0
+                ? `<div class="feedback-photo-grid">
+                    ${feedback.photos.map((p, i) =>
+                        `<img src="${IMG_BASE_URL}${p.photo_path}" 
+                              alt="Photo ${i+1}" 
+                              class="feedback-thumb" 
+                              onclick="openLightbox('${IMG_BASE_URL}${p.photo_path}')"
+                              loading="lazy">`
+                    ).join('')}
+                   </div>`
+                : '';
+
+            const adminNoteHtml = feedback.admin_note
+                ? `<div class="admin-note"><i class="fas fa-sticky-note"></i> <em>${escapeHtml(feedback.admin_note)}</em></div>`
+                : '';
+
+            card.innerHTML = `
                 <div class="feedback-header">
                     <div class="feedback-user">
-                        <div class="customer-name">${feedback.customerName}</div>
+                        <div class="customer-name">${escapeHtml(feedback.customerName)}</div>
                         <div class="feedback-time">${formatDateTime(feedback.date, feedback.time)}</div>
                     </div>
                     <div class="feedback-rating">
                         <div class="feedback-stars">${generateStars(feedback.rating)}</div>
-                        <div class="feedback-service">
-                            <i class="fas fa-spa"></i>
-                            <span>${feedback.service}</span>
-                        </div>
+                        <div class="feedback-service"><i class="fas fa-spa"></i><span>${escapeHtml(feedback.service)}</span></div>
                     </div>
                 </div>
+                <div class="feedback-badges">${statusBadge}${flagBadge}</div>
                 <div class="feedback-content">
-                    <div class="feedback-text">${feedback.feedback}</div>
+                    <div class="feedback-text">${escapeHtml(feedback.feedback)}</div>
+                    ${photosHtml}
+                    ${adminNoteHtml}
+                </div>
+                <div class="feedback-actions">
+                    ${feedback.status !== 'approved'
+                        ? `<button class="btn-action btn-approve" onclick="approveFeedback(${feedback.feedback_id})">
+                               <i class="fas fa-check"></i> Approve
+                           </button>`
+                        : ''}
+                    ${feedback.status !== 'rejected'
+                        ? `<button class="btn-action btn-reject" onclick="rejectFeedback(${feedback.feedback_id})">
+                               <i class="fas fa-ban"></i> Reject
+                           </button>`
+                        : ''}
+                    <button class="btn-action btn-flag ${feedback.is_flagged == 1 ? 'btn-flagged' : ''}" 
+                            onclick="flagFeedback(${feedback.feedback_id}, ${feedback.is_flagged})">
+                        <i class="fas fa-flag"></i> ${feedback.is_flagged == 1 ? 'Unflag' : 'Flag'}
+                    </button>
+                    <button class="btn-action btn-delete" onclick="deleteFeedback(${feedback.feedback_id})">
+                        <i class="fas fa-trash"></i> Delete
+                    </button>
                 </div>
             `;
-            feedbackList.appendChild(feedbackCard);
+            feedbackList.appendChild(card);
         });
-        
+
     } catch (error) {
-        feedbackList.innerHTML = `
-            <div class="empty-state">
-                <i class="fas fa-exclamation-circle"></i>
-                <p>Failed to load feedback</p>
-                <p class="subtitle">Please try again later</p>
-            </div>
-        `;
+        showError('Failed to load feedback');
     }
 }
 
-// Search functionality
-function searchFeedback(searchTerm) {
-    const filterValue = document.getElementById('filterRating')?.value || 'all';
-    const minRating = filterValue === 'all' ? 0 : parseInt(filterValue);
-    pagination.goToPage(1);
-    loadFeedback(searchTerm, minRating);
+function showError(msg) {
+    const fl = document.getElementById('feedbackList');
+    if (fl) fl.innerHTML = `
+        <div class="empty-state">
+            <i class="fas fa-exclamation-circle"></i>
+            <p>${msg}</p>
+        </div>`;
 }
 
-// Filter functionality
-function filterFeedbackByRating(filterValue) {
-    const searchTerm = document.getElementById('searchInput')?.value || '';
-    const minRating = filterValue === 'all' ? 0 : parseInt(filterValue);
-    pagination.goToPage(1);
-    loadFeedback(searchTerm, minRating);
-}
-
-// Calculate rating breakdown from filtered data
-function calculateRatingBreakdown() {
-    const totalRating = filteredFeedback.reduce((sum, feedback) => sum + feedback.rating, 0);
-    const overallRating = filteredFeedback.length > 0 ? (totalRating / filteredFeedback.length).toFixed(1) : '0.0';
-    
-    const ratingCounts = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
-    
-    filteredFeedback.forEach(feedback => {
-        ratingCounts[feedback.rating]++;
-    });
-    
-    document.getElementById('overallRating').textContent = overallRating;
-    document.getElementById('totalReviews').textContent = `${filteredFeedback.length} review${filteredFeedback.length !== 1 ? 's' : ''}`;
-    
-    const starContainer = document.getElementById('overallStars');
-    starContainer.innerHTML = generateStars(parseFloat(overallRating));
-    
-    const breakdownContainer = document.getElementById('ratingBreakdown');
-    breakdownContainer.innerHTML = '';
-    
-    for (let i = 5; i >= 1; i--) {
-        const percentage = filteredFeedback.length > 0 ? Math.round((ratingCounts[i] / filteredFeedback.length) * 100) : 0;
-        
-        const barContainer = document.createElement('div');
-        barContainer.className = 'rating-bar-container';
-        barContainer.innerHTML = `
-            <div class="rating-number">${i} <i class="fas fa-star"></i></div>
-            <div class="rating-bar">
-                <div class="rating-progress" style="width: ${percentage}%"></div>
-            </div>
-            <div class="rating-count">${ratingCounts[i]}</div>
-        `;
-        
-        breakdownContainer.appendChild(barContainer);
+// ─── Lightbox ─────────────────────────────────────────────────────────
+function openLightbox(src) {
+    let lb = document.getElementById('feedbackLightbox');
+    if (!lb) {
+        lb = document.createElement('div');
+        lb.id = 'feedbackLightbox';
+        lb.className = 'feedback-lightbox';
+        lb.innerHTML = `<div class="lightbox-inner">
+            <button class="lightbox-close" onclick="closeLightbox()"><i class="fas fa-times"></i></button>
+            <img id="lightboxImg" src="" alt="Feedback Photo">
+        </div>`;
+        document.body.appendChild(lb);
+        lb.addEventListener('click', (e) => { if (e.target === lb) closeLightbox(); });
     }
+    document.getElementById('lightboxImg').src = src;
+    lb.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
 }
 
-// Update rating breakdown with stats from API
-function updateRatingBreakdown(stats) {
-    const overallRating = parseFloat(stats.averageRating).toFixed(1);
-    const totalReviews = stats.totalReviews || 0;
-    
-    document.getElementById('overallRating').textContent = overallRating;
-    document.getElementById('totalReviews').textContent = `${totalReviews} review${totalReviews !== 1 ? 's' : ''}`;
-    
-    const starContainer = document.getElementById('overallStars');
-    starContainer.innerHTML = generateStars(parseFloat(overallRating));
-    
-    const breakdownContainer = document.getElementById('ratingBreakdown');
-    breakdownContainer.innerHTML = '';
-    
-    const ratingCounts = {
-        5: parseInt(stats.fiveStars) || 0,
-        4: parseInt(stats.fourStars) || 0,
-        3: parseInt(stats.threeStars) || 0,
-        2: parseInt(stats.twoStars) || 0,
-        1: parseInt(stats.oneStar) || 0
-    };
-    
-    for (let i = 5; i >= 1; i--) {
-        const percentage = totalReviews > 0 ? Math.round((ratingCounts[i] / totalReviews) * 100) : 0;
-        
-        const barContainer = document.createElement('div');
-        barContainer.className = 'rating-bar-container';
-        barContainer.innerHTML = `
-            <div class="rating-number">${i} <i class="fas fa-star"></i></div>
-            <div class="rating-bar">
-                <div class="rating-progress" style="width: ${percentage}%"></div>
-            </div>
-            <div class="rating-count">${ratingCounts[i]}</div>
-        `;
-        
-        breakdownContainer.appendChild(barContainer);
-    }
+function closeLightbox() {
+    const lb = document.getElementById('feedbackLightbox');
+    if (lb) lb.style.display = 'none';
+    document.body.style.overflow = '';
+}
+
+// ─── Status Badge Counter ─────────────────────────────────────────────
+function updateStatusBadges(stats) {
+    const pendingBadge = document.getElementById('pendingCount');
+    const flaggedBadge = document.getElementById('flaggedCount');
+    if (pendingBadge && stats) pendingBadge.textContent = stats.pendingCount || 0;
+    if (flaggedBadge && stats) flaggedBadge.textContent = stats.flaggedCount || 0;
+}
+
+// ─── Shared Helpers ───────────────────────────────────────────────────
+function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str || '';
+    return div.innerHTML;
+}
+
+function capitalise(str) {
+    return str ? str.charAt(0).toUpperCase() + str.slice(1) : '';
 }
 
 function generateStars(rating) {
-    const fullStars = Math.floor(rating);
-    const hasHalfStar = rating % 1 !== 0;
-    const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
-    
-    let stars = '';
-    
-    for (let i = 0; i < fullStars; i++) {
-        stars += '<i class="fas fa-star"></i>';
-    }
-    
-    if (hasHalfStar) {
-        stars += '<i class="fas fa-star-half-alt"></i>';
-    }
-    
-    for (let i = 0; i < emptyStars; i++) {
-        stars += '<i class="far fa-star"></i>';
-    }
-    
-    return stars;
+    const full  = Math.floor(rating);
+    const half  = rating % 1 !== 0;
+    const empty = 5 - full - (half ? 1 : 0);
+    return '<i class="fas fa-star"></i>'.repeat(full)
+         + (half ? '<i class="fas fa-star-half-alt"></i>' : '')
+         + '<i class="far fa-star"></i>'.repeat(empty);
 }
 
 function formatDateTime(dateString, timeString) {
     const date = new Date(dateString);
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    const formattedDate = date.toLocaleDateString('en-US', options);
-    return `${formattedDate} at ${timeString}`;
+    return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+         + (timeString ? ` at ${timeString}` : '');
+}
+
+function updateRatingBreakdown(stats) {
+    const overall     = parseFloat(stats.averageRating).toFixed(1);
+    const total       = stats.totalReviews || 0;
+
+    document.getElementById('overallRating').textContent  = overall;
+    document.getElementById('totalReviews').textContent   = `${total} review${total !== 1 ? 's' : ''}`;
+    document.getElementById('overallStars').innerHTML     = generateStars(parseFloat(overall));
+
+    const counts = { 5: +stats.fiveStars||0, 4: +stats.fourStars||0, 3: +stats.threeStars||0, 2: +stats.twoStars||0, 1: +stats.oneStar||0 };
+    const bd     = document.getElementById('ratingBreakdown');
+    bd.innerHTML = '';
+
+    for (let i = 5; i >= 1; i--) {
+        const pct = total > 0 ? Math.round((counts[i] / total) * 100) : 0;
+        const bar = document.createElement('div');
+        bar.className = 'rating-bar-container';
+        bar.innerHTML = `
+            <div class="rating-number">${i} <i class="fas fa-star"></i></div>
+            <div class="rating-bar"><div class="rating-progress" style="width:${pct}%"></div></div>
+            <div class="rating-count">${counts[i]}</div>`;
+        bd.appendChild(bar);
+    }
 }

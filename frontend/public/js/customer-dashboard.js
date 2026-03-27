@@ -639,45 +639,149 @@ function openEditReviewModal(reservationId) {
     document.body.style.overflow = 'hidden';
 }
 
+// ─── Photo Upload Setup ──────────────────────────────────────────────
+const MAX_PHOTOS = 5;
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+const ALLOWED_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+let selectedPhotoFiles = [];
+
+function setupPhotoUpload() {
+    const input = document.getElementById('reviewPhotos');
+    const uploadArea = document.getElementById('photoUploadArea');
+
+    if (!input) return;
+
+    input.addEventListener('change', function () {
+        handlePhotoSelection(Array.from(this.files));
+        this.value = ''; // Reset so same file can be re-selected
+    });
+
+    // Drag-and-drop
+    uploadArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploadArea.classList.add('drag-over');
+    });
+    uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('drag-over'));
+    uploadArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploadArea.classList.remove('drag-over');
+        handlePhotoSelection(Array.from(e.dataTransfer.files));
+    });
+}
+
+function handlePhotoSelection(files) {
+    const errors = [];
+
+    files.forEach(file => {
+        if (selectedPhotoFiles.length >= MAX_PHOTOS) {
+            errors.push(`Maximum ${MAX_PHOTOS} photos allowed.`);
+            return;
+        }
+        if (!ALLOWED_TYPES.includes(file.type)) {
+            errors.push(`"${file.name}" is not a valid image (JPG, PNG, WEBP only).`);
+            return;
+        }
+        if (file.size > MAX_FILE_SIZE) {
+            errors.push(`"${file.name}" exceeds the 5MB size limit.`);
+            return;
+        }
+        selectedPhotoFiles.push(file);
+    });
+
+    if (errors.length > 0) {
+        showToast(errors[0], 'error');
+    }
+
+    renderPhotoPreviews();
+}
+
+function renderPhotoPreviews() {
+    const container = document.getElementById('photoPreviewContainer');
+    const countText = document.getElementById('photoCountText');
+
+    if (!container) return;
+
+    container.innerHTML = '';
+
+    selectedPhotoFiles.forEach((file, index) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'photo-preview-item';
+            wrapper.innerHTML = `
+                <img src="${e.target.result}" alt="Preview ${index + 1}">
+                <button type="button" class="photo-remove-btn" onclick="removePhoto(${index})">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            container.appendChild(wrapper);
+        };
+        reader.readAsDataURL(file);
+    });
+
+    const remaining = MAX_PHOTOS - selectedPhotoFiles.length;
+    countText.textContent = selectedPhotoFiles.length > 0
+        ? `${selectedPhotoFiles.length} photo(s) selected (${remaining} more allowed)`
+        : '';
+}
+
+function removePhoto(index) {
+    selectedPhotoFiles.splice(index, 1);
+    renderPhotoPreviews();
+}
+
 // Function to submit review
 async function submitReview() {
-  const reservationId = document.getElementById('reviewReservationId').value;
-  const branchId = document.getElementById('reviewBranchId').value;
-  const rating = document.getElementById('reviewRating').value;
-  const comment = document.getElementById('reviewComment').value;
+    const reservationServiceId = document.getElementById('reviewServiceId')?.value;
+    const branchId             = document.getElementById('reviewBranchId')?.value;
+    const rating               = document.getElementById('reviewRating')?.value;
+    const comment              = document.getElementById('reviewComment')?.value?.trim();
 
-  if (!rating || !comment.trim()) {
-    Toast.warning('Please provide both a rating and a comment.');
-    return;
-  }
-
-  const reservation = window.currentReservations.find(r => r.reservation_id === parseInt(reservationId));
-  if (!reservation || reservation.services.length === 0) {
-    Toast.error('No services found for this reservation.');
-    return;
-  }
-
-  try {
-    for (const service of reservation.services) {
-      const response = await fetch('/HFABS/backend/public/index.php?url=reservation/submitFeedback', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        credentials: 'same-origin',
-        body: JSON.stringify({ reservation_service_id: service.reservation_service_id, branch_id: branchId, rating, comment })
-      });
-      const result = await response.json();
-      if (!result.success) {
-        Toast.error('Failed to submit review: ' + result.message);
+    if (!comment) {
+        showToast('Please write a comment before submitting.', 'error');
         return;
-      }
     }
-    Toast.success('Review submitted successfully! Thank you for your feedback. 🌟');
-    closeReviewModal();
-    setTimeout(() => location.reload(), 1800);
-  } catch (error) {
-    console.error('Error submitting feedback:', error);
-    Toast.error('Failed to submit review. Please try again.');
-  }
+
+    const formData = new FormData();
+    formData.append('reservation_service_id', reservationServiceId);
+    formData.append('branch_id', branchId);
+    formData.append('rating', rating);
+    formData.append('comment', comment);
+
+    selectedPhotoFiles.forEach((file) => {
+        formData.append('photos[]', file);
+    });
+
+    try {
+        const response = await fetch('../../backend/public/index.php?url=feedback/submit', {
+            method: 'POST',
+            credentials: 'include',
+            body: formData   // Do NOT set Content-Type header — browser sets multipart boundary
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            showToast('Review submitted! It will appear after admin approval.', 'success');
+            closeReviewModal();
+            loadReservations(); // Refresh reservation list
+        } else {
+            showToast(result.message || 'Failed to submit review.', 'error');
+        }
+    } catch (error) {
+        showToast('Network error. Please try again.', 'error');
+    }
+}
+
+function closeReviewModal() {
+    document.getElementById('reviewModal').style.display = 'none';
+    document.getElementById('reviewComment').value = '';
+    document.getElementById('reviewRating').value = '5';
+    selectedPhotoFiles = [];
+    renderPhotoPreviews();
+    // Reset stars to 5
+    const star5 = document.getElementById('star5');
+    if (star5) star5.checked = true;
 }
 
 // Function to update review
@@ -901,6 +1005,9 @@ document.addEventListener('DOMContentLoaded', async function() {
     
     // Display initial page
     displayCurrentPage();
+    
+    //Call setupPhotoUpload when DOM is ready
+    setupPhotoUpload();
     
     // Add filter event listener
     const filterSelect = document.getElementById('filterStatus');
