@@ -88,7 +88,7 @@ $firstName    = ucfirst(strtok($rawUsername, ' _-.'));
 
     <!-- ── Services ── -->
     <section class="services services-gallery" id="services">
-      <h2 class="services-heading">Our Services</h2>
+      <h2 class="services-heading">Our <span class="text-pink">Services</span></h2>
       <p class="section-subtitle">Discover our comprehensive range of beauty and wellness treatments</p>
 
       <div class="services-grid">

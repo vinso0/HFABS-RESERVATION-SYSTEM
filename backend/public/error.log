@@ -22885,3 +22885,171 @@ Stack trace:
 #1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
 #2 {main}
   thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php on line 344
+[28-Mar-2026 07:36:20 Europe/Berlin] Router received URL: branch/1
+[28-Mar-2026 07:36:20 Europe/Berlin] Router received URL: branch/1/services
+[28-Mar-2026 07:36:20 Europe/Berlin] Router received URL: branch/1/reviews
+[28-Mar-2026 07:36:21 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[28-Mar-2026 07:36:27 Europe/Berlin] Router received URL: branch/sendInquiry
+[28-Mar-2026 07:36:27 Europe/Berlin] PHP Warning:  require(C:\xampp\htdocs\HFABS\backend\app\controllers/../../../config/email.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php on line 344
+[28-Mar-2026 07:36:27 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\controllers/../../../config/email.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php:344
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): BranchController->sendInquiry()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php on line 344
+[28-Mar-2026 07:36:32 Europe/Berlin] Router received URL: branch/sendInquiry
+[28-Mar-2026 07:36:32 Europe/Berlin] PHP Warning:  require(C:\xampp\htdocs\HFABS\backend\app\controllers/../../../config/email.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php on line 344
+[28-Mar-2026 07:36:32 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\controllers/../../../config/email.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php:344
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): BranchController->sendInquiry()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php on line 344
+[28-Mar-2026 07:36:33 Europe/Berlin] Router received URL: branch/1
+[28-Mar-2026 07:36:33 Europe/Berlin] Router received URL: branch/1/services
+[28-Mar-2026 07:36:33 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[28-Mar-2026 07:36:33 Europe/Berlin] Router received URL: branch/1/reviews
+[28-Mar-2026 07:36:38 Europe/Berlin] Router received URL: branch/sendInquiry
+[28-Mar-2026 07:36:38 Europe/Berlin] PHP Warning:  require(C:\xampp\htdocs\HFABS\backend\app\controllers/../../../config/email.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php on line 344
+[28-Mar-2026 07:36:38 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\controllers/../../../config/email.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php:344
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): BranchController->sendInquiry()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php on line 344
+[28-Mar-2026 08:21:34 Europe/Berlin] Router received URL: branch/1
+[28-Mar-2026 08:21:34 Europe/Berlin] Router received URL: branch/1/services
+[28-Mar-2026 08:21:34 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[28-Mar-2026 08:21:34 Europe/Berlin] Router received URL: branch/1/reviews
+[28-Mar-2026 08:21:35 Europe/Berlin] Router received URL: branch
+[28-Mar-2026 08:21:35 Europe/Berlin] Router received URL: about/getAbout
+[28-Mar-2026 08:21:35 Europe/Berlin] Router received URL: about/getPolicies
+[28-Mar-2026 08:22:27 Europe/Berlin] Router received URL: auth/login
+[28-Mar-2026 08:22:27 Europe/Berlin] Router received URL: superadmin/branches
+[28-Mar-2026 08:22:27 Europe/Berlin] Router received URL: superadmin/recentAdmins
+[28-Mar-2026 08:22:27 Europe/Berlin] Router received URL: superadmin/dashboardStats
+[28-Mar-2026 08:22:29 Europe/Berlin] Router received URL: superadmin/branches
+[28-Mar-2026 08:22:31 Europe/Berlin] Router received URL: superadmin/branches
+[28-Mar-2026 08:22:31 Europe/Berlin] Router received URL: superadmin/branches
+[28-Mar-2026 08:22:31 Europe/Berlin] Router received URL: superadmin/admins
+[28-Mar-2026 08:23:48 Europe/Berlin] Router received URL: about/getAbout
+[28-Mar-2026 08:23:48 Europe/Berlin] Router received URL: about/getAllPolicies
+[28-Mar-2026 08:24:36 Europe/Berlin] Router received URL: about/updatePolicy
+[28-Mar-2026 08:24:36 Europe/Berlin] Router received URL: about/getAllPolicies
+[28-Mar-2026 08:24:42 Europe/Berlin] Router received URL: branch
+[28-Mar-2026 08:24:42 Europe/Berlin] Router received URL: about/getAbout
+[28-Mar-2026 08:24:42 Europe/Berlin] Router received URL: about/getPolicies
+[28-Mar-2026 08:24:57 Europe/Berlin] Router received URL: about/saveAbout
+[28-Mar-2026 08:25:02 Europe/Berlin] Router received URL: superadmin/branches
+[28-Mar-2026 08:25:03 Europe/Berlin] Router received URL: superadmin/branches
+[28-Mar-2026 08:25:04 Europe/Berlin] Router received URL: about/getAbout
+[28-Mar-2026 08:25:04 Europe/Berlin] Router received URL: about/getAllPolicies
+[28-Mar-2026 08:25:04 Europe/Berlin] Router received URL: superadmin/branches
+[28-Mar-2026 08:25:05 Europe/Berlin] Router received URL: about/getAbout
+[28-Mar-2026 08:25:05 Europe/Berlin] Router received URL: about/getAllPolicies
+[28-Mar-2026 08:25:20 Europe/Berlin] Router received URL: about/deletePolicy
+[28-Mar-2026 08:25:20 Europe/Berlin] Router received URL: about/getAllPolicies
+[28-Mar-2026 08:25:22 Europe/Berlin] Router received URL: about/deletePolicy
+[28-Mar-2026 08:25:22 Europe/Berlin] Router received URL: about/getAllPolicies
+[28-Mar-2026 08:25:48 Europe/Berlin] Router received URL: about/updatePolicy
+[28-Mar-2026 08:25:48 Europe/Berlin] Router received URL: about/getAllPolicies
+[28-Mar-2026 08:26:00 Europe/Berlin] Router received URL: about/updatePolicy
+[28-Mar-2026 08:26:00 Europe/Berlin] Router received URL: about/getAllPolicies
+[28-Mar-2026 08:26:09 Europe/Berlin] Router received URL: about/updatePolicy
+[28-Mar-2026 08:26:09 Europe/Berlin] Router received URL: about/getAllPolicies
+[28-Mar-2026 08:26:16 Europe/Berlin] Router received URL: branch
+[28-Mar-2026 08:26:16 Europe/Berlin] Router received URL: about/getPolicies
+[28-Mar-2026 08:26:16 Europe/Berlin] Router received URL: about/getAbout
+[28-Mar-2026 08:26:21 Europe/Berlin] Router received URL: branch/index
+[28-Mar-2026 08:26:21 Europe/Berlin] Router received URL: branch
+[28-Mar-2026 08:27:35 Europe/Berlin] Router received URL: branch
+[28-Mar-2026 08:27:35 Europe/Berlin] Router received URL: about/getAbout
+[28-Mar-2026 08:27:35 Europe/Berlin] Router received URL: about/getPolicies
+[28-Mar-2026 08:27:55 Europe/Berlin] Router received URL: branch/index
+[28-Mar-2026 08:27:55 Europe/Berlin] Router received URL: branch
+[28-Mar-2026 08:33:29 Europe/Berlin] Router received URL: about/getAbout
+[28-Mar-2026 08:33:29 Europe/Berlin] Router received URL: branch
+[28-Mar-2026 08:33:29 Europe/Berlin] Router received URL: about/getPolicies
+[28-Mar-2026 08:33:29 Europe/Berlin] Router received URL: about/getPolicies
+[28-Mar-2026 08:33:29 Europe/Berlin] Router received URL: branch
+[28-Mar-2026 08:33:29 Europe/Berlin] Router received URL: about/getAbout
+[28-Mar-2026 08:33:30 Europe/Berlin] Router received URL: branch
+[28-Mar-2026 08:33:30 Europe/Berlin] Router received URL: about/getAbout
+[28-Mar-2026 08:33:30 Europe/Berlin] Router received URL: about/getPolicies
+[28-Mar-2026 08:33:31 Europe/Berlin] Router received URL: branch
+[28-Mar-2026 08:33:31 Europe/Berlin] Router received URL: about/getAbout
+[28-Mar-2026 08:33:31 Europe/Berlin] Router received URL: about/getPolicies
+[28-Mar-2026 08:33:40 Europe/Berlin] Router received URL: branch
+[28-Mar-2026 08:33:40 Europe/Berlin] Router received URL: about/getAbout
+[28-Mar-2026 08:33:40 Europe/Berlin] Router received URL: about/getPolicies
+[28-Mar-2026 08:33:41 Europe/Berlin] Router received URL: branch
+[28-Mar-2026 08:33:41 Europe/Berlin] Router received URL: about/getAbout
+[28-Mar-2026 08:33:41 Europe/Berlin] Router received URL: about/getPolicies
+[28-Mar-2026 08:33:41 Europe/Berlin] Router received URL: branch
+[28-Mar-2026 08:33:41 Europe/Berlin] Router received URL: about/getAbout
+[28-Mar-2026 08:33:41 Europe/Berlin] Router received URL: about/getPolicies
+[28-Mar-2026 08:33:41 Europe/Berlin] Router received URL: branch
+[28-Mar-2026 08:33:41 Europe/Berlin] Router received URL: about/getAbout
+[28-Mar-2026 08:33:41 Europe/Berlin] Router received URL: about/getPolicies
+[28-Mar-2026 08:33:41 Europe/Berlin] Router received URL: branch
+[28-Mar-2026 08:33:41 Europe/Berlin] Router received URL: about/getPolicies
+[28-Mar-2026 08:33:41 Europe/Berlin] Router received URL: about/getAbout
+[28-Mar-2026 08:33:41 Europe/Berlin] Router received URL: branch
+[28-Mar-2026 08:33:41 Europe/Berlin] Router received URL: about/getAbout
+[28-Mar-2026 08:33:41 Europe/Berlin] Router received URL: about/getPolicies
+[28-Mar-2026 08:33:43 Europe/Berlin] Router received URL: auth/logout
+[28-Mar-2026 08:33:57 Europe/Berlin] Router received URL: auth/login
+[28-Mar-2026 08:33:57 Europe/Berlin] Router received URL: branch/index
+[28-Mar-2026 08:33:57 Europe/Berlin] Router received URL: branch
+[28-Mar-2026 08:33:59 Europe/Berlin] Router received URL: branch
+[28-Mar-2026 08:33:59 Europe/Berlin] Router received URL: about/getAbout
+[28-Mar-2026 08:33:59 Europe/Berlin] Router received URL: about/getPolicies
+[28-Mar-2026 08:34:32 Europe/Berlin] Router received URL: branch
+[28-Mar-2026 08:34:32 Europe/Berlin] Router received URL: about/getAbout
+[28-Mar-2026 08:34:32 Europe/Berlin] Router received URL: about/getPolicies
+[28-Mar-2026 08:34:33 Europe/Berlin] Router received URL: branch
+[28-Mar-2026 08:34:33 Europe/Berlin] Router received URL: about/getAbout
+[28-Mar-2026 08:34:33 Europe/Berlin] Router received URL: about/getPolicies
+[28-Mar-2026 08:34:37 Europe/Berlin] Router received URL: branch
+[28-Mar-2026 08:34:37 Europe/Berlin] Router received URL: about/getPolicies
+[28-Mar-2026 08:34:37 Europe/Berlin] Router received URL: about/getAbout
+[28-Mar-2026 08:35:07 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[28-Mar-2026 08:35:08 Europe/Berlin] Router received URL: branch
+[28-Mar-2026 08:35:08 Europe/Berlin] Router received URL: about/getAbout
+[28-Mar-2026 08:35:08 Europe/Berlin] Router received URL: about/getPolicies
+[28-Mar-2026 08:37:57 Europe/Berlin] Router received URL: branch
+[28-Mar-2026 08:37:58 Europe/Berlin] Router received URL: about/getAbout
+[28-Mar-2026 08:37:58 Europe/Berlin] Router received URL: about/getPolicies
+[28-Mar-2026 08:38:22 Europe/Berlin] Router received URL: branch/index
+[28-Mar-2026 08:38:22 Europe/Berlin] Router received URL: branch
+[28-Mar-2026 08:45:09 Europe/Berlin] Router received URL: branch/index
+[28-Mar-2026 08:45:09 Europe/Berlin] Router received URL: branch
+[28-Mar-2026 08:45:11 Europe/Berlin] Router received URL: branch/index
+[28-Mar-2026 08:45:11 Europe/Berlin] Router received URL: branch
+[28-Mar-2026 08:45:12 Europe/Berlin] Router received URL: branch/index
+[28-Mar-2026 08:45:12 Europe/Berlin] Router received URL: branch
+[28-Mar-2026 08:47:05 Europe/Berlin] Router received URL: branch/index
+[28-Mar-2026 08:47:05 Europe/Berlin] Router received URL: branch
+[28-Mar-2026 08:47:06 Europe/Berlin] Router received URL: branch/index
+[28-Mar-2026 08:47:06 Europe/Berlin] Router received URL: branch
+[28-Mar-2026 08:47:36 Europe/Berlin] Router received URL: branch/index
+[28-Mar-2026 08:47:36 Europe/Berlin] Router received URL: branch
+[28-Mar-2026 08:48:30 Europe/Berlin] Router received URL: branch/index
+[28-Mar-2026 08:48:30 Europe/Berlin] Router received URL: branch
+[28-Mar-2026 08:48:31 Europe/Berlin] Router received URL: branch/index
+[28-Mar-2026 08:48:31 Europe/Berlin] Router received URL: branch
+[28-Mar-2026 08:50:22 Europe/Berlin] Router received URL: branch/index
+[28-Mar-2026 08:50:22 Europe/Berlin] Router received URL: branch
+[28-Mar-2026 08:57:58 Europe/Berlin] Router received URL: branch/index
+[28-Mar-2026 08:57:58 Europe/Berlin] Router received URL: branch
+[28-Mar-2026 08:58:21 Europe/Berlin] Router received URL: about/getAbout
+[28-Mar-2026 08:58:21 Europe/Berlin] Router received URL: branch
+[28-Mar-2026 08:58:21 Europe/Berlin] Router received URL: about/getPolicies
+[28-Mar-2026 08:58:23 Europe/Berlin] Router received URL: branch
+[28-Mar-2026 08:58:23 Europe/Berlin] Router received URL: about/getAbout
+[28-Mar-2026 08:58:23 Europe/Berlin] Router received URL: about/getPolicies
+[28-Mar-2026 08:58:51 Europe/Berlin] Router received URL: branch
+[28-Mar-2026 08:58:51 Europe/Berlin] Router received URL: about/getAbout
+[28-Mar-2026 08:58:51 Europe/Berlin] Router received URL: about/getPolicies
+[28-Mar-2026 08:58:54 Europe/Berlin] Router received URL: branch/index
+[28-Mar-2026 08:58:54 Europe/Berlin] Router received URL: branch

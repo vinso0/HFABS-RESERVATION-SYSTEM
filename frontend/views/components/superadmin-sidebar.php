@@ -21,6 +21,11 @@
             <i class="fas fa-store"></i>
             <span>Manage Branches</span>
         </a>
+
+        <a href="superadmin-about.php" class="nav-item">
+            <i class="fas fa-info-circle"></i>
+            <span>Manage About</span>
+        </a>
     </nav>
 
     <a href="../../backend/public/index.php?url=auth/logout" class="logout-btn">
