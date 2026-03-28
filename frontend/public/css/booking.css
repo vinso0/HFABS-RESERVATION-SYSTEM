@@ -250,6 +250,49 @@
   opacity: 0.6;
 }
 
+/* ── 8-Hour Advance Notice Disabled Slots ── */
+.time-slot.advance-notice-disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  background: #f0f0f0;
+  color: #aaa;
+  border-color: #ddd;
+  position: relative;
+}
+
+.time-slot.advance-notice-disabled::after {
+  content: '⏰';
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  font-size: 0.65rem;
+  opacity: 0.7;
+}
+
+/* ── Advance Notice Warning Banner ── */
+.advance-notice-warning {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  padding: 0.85rem 1rem;
+  background: #fff3cd;
+  border: 1px solid #ffc107;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.advance-notice-warning svg {
+  flex-shrink: 0;
+  color: #856404;
+  margin-top: 0.1rem;
+}
+
+.advance-notice-warning span {
+  font-size: 0.875rem;
+  color: #664d03;
+  line-height: 1.5;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .container {

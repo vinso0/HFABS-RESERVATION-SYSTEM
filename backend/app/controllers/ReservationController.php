@@ -592,6 +592,42 @@ class ReservationController extends Controller
             exit;
         }
 
+        // ── BUSINESS RULE: Reservations must be made at least 8 hours in advance ──
+        $now = new DateTime('now');
+        $minAllowedDateTime = clone $now;
+        $minAllowedDateTime->modify('+8 hours');
+
+        // Combine the submitted date + time into a DateTime object
+        $requestedDateTimeStr = $date . ' ' . $time;
+        try {
+            $requestedDateTime = new DateTime($requestedDateTimeStr);
+        } catch (Exception $e) {
+            error_log('[' . date('Y-m-d H:i:s') . '] Invalid date/time format: ' . $requestedDateTimeStr);
+            http_response_code(400);
+            echo json_encode([
+                'success' => false,
+                'message' => 'Invalid date or time format provided.'
+            ]);
+            exit;
+        }
+
+        if ($requestedDateTime < $minAllowedDateTime) {
+            error_log('[' . date('Y-m-d H:i:s') . '] Advance notice check FAILED: ' .
+                'Requested=' . $requestedDateTimeStr .
+                ', MinAllowed=' . $minAllowedDateTime->format('Y-m-d H:i:s'));
+            echo json_encode([
+                'success'   => true,
+                'available' => false,
+                'reason'    => 'Reservations must be made at least 8 hours in advance.'
+            ]);
+            exit;
+        }
+
+        error_log('[' . date('Y-m-d H:i:s') . '] Advance notice check PASSED: ' .
+            'Requested=' . $requestedDateTimeStr .
+            ', MinAllowed=' . $minAllowedDateTime->format('Y-m-d H:i:s'));
+        // ── END ADVANCE NOTICE CHECK ──
+
         // ── NEW: Get branch_id from session ──
         $branchId = (int) ($_SESSION['branch_id'] ?? 0);
 

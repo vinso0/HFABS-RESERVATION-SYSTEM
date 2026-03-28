@@ -474,18 +474,53 @@ function renderTimeSlots() {
   timeSlotsContainer.innerHTML = '';
 
   const now = new Date();
-  const isToday = selectedDate && selectedDate.getFullYear() === now.getFullYear() &&
-                  selectedDate.getMonth() === now.getMonth() &&
-                  selectedDate.getDate() === now.getDate();
+
+  // Compute the minimum allowed booking datetime (now + 8 hours)
+  const minAllowedTime = new Date(now.getTime() + 8 * 60 * 60 * 1000);
+
+  const isToday =
+    selectedDate &&
+    selectedDate.getFullYear() === now.getFullYear() &&
+    selectedDate.getMonth() === now.getMonth() &&
+    selectedDate.getDate() === now.getDate();
+
+  // Check if selected date is the same calendar date as minAllowedTime
+  // This handles the edge case where current time is past 4 PM — the 8-hour cutoff
+  // crosses midnight into tomorrow.
+  const minAllowedDate = new Date(
+    minAllowedTime.getFullYear(),
+    minAllowedTime.getMonth(),
+    minAllowedTime.getDate()
+  );
+  const selectedDateOnly = selectedDate
+    ? new Date(
+        selectedDate.getFullYear(),
+        selectedDate.getMonth(),
+        selectedDate.getDate()
+      )
+    : null;
+
+  // A slot needs the 8-hour check if the selected date is today OR if the selected
+  // date equals the minAllowedTime date (i.e., 8-hour window crosses midnight).
+  const needsAdvanceCheck =
+    selectedDateOnly &&
+    selectedDateOnly.getTime() === minAllowedDate.getTime();
+
+  // Show/hide the advance notice warning banner
+  const advanceWarning = document.getElementById('advanceNoticeWarning');
+  if (advanceWarning) {
+    advanceWarning.style.display = isToday ? 'flex' : 'none';
+  }
 
   availableTimeSlots.forEach(time => {
     const slot = document.createElement('button');
     slot.className = 'time-slot';
     slot.textContent = time;
 
-    if (isToday) {
+    if (isToday || needsAdvanceCheck) {
       const slot24 = convertTo24Hour(time);
       const slotParts = slot24.split(':');
+
       if (slotParts.length === 2) {
         const slotHour = parseInt(slotParts[0], 10);
         const slotMin = parseInt(slotParts[1], 10);
@@ -500,10 +535,12 @@ function renderTimeSlots() {
             0
           );
 
-          if (slotDateTime <= now) {
+          // ── RULE: Disable slots within 8 hours of now ──
+          if (slotDateTime < minAllowedTime) {
             slot.classList.add('disabled');
+            slot.classList.add('advance-notice-disabled');
             slot.disabled = true;
-            slot.title = 'Past time (today)';
+            slot.title = 'Reservations must be made at least 8 hours in advance';
           }
         }
       }
