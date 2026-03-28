@@ -158,7 +158,7 @@ class Branch extends Database
                 FROM feedback f
                 LEFT JOIN users u ON f.user_id = u.user_id
                 LEFT JOIN reservation_services rs ON f.reservation_service_id = rs.reservation_service_id
-                LEFT JOIN branch_service_overrides bso ON rs.branch_service_id = bso.branch_service_override_id
+                LEFT JOIN branch_service_overrides bso ON rs.branch_service_override_id = bso.branch_service_override_id
                 LEFT JOIN default_services ds ON bso.default_service_id = ds.service_id
                 WHERE f.branch_id = ?
                 AND f.is_blocked = 0
@@ -193,6 +193,12 @@ class Branch extends Database
                 $review['photos'] = $photosMap[$review['feedback_id']] ?? [];
             }
             unset($review);
+        }
+
+        if ($photoResult) {
+            while ($p = $photoResult->fetch_assoc()) {
+                $photosMap[$p['feedback_id']][] = $p;
+            }
         }
 
         return $reviews;

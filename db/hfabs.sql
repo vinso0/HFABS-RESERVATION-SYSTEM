@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 28, 2026 at 04:04 AM
+-- Generation Time: Mar 28, 2026 at 06:20 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -111,7 +111,7 @@ INSERT INTO `branch_category_overrides` (`branch_category_override_id`, `branch_
 (4, 2, 2, NULL, NULL, NULL, 1, '2026-02-07 06:29:09', '2026-03-21 05:22:27'),
 (5, 1, 3, NULL, NULL, NULL, 1, '2026-02-07 06:29:09', '2026-03-21 05:22:30'),
 (6, 2, 3, NULL, NULL, NULL, 1, '2026-02-07 06:29:09', '2026-03-21 05:22:32'),
-(7, 1, 4, 'facial', 'facial related services', 5, 1, '2026-02-07 06:29:09', '2026-03-27 16:10:58'),
+(7, 1, 4, 'facial', 'facial related services', 5, 1, '2026-02-07 06:29:09', '2026-03-28 04:37:09'),
 (8, 2, 4, NULL, NULL, NULL, 1, '2026-02-07 06:29:09', '2026-03-21 05:22:36');
 
 -- --------------------------------------------------------
@@ -346,18 +346,19 @@ CREATE TABLE `feedback` (
   `comment` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `status` enum('pending','approved','rejected') NOT NULL DEFAULT 'pending',
   `is_flagged` tinyint(1) NOT NULL DEFAULT 0,
-  `admin_note` varchar(500) DEFAULT NULL
+  `is_blocked` tinyint(1) NOT NULL DEFAULT 0,
+  `blocked_at` datetime DEFAULT NULL,
+  `blocked_by` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `feedback`
 --
 
-INSERT INTO `feedback` (`feedback_id`, `reservation_service_id`, `user_id`, `branch_id`, `rating`, `comment`, `created_at`, `updated_at`, `status`, `is_flagged`, `admin_note`) VALUES
-(1, 1, 2, 1, 1, 'Good service', '2026-01-09 11:40:45', '2026-03-28 03:23:29', 'approved', 0, NULL),
-(12, 4, 2, 1, 5, 'Great Great', '2026-02-21 09:12:48', '2026-03-28 03:13:20', 'pending', 0, NULL);
+INSERT INTO `feedback` (`feedback_id`, `reservation_service_id`, `user_id`, `branch_id`, `rating`, `comment`, `created_at`, `updated_at`, `is_flagged`, `is_blocked`, `blocked_at`, `blocked_by`) VALUES
+(1, 1, 2, 1, 1, 'Good service', '2026-01-09 11:40:45', '2026-03-28 03:23:29', 0, 0, NULL, NULL),
+(12, 4, 2, 1, 5, 'Great Great', '2026-02-21 09:12:48', '2026-03-28 11:53:47', 0, 0, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -378,8 +379,21 @@ CREATE TABLE `feedback_photos` (
 --
 
 INSERT INTO `feedback_photos` (`photo_id`, `feedback_id`, `photo_path`, `photo_order`, `uploaded_at`) VALUES
-(1, 12, 'uploads/feedback/feedback_12_69c6be96a3398.png', 0, '2026-03-27 17:29:58'),
-(2, 12, 'uploads/feedback/feedback_12_69c6d6aad526c.png', 0, '2026-03-27 19:12:42');
+(1, 12, 'uploads/feedback/feedback_12_69c6be96a3398.png', 0, '2026-03-27 17:29:58');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `feedback_reports`
+--
+
+CREATE TABLE `feedback_reports` (
+  `report_id` int(11) NOT NULL,
+  `feedback_id` int(11) NOT NULL,
+  `reporter_id` int(11) DEFAULT NULL,
+  `reason` varchar(255) NOT NULL,
+  `reported_at` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -631,6 +645,14 @@ ALTER TABLE `feedback_photos`
   ADD KEY `fk_photo_feedback` (`feedback_id`);
 
 --
+-- Indexes for table `feedback_reports`
+--
+ALTER TABLE `feedback_reports`
+  ADD PRIMARY KEY (`report_id`),
+  ADD UNIQUE KEY `unique_report` (`feedback_id`,`reporter_id`),
+  ADD KEY `reporter_id` (`reporter_id`);
+
+--
 -- Indexes for table `payments`
 --
 ALTER TABLE `payments`
@@ -698,7 +720,7 @@ ALTER TABLE `branch_blocked_days`
 -- AUTO_INCREMENT for table `branch_category_overrides`
 --
 ALTER TABLE `branch_category_overrides`
-  MODIFY `branch_category_override_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `branch_category_override_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `branch_closed_dates`
@@ -759,6 +781,12 @@ ALTER TABLE `feedback`
 --
 ALTER TABLE `feedback_photos`
   MODIFY `photo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `feedback_reports`
+--
+ALTER TABLE `feedback_reports`
+  MODIFY `report_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `payments`
@@ -872,6 +900,13 @@ ALTER TABLE `feedback`
 --
 ALTER TABLE `feedback_photos`
   ADD CONSTRAINT `fk_photo_feedback` FOREIGN KEY (`feedback_id`) REFERENCES `feedback` (`feedback_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `feedback_reports`
+--
+ALTER TABLE `feedback_reports`
+  ADD CONSTRAINT `feedback_reports_ibfk_1` FOREIGN KEY (`feedback_id`) REFERENCES `feedback` (`feedback_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `feedback_reports_ibfk_2` FOREIGN KEY (`reporter_id`) REFERENCES `users` (`user_id`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `payments`

@@ -80,10 +80,11 @@ class BranchController extends Controller
     // API endpoint: GET /api/branches/{id}/reviews
     public function reviews($branchId)
     {
+        ob_start();                          // buffer any stray PHP warnings
         $branchModel = $this->model('Branch');
-
-        $reviews = $branchModel->getBranchReviews($branchId);
-        $summary = $branchModel->getBranchRatingSummary($branchId);
+        $reviews     = $branchModel->getBranchReviews($branchId);
+        $summary     = $branchModel->getBranchRatingSummary($branchId);
+        ob_end_clean();                      // discard any warnings
 
         header('Content-Type: application/json');
         echo json_encode([
