@@ -65,21 +65,21 @@ class Reservation extends Database
             // Get schedule information
             $scheduleQuery = "
                 SELECT 
-                    rs.schedule_date,
-                    rs.start_time,
-                    rs.end_time
-                FROM reservation_schedule rs
-                LEFT JOIN reservation_services rsv ON rs.reservation_service_id = rsv.reservation_service_id
+                    rsch.schedule_date,
+                    rsch.start_time,
+                    rsch.end_time
+                FROM reservation_schedule rsch
+                LEFT JOIN reservation_services rsv ON rsch.reservation_service_id = rsv.reservation_service_id
                 WHERE rsv.reservation_id = ?
-                ORDER BY rs.schedule_id DESC
+                ORDER BY rsch.reservation_schedule_id DESC
                 LIMIT 1
             ";
-            
+
             $scheduleStmt = $this->db->prepare($scheduleQuery);
             $scheduleStmt->bind_param('i', $row['reservation_id']);
             $scheduleStmt->execute();
             $scheduleResult = $scheduleStmt->get_result();
-            
+
             $schedule = null;
             if ($scheduleRow = $scheduleResult->fetch_assoc()) {
                 $schedule = $scheduleRow;

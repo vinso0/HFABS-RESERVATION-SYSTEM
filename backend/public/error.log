@@ -24986,3 +24986,57 @@ Stack trace:
 #3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
 #4 {main}
   thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 78
+[28-Mar-2026 10:11:20 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[28-Mar-2026 10:11:20 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'rs.schedule_id' in 'order clause' in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:78
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(78): mysqli->prepare('\r\n             ...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(30): Reservation->getReservationsByUserId(2)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): ReservationController->getCustomerReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 78
+[28-Mar-2026 10:11:27 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[28-Mar-2026 10:11:27 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'rs.schedule_id' in 'order clause' in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:78
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(78): mysqli->prepare('\r\n             ...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(30): Reservation->getReservationsByUserId(2)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): ReservationController->getCustomerReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 78
+[28-Mar-2026 10:13:14 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[28-Mar-2026 10:13:14 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'rsch.schedule_id' in 'order clause' in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:78
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(78): mysqli->prepare('\r\n             ...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(30): Reservation->getReservationsByUserId(2)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): ReservationController->getCustomerReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 78
+[28-Mar-2026 10:13:15 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[28-Mar-2026 10:13:15 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'rsch.schedule_id' in 'order clause' in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php:78
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php(78): mysqli->prepare('\r\n             ...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\ReservationController.php(30): Reservation->getReservationsByUserId(2)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): ReservationController->getCustomerReservations()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Reservation.php on line 78
+[28-Mar-2026 10:15:02 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[28-Mar-2026 10:15:07 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[28-Mar-2026 10:15:08 Europe/Berlin] Router received URL: branch/index
+[28-Mar-2026 10:15:08 Europe/Berlin] Router received URL: branch
+[28-Mar-2026 10:15:10 Europe/Berlin] Router received URL: branch
+[28-Mar-2026 10:15:10 Europe/Berlin] Router received URL: branch
+[28-Mar-2026 10:15:11 Europe/Berlin] Router received URL: branch/1
+[28-Mar-2026 10:15:11 Europe/Berlin] Router received URL: branch/1/categories
+[28-Mar-2026 10:15:11 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[28-Mar-2026 10:15:11 Europe/Berlin] Router received URL: branch/1/services
+[28-Mar-2026 10:15:12 Europe/Berlin] Router received URL: branch/1
+[28-Mar-2026 10:15:12 Europe/Berlin] Router received URL: branch/closedDatesPublic
+[28-Mar-2026 10:15:12 Europe/Berlin] Router received URL: branch/blockedDaysPublic
+[28-Mar-2026 10:15:16 Europe/Berlin] Router received URL: branch/index
+[28-Mar-2026 10:15:16 Europe/Berlin] Router received URL: branch
+[28-Mar-2026 10:16:35 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[28-Mar-2026 10:16:39 Europe/Berlin] Router received URL: branch/index
+[28-Mar-2026 10:16:39 Europe/Berlin] Router received URL: branch
