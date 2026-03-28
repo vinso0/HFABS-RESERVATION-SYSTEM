@@ -608,6 +608,9 @@ class ReservationController extends Controller
                 exit;
             }
         }
+ 
+        // ── NEW: Get reservation model now for time-based capacity checks
+        $reservationModel = $this->model('Reservation');
 
         // ── NEW CHECK 2: Date-specific category capacity ──
         if ($branchId) {
@@ -658,6 +661,33 @@ class ReservationController extends Controller
                             'success'   => true,
                             'available' => false,
                             'reason'    => 'This category is fully booked for the selected date.'
+                        ]);
+                        exit;
+                    }
+
+                    // New time-snapped category capacity validation (slot overlap within time range)
+                    $serviceDuration = $reservationModel->getServiceDurationMinutes($serviceId);
+                    if (!$serviceDuration || $serviceDuration <= 0) {
+                        $serviceDuration = 60; // fallback
+                    }
+
+                    $startTime = date('H:i:s', strtotime($time));
+                    $endTime = date('H:i:s', strtotime($time . ' +' . $serviceDuration . ' minutes'));
+
+                    $concurrent = $reservationModel->countConcurrentCategoryBookings(
+                        $branchCategoryOverrideId,
+                        $branchId,
+                        $date,
+                        $startTime,
+                        $endTime
+                    );
+
+                    if ($concurrent >= $effectiveCapacity) {
+                        error_log('[' . date('Y-m-d H:i:s') . '] Category capacity out for time range: ' . $date . ' ' . $startTime . '-' . $endTime . ' (concurrent=' . $concurrent . ', cap=' . $effectiveCapacity . ')');
+                        echo json_encode([
+                            'success'   => true,
+                            'available' => false,
+                            'reason'    => 'This category is fully booked for selected time range.'
                         ]);
                         exit;
                     }
