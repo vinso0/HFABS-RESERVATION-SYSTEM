@@ -321,9 +321,14 @@ function closeLightbox() {
 
 function showSection(name) {
     const isFeedback = name === 'feedback';
-    document.getElementById('feedbackCardsSection').style.display = isFeedback ? '' : 'none';
-    document.getElementById('reportsSection').style.display       = isFeedback ? 'none' : '';
-    document.getElementById('filterSection').style.display        = isFeedback ? '' : 'none';
+    const cards  = document.getElementById('feedbackCardsSection');
+    const reports = document.getElementById('reportsSection');
+    const filters = document.getElementById('filterSection');
+
+    // Guard: if wrappers don't exist, do nothing — won't crash
+    if (cards)   cards.style.display   = isFeedback ? '' : 'none';
+    if (reports) reports.style.display = isFeedback ? 'none' : '';
+    if (filters) filters.style.display = isFeedback ? '' : 'none';
 }
 
 // ═════════════════════════════════════════════════════════════════════
