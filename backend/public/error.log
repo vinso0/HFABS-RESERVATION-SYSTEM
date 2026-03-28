@@ -22421,3 +22421,98 @@ Stack trace:
 [28-Mar-2026 04:38:57 Europe/Berlin] Router received URL: feedback
 [28-Mar-2026 04:38:57 Europe/Berlin] Router received URL: feedback
 [28-Mar-2026 04:38:57 Europe/Berlin] Router received URL: feedback
+[28-Mar-2026 04:51:39 Europe/Berlin] Router received URL: auth/login
+[28-Mar-2026 04:51:39 Europe/Berlin] Router received URL: branch/index
+[28-Mar-2026 04:51:40 Europe/Berlin] Router received URL: branch
+[28-Mar-2026 04:53:00 Europe/Berlin] Router received URL: branch/1
+[28-Mar-2026 04:53:00 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[28-Mar-2026 04:53:00 Europe/Berlin] Router received URL: branch/1/services
+[28-Mar-2026 04:53:00 Europe/Berlin] Router received URL: branch/1/reviews
+[28-Mar-2026 04:53:15 Europe/Berlin] Router received URL: branch/1/services
+[28-Mar-2026 04:53:15 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[28-Mar-2026 04:53:15 Europe/Berlin] Router received URL: branch/1/reviews
+[28-Mar-2026 04:53:15 Europe/Berlin] Router received URL: branch/1
+[28-Mar-2026 04:53:30 Europe/Berlin] Router received URL: feedback/moderate
+[28-Mar-2026 04:53:36 Europe/Berlin] Router received URL: auth/login
+[28-Mar-2026 04:53:36 Europe/Berlin] Router received URL: reservation/getAllReservations
+[28-Mar-2026 04:53:36 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[28-Mar-2026 04:53:36 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[28-Mar-2026 04:53:36 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[28-Mar-2026 04:53:36 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[28-Mar-2026 04:53:36 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[28-Mar-2026 04:53:36 Europe/Berlin] Router received URL: transaction/getByBranch
+[28-Mar-2026 04:53:44 Europe/Berlin] Router received URL: feedback
+[28-Mar-2026 04:53:47 Europe/Berlin] Router received URL: feedback/moderate
+[28-Mar-2026 04:53:48 Europe/Berlin] Router received URL: feedback
+[28-Mar-2026 04:53:50 Europe/Berlin] Router received URL: branch/1
+[28-Mar-2026 04:53:50 Europe/Berlin] Router received URL: branch/1/services
+[28-Mar-2026 04:53:50 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[28-Mar-2026 04:53:50 Europe/Berlin] Router received URL: branch/1/reviews
+[28-Mar-2026 04:53:55 Europe/Berlin] Router received URL: branch/1
+[28-Mar-2026 04:53:55 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[28-Mar-2026 04:53:55 Europe/Berlin] Router received URL: branch/1/services
+[28-Mar-2026 04:53:55 Europe/Berlin] Router received URL: branch/1/reviews
+[28-Mar-2026 04:54:01 Europe/Berlin] Router received URL: branch/1/services
+[28-Mar-2026 04:54:01 Europe/Berlin] Router received URL: branch/1
+[28-Mar-2026 04:54:01 Europe/Berlin] Router received URL: branch/1/reviews
+[28-Mar-2026 04:54:01 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[28-Mar-2026 04:54:06 Europe/Berlin] Router received URL: branch
+[28-Mar-2026 04:54:06 Europe/Berlin] Router received URL: branch/index
+[28-Mar-2026 04:54:10 Europe/Berlin] Router received URL: branch/1
+[28-Mar-2026 04:54:10 Europe/Berlin] Router received URL: branch/1/services
+[28-Mar-2026 04:54:11 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[28-Mar-2026 04:54:11 Europe/Berlin] Router received URL: branch/1/reviews
+[28-Mar-2026 04:54:27 Europe/Berlin] Router received URL: branch/1
+[28-Mar-2026 04:54:27 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[28-Mar-2026 04:54:27 Europe/Berlin] Router received URL: branch/1/services
+[28-Mar-2026 04:54:27 Europe/Berlin] Router received URL: branch/1/reviews
+[28-Mar-2026 05:07:02 Europe/Berlin] Router received URL: branch/index
+[28-Mar-2026 05:07:02 Europe/Berlin] Router received URL: branch
+[28-Mar-2026 05:07:05 Europe/Berlin] Router received URL: branch
+[28-Mar-2026 05:07:05 Europe/Berlin] Router received URL: branch
+[28-Mar-2026 05:07:06 Europe/Berlin] Router received URL: branch/1
+[28-Mar-2026 05:07:06 Europe/Berlin] Router received URL: branch/1/categories
+[28-Mar-2026 05:07:06 Europe/Berlin] Router received URL: branch/1/services
+[28-Mar-2026 05:07:06 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[28-Mar-2026 05:36:55 Europe/Berlin] Router received URL: feedback
+[28-Mar-2026 05:36:55 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'f.status' in 'field list' in C:\xampp\htdocs\HFABS\backend\app\models\Feedback.php:157
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\Feedback.php(157): mysqli->prepare('\r\n            S...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\FeedbackController.php(61): Feedback->getAllFeedback(1, '', 0, 'all', 10, 0)
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): FeedbackController->index()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\Feedback.php on line 157
+[28-Mar-2026 05:36:58 Europe/Berlin] Router received URL: services/index
+[28-Mar-2026 05:36:58 Europe/Berlin] Router received URL: services/categoriesList
+[28-Mar-2026 05:36:58 Europe/Berlin] Router received URL: services/myBranchCategories
+[28-Mar-2026 05:36:58 Europe/Berlin] Router received URL: services/myBranchServices
+[28-Mar-2026 05:36:59 Europe/Berlin] Router received URL: services/categoriesList
+[28-Mar-2026 05:36:59 Europe/Berlin] Router received URL: services/myBranchCategories
+[28-Mar-2026 05:36:59 Europe/Berlin] Router received URL: services/dateCapacities
+[28-Mar-2026 05:37:00 Europe/Berlin] Router received URL: services/myBranchCategoryStore
+[28-Mar-2026 05:37:00 Europe/Berlin] Router received URL: services/myBranchCategories
+[28-Mar-2026 05:37:05 Europe/Berlin] Router received URL: branch/1
+[28-Mar-2026 05:37:05 Europe/Berlin] Router received URL: branch/1/categories
+[28-Mar-2026 05:37:05 Europe/Berlin] Router received URL: branch/1/services
+[28-Mar-2026 05:37:05 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[28-Mar-2026 05:37:09 Europe/Berlin] Router received URL: services/myBranchCategoryStore
+[28-Mar-2026 05:37:09 Europe/Berlin] Router received URL: services/myBranchCategories

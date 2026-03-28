@@ -44,7 +44,12 @@ class FeedbackController extends Controller
             exit;
         }
 
-        $branchId     = isset($_GET['branch_id'])   ? $_GET['branch_id']          : null;
+        $branchId     = isset($_GET['branch_id'])   ? intval($_GET['branch_id']) : null;
+
+        // If no branch_id parameter provided, get from admin's session
+        if ($branchId === null) {
+            $branchId = isset($_SESSION['branch_id']) ? (int) $_SESSION['branch_id'] : null;
+        }
         $search       = isset($_GET['search'])       ? $_GET['search']             : '';
         $minRating    = isset($_GET['min_rating'])   ? intval($_GET['min_rating']) : 0;
         $statusFilter = isset($_GET['status'])       ? $_GET['status']             : 'all';
@@ -296,7 +301,13 @@ class FeedbackController extends Controller
             exit;
         }
 
-        $branchId = isset($_GET['branch_id']) ? $_GET['branch_id'] : null;
+        $branchId = isset($_GET['branch_id']) ? intval($_GET['branch_id']) : null;
+
+        // If no branch_id parameter provided, get from admin's session
+        if ($branchId === null) {
+            $branchId = isset($_SESSION['branch_id']) ? (int) $_SESSION['branch_id'] : null;
+        }
+
         $stats    = $this->feedbackModel->getFeedbackStats($branchId);
 
         echo json_encode(['success' => true, 'data' => $stats]);

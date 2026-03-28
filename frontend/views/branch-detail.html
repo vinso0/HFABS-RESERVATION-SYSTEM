@@ -79,9 +79,7 @@
               <h2 class="block-title">Customer <span class="text-pink">Reviews</span></h2>
               <p class="block-subtitle">What our guests say about this branch</p>
             </div>
-            <div class="reviews-summary" id="reviewsSummary">
-              <!-- Rating summary populated by JS -->
-            </div>
+            <div class="reviews-summary" id="reviewsSummary"></div>
           </div>
 
           <div class="reviews-filter" id="reviewsFilter">
@@ -93,8 +91,10 @@
             <button class="star-filter" data-stars="1">1 <i class="fas fa-star"></i></button>
           </div>
 
-          <div class="reviews-grid" id="reviewsGrid">
-            <!-- Populated by JS -->
+          <!-- NEW: scroll container with fade indicator -->
+          <div class="reviews-scroll-wrap">
+            <div class="reviews-grid" id="reviewsGrid"></div>
+            <div class="reviews-scroll-fade" id="reviewsScrollFade"></div>
           </div>
         </div>
 

@@ -450,10 +450,11 @@ class Services
             $data['is_active_override']
         );
 
-        if ($stmt->execute()) {
-            return $conn->insert_id;
+        try {
+            return $stmt->execute() ? $conn->insert_id : false;
+        } catch (mysqli_sql_exception $e) {
+            return $e->getCode() == 1062 ? false : throw $e;
         }
-        return false;
     }
 
     // Update branch category override
@@ -473,6 +474,20 @@ class Services
         );
 
         return $stmt->execute();
+    }
+
+    // Get branch category by branch ID and default category ID
+    public function getBranchCategoryByBranchAndDefault($branchId, $defaultCategoryId)
+    {
+        $conn = $this->db->getConnection();
+        $sql = 'SELECT * FROM branch_category_overrides 
+                WHERE branch_id = ? AND default_category_id = ?';
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('ii', $branchId, $defaultCategoryId);
+        $stmt->execute();
+        
+        $result = $stmt->get_result();
+        return $result->fetch_assoc();
     }
 
     // Update category capacity for a branch

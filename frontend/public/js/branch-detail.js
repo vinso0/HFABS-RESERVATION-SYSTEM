@@ -191,12 +191,19 @@ async function loadBranchPackages() {
 }
 
 // ── Load Reviews ──────────────────────────────────────
-let allReviews = [];
+let allReviews     = [];
+let lightboxPhotos = [];
 
 async function loadBranchReviews() {
   const grid    = document.getElementById('reviewsGrid');
   const summary = document.getElementById('reviewsSummary');
   const filter  = document.getElementById('reviewsFilter');
+
+  grid.innerHTML = `
+    <div class="reviews-loading">
+      <i class="fas fa-spinner fa-spin"></i>
+      <span>Loading reviews...</span>
+    </div>`;
 
   try {
     const res  = await fetch(`${API_BASE}branch/${branchId}/reviews`);
@@ -206,15 +213,13 @@ async function loadBranchReviews() {
     const averageRating = parseFloat(data?.summary?.average_rating ?? 0);
     allReviews          = data?.reviews ?? [];
 
-    // ── Rating Overview (matches admin-feedback layout) ──
-    // Calculate per-star breakdown from reviews array
+    // Rating overview
     const ratingCounts = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
     allReviews.forEach(r => {
       const star = Math.round(r.rating);
       if (ratingCounts[star] !== undefined) ratingCounts[star]++;
     });
 
-    // Build breakdown bars HTML
     let breakdownHTML = '';
     for (let i = 5; i >= 1; i--) {
       const pct = totalReviews > 0
@@ -235,16 +240,11 @@ async function loadBranchReviews() {
         <div class="overall-rating-block">
           <div class="rating-score-big">${averageRating > 0 ? averageRating.toFixed(1) : '—'}</div>
           <div class="rating-stars-row">${generateStars(averageRating)}</div>
-          <div class="total-reviews-label">
-            ${totalReviews} review${totalReviews !== 1 ? 's' : ''}
-          </div>
+          <div class="total-reviews-label">${totalReviews} review${totalReviews !== 1 ? 's' : ''}</div>
         </div>
-        <div class="rating-breakdown-block">
-          ${breakdownHTML}
-        </div>
+        <div class="rating-breakdown-block">${breakdownHTML}</div>
       </div>`;
 
-    // Setup star filter event listeners
     filter.querySelectorAll('.star-filter').forEach(btn => {
       btn.addEventListener('click', () => {
         filter.querySelectorAll('.star-filter').forEach(b => b.classList.remove('active'));
@@ -253,7 +253,6 @@ async function loadBranchReviews() {
       });
     });
 
-    // Initial render - show all reviews
     renderReviews('all');
 
   } catch (e) {
@@ -264,14 +263,14 @@ async function loadBranchReviews() {
 
 function renderReviews(starFilter) {
   const grid = document.getElementById('reviewsGrid');
-  
-  let filteredReviews = allReviews;
+
+  let list = allReviews;
   if (starFilter !== 'all') {
-    const filterRating = parseInt(starFilter);
-    filteredReviews = allReviews.filter(r => Math.round(r.rating) === filterRating);
+    const n = parseInt(starFilter);
+    list = allReviews.filter(r => Math.round(r.rating) === n);
   }
 
-  if (!filteredReviews.length) {
+  if (!list.length) {
     grid.innerHTML = `
       <div class="no-reviews">
         <i class="fas fa-comments"></i>
@@ -281,20 +280,121 @@ function renderReviews(starFilter) {
     return;
   }
 
-  grid.innerHTML = filteredReviews.map(r => `
-    <div class="review-card">
-      <div class="review-card-top">
-        <div class="reviewer-avatar">${r.customer_name?.charAt(0).toUpperCase() ?? '?'}</div>
-        <div class="reviewer-info">
-          <span class="reviewer-name">${r.customer_name ?? 'Anonymous'}</span>
-          <span class="review-time">${timeAgo(r.created_at)}</span>
+  // Build flat lightbox photo list across all visible cards
+  lightboxPhotos = [];
+  let photoOffset = 0;
+
+  const cards = list.map(r => {
+    const photos    = r.photos || [];
+    const thisOffset = photoOffset;
+
+    photos.forEach(p => lightboxPhotos.push(`/HFABS/backend/public/${p.photo_path}`));
+    photoOffset += photos.length;
+
+    const photosHtml = photos.length > 0
+      ? `<div class="review-photos">
+          ${photos.map((p, i) =>
+            `<img
+              src="/HFABS/backend/public/${p.photo_path}"
+              alt="Review photo ${i + 1}"
+              class="review-photo-thumb"
+              loading="lazy"
+              onclick="openReviewLightbox(${thisOffset + i})">`
+          ).join('')}
+         </div>`
+      : '';
+
+    return `
+      <div class="review-card">
+        <div class="review-card-top">
+          <div class="reviewer-avatar">${r.customer_name?.charAt(0).toUpperCase() ?? '?'}</div>
+          <div class="reviewer-info">
+            <span class="reviewer-name">${r.customer_name ?? 'Anonymous'}</span>
+            <span class="review-service"><i class="fas fa-spa"></i> ${r.service ?? ''}</span>
+            <span class="review-time">${timeAgo(r.created_at)}</span>
+          </div>
+          <div class="review-stars">${generateStars(r.rating)}</div>
         </div>
-        <div class="review-stars">${generateStars(r.rating)}</div>
-      </div>
-      <p class="review-body">${r.comment || '<em>No comment provided.</em>'}</p>
-    </div>
-  `).join('');
+        <p class="review-body">${r.comment || '<em>No comment provided.</em>'}</p>
+        ${photosHtml}
+      </div>`;
+  });
+
+  grid.innerHTML = cards.join('');
+  grid.scrollTop = 0;
+  updateScrollFade();
 }
+
+// ── Review Lightbox ────────────────────────────────────────────────────
+let lightboxIndex = 0;
+
+function openReviewLightbox(index) {
+  lightboxIndex = index;
+  let lb = document.getElementById('reviewLightbox');
+  if (!lb) {
+    lb = document.createElement('div');
+    lb.id        = 'reviewLightbox';
+    lb.className = 'review-lightbox';
+    lb.innerHTML = `
+      <div class="review-lightbox-inner">
+        <button class="lightbox-close-btn" onclick="closeReviewLightbox()">
+          <i class="fas fa-times"></i>
+        </button>
+        <button class="lightbox-prev-btn" onclick="shiftReviewLightbox(-1)">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <img id="reviewLightboxImg" src="" alt="Review photo">
+        <button class="lightbox-next-btn" onclick="shiftReviewLightbox(1)">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+        <div id="reviewLightboxCounter" class="lightbox-counter"></div>
+      </div>`;
+    document.body.appendChild(lb);
+    lb.addEventListener('click', e => { if (e.target === lb) closeReviewLightbox(); });
+  }
+  setLightboxPhoto();
+  lb.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function setLightboxPhoto() {
+  document.getElementById('reviewLightboxImg').src = lightboxPhotos[lightboxIndex];
+  document.getElementById('reviewLightboxCounter').textContent =
+    `${lightboxIndex + 1} / ${lightboxPhotos.length}`;
+  document.querySelector('.lightbox-prev-btn').style.visibility =
+    lightboxIndex > 0 ? 'visible' : 'hidden';
+  document.querySelector('.lightbox-next-btn').style.visibility =
+    lightboxIndex < lightboxPhotos.length - 1 ? 'visible' : 'hidden';
+}
+
+function shiftReviewLightbox(dir) {
+  const next = lightboxIndex + dir;
+  if (next >= 0 && next < lightboxPhotos.length) {
+    lightboxIndex = next;
+    setLightboxPhoto();
+  }
+}
+
+function closeReviewLightbox() {
+  const lb = document.getElementById('reviewLightbox');
+  if (lb) lb.style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+// ── Scroll fade helper ─────────────────────────────────────────────────
+function updateScrollFade() {
+  const grid   = document.getElementById('reviewsGrid');
+  const fadeEl = document.getElementById('reviewsScrollFade');
+  if (!grid || !fadeEl) return;
+  const atBottom = grid.scrollTop + grid.clientHeight >= grid.scrollHeight - 4;
+  fadeEl.style.opacity = atBottom ? '0' : '1';
+}
+
+// Attach scroll listener on load
+document.addEventListener('DOMContentLoaded', () => {
+  const grid = document.getElementById('reviewsGrid');
+  if (grid) grid.addEventListener('scroll', updateScrollFade);
+});
 
 // Replaces the old renderStars() — matches admin-feedback generateStars()
 function generateStars(rating) {

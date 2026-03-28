@@ -122,7 +122,7 @@ class Feedback extends Database
         $params = [];
         $types  = '';
 
-        if ($branchId !== null) {
+        if ($branchId !== null && $branchId > 0) {
             $query   .= " AND f.branch_id = ?";
             $params[] = $branchId;
             $types   .= 'i';
@@ -143,9 +143,7 @@ class Feedback extends Database
             $types   .= 'i';
         }
 
-        if ($statusFilter === 'flagged') {
-            $query .= " AND f.is_flagged = 1";
-        } elseif ($statusFilter !== 'all') {
+        if ($statusFilter !== 'all') {
             $query   .= " AND f.status = ?";
             $params[] = $statusFilter;
             $types   .= 's';
@@ -271,7 +269,7 @@ class Feedback extends Database
         $params = [];
         $types = '';
 
-        if ($branchId !== null) {
+        if ($branchId !== null && $branchId > 0) {
             $query .= " AND f.branch_id = ?";
             $params[] = $branchId;
             $types .= 'i';
@@ -296,7 +294,7 @@ class Feedback extends Database
         $params = [];
         $types  = '';
 
-        if ($branchId !== null) {
+        if ($branchId !== null && $branchId > 0) {
             $query   .= " AND f.branch_id = ?";
             $params[] = $branchId;
             $types   .= 'i';
@@ -317,9 +315,7 @@ class Feedback extends Database
             $types   .= 'i';
         }
 
-        if ($statusFilter === 'flagged') {
-            $query .= " AND f.is_flagged = 1";
-        } elseif ($statusFilter !== 'all') {
+        if ($statusFilter !== 'all') {
             $query   .= " AND f.status = ?";
             $params[] = $statusFilter;
             $types   .= 's';
