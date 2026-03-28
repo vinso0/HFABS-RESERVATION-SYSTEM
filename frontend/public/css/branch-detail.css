@@ -873,6 +873,212 @@
   font-family: var(--font-main);
 }
 
+/* ══════════════════════════════════════════════════════
+   REPORT BUTTON — Review Card Footer
+═══════════════════════════════════════════════════════ */
+
+.review-card-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-light);
+}
+
+.report-review-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 13px;
+  background: transparent;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 20px;
+  font-family: var(--font-main);
+  font-size: 0.775rem;
+  font-weight: 500;
+  color: #9ca3af;
+  cursor: pointer;               /* ← makes it clearly clickable */
+  line-height: 1;
+  position: relative;
+  z-index: 2;                    /* ← sits above card hover transform layer */
+  pointer-events: auto;          /* ← explicitly re-enables clicks */
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  -webkit-appearance: none;      /* ← remove default browser button styles */
+  appearance: none;
+}
+
+.report-review-btn i {
+  font-size: 0.72rem;
+}
+
+.report-review-btn:hover {
+  background: #fff1f2;
+  border-color: #fca5a5;
+  color: #ef4444;
+}
+
+.report-review-btn:active {
+  transform: scale(0.96);
+  background: #fee2e2;
+}
+
+
+/* ══════════════════════════════════════════════════════
+   REPORT MODAL — Full Styling
+   (modal is created dynamically via JS in branch-detail.js)
+═══════════════════════════════════════════════════════ */
+
+.report-modal-overlay {
+  display: none;                    /* hidden by default */
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 10000;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  backdrop-filter: blur(3px);
+}
+
+/* JS sets display:flex to open it — this ensures flex centering works */
+.report-modal-overlay[style*="flex"] {
+  display: flex !important;
+}
+
+.report-modal {
+  background: #fff;
+  border-radius: 18px;
+  width: 100%;
+  max-width: 420px;
+  padding: 32px 28px 28px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
+  animation: reportModalIn 0.25s ease;
+}
+
+@keyframes reportModalIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Modal title */
+.report-modal h3 {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 0 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.report-modal h3 i {
+  color: #ef4444;
+  font-size: 1rem;
+}
+
+/* Subtitle */
+.report-modal-sub {
+  font-family: var(--font-main);
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin: 0 0 20px;
+}
+
+/* Reason select dropdown */
+.report-reason-select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1.5px solid var(--border-light);
+  border-radius: 10px;
+  font-family: var(--font-main);
+  font-size: 0.9rem;
+  color: var(--text-main);
+  background: #fff;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239ca3af' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  margin-bottom: 20px;
+}
+
+.report-reason-select:focus {
+  outline: none;
+  border-color: var(--primary-pink);
+  box-shadow: 0 0 0 3px rgba(233, 30, 140, 0.1);
+}
+
+/* Action buttons row */
+.report-modal-actions {
+  display: flex;
+  gap: 10px;
+}
+
+/* Cancel button */
+.btn-report-cancel {
+  flex: 1;
+  padding: 0.75rem;
+  background: #f3f4f6;
+  border: none;
+  border-radius: 10px;
+  font-family: var(--font-main);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #6b7280;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn-report-cancel:hover {
+  background: #e5e7eb;
+}
+
+/* Submit button */
+.btn-report-submit {
+  flex: 2;
+  padding: 0.75rem;
+  background: #ef4444;
+  border: none;
+  border-radius: 10px;
+  font-family: var(--font-main);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.btn-report-submit:hover:not(:disabled) {
+  background: #dc2626;
+  transform: translateY(-1px);
+}
+
+.btn-report-submit:disabled {
+  background: #fca5a5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .report-modal {
+    padding: 24px 18px 22px;
+    border-radius: 14px;
+  }
+  .report-modal-actions {
+    flex-direction: column;
+  }
+}
+
 /* ── Branches Section on Home Page ── */
 .branches-section {
   padding: 5rem 2rem;

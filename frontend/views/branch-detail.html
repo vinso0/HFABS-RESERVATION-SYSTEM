@@ -91,6 +91,62 @@
             <button class="star-filter" data-stars="1">1 <i class="fas fa-star"></i></button>
           </div>
 
+          <!-- ── Report Review Modal ── -->
+          <div class="report-modal-overlay" id="reportModalOverlay" role="dialog" aria-modal="true" aria-labelledby="reportModalTitle">
+            <div class="report-modal">
+              <div class="report-modal-header">
+                <div class="report-modal-icon">
+                  <i class="fas fa-flag"></i>
+                </div>
+                <h3 class="report-modal-title" id="reportModalTitle">Report Review</h3>
+                <p class="report-modal-subtitle">Help us understand why this review is inappropriate.</p>
+              </div>
+
+              <div class="report-modal-body">
+                <div class="report-reason-group">
+                  <label class="report-reason-label">Select a reason <span class="required">*</span></label>
+                  <div class="report-reason-options">
+                    <label class="report-reason-option">
+                      <input type="radio" name="reportReason" value="Spam or fake review">
+                      <span class="option-check"><i class="fas fa-check"></i></span>
+                      <span class="option-text">Spam or fake review</span>
+                    </label>
+                    <label class="report-reason-option">
+                      <input type="radio" name="reportReason" value="Offensive or inappropriate content">
+                      <span class="option-check"><i class="fas fa-check"></i></span>
+                      <span class="option-text">Offensive or inappropriate content</span>
+                    </label>
+                    <label class="report-reason-option">
+                      <input type="radio" name="reportReason" value="Misleading information">
+                      <span class="option-check"><i class="fas fa-check"></i></span>
+                      <span class="option-text">Misleading information</span>
+                    </label>
+                    <label class="report-reason-option">
+                      <input type="radio" name="reportReason" value="Harassment or bullying">
+                      <span class="option-check"><i class="fas fa-check"></i></span>
+                      <span class="option-text">Harassment or bullying</span>
+                    </label>
+                    <label class="report-reason-option">
+                      <input type="radio" name="reportReason" value="Other">
+                      <span class="option-check"><i class="fas fa-check"></i></span>
+                      <span class="option-text">Other</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="report-modal-footer">
+                <button class="report-cancel-btn" id="reportCancelBtn" type="button">
+                  Cancel
+                </button>
+                <button class="report-submit-btn" id="reportSubmitBtn" type="button" disabled>
+                  <i class="fas fa-flag"></i>
+                  <span id="reportSubmitText">Submit Report</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
           <!-- NEW: scroll container with fade indicator -->
           <div class="reviews-scroll-wrap">
             <div class="reviews-grid" id="reviewsGrid"></div>
