@@ -364,3 +364,62 @@ function updateRatingBreakdown(stats) {
         bd.appendChild(bar);
     }
 }
+
+async function loadReports() {
+  const res  = await fetch(`${API_BASE}feedback/reports`);
+  const data = await res.json();
+
+  if (!data.success || !data.data.length) {
+    // show empty state
+    return;
+  }
+
+  const rows = data.data.map(r => `
+    <tr class="${r.is_blocked == 1 ? 'row-blocked' : ''}">
+      <td>
+        <div class="report-reviewer">${r.customer_name}</div>
+        <div class="report-service">${r.service ?? ''}</div>
+      </td>
+      <td class="report-comment">${r.comment}</td>
+      <td><span class="report-count-badge">${r.report_count}</span></td>
+      <td class="report-reasons">${r.reasons}</td>
+      <td>
+        ${r.is_blocked == 0
+          ? `<button class="btn-mod btn-block" onclick="moderate(${r.feedback_id},'block')">
+               <i class="fas fa-ban"></i> Block
+             </button>`
+          : `<button class="btn-mod btn-unblock" onclick="moderate(${r.feedback_id},'unblock')">
+               <i class="fas fa-eye"></i> Unblock
+             </button>`
+        }
+        <button class="btn-mod btn-dismiss" onclick="moderate(${r.feedback_id},'dismiss')">
+          <i class="fas fa-check"></i> Dismiss
+        </button>
+        <button class="btn-mod btn-delete" onclick="moderate(${r.feedback_id},'delete')">
+          <i class="fas fa-trash"></i> Delete
+        </button>
+      </td>
+    </tr>`).join('');
+
+  document.getElementById('reportsTableBody').innerHTML = rows;
+}
+
+async function moderate(feedbackId, action) {
+  const labels = { block: 'Block this review?', delete: 'Permanently delete this review?', dismiss: 'Dismiss all reports for this review?', unblock: 'Unblock this review?' };
+  if (!confirm(labels[action] ?? 'Confirm?')) return;
+
+  const res  = await fetch(`${API_BASE}feedback/moderate`, {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body:    JSON.stringify({ feedback_id: feedbackId, action })
+  });
+  const data = await res.json();
+
+  if (data.success) {
+    Toast.success(data.message);
+    loadReports();         // refresh the table
+    loadFeedbackStats();   // refresh stat cards
+  } else {
+    Toast.error(data.message);
+  }
+}

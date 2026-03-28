@@ -6,7 +6,7 @@ if (!branchId) {
   window.location.href = '/HFABS/frontend/index.html#branches';
 }
 
-// ── Helpers ──────────────────────────────────────────
+// ── Helpers ───────────────────────────────────────────
 function formatTime(t) {
   if (!t) return 'N/A';
   const [h, m] = t.split(':');
@@ -15,17 +15,21 @@ function formatTime(t) {
 }
 
 function generateStars(rating) {
-  const r = Math.round(rating);
-  return Array.from({ length: 5 }, (_, i) =>
-    `<span class="star ${i < r ? '' : 'empty'}">★</span>`
-  ).join('');
+  const full  = Math.floor(rating);
+  const half  = rating % 1 !== 0;
+  const empty = 5 - full - (half ? 1 : 0);
+  return (
+    '<i class="fas fa-star"></i>'.repeat(full) +
+    (half ? '<i class="fas fa-star-half-alt"></i>' : '') +
+    '<i class="far fa-star"></i>'.repeat(empty)
+  );
 }
 
 function timeAgo(dateStr) {
   const diff = (Date.now() - new Date(dateStr)) / 1000;
-  if (diff < 60)   return 'just now';
-  if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
-  if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
+  if (diff < 60)      return 'just now';
+  if (diff < 3600)    return `${Math.floor(diff / 60)}m ago`;
+  if (diff < 86400)   return `${Math.floor(diff / 3600)}h ago`;
   if (diff < 2592000) return `${Math.floor(diff / 86400)}d ago`;
   return new Date(dateStr).toLocaleDateString('en-PH', { month: 'short', day: 'numeric', year: 'numeric' });
 }
@@ -36,10 +40,8 @@ async function loadBranchInfo() {
     const res    = await fetch(`${API_BASE}branch/${branchId}`);
     const branch = await res.json();
 
-    // Set branch ID for inquiry form
     document.getElementById('inquiryBranchId').value = branch.branchid;
 
-    // Hero
     document.title = `${branch.branchname} | Happy Face & Body Spa`;
     document.getElementById('branchHeroInfo').innerHTML = `
       <span class="branch-hero-eyebrow">
@@ -48,7 +50,6 @@ async function loadBranchInfo() {
       <h1 class="branch-hero-title">${branch.branchname}</h1>
     `;
 
-    // Info cards
     document.getElementById('branchInfoGrid').innerHTML = `
       <div class="info-card">
         <div class="info-card-icon"><i class="fas fa-map-pin"></i></div>
@@ -100,7 +101,6 @@ async function loadBranchServices() {
       return;
     }
 
-    // Build category tabs
     const categories = [...new Set(allServices.map(s => s.category))];
     filter.innerHTML = `
       <button class="filter-tab active" data-cat="all">All</button>
@@ -148,7 +148,7 @@ async function loadBranchPackages() {
   const grid = document.getElementById('branchPackagesGrid');
 
   try {
-    const res = await fetch(`${API_BASE}packages/getPublicPackages/${branchId}`);
+    const res    = await fetch(`${API_BASE}packages/getPublicPackages/${branchId}`);
     const result = await res.json();
 
     if (!result.success || !result.data.length) {
@@ -213,7 +213,6 @@ async function loadBranchReviews() {
     const averageRating = parseFloat(data?.summary?.average_rating ?? 0);
     allReviews          = data?.reviews ?? [];
 
-    // Rating overview
     const ratingCounts = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
     allReviews.forEach(r => {
       const star = Math.round(r.rating);
@@ -280,12 +279,11 @@ function renderReviews(starFilter) {
     return;
   }
 
-  // Build flat lightbox photo list across all visible cards
   lightboxPhotos = [];
   let photoOffset = 0;
 
   const cards = list.map(r => {
-    const photos    = r.photos || [];
+    const photos     = r.photos || [];
     const thisOffset = photoOffset;
 
     photos.forEach(p => lightboxPhotos.push(`/HFABS/backend/public/${p.photo_path}`));
@@ -317,6 +315,11 @@ function renderReviews(starFilter) {
         </div>
         <p class="review-body">${r.comment || '<em>No comment provided.</em>'}</p>
         ${photosHtml}
+        <div class="review-card-footer">
+          <button class="report-review-btn" onclick="openReportModal(${r.feedback_id})">
+            <i class="fas fa-flag"></i> Report
+          </button>
+        </div>
       </div>`;
   });
 
@@ -325,7 +328,7 @@ function renderReviews(starFilter) {
   updateScrollFade();
 }
 
-// ── Review Lightbox ────────────────────────────────────────────────────
+// ── Review Lightbox ───────────────────────────────────
 let lightboxIndex = 0;
 
 function openReviewLightbox(index) {
@@ -381,7 +384,7 @@ function closeReviewLightbox() {
   document.body.style.overflow = '';
 }
 
-// ── Scroll fade helper ─────────────────────────────────────────────────
+// ── Scroll Fade ───────────────────────────────────────
 function updateScrollFade() {
   const grid   = document.getElementById('reviewsGrid');
   const fadeEl = document.getElementById('reviewsScrollFade');
@@ -390,26 +393,12 @@ function updateScrollFade() {
   fadeEl.style.opacity = atBottom ? '0' : '1';
 }
 
-// Attach scroll listener on load
 document.addEventListener('DOMContentLoaded', () => {
   const grid = document.getElementById('reviewsGrid');
   if (grid) grid.addEventListener('scroll', updateScrollFade);
 });
 
-// Replaces the old renderStars() — matches admin-feedback generateStars()
-function generateStars(rating) {
-  const full  = Math.floor(rating);
-  const half  = rating % 1 !== 0;
-  const empty = 5 - full - (half ? 1 : 0);
-  return (
-    '<i class="fas fa-star"></i>'.repeat(full) +
-    (half ? '<i class="fas fa-star-half-alt"></i>' : '') +
-    '<i class="far fa-star"></i>'.repeat(empty)
-  );
-}
-
-
-// ── Inquiry Form Handling ──────────────────────────────
+// ── Inquiry Form ──────────────────────────────────────
 function setupInquiryForm() {
   const form = document.getElementById('inquiryForm');
   if (!form) return;
@@ -417,31 +406,26 @@ function setupInquiryForm() {
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const submitBtn = form.querySelector('.btn-send-inquiry');
+    const submitBtn      = form.querySelector('.btn-send-inquiry');
     const originalBtnText = submitBtn.innerHTML;
-    
-    // Disable button and show loading state
-    submitBtn.disabled = true;
+
+    submitBtn.disabled  = true;
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
 
     const formData = {
       branch_id: document.getElementById('inquiryBranchId').value,
-      name: document.getElementById('inquiryName').value.trim(),
-      email: document.getElementById('inquiryEmail').value.trim(),
-      subject: document.getElementById('inquirySubject').value.trim(),
-      message: document.getElementById('inquiryMessage').value.trim()
+      name:      document.getElementById('inquiryName').value.trim(),
+      email:     document.getElementById('inquiryEmail').value.trim(),
+      subject:   document.getElementById('inquirySubject').value.trim(),
+      message:   document.getElementById('inquiryMessage').value.trim()
     };
 
     try {
-      const res = await fetch(`${API_BASE}branch/sendInquiry`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify(formData)
+      const res  = await fetch(`${API_BASE}branch/sendInquiry`, {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body:    JSON.stringify(formData)
       });
-
       const data = await res.json();
 
       if (data.success) {
@@ -454,11 +438,78 @@ function setupInquiryForm() {
       console.error('Inquiry error:', err);
       Toast.error('Could not connect to server. Please try again later.');
     } finally {
-      // Re-enable button
-      submitBtn.disabled = false;
+      submitBtn.disabled  = false;
       submitBtn.innerHTML = originalBtnText;
     }
   });
+}
+
+// ── Report Modal ──────────────────────────────────────
+function openReportModal(feedbackId) {
+  let modal = document.getElementById('reportModal');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id        = 'reportModal';
+    modal.className = 'report-modal-overlay';
+    modal.innerHTML = `
+      <div class="report-modal">
+        <h3><i class="fas fa-flag"></i> Report Review</h3>
+        <p class="report-modal-sub">Tell us why this review is inappropriate.</p>
+        <select id="reportReason" class="report-reason-select">
+          <option value="">— Select a reason —</option>
+          <option value="Spam or fake review">Spam or fake review</option>
+          <option value="Offensive or inappropriate content">Offensive or inappropriate content</option>
+          <option value="Irrelevant to the service">Irrelevant to the service</option>
+          <option value="Personal attack or harassment">Personal attack or harassment</option>
+          <option value="Other">Other</option>
+        </select>
+        <div class="report-modal-actions">
+          <button class="btn-report-cancel" onclick="closeReportModal()">Cancel</button>
+          <button class="btn-report-submit" id="submitReportBtn">Submit Report</button>
+        </div>
+      </div>`;
+    document.body.appendChild(modal);
+    modal.addEventListener('click', e => { if (e.target === modal) closeReportModal(); });
+  }
+  document.getElementById('reportReason').value = '';
+  document.getElementById('submitReportBtn').onclick = () => submitReport(feedbackId);
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeReportModal() {
+  const modal = document.getElementById('reportModal');
+  if (modal) modal.style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+async function submitReport(feedbackId) {
+  const reason = document.getElementById('reportReason').value;
+  if (!reason) { Toast.error('Please select a reason.'); return; }
+
+  const btn     = document.getElementById('submitReportBtn');
+  btn.disabled  = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+
+  try {
+    const res  = await fetch(`${API_BASE}feedback/report`, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ feedback_id: feedbackId, reason })
+    });
+    const data = await res.json();
+    if (data.success) {
+      Toast.success(data.message);
+      closeReportModal();
+    } else {
+      Toast.error(data.message);
+    }
+  } catch {
+    Toast.error('Could not submit report. Try again later.');
+  } finally {
+    btn.disabled  = false;
+    btn.innerHTML = 'Submit Report';
+  }
 }
 
 // ── Init ──────────────────────────────────────────────

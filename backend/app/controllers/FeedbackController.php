@@ -214,14 +214,81 @@ class FeedbackController extends Controller
         exit;
     }
 
-    // MODERATE FEEDBACK (Admin)
-    // API: POST /feedback/moderate
+    // POST ?url=feedback/report  (Customer)
+    public function report()
+    {
+        $this->setCorsHeaders();
+        if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') { http_response_code(200); exit; }
+        require_once __DIR__ . '/../config/config.php';
+        if (session_status() === PHP_SESSION_NONE) session_start();
+
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'customer') {
+            http_response_code(401);
+            echo json_encode(['success' => false, 'message' => 'You must be logged in to report a review.']);
+            exit;
+        }
+
+        $input      = json_decode(file_get_contents('php://input'), true);
+        $feedbackId = isset($input['feedback_id']) ? intval($input['feedback_id']) : null;
+        $reason     = isset($input['reason'])      ? trim($input['reason'])        : '';
+
+        if (!$feedbackId || empty($reason)) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'message' => 'feedback_id and reason are required.']);
+            exit;
+        }
+
+        // Prevent reporting own review
+        $existing = $this->feedbackModel->getFeedbackById($feedbackId);
+        if (!$existing) {
+            http_response_code(404);
+            echo json_encode(['success' => false, 'message' => 'Review not found.']);
+            exit;
+        }
+        if ((int)$existing['user_id'] === (int)$_SESSION['user_id']) {
+            http_response_code(403);
+            echo json_encode(['success' => false, 'message' => 'You cannot report your own review.']);
+            exit;
+        }
+
+        $result = $this->feedbackModel->reportFeedback($feedbackId, $_SESSION['user_id'], $reason);
+
+        if ($result === 'duplicate') {
+            echo json_encode(['success' => false, 'message' => 'You already reported this review.']);
+        } elseif ($result) {
+            echo json_encode(['success' => true, 'message' => 'Report submitted. Our team will review it.']);
+        } else {
+            http_response_code(500);
+            echo json_encode(['success' => false, 'message' => 'Failed to submit report.']);
+        }
+        exit;
+    }
+
+    // GET ?url=feedback/reports  (Admin)
+    public function reports()
+    {
+        $this->setCorsHeaders();
+        require_once __DIR__ . '/../config/config.php';
+        if (session_status() === PHP_SESSION_NONE) session_start();
+
+        if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+            http_response_code(401);
+            echo json_encode(['success' => false, 'message' => 'Unauthorized']);
+            exit;
+        }
+
+        $branchId = isset($_SESSION['branch_id']) ? (int)$_SESSION['branch_id'] : null;
+        $data     = $this->feedbackModel->getReports($branchId);
+        echo json_encode(['success' => true, 'data' => $data]);
+        exit;
+    }
+
+    // POST ?url=feedback/moderate  (Admin)
+    // action: 'block' | 'unblock' | 'delete' | 'dismiss'
     public function moderate()
     {
         $this->setCorsHeaders();
-
         if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') { http_response_code(200); exit; }
-
         require_once __DIR__ . '/../config/config.php';
         if (session_status() === PHP_SESSION_NONE) session_start();
 
@@ -234,56 +301,44 @@ class FeedbackController extends Controller
         $input      = json_decode(file_get_contents('php://input'), true);
         $feedbackId = isset($input['feedback_id']) ? intval($input['feedback_id']) : null;
         $action     = isset($input['action'])      ? $input['action']              : null;
-        $adminNote  = isset($input['admin_note'])  ? trim($input['admin_note'])    : null;
 
         if (!$feedbackId || !$action) {
             http_response_code(400);
-            echo json_encode(['success' => false, 'message' => 'feedback_id and action are required']);
+            echo json_encode(['success' => false, 'message' => 'feedback_id and action are required.']);
             exit;
         }
 
+        $adminId = $_SESSION['user_id'];
+
         switch ($action) {
-            case 'approve':
-                $result = $this->feedbackModel->updateFeedbackStatus($feedbackId, 'approved', $adminNote);
-                $message = 'Feedback approved';
+            case 'block':
+                $this->feedbackModel->blockFeedback($feedbackId, $adminId);
+                echo json_encode(['success' => true, 'message' => 'Review blocked. It will no longer appear publicly.']);
                 break;
 
-            case 'reject':
-                $result = $this->feedbackModel->updateFeedbackStatus($feedbackId, 'rejected', $adminNote);
-                $message = 'Feedback rejected';
-                break;
-
-            case 'flag':
-                $result = $this->feedbackModel->toggleFlag($feedbackId, 1);
-                $message = 'Feedback flagged';
-                break;
-
-            case 'unflag':
-                $result = $this->feedbackModel->toggleFlag($feedbackId, 0);
-                $message = 'Feedback unflagged';
+            case 'unblock':
+                $this->feedbackModel->unblockFeedback($feedbackId);
+                echo json_encode(['success' => true, 'message' => 'Review is now visible again.']);
                 break;
 
             case 'delete':
                 $photos = $this->feedbackModel->deleteFeedback($feedbackId);
-                foreach ($photos as $photo) {
-                    $filePath = $this->uploadDir . basename($photo['photo_path']);
-                    if (file_exists($filePath)) unlink($filePath);
+                foreach ($photos as $p) {
+                    $file = $this->uploadDir . basename($p['photo_path']);
+                    if (file_exists($file)) unlink($file);
                 }
-                $result  = true;
-                $message = 'Feedback deleted';
+                echo json_encode(['success' => true, 'message' => 'Review permanently deleted.']);
+                break;
+
+            case 'dismiss':
+                // Keep the review, just clear its reports
+                $this->feedbackModel->deleteReportsByFeedback($feedbackId);
+                echo json_encode(['success' => true, 'message' => 'Reports dismissed. Review kept as-is.']);
                 break;
 
             default:
                 http_response_code(400);
-                echo json_encode(['success' => false, 'message' => 'Invalid action']);
-                exit;
-        }
-
-        if ($result) {
-            echo json_encode(['success' => true, 'message' => $message]);
-        } else {
-            http_response_code(500);
-            echo json_encode(['success' => false, 'message' => 'Action failed']);
+                echo json_encode(['success' => false, 'message' => 'Invalid action.']);
         }
         exit;
     }

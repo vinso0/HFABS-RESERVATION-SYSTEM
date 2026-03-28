@@ -147,30 +147,54 @@ class Branch extends Database
     public function getBranchReviews($branchId)
     {
         $conn = $this->getConnection();
-        
-        $sql = 'SELECT 
+
+        $sql = 'SELECT
+                    f.feedback_id,
                     f.rating,
                     f.comment,
                     f.created_at,
-                    COALESCE(u.username, "Anonymous") as customer_name
+                    COALESCE(u.username, "Anonymous") AS customer_name,
+                    COALESCE(bso.display_name, ds.service_name) AS service
                 FROM feedback f
                 LEFT JOIN users u ON f.user_id = u.user_id
+                LEFT JOIN reservation_services rs ON f.reservation_service_id = rs.reservation_service_id
+                LEFT JOIN branch_service_overrides bso ON rs.branch_service_id = bso.branch_service_override_id
+                LEFT JOIN default_services ds ON bso.default_service_id = ds.service_id
                 WHERE f.branch_id = ?
+                AND f.is_blocked = 0
                 ORDER BY f.created_at DESC';
-        
+
         $stmt = $conn->prepare($sql);
         $stmt->bind_param('i', $branchId);
         $stmt->execute();
-        
         $result = $stmt->get_result();
-        
-        $reviews = array();
-        if ($result && $result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $reviews[] = $row;
-            }
+
+        $reviews = [];
+        while ($row = $result->fetch_assoc()) {
+            $reviews[] = $row;
         }
-        
+
+        // Attach photos to each review
+        if (!empty($reviews)) {
+            $ids = implode(',', array_map(fn($r) => (int)$r['feedback_id'], $reviews));
+            $photoResult = $conn->query(
+                "SELECT feedback_id, photo_path, photo_order
+                FROM feedback_photos
+                WHERE feedback_id IN ($ids)
+                ORDER BY feedback_id, photo_order ASC"
+            );
+            $photosMap = [];
+            if ($photoResult) {
+                while ($p = $photoResult->fetch_assoc()) {
+                    $photosMap[$p['feedback_id']][] = $p;
+                }
+            }
+            foreach ($reviews as &$review) {
+                $review['photos'] = $photosMap[$review['feedback_id']] ?? [];
+            }
+            unset($review);
+        }
+
         return $reviews;
     }
 
@@ -179,31 +203,28 @@ class Branch extends Database
     public function getBranchRatingSummary($branchId)
     {
         $conn = $this->getConnection();
-        
-        $sql = 'SELECT 
-                    COUNT(*) as total_reviews,
-                    AVG(rating) as average_rating
+
+        $sql = 'SELECT
+                    COUNT(*) AS total_reviews,
+                    AVG(rating) AS average_rating
                 FROM feedback
-                WHERE branch_id = ?';
-        
+                WHERE branch_id = ?
+                AND is_blocked = 0';
+
         $stmt = $conn->prepare($sql);
         $stmt->bind_param('i', $branchId);
         $stmt->execute();
-        
         $result = $stmt->get_result();
-        
+
         if ($result && $result->num_rows > 0) {
             $row = $result->fetch_assoc();
-            return array(
-                'total_reviews' => (int)$row['total_reviews'],
+            return [
+                'total_reviews'  => (int) $row['total_reviews'],
                 'average_rating' => $row['average_rating'] ? round($row['average_rating'], 1) : 0
-            );
+            ];
         }
-        
-        return array(
-            'total_reviews' => 0,
-            'average_rating' => 0
-        );
+
+        return ['total_reviews' => 0, 'average_rating' => 0];
     }
 
         // ── Get full branch settings by branch_id ──
