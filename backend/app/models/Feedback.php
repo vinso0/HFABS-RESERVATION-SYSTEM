@@ -143,7 +143,9 @@ class Feedback extends Database
             $types   .= 'i';
         }
 
-        if ($statusFilter !== 'all') {
+        if ($statusFilter === 'flagged') {
+            $query .= " AND f.is_flagged = 1";
+        } elseif ($statusFilter !== 'all') {
             $query   .= " AND f.status = ?";
             $params[] = $statusFilter;
             $types   .= 's';
@@ -315,7 +317,9 @@ class Feedback extends Database
             $types   .= 'i';
         }
 
-        if ($statusFilter !== 'all') {
+        if ($statusFilter === 'flagged') {
+            $query .= " AND f.is_flagged = 1";
+        } elseif ($statusFilter !== 'all') {
             $query   .= " AND f.status = ?";
             $params[] = $statusFilter;
             $types   .= 's';

@@ -54,10 +54,11 @@ class Pagination {
 
     goToPage(page) {
         const totalPages = this.getTotalPages();
-        
+
         if (page < 1) page = 1;
-        if (page > totalPages) page = totalPages;
-        
+        // Only clamp to totalPages if totalPages > 0, otherwise stay at 1
+        if (totalPages > 0 && page > totalPages) page = totalPages;
+
         this.currentPage = page;
         this.render();
         this.onPageChange(this.currentPage, this.itemsPerPage);
@@ -191,13 +192,17 @@ class Pagination {
     // Public method to update total items (useful when data changes)
     updateTotalItems(total) {
         this.totalItems = total;
-        
-        // Adjust current page if it's out of bounds
+
         const totalPages = this.getTotalPages();
-        if (this.currentPage > totalPages) {
-            this.currentPage = totalPages || 1;
+
+        // If current page is now out of bounds, clamp it — but never below 1
+        if (this.currentPage > totalPages && totalPages > 0) {
+            this.currentPage = totalPages;
+        } else if (totalPages === 0) {
+            // Don't set to 0 — keep at 1 so next load with data works correctly
+            this.currentPage = 1;
         }
-        
+
         this.render();
     }
 

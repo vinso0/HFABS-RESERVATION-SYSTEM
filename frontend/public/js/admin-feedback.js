@@ -137,14 +137,14 @@ document.addEventListener('DOMContentLoaded', function () {
     searchInput?.addEventListener('input', function () {
         clearTimeout(searchTimeout);
         searchTimeout = setTimeout(() => {
-            pagination.goToPage(1);
+            pagination.currentPage = 1; // ← direct reset, not goToPage
             loadFeedback(this.value, getMinRating(), currentStatusFilter);
         }, 300);
     });
 
     // Rating filter
     document.getElementById('filterRating')?.addEventListener('change', function () {
-        pagination.goToPage(1);
+        pagination.currentPage = 1; // ← direct reset, not goToPage
         loadFeedback(getSearchTerm(), getMinRating(), currentStatusFilter);
     });
 
@@ -154,12 +154,12 @@ document.addEventListener('DOMContentLoaded', function () {
             document.querySelectorAll('.status-tab').forEach(t => t.classList.remove('active'));
             this.classList.add('active');
             currentStatusFilter = this.dataset.status;
-            // ← CRITICAL: always reset to page 1 before fetching
-            pagination.goToPage(1);
+            // Reset page directly — do NOT call goToPage() here as it fires
+            // onPageChange → renderFeedbackCards() before new data is loaded
+            pagination.currentPage = 1;
             loadFeedback(getSearchTerm(), getMinRating(), currentStatusFilter);
         });
     });
-
     // Lightbox backdrop close
     document.getElementById('feedbackLightbox')?.addEventListener('click', function (e) {
         if (e.target === this) closeLightbox();
@@ -182,13 +182,16 @@ async function loadFeedback(searchTerm = '', minRating = 0, status = 'all') {
     try {
         const result = await fetchFeedback(searchTerm, minRating, status);
 
-        // Update stats & badges regardless of result count
+        // Always update stats/badges first
         if (result.stats) {
             updateRatingBreakdown(result.stats);
             updateStatusBadges(result.stats);
         }
 
         filteredFeedback = [...feedbackData];
+
+        // CRITICAL: always update total BEFORE any range calculation or rendering
+        pagination.updateTotalItems(filteredFeedback.length);
 
         if (filteredFeedback.length === 0) {
             feedbackList.innerHTML = `
@@ -197,13 +200,10 @@ async function loadFeedback(searchTerm = '', minRating = 0, status = 'all') {
                     <p>No feedback found</p>
                     <p class="subtitle">Try adjusting your search or filters</p>
                 </div>`;
-            // ← CRITICAL: update total BEFORE getCurrentPageRange() is called
-            pagination.updateTotalItems(0);
             return;
         }
 
-        // ← CRITICAL: update total FIRST, then render cards using correct range
-        pagination.updateTotalItems(filteredFeedback.length);
+        // Now safe to render — pagination has correct total
         renderFeedbackCards();
 
     } catch (error) {
