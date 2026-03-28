@@ -22711,3 +22711,31 @@ Stack trace:
 [28-Mar-2026 06:40:51 Europe/Berlin] Router received URL: feedback
 [28-Mar-2026 06:40:52 Europe/Berlin] Router received URL: feedback
 [28-Mar-2026 06:40:52 Europe/Berlin] Router received URL: feedback
+[28-Mar-2026 06:50:16 Europe/Berlin] Router received URL: customers
+[28-Mar-2026 06:50:18 Europe/Berlin] Router received URL: auth/logout
+[28-Mar-2026 06:50:25 Europe/Berlin] Router received URL: auth/login
+[28-Mar-2026 06:50:25 Europe/Berlin] Router received URL: reservation/getAllReservations
+[28-Mar-2026 06:50:25 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[28-Mar-2026 06:50:25 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[28-Mar-2026 06:50:25 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[28-Mar-2026 06:50:25 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[28-Mar-2026 06:50:25 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[28-Mar-2026 06:50:25 Europe/Berlin] Router received URL: transaction/getByBranch

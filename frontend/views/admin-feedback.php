@@ -42,17 +42,16 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
                 <button class="status-tab active" data-status="all">
                     All
                 </button>
-                <button class="status-tab" data-status="pending">
-                    Pending <span class="tab-badge" id="pendingCount">0</span>
+                <button class="status-tab" data-status="active">
+                    <i class="fas fa-check-circle"></i> Active
                 </button>
-                <button class="status-tab" data-status="approved">
-                    Approved
+                <button class="status-tab tab-blocked" data-status="blocked">
+                    <i class="fas fa-ban"></i> Blocked
+                    <span class="tab-badge tab-badge--dark" id="blockedCount">0</span>
                 </button>
-                <button class="status-tab" data-status="rejected">
-                    Rejected
-                </button>
-                <button class="status-tab tab-flagged" data-status="flagged">
-                    <i class="fas fa-flag"></i> Flagged <span class="tab-badge tab-badge--red" id="flaggedCount">0</span>
+                <button class="status-tab tab-reported" data-status="reported">
+                    <i class="fas fa-flag"></i> Reported
+                    <span class="tab-badge tab-badge--red" id="reportedCount">0</span>
                 </button>
             </div>
 

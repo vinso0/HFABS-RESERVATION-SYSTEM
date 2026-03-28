@@ -1,300 +1,308 @@
-const API_BASE_URL      = '../../backend/public/index.php?url=feedback';
-const MODERATE_URL      = '../../backend/public/index.php?url=feedback/moderate';
-const IMG_BASE_URL      = '../../backend/public/';
+/* ════════════════════════════════════════════════════════════
+   admin-feedback.js  ·  No approval workflow — block/unblock only
+   Tabs: All · Active · Blocked · Reported
+════════════════════════════════════════════════════════════ */
 
-let feedbackData      = [];
-let filteredFeedback  = [];
+const API_BASE_URL = '../../backend/public/index.php?url=feedback';
+const MODERATE_URL = '../../backend/public/index.php?url=feedback/moderate';
+const REPORTS_URL  = '../../backend/public/index.php?url=feedback/reports';
+const IMG_BASE_URL = '../../backend/public/';
+
+let allFeedback         = [];
+let currentFilter       = 'all';   // 'all' | 'active' | 'blocked' | 'reported'
 let pagination;
-let currentStatusFilter = 'all';
 
-// ─── Fetch ────────────────────────────────────────────────────────────
-async function fetchFeedback(search = '', minRating = 0, status = 'all') {
-    const url = `${API_BASE_URL}&search=${encodeURIComponent(search)}&min_rating=${encodeURIComponent(minRating)}&status=${encodeURIComponent(status)}`;
-
-    const response = await fetch(url, {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include'
-    });
-
-    const text = await response.text();
-    if (!response.ok) throw new Error(`Server error: ${response.status}`);
-
-    const result = JSON.parse(text);
-
-    if (result.success) {
-        feedbackData = result.data.map(f => ({
-            id:           f.id,
-            feedback_id:  f.feedback_id,
-            customerName: f.customerName,
-            rating:       f.rating,
-            service:      f.service,
-            feedback:     f.feedback,
-            date:         f.date,
-            time:         f.time,
-            status:       f.status,
-            is_flagged:   f.is_flagged,
-            admin_note:   f.admin_note,
-            photos:       f.photos || []
-        }));
-        return result;
-    }
-    throw new Error(result.message || 'Failed to fetch feedback');
+// ─── Toast ───────────────────────────────────────────────────────────
+function adminToast(msg, type = 'success') {
+    typeof showToast === 'function' ? showToast(msg, type) : console.warn('[Toast]', type, msg);
 }
 
-// ─── Moderate ─────────────────────────────────────────────────────────
-async function moderateFeedback(feedbackId, action, adminNote = null) {
-    const response = await fetch(MODERATE_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({ feedback_id: feedbackId, action, admin_note: adminNote })
-    });
+// ═════════════════════════════════════════════════════════════════════
+//  A.  FEEDBACK LIST (All / Active / Blocked)
+// ═════════════════════════════════════════════════════════════════════
 
-    const result = await response.json();
+async function fetchFeedback(search = '', minRating = 0, filter = 'all') {
+    const url = `${API_BASE_URL}&search=${encodeURIComponent(search)}`
+              + `&min_rating=${encodeURIComponent(minRating)}`
+              + `&status=${encodeURIComponent(filter)}`;
+
+    const res = await fetch(url, { credentials: 'include' });
+    if (!res.ok) throw new Error(`Server error ${res.status}`);
+    const result = await res.json();
+    if (!result.success) throw new Error(result.message || 'Failed to fetch');
+
+    allFeedback = result.data.map(f => ({
+        feedback_id:  f.feedback_id,
+        customerName: f.customerName,
+        rating:       parseFloat(f.rating),
+        service:      f.service,
+        feedback:     f.feedback,
+        date:         f.date,
+        time:         f.time,
+        is_blocked:   f.is_blocked,
+        report_count: f.report_count || 0,
+        photos:       f.photos || []
+    }));
+
     return result;
 }
 
-// ─── Action Handlers ──────────────────────────────────────────────────
-async function approveFeedback(feedbackId) {
-    if (!confirm('Approve this feedback? It will be visible to customers.')) return;
-    const res = await moderateFeedback(feedbackId, 'approve');
-    if (res.success) {
-        showAdminToast('Feedback approved ✓', 'success');
-        loadFeedback(getSearchTerm(), getMinRating(), currentStatusFilter);
-    } else {
-        showAdminToast(res.message || 'Failed', 'error');
-    }
-}
+async function loadFeedback(search = '', minRating = 0, filter = 'all') {
+    showSection('feedback');
+    const list = document.getElementById('feedbackList');
+    if (!list) return;
 
-async function rejectFeedback(feedbackId) {
-    const note = prompt('Reason for rejection (optional):');
-    if (note === null) return; // Cancelled
-    const res = await moderateFeedback(feedbackId, 'reject', note || null);
-    if (res.success) {
-        showAdminToast('Feedback rejected', 'warning');
-        loadFeedback(getSearchTerm(), getMinRating(), currentStatusFilter);
-    } else {
-        showAdminToast(res.message || 'Failed', 'error');
-    }
-}
-
-async function flagFeedback(feedbackId, currentFlagged) {
-    const action = currentFlagged == 1 ? 'unflag' : 'flag';
-    const res = await moderateFeedback(feedbackId, action);
-    if (res.success) {
-        showAdminToast(action === 'flag' ? 'Feedback flagged' : 'Flag removed', 'info');
-        loadFeedback(getSearchTerm(), getMinRating(), currentStatusFilter);
-    }
-}
-
-async function deleteFeedback(feedbackId) {
-    if (!confirm('Permanently delete this feedback? This cannot be undone.')) return;
-    const res = await moderateFeedback(feedbackId, 'delete');
-    if (res.success) {
-        showAdminToast('Feedback deleted', 'success');
-        loadFeedback(getSearchTerm(), getMinRating(), currentStatusFilter);
-    } else {
-        showAdminToast(res.message || 'Failed', 'error');
-    }
-}
-
-// ─── Helpers ──────────────────────────────────────────────────────────
-function getSearchTerm() { return document.getElementById('searchInput')?.value || ''; }
-function getMinRating()  {
-    const val = document.getElementById('filterRating')?.value || 'all';
-    return val === 'all' ? 0 : parseInt(val);
-}
-
-function showAdminToast(message, type = 'success') {
-    // Re-use existing toast if available, else alert
-    if (typeof showToast === 'function') {
-        showToast(message, type);
-    } else {
-        alert(message);
-    }
-}
-
-// ─── DOM Ready ────────────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', function () {
-    pagination = new Pagination({
-        totalItems: 0,
-        itemsPerPage: 6,
-        currentPage: 1,
-        onPageChange: function () {
-            loadFeedback(getSearchTerm(), getMinRating(), currentStatusFilter);
-        }
-    });
-    window.pagination = pagination;
-
-    setTimeout(async () => {
-        try { await loadFeedback('', 0, 'all'); }
-        catch (e) { showError('Failed to load feedback'); }
-    }, 0);
-
-    // Search
-    const searchInput = document.getElementById('searchInput');
-    let searchTimeout;
-    searchInput?.addEventListener('input', function () {
-        clearTimeout(searchTimeout);
-        searchTimeout = setTimeout(() => {
-            pagination.goToPage(1);
-            loadFeedback(searchInput.value, getMinRating(), currentStatusFilter);
-        }, 300);
-    });
-
-    // Rating filter
-    const filterRating = document.getElementById('filterRating');
-    filterRating?.addEventListener('change', function () {
-        pagination.goToPage(1);
-        loadFeedback(getSearchTerm(), getMinRating(), currentStatusFilter);
-    });
-
-    // Status filter tabs
-    document.querySelectorAll('.status-tab').forEach(tab => {
-        tab.addEventListener('click', function () {
-            document.querySelectorAll('.status-tab').forEach(t => t.classList.remove('active'));
-            this.classList.add('active');
-            currentStatusFilter = this.dataset.status;
-            pagination.goToPage(1);
-            loadFeedback(getSearchTerm(), getMinRating(), currentStatusFilter);
-        });
-    });
-
-    // Image lightbox close
-    document.getElementById('feedbackLightbox')?.addEventListener('click', function (e) {
-        if (e.target === this) closeLightbox();
-    });
-});
-
-// ─── Load & Render ────────────────────────────────────────────────────
-async function loadFeedback(searchTerm = '', minRating = 0, status = 'all') {
-    const feedbackList = document.getElementById('feedbackList');
-    if (!feedbackList) return;
-
-    feedbackList.innerHTML = `
-        <div class="loading-row">
-            <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i><span>Loading feedback...</span></div>
-        </div>`;
+    list.innerHTML = loadingHtml();
 
     try {
-        const result = await fetchFeedback(searchTerm, minRating, status);
-        filteredFeedback = [...feedbackData];
+        const result = await fetchFeedback(search, minRating, filter);
 
-        if (result.stats) updateRatingBreakdown(result.stats);
+        if (result.stats) {
+            updateRatingOverview(result.stats);
+            updateTabBadges(result.stats);
+        }
 
-        // Update badge counts
-        updateStatusBadges(result.stats);
-
-        if (filteredFeedback.length === 0) {
-            feedbackList.innerHTML = `
-                <div class="empty-state">
-                    <i class="fas fa-comments"></i>
-                    <p>No feedback found</p>
-                    <p class="subtitle">Try adjusting your search or filters</p>
-                </div>`;
+        if (!allFeedback.length) {
+            list.innerHTML = emptyHtml('No feedback found', 'Try adjusting your search or filters');
             pagination.updateTotalItems(0);
             return;
         }
 
-        pagination.updateTotalItems(filteredFeedback.length);
-        feedbackList.innerHTML = '';
+        pagination.updateTotalItems(allFeedback.length);
+        list.innerHTML = '';
 
-        const range = pagination.getCurrentPageRange();
-        const toDisplay = filteredFeedback.slice(range.start, range.end);
-
-        toDisplay.forEach(feedback => {
-            const card = document.createElement('div');
-            card.className = `feedback-card ${feedback.is_flagged == 1 ? 'is-flagged' : ''} status-${feedback.status}`;
-
-            const statusBadge = `<span class="feedback-status-badge badge-${feedback.status}">${capitalise(feedback.status)}</span>`;
-            const flagBadge   = feedback.is_flagged == 1
-                ? `<span class="feedback-flag-badge"><i class="fas fa-flag"></i> Flagged</span>`
-                : '';
-
-            const photosHtml = feedback.photos && feedback.photos.length > 0
-                ? `<div class="feedback-photo-grid">
-                    ${feedback.photos.map((p, i) =>
-                        `<img src="${IMG_BASE_URL}${p.photo_path}" 
-                              alt="Photo ${i+1}" 
-                              class="feedback-thumb" 
-                              onclick="openLightbox('${IMG_BASE_URL}${p.photo_path}')"
-                              loading="lazy">`
-                    ).join('')}
-                   </div>`
-                : '';
-
-            const adminNoteHtml = feedback.admin_note
-                ? `<div class="admin-note"><i class="fas fa-sticky-note"></i> <em>${escapeHtml(feedback.admin_note)}</em></div>`
-                : '';
-
-            card.innerHTML = `
-                <div class="feedback-header">
-                    <div class="feedback-user">
-                        <div class="customer-name">${escapeHtml(feedback.customerName)}</div>
-                        <div class="feedback-time">${formatDateTime(feedback.date, feedback.time)}</div>
-                    </div>
-                    <div class="feedback-rating">
-                        <div class="feedback-stars">${generateStars(feedback.rating)}</div>
-                        <div class="feedback-service"><i class="fas fa-spa"></i><span>${escapeHtml(feedback.service)}</span></div>
-                    </div>
-                </div>
-                <div class="feedback-badges">${statusBadge}${flagBadge}</div>
-                <div class="feedback-content">
-                    <div class="feedback-text">${escapeHtml(feedback.feedback)}</div>
-                    ${photosHtml}
-                    ${adminNoteHtml}
-                </div>
-                <div class="feedback-actions">
-                    ${feedback.status !== 'approved'
-                        ? `<button class="btn-action btn-approve" onclick="approveFeedback(${feedback.feedback_id})">
-                               <i class="fas fa-check"></i> Approve
-                           </button>`
-                        : ''}
-                    ${feedback.status !== 'rejected'
-                        ? `<button class="btn-action btn-reject" onclick="rejectFeedback(${feedback.feedback_id})">
-                               <i class="fas fa-ban"></i> Reject
-                           </button>`
-                        : ''}
-                    <button class="btn-action btn-flag ${feedback.is_flagged == 1 ? 'btn-flagged' : ''}" 
-                            onclick="flagFeedback(${feedback.feedback_id}, ${feedback.is_flagged})">
-                        <i class="fas fa-flag"></i> ${feedback.is_flagged == 1 ? 'Unflag' : 'Flag'}
-                    </button>
-                    <button class="btn-action btn-delete" onclick="deleteFeedback(${feedback.feedback_id})">
-                        <i class="fas fa-trash"></i> Delete
-                    </button>
-                </div>
-            `;
-            feedbackList.appendChild(card);
+        const { start, end } = pagination.getCurrentPageRange();
+        allFeedback.slice(start, end).forEach(f => {
+            list.appendChild(buildCard(f));
         });
 
-    } catch (error) {
-        showError('Failed to load feedback');
+    } catch (e) {
+        list.innerHTML = emptyHtml('Failed to load feedback', e.message, 'fa-exclamation-circle');
     }
 }
 
-function showError(msg) {
-    const fl = document.getElementById('feedbackList');
-    if (fl) fl.innerHTML = `
-        <div class="empty-state">
-            <i class="fas fa-exclamation-circle"></i>
-            <p>${msg}</p>
+function buildCard(f) {
+    const card = document.createElement('div');
+    card.className = `feedback-card${f.is_blocked == 1 ? ' is-blocked' : ''}`;
+
+    const blockedBadge = f.is_blocked == 1
+        ? `<span class="fb-badge badge-blocked"><i class="fas fa-ban"></i> Blocked</span>`
+        : `<span class="fb-badge badge-active"><i class="fas fa-check-circle"></i> Active</span>`;
+
+    const reportBadge = f.report_count > 0
+        ? `<span class="fb-badge badge-reported"><i class="fas fa-flag"></i> ${f.report_count} report${f.report_count > 1 ? 's' : ''}</span>`
+        : '';
+
+    const photosHtml = f.photos.length
+        ? `<div class="feedback-photo-grid">
+            ${f.photos.map((p, i) =>
+                `<img src="${IMG_BASE_URL}${p.photo_path}" alt="Photo ${i+1}"
+                      class="feedback-thumb"
+                      onclick="openLightbox('${IMG_BASE_URL}${p.photo_path}')"
+                      loading="lazy">`
+            ).join('')}
+           </div>`
+        : '';
+
+    card.innerHTML = `
+        <div class="feedback-header">
+            <div class="feedback-user">
+                <div class="customer-name">${esc(f.customerName)}</div>
+                <div class="feedback-time">${fmtDate(f.date, f.time)}</div>
+            </div>
+            <div class="feedback-rating">
+                <div class="feedback-stars">${stars(f.rating)}</div>
+                <div class="feedback-service"><i class="fas fa-spa"></i><span>${esc(f.service)}</span></div>
+            </div>
+        </div>
+        <div class="feedback-badges">${blockedBadge}${reportBadge}</div>
+        <div class="feedback-content">
+            <div class="feedback-text">${esc(f.feedback)}</div>
+            ${photosHtml}
+        </div>
+        <div class="feedback-actions">
+            ${f.is_blocked == 1
+                ? `<button class="btn-action btn-unblock" onclick="doModerate(${f.feedback_id},'unblock')">
+                       <i class="fas fa-eye"></i> Unblock
+                   </button>`
+                : `<button class="btn-action btn-block" onclick="doModerate(${f.feedback_id},'block')">
+                       <i class="fas fa-ban"></i> Block
+                   </button>`
+            }
+            <button class="btn-action btn-delete" onclick="doModerate(${f.feedback_id},'delete')">
+                <i class="fas fa-trash"></i> Delete
+            </button>
         </div>`;
+
+    return card;
 }
 
-// ─── Lightbox ─────────────────────────────────────────────────────────
+// ═════════════════════════════════════════════════════════════════════
+//  B.  REPORTED REVIEWS TABLE
+// ═════════════════════════════════════════════════════════════════════
+
+async function loadReports() {
+    showSection('reports');
+    const tbody = document.getElementById('reportsTableBody');
+    const empty = document.getElementById('reportsEmptyState');
+    if (!tbody) return;
+
+    tbody.innerHTML = `
+        <tr><td colspan="5">${loadingHtml()}</td></tr>`;
+
+    try {
+        const res  = await fetch(REPORTS_URL, { credentials: 'include' });
+        const data = await res.json();
+
+        if (!data.success || !data.data.length) {
+            tbody.innerHTML = '';
+            if (empty) empty.style.display = 'flex';
+            return;
+        }
+        if (empty) empty.style.display = 'none';
+
+        tbody.innerHTML = data.data.map(r => `
+            <tr class="report-row${r.is_blocked == 1 ? ' row-blocked' : ''}">
+                <td>
+                    <div class="report-name">${esc(r.customer_name)}</div>
+                    <div class="report-service">${esc(r.service ?? '')}</div>
+                </td>
+                <td class="report-comment-cell">${esc(r.comment)}</td>
+                <td class="report-count-cell">
+                    <span class="report-count-badge">${r.report_count}</span>
+                </td>
+                <td class="report-reasons-cell">${esc(r.reasons ?? '')}</td>
+                <td class="report-actions-cell">
+                    ${r.is_blocked == 0
+                        ? `<button class="btn-mod btn-mod--block"   onclick="doModerate(${r.feedback_id},'block')">
+                               <i class="fas fa-ban"></i> Block
+                           </button>`
+                        : `<button class="btn-mod btn-mod--unblock" onclick="doModerate(${r.feedback_id},'unblock')">
+                               <i class="fas fa-eye"></i> Unblock
+                           </button>`
+                    }
+                    <button class="btn-mod btn-mod--dismiss" onclick="doModerate(${r.feedback_id},'dismiss')">
+                        <i class="fas fa-check"></i> Dismiss
+                    </button>
+                    <button class="btn-mod btn-mod--delete"  onclick="doModerate(${r.feedback_id},'delete')">
+                        <i class="fas fa-trash"></i> Delete
+                    </button>
+                </td>
+            </tr>`).join('');
+
+    } catch (e) {
+        tbody.innerHTML = `<tr><td colspan="5">${emptyHtml('Failed to load reports', e.message, 'fa-exclamation-circle')}</td></tr>`;
+    }
+}
+
+// ═════════════════════════════════════════════════════════════════════
+//  C.  MODERATE (shared for both sections)
+// ═════════════════════════════════════════════════════════════════════
+
+const MODERATE_CFG = {
+    block:   { icon: 'ban',       cls: 'confirm-icon--red',   title: 'Block Review',    msg: 'This review will be hidden from all customers.',           label: 'Block',   btnCls: 'btn-confirm--red'   },
+    unblock: { icon: 'eye',       cls: 'confirm-icon--green', title: 'Unblock Review',  msg: 'This review will become visible to customers again.',      label: 'Unblock', btnCls: 'btn-confirm--green' },
+    dismiss: { icon: 'check',     cls: 'confirm-icon--green', title: 'Dismiss Reports', msg: 'All reports will be cleared. The review stays as-is.',     label: 'Dismiss', btnCls: 'btn-confirm--green' },
+    delete:  { icon: 'trash-alt', cls: 'confirm-icon--red',   title: 'Delete Review',   msg: 'This permanently deletes the review and all its reports.', label: 'Delete',  btnCls: 'btn-confirm--red'   }
+};
+
+function doModerate(feedbackId, action) {
+    const cfg = MODERATE_CFG[action];
+    if (!cfg) return;
+
+    showConfirm({
+        ...cfg,
+        onConfirm: async () => {
+            try {
+                const res  = await fetch(MODERATE_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ feedback_id: feedbackId, action })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    adminToast(data.message, 'success');
+                    refreshCurrentView();
+                } else {
+                    adminToast(data.message || 'Action failed', 'error');
+                }
+            } catch {
+                adminToast('Could not connect to server.', 'error');
+            }
+        }
+    });
+}
+
+function refreshCurrentView() {
+    if (currentFilter === 'reported') {
+        loadReports();
+    } else {
+        loadFeedback(getSearch(), getMinRating(), currentFilter);
+    }
+}
+
+// ═════════════════════════════════════════════════════════════════════
+//  D.  CONFIRM MODAL
+// ═════════════════════════════════════════════════════════════════════
+
+function showConfirm({ icon, cls, title, msg, label, btnCls, onConfirm }) {
+    let overlay = document.getElementById('adminConfirmModal');
+    if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.id        = 'adminConfirmModal';
+        overlay.className = 'admin-confirm-overlay';
+        overlay.innerHTML = `
+            <div class="admin-confirm-box">
+                <div class="admin-confirm-icon" id="cfmIcon"><i class="fas"></i></div>
+                <h3  class="admin-confirm-title"   id="cfmTitle"></h3>
+                <p   class="admin-confirm-msg"     id="cfmMsg"></p>
+                <div class="admin-confirm-actions">
+                    <button class="admin-confirm-btn admin-confirm-btn--cancel" id="cfmCancel">Cancel</button>
+                    <button class="admin-confirm-btn" id="cfmOk"></button>
+                </div>
+            </div>`;
+        document.body.appendChild(overlay);
+        overlay.addEventListener('click', e => { if (e.target === overlay) closeConfirm(); });
+        document.getElementById('cfmCancel').addEventListener('click', closeConfirm);
+    }
+
+    document.getElementById('cfmIcon').className    = `admin-confirm-icon ${cls}`;
+    document.getElementById('cfmIcon').querySelector('i').className = `fas fa-${icon}`;
+    document.getElementById('cfmTitle').textContent = title;
+    document.getElementById('cfmMsg').textContent   = msg;
+
+    const ok = document.getElementById('cfmOk');
+    ok.textContent = label;
+    ok.className   = `admin-confirm-btn ${btnCls}`;
+    ok.onclick     = () => { closeConfirm(); onConfirm(); };
+
+    overlay.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
+function closeConfirm() {
+    const m = document.getElementById('adminConfirmModal');
+    if (m) m.style.display = 'none';
+    document.body.style.overflow = '';
+}
+
+// ═════════════════════════════════════════════════════════════════════
+//  E.  LIGHTBOX
+// ═════════════════════════════════════════════════════════════════════
+
 function openLightbox(src) {
     let lb = document.getElementById('feedbackLightbox');
     if (!lb) {
         lb = document.createElement('div');
-        lb.id = 'feedbackLightbox';
+        lb.id        = 'feedbackLightbox';
         lb.className = 'feedback-lightbox';
         lb.innerHTML = `<div class="lightbox-inner">
             <button class="lightbox-close" onclick="closeLightbox()"><i class="fas fa-times"></i></button>
             <img id="lightboxImg" src="" alt="Feedback Photo">
         </div>`;
         document.body.appendChild(lb);
-        lb.addEventListener('click', (e) => { if (e.target === lb) closeLightbox(); });
+        lb.addEventListener('click', e => { if (e.target === lb) closeLightbox(); });
     }
     document.getElementById('lightboxImg').src = src;
     lb.style.display = 'flex';
@@ -307,26 +315,70 @@ function closeLightbox() {
     document.body.style.overflow = '';
 }
 
-// ─── Status Badge Counter ─────────────────────────────────────────────
-function updateStatusBadges(stats) {
-    const pendingBadge = document.getElementById('pendingCount');
-    const flaggedBadge = document.getElementById('flaggedCount');
-    if (pendingBadge && stats) pendingBadge.textContent = stats.pendingCount || 0;
-    if (flaggedBadge && stats) flaggedBadge.textContent = stats.flaggedCount || 0;
+// ═════════════════════════════════════════════════════════════════════
+//  F.  SECTION SWITCHER
+// ═════════════════════════════════════════════════════════════════════
+
+function showSection(name) {
+    const isFeedback = name === 'feedback';
+    document.getElementById('feedbackCardsSection').style.display = isFeedback ? '' : 'none';
+    document.getElementById('reportsSection').style.display       = isFeedback ? 'none' : '';
+    document.getElementById('filterSection').style.display        = isFeedback ? '' : 'none';
 }
 
-// ─── Shared Helpers ───────────────────────────────────────────────────
-function escapeHtml(str) {
-    const div = document.createElement('div');
-    div.textContent = str || '';
-    return div.innerHTML;
+// ═════════════════════════════════════════════════════════════════════
+//  G.  STATS / BADGES
+// ═════════════════════════════════════════════════════════════════════
+
+function updateTabBadges(stats) {
+    const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val ?? 0; };
+    set('blockedCount',  stats.blockedCount);
+    set('reportedCount', stats.pendingReports);
 }
 
-function capitalise(str) {
-    return str ? str.charAt(0).toUpperCase() + str.slice(1) : '';
+function updateRatingOverview(stats) {
+    const avg   = parseFloat(stats.averageRating || 0).toFixed(1);
+    const total = parseInt(stats.totalReviews || 0);
+
+    const el = id => document.getElementById(id);
+    if (el('overallRating')) el('overallRating').textContent = avg;
+    if (el('totalReviews'))  el('totalReviews').textContent  = `${total} review${total !== 1 ? 's' : ''}`;
+    if (el('overallStars'))  el('overallStars').innerHTML    = stars(parseFloat(avg));
+
+    const bd = el('ratingBreakdown');
+    if (!bd) return;
+
+    const counts = { 5: +stats.fiveStars||0, 4: +stats.fourStars||0, 3: +stats.threeStars||0, 2: +stats.twoStars||0, 1: +stats.oneStar||0 };
+    bd.innerHTML = '';
+    for (let i = 5; i >= 1; i--) {
+        const pct = total > 0 ? Math.round((counts[i] / total) * 100) : 0;
+        const row = document.createElement('div');
+        row.className = 'rating-bar-container';
+        row.innerHTML = `
+            <div class="rating-number">${i} <i class="fas fa-star"></i></div>
+            <div class="rating-bar"><div class="rating-progress" style="width:${pct}%"></div></div>
+            <div class="rating-count">${counts[i]}</div>`;
+        bd.appendChild(row);
+    }
 }
 
-function generateStars(rating) {
+// ═════════════════════════════════════════════════════════════════════
+//  H.  HELPERS
+// ═════════════════════════════════════════════════════════════════════
+
+function getSearch()    { return document.getElementById('searchInput')?.value.trim() || ''; }
+function getMinRating() {
+    const v = document.getElementById('filterRating')?.value || 'all';
+    return v === 'all' ? 0 : parseInt(v);
+}
+
+function esc(str) {
+    const d = document.createElement('div');
+    d.textContent = str ?? '';
+    return d.innerHTML;
+}
+
+function stars(rating) {
     const full  = Math.floor(rating);
     const half  = rating % 1 !== 0;
     const empty = 5 - full - (half ? 1 : 0);
@@ -335,91 +387,69 @@ function generateStars(rating) {
          + '<i class="far fa-star"></i>'.repeat(empty);
 }
 
-function formatDateTime(dateString, timeString) {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
-         + (timeString ? ` at ${timeString}` : '');
+function fmtDate(d, t) {
+    return new Date(d).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+         + (t ? ` at ${t}` : '');
 }
 
-function updateRatingBreakdown(stats) {
-    const overall     = parseFloat(stats.averageRating).toFixed(1);
-    const total       = stats.totalReviews || 0;
-
-    document.getElementById('overallRating').textContent  = overall;
-    document.getElementById('totalReviews').textContent   = `${total} review${total !== 1 ? 's' : ''}`;
-    document.getElementById('overallStars').innerHTML     = generateStars(parseFloat(overall));
-
-    const counts = { 5: +stats.fiveStars||0, 4: +stats.fourStars||0, 3: +stats.threeStars||0, 2: +stats.twoStars||0, 1: +stats.oneStar||0 };
-    const bd     = document.getElementById('ratingBreakdown');
-    bd.innerHTML = '';
-
-    for (let i = 5; i >= 1; i--) {
-        const pct = total > 0 ? Math.round((counts[i] / total) * 100) : 0;
-        const bar = document.createElement('div');
-        bar.className = 'rating-bar-container';
-        bar.innerHTML = `
-            <div class="rating-number">${i} <i class="fas fa-star"></i></div>
-            <div class="rating-bar"><div class="rating-progress" style="width:${pct}%"></div></div>
-            <div class="rating-count">${counts[i]}</div>`;
-        bd.appendChild(bar);
-    }
+function loadingHtml() {
+    return `<div class="loading-row">
+        <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i><span>Loading...</span></div>
+    </div>`;
 }
 
-async function loadReports() {
-  const res  = await fetch(`${API_BASE}feedback/reports`);
-  const data = await res.json();
-
-  if (!data.success || !data.data.length) {
-    // show empty state
-    return;
-  }
-
-  const rows = data.data.map(r => `
-    <tr class="${r.is_blocked == 1 ? 'row-blocked' : ''}">
-      <td>
-        <div class="report-reviewer">${r.customer_name}</div>
-        <div class="report-service">${r.service ?? ''}</div>
-      </td>
-      <td class="report-comment">${r.comment}</td>
-      <td><span class="report-count-badge">${r.report_count}</span></td>
-      <td class="report-reasons">${r.reasons}</td>
-      <td>
-        ${r.is_blocked == 0
-          ? `<button class="btn-mod btn-block" onclick="moderate(${r.feedback_id},'block')">
-               <i class="fas fa-ban"></i> Block
-             </button>`
-          : `<button class="btn-mod btn-unblock" onclick="moderate(${r.feedback_id},'unblock')">
-               <i class="fas fa-eye"></i> Unblock
-             </button>`
-        }
-        <button class="btn-mod btn-dismiss" onclick="moderate(${r.feedback_id},'dismiss')">
-          <i class="fas fa-check"></i> Dismiss
-        </button>
-        <button class="btn-mod btn-delete" onclick="moderate(${r.feedback_id},'delete')">
-          <i class="fas fa-trash"></i> Delete
-        </button>
-      </td>
-    </tr>`).join('');
-
-  document.getElementById('reportsTableBody').innerHTML = rows;
+function emptyHtml(title, sub = '', icon = 'fa-comments') {
+    return `<div class="empty-state">
+        <i class="fas ${icon}"></i>
+        <p>${title}</p>${sub ? `<p class="subtitle">${sub}</p>` : ''}
+    </div>`;
 }
 
-async function moderate(feedbackId, action) {
-  const labels = { block: 'Block this review?', delete: 'Permanently delete this review?', dismiss: 'Dismiss all reports for this review?', unblock: 'Unblock this review?' };
-  if (!confirm(labels[action] ?? 'Confirm?')) return;
+// ═════════════════════════════════════════════════════════════════════
+//  I.  DOM READY
+// ═════════════════════════════════════════════════════════════════════
 
-  const res  = await fetch(`${API_BASE}feedback/moderate`, {
-    method:  'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body:    JSON.stringify({ feedback_id: feedbackId, action })
-  });
-  const data = await res.json();
+document.addEventListener('DOMContentLoaded', () => {
+    pagination = new Pagination({
+        totalItems:   0,
+        itemsPerPage: 6,
+        currentPage:  1,
+        onPageChange: () => loadFeedback(getSearch(), getMinRating(), currentFilter)
+    });
+    window.pagination = pagination;
 
-  if (data.success) {
-    Toast.success(data.message);
-    loadReports();         // refresh the table
-    loadFeedbackStats();   // refresh stat cards
-  } else {
-    Toast.error(data.message);
-  }
-}
+    // Initial load
+    loadFeedback('', 0, 'all').catch(() => {});
+
+    // Search
+    let searchTimer;
+    document.getElementById('searchInput')?.addEventListener('input', function () {
+        clearTimeout(searchTimer);
+        searchTimer = setTimeout(() => {
+            pagination.goToPage(1);
+            loadFeedback(this.value.trim(), getMinRating(), currentFilter);
+        }, 300);
+    });
+
+    // Rating filter
+    document.getElementById('filterRating')?.addEventListener('change', () => {
+        pagination.goToPage(1);
+        loadFeedback(getSearch(), getMinRating(), currentFilter);
+    });
+
+    // Status tabs
+    document.querySelectorAll('.status-tab').forEach(tab => {
+        tab.addEventListener('click', function () {
+            document.querySelectorAll('.status-tab').forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            currentFilter = this.dataset.status;
+
+            if (currentFilter === 'reported') {
+                loadReports();
+            } else {
+                pagination.goToPage(1);
+                loadFeedback(getSearch(), getMinRating(), currentFilter);
+            }
+        });
+    });
+});
