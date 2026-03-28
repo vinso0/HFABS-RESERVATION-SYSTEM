@@ -22816,3 +22816,72 @@ Stack trace:
 [28-Mar-2026 06:58:47 Europe/Berlin] Router received URL: packages/getPublicPackages/1
 [28-Mar-2026 06:58:47 Europe/Berlin] Router received URL: branch/1/reviews
 [28-Mar-2026 06:58:50 Europe/Berlin] Router received URL: feedback/reports
+[28-Mar-2026 06:59:17 Europe/Berlin] Router received URL: feedback
+[28-Mar-2026 06:59:17 Europe/Berlin] Router received URL: feedback
+[28-Mar-2026 06:59:18 Europe/Berlin] Router received URL: feedback
+[28-Mar-2026 06:59:18 Europe/Berlin] Router received URL: feedback
+[28-Mar-2026 06:59:19 Europe/Berlin] Router received URL: feedback/reports
+[28-Mar-2026 06:59:20 Europe/Berlin] Router received URL: feedback
+[28-Mar-2026 06:59:20 Europe/Berlin] Router received URL: feedback
+[28-Mar-2026 06:59:20 Europe/Berlin] Router received URL: feedback/reports
+[28-Mar-2026 06:59:21 Europe/Berlin] Router received URL: feedback
+[28-Mar-2026 06:59:21 Europe/Berlin] Router received URL: feedback
+[28-Mar-2026 06:59:21 Europe/Berlin] Router received URL: feedback/reports
+[28-Mar-2026 06:59:23 Europe/Berlin] Router received URL: feedback
+[28-Mar-2026 06:59:23 Europe/Berlin] Router received URL: feedback
+[28-Mar-2026 06:59:24 Europe/Berlin] Router received URL: feedback
+[28-Mar-2026 06:59:24 Europe/Berlin] Router received URL: feedback
+[28-Mar-2026 06:59:24 Europe/Berlin] Router received URL: feedback
+[28-Mar-2026 06:59:24 Europe/Berlin] Router received URL: feedback
+[28-Mar-2026 06:59:24 Europe/Berlin] Router received URL: feedback
+[28-Mar-2026 06:59:24 Europe/Berlin] Router received URL: feedback
+[28-Mar-2026 06:59:25 Europe/Berlin] Router received URL: feedback
+[28-Mar-2026 06:59:25 Europe/Berlin] Router received URL: feedback
+[28-Mar-2026 07:01:47 Europe/Berlin] Router received URL: feedback
+[28-Mar-2026 07:01:47 Europe/Berlin] Router received URL: feedback/reports
+[28-Mar-2026 07:01:49 Europe/Berlin] Router received URL: feedback
+[28-Mar-2026 07:01:51 Europe/Berlin] Router received URL: feedback/reports
+[28-Mar-2026 07:11:48 Europe/Berlin] Router received URL: auth/login
+[28-Mar-2026 07:11:51 Europe/Berlin] Router received URL: auth/login
+[28-Mar-2026 07:11:51 Europe/Berlin] Router received URL: branch/index
+[28-Mar-2026 07:11:51 Europe/Berlin] Router received URL: branch
+[28-Mar-2026 07:11:53 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[28-Mar-2026 07:14:37 Europe/Berlin] Router received URL: branch/index
+[28-Mar-2026 07:14:37 Europe/Berlin] Router received URL: branch
+[28-Mar-2026 07:14:38 Europe/Berlin] Router received URL: branch/1
+[28-Mar-2026 07:14:38 Europe/Berlin] Router received URL: branch/1/services
+[28-Mar-2026 07:14:38 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[28-Mar-2026 07:14:38 Europe/Berlin] Router received URL: branch/1/reviews
+[28-Mar-2026 07:14:51 Europe/Berlin] Router received URL: branch/sendInquiry
+[28-Mar-2026 07:31:49 Europe/Berlin] Router received URL: branch/1
+[28-Mar-2026 07:31:49 Europe/Berlin] Router received URL: branch/1/services
+[28-Mar-2026 07:31:49 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[28-Mar-2026 07:31:49 Europe/Berlin] Router received URL: branch/1/reviews
+[28-Mar-2026 07:31:56 Europe/Berlin] Router received URL: branch/sendInquiry
+[28-Mar-2026 07:31:56 Europe/Berlin] PHP Warning:  require(C:\xampp\htdocs\HFABS\backend\app\controllers/../../../config/email.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php on line 345
+[28-Mar-2026 07:31:56 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\controllers/../../../config/email.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php:345
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): BranchController->sendInquiry()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php on line 345
+[28-Mar-2026 07:31:59 Europe/Berlin] Router received URL: branch/sendInquiry
+[28-Mar-2026 07:31:59 Europe/Berlin] PHP Warning:  require(C:\xampp\htdocs\HFABS\backend\app\controllers/../../../config/email.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php on line 345
+[28-Mar-2026 07:31:59 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\controllers/../../../config/email.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php:345
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): BranchController->sendInquiry()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php on line 345
+[28-Mar-2026 07:33:40 Europe/Berlin] Router received URL: branch/1
+[28-Mar-2026 07:33:40 Europe/Berlin] Router received URL: branch/1/services
+[28-Mar-2026 07:33:40 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[28-Mar-2026 07:33:40 Europe/Berlin] Router received URL: branch/1/reviews
+[28-Mar-2026 07:33:47 Europe/Berlin] Router received URL: branch/sendInquiry
+[28-Mar-2026 07:33:47 Europe/Berlin] PHP Warning:  require(C:\xampp\htdocs\HFABS\backend\app\controllers/../../../config/email.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php on line 344
+[28-Mar-2026 07:33:47 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\controllers/../../../config/email.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php:344
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): BranchController->sendInquiry()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\BranchController.php on line 344
