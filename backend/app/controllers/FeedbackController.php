@@ -44,20 +44,29 @@ class FeedbackController extends Controller
             exit;
         }
 
-        $branchId   = isset($_GET['branch_id'])    ? $_GET['branch_id']    : null;
-        $search     = isset($_GET['search'])        ? $_GET['search']       : '';
-        $minRating  = isset($_GET['min_rating'])    ? intval($_GET['min_rating']) : 0;
-        $statusFilter = isset($_GET['status'])      ? $_GET['status']       : 'all';
+        $branchId     = isset($_GET['branch_id'])   ? $_GET['branch_id']          : null;
+        $search       = isset($_GET['search'])       ? $_GET['search']             : '';
+        $minRating    = isset($_GET['min_rating'])   ? intval($_GET['min_rating']) : 0;
+        $statusFilter = isset($_GET['status'])       ? $_GET['status']             : 'all';
+        $page         = isset($_GET['page'])         ? max(1, intval($_GET['page'])): 1;
+        $perPage      = isset($_GET['per_page'])     ? max(1, intval($_GET['per_page'])): 10;
+        $offset       = ($page - 1) * $perPage;
 
-        $feedback   = $this->feedbackModel->getAllFeedback($branchId, $search, $minRating, $statusFilter);
-        $totalCount = $this->feedbackModel->getTotalFeedbackCount($branchId);
+        // Pass all filters to both queries
+        $feedback   = $this->feedbackModel->getAllFeedback($branchId, $search, $minRating, $statusFilter, $perPage, $offset);
+        $totalCount = $this->feedbackModel->getTotalFeedbackCount($branchId, $search, $minRating, $statusFilter);
         $stats      = $this->feedbackModel->getFeedbackStats($branchId);
 
+        $totalPages = $perPage > 0 ? ceil($totalCount / $perPage) : 1;
+
         echo json_encode([
-            'success' => true,
-            'data'    => $feedback,
-            'total'   => $totalCount,
-            'stats'   => $stats
+            'success'     => true,
+            'data'        => $feedback,
+            'total'       => (int)$totalCount,
+            'page'        => $page,
+            'per_page'    => $perPage,
+            'total_pages' => $totalPages,
+            'stats'       => $stats
         ]);
         exit;
     }
@@ -163,11 +172,19 @@ class FeedbackController extends Controller
             exit;
         }
 
-        // Delete old photos if updating feedback
-        $oldPhotos = $this->feedbackModel->deletePhotosByFeedbackId($feedbackId);
-        foreach ($oldPhotos as $oldPhoto) {
-            $filePath = $this->uploadDir . basename($oldPhoto['photo_path']);
-            if (file_exists($filePath)) unlink($filePath);
+        $keepPhotos   = isset($_POST['keep_photos']) && is_array($_POST['keep_photos'])
+            ? $_POST['keep_photos']
+            : [];
+
+        $existingPhotos = $this->feedbackModel->getPhotosByFeedbackId($feedbackId);
+
+        foreach ($existingPhotos as $oldPhoto) {
+            // If this photo path is NOT in the keep list, delete it
+            if (!in_array($oldPhoto['photo_path'], $keepPhotos)) {
+                $filePath = $this->uploadDir . basename($oldPhoto['photo_path']);
+                if (file_exists($filePath)) unlink($filePath);
+                $this->feedbackModel->deletePhotoByPath($oldPhoto['photo_path']);
+            }
         }
 
         // Move and save new photos

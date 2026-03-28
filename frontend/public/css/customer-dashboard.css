@@ -428,6 +428,175 @@
 .detail-row__value--price   { color: var(--primary-pink); }
 .detail-row__value--balance { color: #e67e22; }
 
+/* ── Photo Thumbnail (in review view) ─────────────────────── */
+.review-photos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.review-photo-thumb {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.2s, transform 0.2s, opacity 0.2s;
+}
+
+.review-photo-thumb:hover {
+    border-color: #a855f7;
+    transform: scale(1.05);
+    opacity: 0.9;
+}
+
+/* ── Lightbox ─────────────────────────────────────────────── */
+.photo-lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.2s ease;
+}
+
+.photo-lightbox.active {
+    display: flex;
+}
+
+.lightbox-content {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.lightbox-content img {
+    max-width: 90vw;
+    max-height: 75vh;
+    object-fit: contain;
+    border-radius: 10px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+    animation: zoomIn 0.2s ease;
+}
+
+.lightbox-close {
+    position: fixed;
+    top: 20px;
+    right: 28px;
+    background: rgba(255,255,255,0.15);
+    border: none;
+    color: #fff;
+    font-size: 2rem;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+    z-index: 10000;
+}
+
+.lightbox-close:hover { background: rgba(255,255,255,0.3); }
+
+.lightbox-caption {
+    color: rgba(255,255,255,0.8);
+    font-size: 0.85rem;
+}
+
+.lightbox-nav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.lightbox-nav-btn {
+    background: rgba(255,255,255,0.15);
+    border: none;
+    color: #fff;
+    font-size: 2rem;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox-nav-btn:hover { background: rgba(255,255,255,0.3); }
+.lightbox-nav-btn:disabled { opacity: 0.3; cursor: default; }
+
+.lightbox-counter {
+    color: rgba(255,255,255,0.7);
+    font-size: 0.9rem;
+    min-width: 60px;
+    text-align: center;
+}
+
+/* ── Existing photos in edit mode ─────────────────────────── */
+.existing-photos-section {
+    margin-bottom: 12px;
+}
+
+.existing-photos-label {
+    font-size: 0.85rem;
+    color: #6b7280;
+    margin-bottom: 6px;
+    font-weight: 500;
+}
+
+.existing-photo-item {
+    position: relative;
+    display: inline-block;
+    margin: 4px;
+}
+
+.existing-photo-item img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid #e5e7eb;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.existing-photo-item img:hover {
+    border-color: #a855f7;
+}
+
+.existing-photo-remove {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    background: #ef4444;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+@keyframes fadeIn  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes zoomIn  { from { transform: scale(0.92); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
 /* ================================================
    FORM ELEMENTS
    ================================================ */

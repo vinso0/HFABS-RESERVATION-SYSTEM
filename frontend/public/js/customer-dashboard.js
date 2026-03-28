@@ -592,38 +592,109 @@ function openReviewModal(reservationId) {
 
 // Function to open edit review modal
 function openEditReviewModal(reservationId) {
-    // Close the view review modal first
     closeViewReviewModal();
-    
-    const reservation = window.currentReservations.find(r => r.reservation_id === reservationId);
-    if (!reservation) {
-        alert('Reservation not found!');
-        return;
-    }
 
-    // Set reservation data in modal
+    const reservation = window.currentReservations.find(r => r.reservation_id === reservationId);
+    if (!reservation) { alert('Reservation not found!'); return; }
+
     document.getElementById('reviewReservationId').value = reservationId;
-    document.getElementById('reviewBranchId').value = reservation.branch_id;
-    
-    // Set modal for edit mode
-    document.querySelector('#reviewModal .modal-title').textContent = 'Update Review';
-    document.querySelector('#reviewModal button.btn-primary').textContent = 'Update Review';
-    document.querySelector('#reviewModal button.btn-primary').onclick = updateReview;
-    
-    // Populate existing review data
+    document.getElementById('reviewBranchId').value      = reservation.branch_id;
+
+    // Set modal title and button to edit mode
+    document.querySelector('#reviewModal .modal-title').textContent            = 'Update Review';
+    document.querySelector('#reviewModal button.btn-primary').textContent      = 'Update Review';
+    document.querySelector('#reviewModal button.btn-primary').onclick          = updateReview;
+
+    // Reset new file selections
+    selectedPhotoFiles   = [];
+    window.existingPhotosToKeep = []; // track which existing photos user wants to keep
+
+    // Populate rating & comment
     if (reservation.feedback && reservation.feedback.length > 0) {
-        // Use first feedback entry (assuming all services have same review)
         const feedback = reservation.feedback[0];
         document.getElementById('reviewComment').value = feedback.comment;
-        document.getElementById('reviewRating').value = feedback.rating;
-        // Check the corresponding star radio button
-        document.getElementById(`star${feedback.rating}`).checked = true;
+        document.getElementById('reviewRating').value  = feedback.rating;
+        const starInput = document.getElementById(`star${feedback.rating}`);
+        if (starInput) starInput.checked = true;
+
+        // Render existing photos
+        renderExistingPhotos(feedback.photos || []);
     }
-    
-    // Show modal
+
+    renderPhotoPreviews(); // reset new upload area
     document.getElementById('reviewModal').classList.add('active');
     document.body.style.overflow = 'hidden';
 }
+
+function renderExistingPhotos(photos) {
+    let section = document.getElementById('existingPhotosSection');
+    if (!section) {
+        const uploadArea = document.getElementById('photoUploadArea');
+        section = document.createElement('div');
+        section.id        = 'existingPhotosSection';
+        section.className = 'existing-photos-section';
+        uploadArea.parentNode.insertBefore(section, uploadArea);
+    }
+
+    if (!photos || photos.length === 0) {
+        section.innerHTML = '';
+        window.existingPhotosToKeep = [];
+        return;
+    }
+
+    window.existingPhotosToKeep = photos.map(p => p.photo_path);
+    const photoUrls = photos.map(p => `/HFABS/backend/public/${p.photo_path}`);
+
+    section.innerHTML = `
+        <div class="existing-photos-label">Existing Photos (click × to remove)</div>
+        <div id="existingPhotosList" style="display:flex;flex-wrap:wrap;gap:6px;"
+             data-photos='${JSON.stringify(photoUrls).replace(/'/g, "&#39;")}'>
+            ${photos.map((p, idx) =>
+                `<div class="existing-photo-item" id="existingPhoto_${idx}" data-path="${p.photo_path}">
+                    <img src="/HFABS/backend/public/${p.photo_path}"
+                         alt="Existing photo ${idx + 1}"
+                         data-index="${idx}"
+                         class="existing-preview-img"
+                         title="Click to preview">
+                    <button type="button"
+                            class="existing-photo-remove"
+                            data-idx="${idx}"
+                            data-path="${p.photo_path}"
+                            title="Remove photo">×</button>
+                </div>`
+            ).join('')}
+        </div>
+    `;
+
+    // Attach preview clicks safely after DOM insert
+    const listEl = section.querySelector('#existingPhotosList');
+    const urls   = JSON.parse(listEl.dataset.photos);
+
+    listEl.querySelectorAll('img.existing-preview-img').forEach(img => {
+        img.addEventListener('click', function () {
+            openPhotoLightbox(urls, parseInt(this.dataset.index));
+        });
+    });
+
+    // Attach remove clicks safely
+    listEl.querySelectorAll('.existing-photo-remove').forEach(btn => {
+        btn.addEventListener('click', function () {
+            const idx  = parseInt(this.dataset.idx);
+            const path = this.dataset.path;
+            removeExistingPhoto(idx, path);
+        });
+    });
+}
+
+function removeExistingPhoto(index, photoPath) {
+    // Remove from keep list
+    window.existingPhotosToKeep = (window.existingPhotosToKeep || []).filter(p => p !== photoPath);
+    // Remove from DOM
+    const el = document.getElementById(`existingPhoto_${index}`);
+    if (el) el.remove();
+}
+
+window.removeExistingPhoto   = removeExistingPhoto;
 
 // ─── Photo Upload Setup ──────────────────────────────────────────────
 const MAX_PHOTOS = 5;
@@ -716,6 +787,55 @@ function removePhoto(index) {
     renderPhotoPreviews();
 }
 
+// ─── Lightbox ────────────────────────────────────────────────────────────
+let lightboxPhotos = [];
+let lightboxIndex  = 0;
+
+function openPhotoLightbox(photos, startIndex) {
+    lightboxPhotos = photos;
+    lightboxIndex  = startIndex || 0;
+    renderLightboxSlide();
+    document.getElementById('photoLightbox').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function renderLightboxSlide() {
+    const img     = document.getElementById('lightboxImage');
+    const counter = document.getElementById('lightboxCounter');
+    const prev    = document.getElementById('lightboxPrev');
+    const next    = document.getElementById('lightboxNext');
+
+    img.src         = lightboxPhotos[lightboxIndex];
+    counter.textContent = `${lightboxIndex + 1} / ${lightboxPhotos.length}`;
+    prev.disabled   = lightboxIndex === 0;
+    next.disabled   = lightboxIndex === lightboxPhotos.length - 1;
+}
+
+function lightboxNavigate(dir) {
+    lightboxIndex = Math.max(0, Math.min(lightboxPhotos.length - 1, lightboxIndex + dir));
+    renderLightboxSlide();
+}
+
+function closePhotoLightbox() {
+    document.getElementById('photoLightbox').classList.remove('active');
+    document.body.style.overflow = '';
+    lightboxPhotos = [];
+    lightboxIndex  = 0;
+}
+
+// Keyboard navigation for lightbox
+document.addEventListener('keydown', function(e) {
+    const lb = document.getElementById('photoLightbox');
+    if (!lb || !lb.classList.contains('active')) return;
+    if (e.key === 'ArrowLeft')  lightboxNavigate(-1);
+    if (e.key === 'ArrowRight') lightboxNavigate(1);
+    if (e.key === 'Escape')     closePhotoLightbox();
+});
+
+window.openPhotoLightbox  = openPhotoLightbox;
+window.closePhotoLightbox = closePhotoLightbox;
+window.lightboxNavigate   = lightboxNavigate;
+
 // Function to submit review
 async function submitReview() {
     const reservationServiceId = document.getElementById('reviewServiceId')?.value;
@@ -760,13 +880,19 @@ async function submitReview() {
 }
 
 function closeReviewModal() {
+    document.getElementById('reviewModal').classList.remove('active');
+    document.body.style.overflow = '';
     document.getElementById('reviewComment').value = '';
-    document.getElementById('reviewRating').value = '5';
+    document.getElementById('reviewRating').value  = '5';
     selectedPhotoFiles = [];
+    window.existingPhotosToKeep = [];
     renderPhotoPreviews();
-    // Reset stars to 5
     const star5 = document.getElementById('star5');
     if (star5) star5.checked = true;
+    // Clear existing photos section
+    const section = document.getElementById('existingPhotosSection');
+    if (section) section.innerHTML = '';
+    document.body.style.overflow = '';
 }
 
 // Function to update review
@@ -787,7 +913,6 @@ async function updateReview() {
         return;
     }
 
-    // Use the first service (same as submitReview)
     const reservationServiceId = reservation.services[0].reservation_service_id;
 
     const formData = new FormData();
@@ -796,8 +921,14 @@ async function updateReview() {
     formData.append('rating', rating);
     formData.append('comment', comment);
 
-    // Include any newly selected photos
-    selectedPhotoFiles.forEach((file) => {
+    // Tell backend which existing photos to preserve
+    const keepPhotos = window.existingPhotosToKeep || [];
+    keepPhotos.forEach(path => {
+        formData.append('keep_photos[]', path);
+    });
+
+    // Append any newly selected files
+    selectedPhotoFiles.forEach(file => {
         formData.append('photos[]', file);
     });
 
@@ -805,14 +936,14 @@ async function updateReview() {
         const response = await fetch('/HFABS/backend/public/index.php?url=feedback/submit', {
             method: 'POST',
             credentials: 'include',
-            body: formData  // No Content-Type header — browser handles multipart boundary
+            body: formData
         });
-
         const result = await response.json();
 
         if (result.success) {
             Toast.success('Review updated successfully!');
             closeReviewModal();
+            window.existingPhotosToKeep = [];
             setTimeout(() => location.reload(), 1500);
         } else {
             Toast.error(result.message || 'Failed to update review.');
@@ -822,7 +953,6 @@ async function updateReview() {
         Toast.error('Failed to update review. Please try again.');
     }
 }
-
 
 // Make updateReview globally accessible
 window.updateReview = updateReview;
@@ -848,41 +978,29 @@ window.closeRescheduleModal = closeRescheduleModal;
 // Function to open view review modal
 function openViewReviewModal(reservationId) {
     const reservation = window.currentReservations.find(r => r.reservation_id === reservationId);
-    if (!reservation) {
-        alert('Reservation not found!');
-        return;
-    }
+    if (!reservation) { alert('Reservation not found!'); return; }
 
-    // Build review content
     const reviewBody = document.getElementById('viewReviewBody');
-    if (reservation.feedback && reservation.feedback.length > 0) {
-        // Get average rating
-        const totalRating = reservation.feedback.reduce((sum, feedback) => sum + parseInt(feedback.rating), 0);
-        const averageRating = totalRating / reservation.feedback.length;
-        
-        // Create stars display
-        const fullStars = Math.floor(averageRating);
-        const hasHalfStar = averageRating % 1 >= 0.5;
-        let starsHtml = '';
-        
-        for (let i = 1; i <= 5; i++) {
-            if (i <= fullStars) {
-                starsHtml += '★'; // Full star
-            } else if (i === fullStars + 1 && hasHalfStar) {
-                starsHtml += '☆'; // Half star (we'll use CSS to style)
-            } else {
-                starsHtml += '☆'; // Empty star
-            }
-        }
 
-        // Display all feedback comments
+    if (reservation.feedback && reservation.feedback.length > 0) {
         const commentsHtml = reservation.feedback.map(feedback => {
-            const photosHtml = (feedback.photos && feedback.photos.length > 0)
-                ? `<div class="review-photos">
-                        ${feedback.photos.map(p =>
-                            `<img src="/HFABS/backend/public/${p.photo_path}" alt="Review photo" class="review-photo-thumb">`
+            const photoUrls = (feedback.photos && feedback.photos.length > 0)
+                ? feedback.photos.map(p => `/HFABS/backend/public/${p.photo_path}`)
+                : [];
+
+            // Safe: use data-index + data-photos-json on a wrapper, NOT inside onclick
+            const photosHtml = photoUrls.length > 0
+                ? `<div class="review-photos"
+                        data-photos='${JSON.stringify(photoUrls).replace(/'/g, "&#39;")}'
+                        style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;">
+                        ${photoUrls.map((url, idx) =>
+                            `<img src="${url}"
+                                  alt="Review photo ${idx + 1}"
+                                  class="review-photo-thumb"
+                                  data-index="${idx}"
+                                  title="Click to enlarge">`
                         ).join('')}
-                </div>`
+                   </div>`
                 : '';
 
             return `
@@ -896,16 +1014,24 @@ function openViewReviewModal(reservationId) {
         }).join('');
 
         reviewBody.innerHTML = `
-            <div class="review-comments">
-                ${commentsHtml}
-            </div>
+            <div class="review-comments">${commentsHtml}</div>
             <div class="review-actions">
                 <button class="action-btn btn-primary" onclick="openEditReviewModal(${reservation.reservation_id})">
-                    <i class="fas fa-edit"></i>
-                    Update Review
+                    <i class="fas fa-edit"></i> Update Review
                 </button>
             </div>
         `;
+
+        // Attach click listeners AFTER innerHTML is set (safe, no inline JSON)
+        reviewBody.querySelectorAll('.review-photos').forEach(photoWrapper => {
+            const urls = JSON.parse(photoWrapper.dataset.photos);
+            photoWrapper.querySelectorAll('img.review-photo-thumb').forEach(img => {
+                img.addEventListener('click', function () {
+                    openPhotoLightbox(urls, parseInt(this.dataset.index));
+                });
+            });
+        });
+
     } else {
         reviewBody.innerHTML = `
             <div class="no-review">
@@ -915,7 +1041,6 @@ function openViewReviewModal(reservationId) {
         `;
     }
 
-    // Show modal
     document.getElementById('viewReviewModal').classList.add('active');
     document.body.style.overflow = 'hidden';
 }
@@ -923,11 +1048,6 @@ function openViewReviewModal(reservationId) {
 // Function to close view review modal
 function closeViewReviewModal() {
     document.getElementById('viewReviewModal').classList.remove('active');
-    document.body.style.overflow = '';
-}
-
-function closeReviewModal() {
-    document.getElementById('reviewModal').classList.remove('active');
     document.body.style.overflow = '';
 }
 

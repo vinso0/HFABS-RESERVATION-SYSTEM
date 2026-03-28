@@ -94,7 +94,7 @@ class Feedback extends Database
         return $feedbackList;
     }
 
-    public function getAllFeedback($branchId = null, $search = '', $minRating = 0, $statusFilter = 'all')
+    public function getAllFeedback($branchId = null, $search = '', $minRating = 0, $statusFilter = 'all', $limit = 10, $offset = 0)
     {
         $query = "
             SELECT
@@ -120,37 +120,39 @@ class Feedback extends Database
         ";
 
         $params = [];
-        $types = '';
+        $types  = '';
 
         if ($branchId !== null) {
-            $query .= " AND f.branch_id = ?";
+            $query   .= " AND f.branch_id = ?";
             $params[] = $branchId;
-            $types .= 'i';
+            $types   .= 'i';
         }
 
         if (!empty($search)) {
-            $query .= " AND (u.username LIKE ? OR rs.booked_service_name LIKE ? OR f.comment LIKE ?)";
+            $query   .= " AND (u.username LIKE ? OR rs.booked_service_name LIKE ? OR f.comment LIKE ?)";
             $searchTerm = "%$search%";
             $params[] = $searchTerm;
             $params[] = $searchTerm;
             $params[] = $searchTerm;
-            $types .= 'sss';
+            $types   .= 'sss';
         }
 
         if ($minRating > 0) {
-            $query .= " AND f.rating >= ?";
+            $query   .= " AND f.rating >= ?";
             $params[] = $minRating;
-            $types .= 'i';
+            $types   .= 'i';
         }
 
         if ($statusFilter !== 'all') {
-            $query .= " AND f.status = ?";
+            $query   .= " AND f.status = ?";
             $params[] = $statusFilter;
-            $types .= 's';
+            $types   .= 's';
         }
 
-        // Flagged feedback floats to top
-        $query .= " ORDER BY f.is_flagged DESC, f.created_at DESC";
+        $query   .= " ORDER BY f.is_flagged DESC, f.created_at DESC LIMIT ? OFFSET ?";
+        $params[] = $limit;
+        $params[] = $offset;
+        $types   .= 'ii';
 
         $stmt = $this->db->prepare($query);
         if (!empty($params)) {
@@ -165,6 +167,14 @@ class Feedback extends Database
             $feedbackList[] = $row;
         }
         return $feedbackList;
+    }
+
+    public function deletePhotoByPath($photoPath)
+    {
+        $query = "DELETE FROM feedback_photos WHERE photo_path = ?";
+        $stmt  = $this->db->prepare($query);
+        $stmt->bind_param('s', $photoPath);
+        return $stmt->execute();
     }
 
     // GET APPROVED FEEDBACK ONLY (for customer-facing display)
@@ -274,16 +284,41 @@ class Feedback extends Database
         return $result->fetch_assoc();
     }
 
-    public function getTotalFeedbackCount($branchId = null)
+    public function getTotalFeedbackCount($branchId = null, $search = '', $minRating = 0, $statusFilter = 'all')
     {
-        $query = "SELECT COUNT(*) as total FROM feedback f WHERE 1=1";
+        $query = "SELECT COUNT(*) as total FROM feedback f
+                JOIN users u ON f.user_id = u.user_id
+                JOIN reservation_services rs ON f.reservation_service_id = rs.reservation_service_id
+                WHERE 1=1";
+
         $params = [];
-        $types = '';
+        $types  = '';
 
         if ($branchId !== null) {
-            $query .= " AND f.branch_id = ?";
+            $query   .= " AND f.branch_id = ?";
             $params[] = $branchId;
-            $types .= 'i';
+            $types   .= 'i';
+        }
+
+        if (!empty($search)) {
+            $query   .= " AND (u.username LIKE ? OR rs.booked_service_name LIKE ? OR f.comment LIKE ?)";
+            $term     = "%$search%";
+            $params[] = $term;
+            $params[] = $term;
+            $params[] = $term;
+            $types   .= 'sss';
+        }
+
+        if ($minRating > 0) {
+            $query   .= " AND f.rating >= ?";
+            $params[] = $minRating;
+            $types   .= 'i';
+        }
+
+        if ($statusFilter !== 'all') {
+            $query   .= " AND f.status = ?";
+            $params[] = $statusFilter;
+            $types   .= 's';
         }
 
         $stmt = $this->db->prepare($query);
@@ -292,7 +327,7 @@ class Feedback extends Database
         }
         $stmt->execute();
         $result = $stmt->get_result();
-        $row = $result->fetch_assoc();
+        $row    = $result->fetch_assoc();
         return $row['total'] ?? 0;
     }
 

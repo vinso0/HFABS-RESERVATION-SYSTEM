@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 27, 2026 at 03:42 PM
+-- Generation Time: Mar 28, 2026 at 04:04 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -111,7 +111,7 @@ INSERT INTO `branch_category_overrides` (`branch_category_override_id`, `branch_
 (4, 2, 2, NULL, NULL, NULL, 1, '2026-02-07 06:29:09', '2026-03-21 05:22:27'),
 (5, 1, 3, NULL, NULL, NULL, 1, '2026-02-07 06:29:09', '2026-03-21 05:22:30'),
 (6, 2, 3, NULL, NULL, NULL, 1, '2026-02-07 06:29:09', '2026-03-21 05:22:32'),
-(7, 1, 4, 'facial', 'facial related services', 5, 1, '2026-02-07 06:29:09', '2026-03-21 06:20:30'),
+(7, 1, 4, 'facial', 'facial related services', 5, 1, '2026-02-07 06:29:09', '2026-03-27 16:10:58'),
 (8, 2, 4, NULL, NULL, NULL, 1, '2026-02-07 06:29:09', '2026-03-21 05:22:36');
 
 -- --------------------------------------------------------
@@ -345,16 +345,19 @@ CREATE TABLE `feedback` (
   `rating` int(11) NOT NULL,
   `comment` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `status` enum('pending','approved','rejected') NOT NULL DEFAULT 'pending',
+  `is_flagged` tinyint(1) NOT NULL DEFAULT 0,
+  `admin_note` varchar(500) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `feedback`
 --
 
-INSERT INTO `feedback` (`feedback_id`, `reservation_service_id`, `user_id`, `branch_id`, `rating`, `comment`, `created_at`, `updated_at`) VALUES
-(1, 1, 2, 1, 1, 'Good service', '2026-01-09 11:40:45', '2026-02-14 14:10:59'),
-(12, 4, 2, 1, 5, 'Great Great', '2026-02-21 09:12:48', '2026-03-22 19:12:58');
+INSERT INTO `feedback` (`feedback_id`, `reservation_service_id`, `user_id`, `branch_id`, `rating`, `comment`, `created_at`, `updated_at`, `status`, `is_flagged`, `admin_note`) VALUES
+(1, 1, 2, 1, 1, 'Good service', '2026-01-09 11:40:45', '2026-03-28 03:23:29', 'approved', 0, NULL),
+(12, 4, 2, 1, 5, 'Great Great', '2026-02-21 09:12:48', '2026-03-28 03:13:20', 'pending', 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -366,8 +369,17 @@ CREATE TABLE `feedback_photos` (
   `photo_id` int(11) NOT NULL,
   `feedback_id` int(11) NOT NULL,
   `photo_path` varchar(500) NOT NULL,
+  `photo_order` tinyint(1) NOT NULL DEFAULT 0,
   `uploaded_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `feedback_photos`
+--
+
+INSERT INTO `feedback_photos` (`photo_id`, `feedback_id`, `photo_path`, `photo_order`, `uploaded_at`) VALUES
+(1, 12, 'uploads/feedback/feedback_12_69c6be96a3398.png', 0, '2026-03-27 17:29:58'),
+(2, 12, 'uploads/feedback/feedback_12_69c6d6aad526c.png', 0, '2026-03-27 19:12:42');
 
 -- --------------------------------------------------------
 
@@ -746,7 +758,7 @@ ALTER TABLE `feedback`
 -- AUTO_INCREMENT for table `feedback_photos`
 --
 ALTER TABLE `feedback_photos`
-  MODIFY `photo_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `photo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `payments`

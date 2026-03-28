@@ -224,23 +224,36 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'customer') {
   </div>
 
   <!-- View Review Modal -->
-<div id="viewReviewModal" class="modal">
-  <div class="modal-content">
-    <span class="modal-close" onclick="closeViewReviewModal()">&times;</span>
-    <h2 class="modal-title">Your Review</h2>
+  <div id="viewReviewModal" class="modal">
+    <div class="modal-content">
+      <span class="modal-close" onclick="closeViewReviewModal()">&times;</span>
+      <h2 class="modal-title">Your Review</h2>
 
-    <div class="modal-body" id="viewReviewBody">
-      <!-- Populated by openViewReviewModal() in JS -->
-    </div>
+      <div class="modal-body" id="viewReviewBody">
+        <!-- Populated by openViewReviewModal() in JS -->
+      </div>
 
-    <div class="modal-actions">
-      <button class="btn-cancel" onclick="closeViewReviewModal()">
-        <i class="fas fa-times"></i> Close
-      </button>
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="closeViewReviewModal()">
+          <i class="fas fa-times"></i> Close
+        </button>
+      </div>
     </div>
   </div>
-</div>
 
+  <!-- Lightbox Modal for Photo Preview -->
+  <div id="photoLightbox" class="photo-lightbox" onclick="closePhotoLightbox()">
+      <button class="lightbox-close" onclick="closePhotoLightbox()">&times;</button>
+      <div class="lightbox-content" onclick="event.stopPropagation()">
+          <img id="lightboxImage" src="" alt="Full size photo">
+          <div id="lightboxCaption" class="lightbox-caption"></div>
+          <div class="lightbox-nav">
+              <button id="lightboxPrev" class="lightbox-nav-btn" onclick="lightboxNavigate(-1)">&#8249;</button>
+              <span id="lightboxCounter" class="lightbox-counter"></span>
+              <button id="lightboxNext" class="lightbox-nav-btn" onclick="lightboxNavigate(1)">&#8250;</button>
+          </div>
+      </div>
+  </div>
 
   <script src="../public/js/navbar-loader.js"></script>
   <script src="../public/js/pagination.js"></script>

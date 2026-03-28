@@ -364,3 +364,134 @@ function updateRatingBreakdown(stats) {
         bd.appendChild(bar);
     }
 }
+
+// ── State Variables ────────────────────────────────────────
+let adminFeedbackState = {
+    page:      1,
+    perPage:   10,
+    total:     0,
+    search:    '',
+    minRating: 0,
+    status:    'all',
+    branchId:  null
+};
+
+// ── Fetch Feedback ─────────────────────────────────────────
+async function fetchAdminFeedback() {
+    const s = adminFeedbackState;
+    const params = new URLSearchParams({
+        page:       s.page,
+        per_page:   s.perPage,
+        search:     s.search,
+        min_rating: s.minRating,
+        status:     s.status
+    });
+    if (s.branchId) params.set('branch_id', s.branchId);
+
+    try {
+        const res    = await fetch(`/HFABS/backend/public/index.php?url=feedback&${params}`, {
+            credentials: 'same-origin'
+        });
+        const result = await res.json();
+
+        if (result.success) {
+            adminFeedbackState.total = result.total;
+            renderFeedbackTable(result.data);
+            renderAdminPagination();
+        }
+    } catch(err) {
+        console.error('Failed to fetch feedback:', err);
+    }
+}
+
+// ── Pagination Renderer ────────────────────────────────────
+function renderAdminPagination() {
+    const { page, perPage, total } = adminFeedbackState;
+
+    // Prevent division by zero
+    const totalPages = perPage > 0 ? Math.ceil(total / perPage) : 1;
+
+    // Safe start/end calculation
+    const start = total === 0 ? 0 : (page - 1) * perPage + 1;
+    const end   = Math.min(page * perPage, total);
+
+    // Update display text
+    const infoEl = document.getElementById('feedbackPaginationInfo');
+    if (infoEl) {
+        infoEl.textContent = total === 0
+            ? 'No entries found'
+            : `Showing ${start} to ${end} of ${total} entries`;
+    }
+
+    // Build page buttons
+    const pagerEl = document.getElementById('feedbackPager');
+    if (!pagerEl) return;
+
+    let html = `
+        <button onclick="goToFeedbackPage(${page - 1})" ${page <= 1 ? 'disabled' : ''}>
+            &laquo; Prev
+        </button>
+    `;
+
+    // Show at most 5 page buttons
+    const rangeStart = Math.max(1, page - 2);
+    const rangeEnd   = Math.min(totalPages, page + 2);
+
+    for (let p = rangeStart; p <= rangeEnd; p++) {
+        html += `<button onclick="goToFeedbackPage(${p})"
+                         class="${p === page ? 'active' : ''}">${p}</button>`;
+    }
+
+    html += `
+        <button onclick="goToFeedbackPage(${page + 1})" ${page >= totalPages ? 'disabled' : ''}>
+            Next &raquo;
+        </button>
+    `;
+
+    pagerEl.innerHTML = html;
+}
+
+function goToFeedbackPage(page) {
+    const totalPages = Math.ceil(adminFeedbackState.total / adminFeedbackState.perPage);
+    if (page < 1 || page > totalPages) return;
+    adminFeedbackState.page = page;
+    fetchAdminFeedback();
+}
+
+// ── Filter Handlers ────────────────────────────────────────
+// IMPORTANT: always reset to page 1 when a filter changes
+function applyFeedbackFilters() {
+    const searchEl    = document.getElementById('feedbackSearch');
+    const ratingEl    = document.getElementById('feedbackMinRating');
+    const statusEl    = document.getElementById('feedbackStatus');
+    const branchEl    = document.getElementById('feedbackBranch');
+
+    adminFeedbackState.page      = 1; // ← CRITICAL: reset page
+    adminFeedbackState.search    = searchEl   ? searchEl.value.trim()   : '';
+    adminFeedbackState.minRating = ratingEl   ? parseInt(ratingEl.value)|| 0 : 0;
+    adminFeedbackState.status    = statusEl   ? statusEl.value           : 'all';
+    adminFeedbackState.branchId  = branchEl   ? branchEl.value || null   : null;
+
+    fetchAdminFeedback();
+}
+
+// Wire up filter inputs — call this on DOMContentLoaded
+function initAdminFeedbackFilters() {
+    ['feedbackSearch', 'feedbackMinRating', 'feedbackStatus', 'feedbackBranch'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('change', applyFeedbackFilters);
+    });
+    // Live search on keyup
+    const searchEl = document.getElementById('feedbackSearch');
+    if (searchEl) {
+        let debounceTimer;
+        searchEl.addEventListener('keyup', () => {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(applyFeedbackFilters, 350);
+        });
+    }
+}
+
+// Add to your admin DOMContentLoaded:
+// initAdminFeedbackFilters();
+// fetchAdminFeedback();
