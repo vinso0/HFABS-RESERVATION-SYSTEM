@@ -1,9 +1,9 @@
-const API_BASE_URL      = '../../backend/public/index.php?url=feedback';
-const MODERATE_URL      = '../../backend/public/index.php?url=feedback/moderate';
-const IMG_BASE_URL      = '../../backend/public/';
+const API_BASE_URL = '../../backend/public/index.php?url=feedback';
+const MODERATE_URL = '../../backend/public/index.php?url=feedback/moderate';
+const IMG_BASE_URL = '../../backend/public/';
 
-let feedbackData      = [];
-let filteredFeedback  = [];
+let feedbackData        = [];
+let filteredFeedback    = [];
 let pagination;
 let currentStatusFilter = 'all';
 
@@ -17,9 +17,9 @@ async function fetchFeedback(search = '', minRating = 0, status = 'all') {
         credentials: 'include'
     });
 
-    const text = await response.text();
     if (!response.ok) throw new Error(`Server error: ${response.status}`);
 
+    const text   = await response.text();
     const result = JSON.parse(text);
 
     if (result.success) {
@@ -50,9 +50,7 @@ async function moderateFeedback(feedbackId, action, adminNote = null) {
         credentials: 'include',
         body: JSON.stringify({ feedback_id: feedbackId, action, admin_note: adminNote })
     });
-
-    const result = await response.json();
-    return result;
+    return await response.json();
 }
 
 // ─── Action Handlers ──────────────────────────────────────────────────
@@ -69,7 +67,7 @@ async function approveFeedback(feedbackId) {
 
 async function rejectFeedback(feedbackId) {
     const note = prompt('Reason for rejection (optional):');
-    if (note === null) return; // Cancelled
+    if (note === null) return;
     const res = await moderateFeedback(feedbackId, 'reject', note || null);
     if (res.success) {
         showAdminToast('Feedback rejected', 'warning');
@@ -101,13 +99,12 @@ async function deleteFeedback(feedbackId) {
 
 // ─── Helpers ──────────────────────────────────────────────────────────
 function getSearchTerm() { return document.getElementById('searchInput')?.value || ''; }
-function getMinRating()  {
+function getMinRating() {
     const val = document.getElementById('filterRating')?.value || 'all';
     return val === 'all' ? 0 : parseInt(val);
 }
 
 function showAdminToast(message, type = 'success') {
-    // Re-use existing toast if available, else alert
     if (typeof showToast === 'function') {
         showToast(message, type);
     } else {
@@ -118,73 +115,80 @@ function showAdminToast(message, type = 'success') {
 // ─── DOM Ready ────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', function () {
     pagination = new Pagination({
-        totalItems: 0,
-        itemsPerPage: 6,
-        currentPage: 1,
+        totalItems:      0,
+        itemsPerPage:    6,
+        currentPage:     1,
+        maxVisiblePages: 5,
         onPageChange: function () {
-            loadFeedback(getSearchTerm(), getMinRating(), currentStatusFilter);
+            renderFeedbackCards();
         }
     });
     window.pagination = pagination;
 
+    // Initial load
     setTimeout(async () => {
         try { await loadFeedback('', 0, 'all'); }
         catch (e) { showError('Failed to load feedback'); }
     }, 0);
 
-    // Search
+    // Search — debounced
     const searchInput = document.getElementById('searchInput');
     let searchTimeout;
     searchInput?.addEventListener('input', function () {
         clearTimeout(searchTimeout);
         searchTimeout = setTimeout(() => {
             pagination.goToPage(1);
-            loadFeedback(searchInput.value, getMinRating(), currentStatusFilter);
+            loadFeedback(this.value, getMinRating(), currentStatusFilter);
         }, 300);
     });
 
     // Rating filter
-    const filterRating = document.getElementById('filterRating');
-    filterRating?.addEventListener('change', function () {
+    document.getElementById('filterRating')?.addEventListener('change', function () {
         pagination.goToPage(1);
         loadFeedback(getSearchTerm(), getMinRating(), currentStatusFilter);
     });
 
-    // Status filter tabs
+    // Status tabs
     document.querySelectorAll('.status-tab').forEach(tab => {
         tab.addEventListener('click', function () {
             document.querySelectorAll('.status-tab').forEach(t => t.classList.remove('active'));
             this.classList.add('active');
             currentStatusFilter = this.dataset.status;
+            // ← CRITICAL: always reset to page 1 before fetching
             pagination.goToPage(1);
             loadFeedback(getSearchTerm(), getMinRating(), currentStatusFilter);
         });
     });
 
-    // Image lightbox close
+    // Lightbox backdrop close
     document.getElementById('feedbackLightbox')?.addEventListener('click', function (e) {
         if (e.target === this) closeLightbox();
     });
 });
 
-// ─── Load & Render ────────────────────────────────────────────────────
+// ─── Load ─────────────────────────────────────────────────────────────
 async function loadFeedback(searchTerm = '', minRating = 0, status = 'all') {
     const feedbackList = document.getElementById('feedbackList');
     if (!feedbackList) return;
 
     feedbackList.innerHTML = `
         <div class="loading-row">
-            <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i><span>Loading feedback...</span></div>
+            <div class="loading-spinner">
+                <i class="fas fa-spinner fa-spin"></i>
+                <span>Loading feedback...</span>
+            </div>
         </div>`;
 
     try {
         const result = await fetchFeedback(searchTerm, minRating, status);
+
+        // Update stats & badges regardless of result count
+        if (result.stats) {
+            updateRatingBreakdown(result.stats);
+            updateStatusBadges(result.stats);
+        }
+
         filteredFeedback = [...feedbackData];
-
-        if (result.stats) updateRatingBreakdown(result.stats);
-
-        // Update badge counts
-        updateStatusBadges(result.stats);
 
         if (filteredFeedback.length === 0) {
             feedbackList.innerHTML = `
@@ -193,84 +197,104 @@ async function loadFeedback(searchTerm = '', minRating = 0, status = 'all') {
                     <p>No feedback found</p>
                     <p class="subtitle">Try adjusting your search or filters</p>
                 </div>`;
+            // ← CRITICAL: update total BEFORE getCurrentPageRange() is called
             pagination.updateTotalItems(0);
             return;
         }
 
+        // ← CRITICAL: update total FIRST, then render cards using correct range
         pagination.updateTotalItems(filteredFeedback.length);
-        feedbackList.innerHTML = '';
-
-        const range = pagination.getCurrentPageRange();
-        const toDisplay = filteredFeedback.slice(range.start, range.end);
-
-        toDisplay.forEach(feedback => {
-            const card = document.createElement('div');
-            card.className = `feedback-card ${feedback.is_flagged == 1 ? 'is-flagged' : ''} status-${feedback.status}`;
-
-            const statusBadge = `<span class="feedback-status-badge badge-${feedback.status}">${capitalise(feedback.status)}</span>`;
-            const flagBadge   = feedback.is_flagged == 1
-                ? `<span class="feedback-flag-badge"><i class="fas fa-flag"></i> Flagged</span>`
-                : '';
-
-            const photosHtml = feedback.photos && feedback.photos.length > 0
-                ? `<div class="feedback-photo-grid">
-                    ${feedback.photos.map((p, i) =>
-                        `<img src="${IMG_BASE_URL}${p.photo_path}" 
-                              alt="Photo ${i+1}" 
-                              class="feedback-thumb" 
-                              onclick="openLightbox('${IMG_BASE_URL}${p.photo_path}')"
-                              loading="lazy">`
-                    ).join('')}
-                   </div>`
-                : '';
-
-            const adminNoteHtml = feedback.admin_note
-                ? `<div class="admin-note"><i class="fas fa-sticky-note"></i> <em>${escapeHtml(feedback.admin_note)}</em></div>`
-                : '';
-
-            card.innerHTML = `
-                <div class="feedback-header">
-                    <div class="feedback-user">
-                        <div class="customer-name">${escapeHtml(feedback.customerName)}</div>
-                        <div class="feedback-time">${formatDateTime(feedback.date, feedback.time)}</div>
-                    </div>
-                    <div class="feedback-rating">
-                        <div class="feedback-stars">${generateStars(feedback.rating)}</div>
-                        <div class="feedback-service"><i class="fas fa-spa"></i><span>${escapeHtml(feedback.service)}</span></div>
-                    </div>
-                </div>
-                <div class="feedback-badges">${statusBadge}${flagBadge}</div>
-                <div class="feedback-content">
-                    <div class="feedback-text">${escapeHtml(feedback.feedback)}</div>
-                    ${photosHtml}
-                    ${adminNoteHtml}
-                </div>
-                <div class="feedback-actions">
-                    ${feedback.status !== 'approved'
-                        ? `<button class="btn-action btn-approve" onclick="approveFeedback(${feedback.feedback_id})">
-                               <i class="fas fa-check"></i> Approve
-                           </button>`
-                        : ''}
-                    ${feedback.status !== 'rejected'
-                        ? `<button class="btn-action btn-reject" onclick="rejectFeedback(${feedback.feedback_id})">
-                               <i class="fas fa-ban"></i> Reject
-                           </button>`
-                        : ''}
-                    <button class="btn-action btn-flag ${feedback.is_flagged == 1 ? 'btn-flagged' : ''}" 
-                            onclick="flagFeedback(${feedback.feedback_id}, ${feedback.is_flagged})">
-                        <i class="fas fa-flag"></i> ${feedback.is_flagged == 1 ? 'Unflag' : 'Flag'}
-                    </button>
-                    <button class="btn-action btn-delete" onclick="deleteFeedback(${feedback.feedback_id})">
-                        <i class="fas fa-trash"></i> Delete
-                    </button>
-                </div>
-            `;
-            feedbackList.appendChild(card);
-        });
+        renderFeedbackCards();
 
     } catch (error) {
+        console.error('loadFeedback error:', error);
         showError('Failed to load feedback');
     }
+}
+
+// ─── Render Cards (separate from load so pagination onPageChange works) ──
+function renderFeedbackCards() {
+    const feedbackList = document.getElementById('feedbackList');
+    if (!feedbackList) return;
+
+    if (filteredFeedback.length === 0) {
+        feedbackList.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-comments"></i>
+                <p>No feedback found</p>
+            </div>`;
+        return;
+    }
+
+    const range     = pagination.getCurrentPageRange();
+    const toDisplay = filteredFeedback.slice(range.start, range.end);
+
+    feedbackList.innerHTML = '';
+
+    toDisplay.forEach(feedback => {
+        const card = document.createElement('div');
+        card.className = `feedback-card ${feedback.is_flagged == 1 ? 'is-flagged' : ''} status-${feedback.status}`;
+
+        const statusBadge = `<span class="feedback-status-badge badge-${feedback.status}">${capitalise(feedback.status)}</span>`;
+        const flagBadge   = feedback.is_flagged == 1
+            ? `<span class="feedback-flag-badge"><i class="fas fa-flag"></i> Flagged</span>`
+            : '';
+
+        const photosHtml = feedback.photos && feedback.photos.length > 0
+            ? `<div class="feedback-photo-grid">
+                ${feedback.photos.map((p, i) =>
+                    `<img src="${IMG_BASE_URL}${p.photo_path}"
+                          alt="Photo ${i + 1}"
+                          class="feedback-thumb"
+                          onclick="openLightbox('${IMG_BASE_URL}${p.photo_path}')"
+                          loading="lazy">`
+                ).join('')}
+               </div>`
+            : '';
+
+        const adminNoteHtml = feedback.admin_note
+            ? `<div class="admin-note"><i class="fas fa-sticky-note"></i> <em>${escapeHtml(feedback.admin_note)}</em></div>`
+            : '';
+
+        card.innerHTML = `
+            <div class="feedback-header">
+                <div class="feedback-user">
+                    <div class="customer-name">${escapeHtml(feedback.customerName)}</div>
+                    <div class="feedback-time">${formatDateTime(feedback.date, feedback.time)}</div>
+                </div>
+                <div class="feedback-rating">
+                    <div class="feedback-stars">${generateStars(feedback.rating)}</div>
+                    <div class="feedback-service"><i class="fas fa-spa"></i><span>${escapeHtml(feedback.service)}</span></div>
+                </div>
+            </div>
+            <div class="feedback-badges">${statusBadge}${flagBadge}</div>
+            <div class="feedback-content">
+                <div class="feedback-text">${escapeHtml(feedback.feedback)}</div>
+                ${photosHtml}
+                ${adminNoteHtml}
+            </div>
+            <div class="feedback-actions">
+                ${feedback.status !== 'approved'
+                    ? `<button class="btn-action btn-approve" onclick="approveFeedback(${feedback.feedback_id})">
+                           <i class="fas fa-check"></i> Approve
+                       </button>`
+                    : ''}
+                ${feedback.status !== 'rejected'
+                    ? `<button class="btn-action btn-reject" onclick="rejectFeedback(${feedback.feedback_id})">
+                           <i class="fas fa-ban"></i> Reject
+                       </button>`
+                    : ''}
+                <button class="btn-action btn-flag ${feedback.is_flagged == 1 ? 'btn-flagged' : ''}"
+                        onclick="flagFeedback(${feedback.feedback_id}, ${feedback.is_flagged})">
+                    <i class="fas fa-flag"></i> ${feedback.is_flagged == 1 ? 'Unflag' : 'Flag'}
+                </button>
+                <button class="btn-action btn-delete" onclick="deleteFeedback(${feedback.feedback_id})">
+                    <i class="fas fa-trash"></i> Delete
+                </button>
+            </div>
+        `;
+        feedbackList.appendChild(card);
+    });
 }
 
 function showError(msg) {
@@ -287,7 +311,7 @@ function openLightbox(src) {
     let lb = document.getElementById('feedbackLightbox');
     if (!lb) {
         lb = document.createElement('div');
-        lb.id = 'feedbackLightbox';
+        lb.id        = 'feedbackLightbox';
         lb.className = 'feedback-lightbox';
         lb.innerHTML = `<div class="lightbox-inner">
             <button class="lightbox-close" onclick="closeLightbox()"><i class="fas fa-times"></i></button>
@@ -297,7 +321,7 @@ function openLightbox(src) {
         lb.addEventListener('click', (e) => { if (e.target === lb) closeLightbox(); });
     }
     document.getElementById('lightboxImg').src = src;
-    lb.style.display = 'flex';
+    lb.style.display        = 'flex';
     document.body.style.overflow = 'hidden';
 }
 
@@ -307,7 +331,7 @@ function closeLightbox() {
     document.body.style.overflow = '';
 }
 
-// ─── Status Badge Counter ─────────────────────────────────────────────
+// ─── Status Badge Counters ─────────────────────────────────────────────
 function updateStatusBadges(stats) {
     const pendingBadge = document.getElementById('pendingCount');
     const flaggedBadge = document.getElementById('flaggedCount');
@@ -342,15 +366,22 @@ function formatDateTime(dateString, timeString) {
 }
 
 function updateRatingBreakdown(stats) {
-    const overall     = parseFloat(stats.averageRating).toFixed(1);
-    const total       = stats.totalReviews || 0;
+    const overall = parseFloat(stats.averageRating).toFixed(1);
+    const total   = stats.totalReviews || 0;
 
-    document.getElementById('overallRating').textContent  = overall;
-    document.getElementById('totalReviews').textContent   = `${total} review${total !== 1 ? 's' : ''}`;
-    document.getElementById('overallStars').innerHTML     = generateStars(parseFloat(overall));
+    document.getElementById('overallRating').textContent = overall;
+    document.getElementById('totalReviews').textContent  = `${total} review${total !== 1 ? 's' : ''}`;
+    document.getElementById('overallStars').innerHTML    = generateStars(parseFloat(overall));
 
-    const counts = { 5: +stats.fiveStars||0, 4: +stats.fourStars||0, 3: +stats.threeStars||0, 2: +stats.twoStars||0, 1: +stats.oneStar||0 };
-    const bd     = document.getElementById('ratingBreakdown');
+    const counts = {
+        5: +stats.fiveStars  || 0,
+        4: +stats.fourStars  || 0,
+        3: +stats.threeStars || 0,
+        2: +stats.twoStars   || 0,
+        1: +stats.oneStar    || 0
+    };
+
+    const bd = document.getElementById('ratingBreakdown');
     bd.innerHTML = '';
 
     for (let i = 5; i >= 1; i--) {
@@ -364,134 +395,3 @@ function updateRatingBreakdown(stats) {
         bd.appendChild(bar);
     }
 }
-
-// ── State Variables ────────────────────────────────────────
-let adminFeedbackState = {
-    page:      1,
-    perPage:   10,
-    total:     0,
-    search:    '',
-    minRating: 0,
-    status:    'all',
-    branchId:  null
-};
-
-// ── Fetch Feedback ─────────────────────────────────────────
-async function fetchAdminFeedback() {
-    const s = adminFeedbackState;
-    const params = new URLSearchParams({
-        page:       s.page,
-        per_page:   s.perPage,
-        search:     s.search,
-        min_rating: s.minRating,
-        status:     s.status
-    });
-    if (s.branchId) params.set('branch_id', s.branchId);
-
-    try {
-        const res    = await fetch(`/HFABS/backend/public/index.php?url=feedback&${params}`, {
-            credentials: 'same-origin'
-        });
-        const result = await res.json();
-
-        if (result.success) {
-            adminFeedbackState.total = result.total;
-            renderFeedbackTable(result.data);
-            renderAdminPagination();
-        }
-    } catch(err) {
-        console.error('Failed to fetch feedback:', err);
-    }
-}
-
-// ── Pagination Renderer ────────────────────────────────────
-function renderAdminPagination() {
-    const { page, perPage, total } = adminFeedbackState;
-
-    // Prevent division by zero
-    const totalPages = perPage > 0 ? Math.ceil(total / perPage) : 1;
-
-    // Safe start/end calculation
-    const start = total === 0 ? 0 : (page - 1) * perPage + 1;
-    const end   = Math.min(page * perPage, total);
-
-    // Update display text
-    const infoEl = document.getElementById('feedbackPaginationInfo');
-    if (infoEl) {
-        infoEl.textContent = total === 0
-            ? 'No entries found'
-            : `Showing ${start} to ${end} of ${total} entries`;
-    }
-
-    // Build page buttons
-    const pagerEl = document.getElementById('feedbackPager');
-    if (!pagerEl) return;
-
-    let html = `
-        <button onclick="goToFeedbackPage(${page - 1})" ${page <= 1 ? 'disabled' : ''}>
-            &laquo; Prev
-        </button>
-    `;
-
-    // Show at most 5 page buttons
-    const rangeStart = Math.max(1, page - 2);
-    const rangeEnd   = Math.min(totalPages, page + 2);
-
-    for (let p = rangeStart; p <= rangeEnd; p++) {
-        html += `<button onclick="goToFeedbackPage(${p})"
-                         class="${p === page ? 'active' : ''}">${p}</button>`;
-    }
-
-    html += `
-        <button onclick="goToFeedbackPage(${page + 1})" ${page >= totalPages ? 'disabled' : ''}>
-            Next &raquo;
-        </button>
-    `;
-
-    pagerEl.innerHTML = html;
-}
-
-function goToFeedbackPage(page) {
-    const totalPages = Math.ceil(adminFeedbackState.total / adminFeedbackState.perPage);
-    if (page < 1 || page > totalPages) return;
-    adminFeedbackState.page = page;
-    fetchAdminFeedback();
-}
-
-// ── Filter Handlers ────────────────────────────────────────
-// IMPORTANT: always reset to page 1 when a filter changes
-function applyFeedbackFilters() {
-    const searchEl    = document.getElementById('feedbackSearch');
-    const ratingEl    = document.getElementById('feedbackMinRating');
-    const statusEl    = document.getElementById('feedbackStatus');
-    const branchEl    = document.getElementById('feedbackBranch');
-
-    adminFeedbackState.page      = 1; // ← CRITICAL: reset page
-    adminFeedbackState.search    = searchEl   ? searchEl.value.trim()   : '';
-    adminFeedbackState.minRating = ratingEl   ? parseInt(ratingEl.value)|| 0 : 0;
-    adminFeedbackState.status    = statusEl   ? statusEl.value           : 'all';
-    adminFeedbackState.branchId  = branchEl   ? branchEl.value || null   : null;
-
-    fetchAdminFeedback();
-}
-
-// Wire up filter inputs — call this on DOMContentLoaded
-function initAdminFeedbackFilters() {
-    ['feedbackSearch', 'feedbackMinRating', 'feedbackStatus', 'feedbackBranch'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.addEventListener('change', applyFeedbackFilters);
-    });
-    // Live search on keyup
-    const searchEl = document.getElementById('feedbackSearch');
-    if (searchEl) {
-        let debounceTimer;
-        searchEl.addEventListener('keyup', () => {
-            clearTimeout(debounceTimer);
-            debounceTimer = setTimeout(applyFeedbackFilters, 350);
-        });
-    }
-}
-
-// Add to your admin DOMContentLoaded:
-// initAdminFeedbackFilters();
-// fetchAdminFeedback();

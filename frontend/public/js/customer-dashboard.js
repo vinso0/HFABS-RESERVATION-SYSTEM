@@ -729,9 +729,14 @@ function setupPhotoUpload() {
 function handlePhotoSelection(files) {
     const errors = [];
 
+    // Count existing kept photos + already selected new photos combined
+    const existingCount = (window.existingPhotosToKeep || []).length;
+
     files.forEach(file => {
-        if (selectedPhotoFiles.length >= MAX_PHOTOS) {
-            errors.push(`Maximum ${MAX_PHOTOS} photos allowed.`);
+        const totalUsed = existingCount + selectedPhotoFiles.length;
+
+        if (totalUsed >= MAX_PHOTOS) {
+            errors.push(`Maximum ${MAX_PHOTOS} photos allowed (including existing photos).`);
             return;
         }
         if (!ALLOWED_TYPES.includes(file.type)) {
@@ -746,7 +751,12 @@ function handlePhotoSelection(files) {
     });
 
     if (errors.length > 0) {
-        showToast(errors[0], 'error');
+        // Use showToast if available, fallback to Toast
+        if (typeof Toast !== 'undefined') {
+            Toast.error(errors[0]);
+        } else {
+            showToast(errors[0], 'error');
+        }
     }
 
     renderPhotoPreviews();
@@ -776,10 +786,16 @@ function renderPhotoPreviews() {
         reader.readAsDataURL(file);
     });
 
-    const remaining = MAX_PHOTOS - selectedPhotoFiles.length;
-    countText.textContent = selectedPhotoFiles.length > 0
-        ? `${selectedPhotoFiles.length} photo(s) selected (${remaining} more allowed)`
-        : '';
+    // Total used = existing kept + new selections
+    const existingCount = (window.existingPhotosToKeep || []).length;
+    const totalUsed     = existingCount + selectedPhotoFiles.length;
+    const remaining     = MAX_PHOTOS - totalUsed;
+
+    if (selectedPhotoFiles.length > 0 || existingCount > 0) {
+        countText.textContent = `${totalUsed} of ${MAX_PHOTOS} photos used (${remaining} more allowed)`;
+    } else {
+        countText.textContent = '';
+    }
 }
 
 function removePhoto(index) {
