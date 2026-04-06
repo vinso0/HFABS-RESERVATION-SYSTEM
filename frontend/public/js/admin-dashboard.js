@@ -245,6 +245,182 @@ async function loadRecentTransactions() {
     } catch (e) {
         container.innerHTML = `<p style="color:#e11;font-size:13px;padding:8px 0">Error: ${e.message}</p>`;
     }
+
+    // ════════════════════════════════════════════════════
+//  Export Analytics Modal — Controller
+// ════════════════════════════════════════════════════
+
+const _exportCache = {
+    counts: null,
+    allTotal: 0,
+    todayRevenue: 0,
+    totalRevenue: 0,
+    dataReady: false
+};
+
+async function _cacheAnalyticsData() {
+    try {
+        const res = await fetch(`${API}?url=reservation/getAllReservations&status=all&page=1&itemsPerPage=9999`, {
+            credentials: 'include'
+        });
+        const data = await res.json();
+        if (!data.success) return;
+
+        const all = data.data ?? [];
+        _exportCache.allTotal = all.length;
+        _exportCache.counts = {
+            pending:     all.filter(r => r.status === 'pending').length,
+            confirmed:   all.filter(r => r.status === 'confirmed').length,
+            completed:   all.filter(r => r.status === 'completed').length,
+            rescheduled: all.filter(r => r.status === 'rescheduled').length,
+            cancelled:   all.filter(r => r.status === 'cancelled').length,
+            noshow:      all.filter(r => r.status === 'no-show').length,
+        };
+    } catch (_) {}
+}
+
+async function _cacheRevenueData() {
+    try {
+        const res = await fetch(`${API}?url=transaction/getByBranch`, { credentials: 'include' });
+        if (!res.ok) return;
+        const data = await res.json();
+        if (!data.success) return;
+
+        const today = new Date().toISOString().slice(0, 10);
+        _exportCache.todayRevenue = data.data
+            .filter(t => t.status === 'paid' && (t.created_at ?? '').slice(0, 10) === today)
+            .reduce((sum, t) => sum + parseFloat(t.amount_paid || 0), 0);
+        _exportCache.totalRevenue = data.data
+            .filter(t => t.status === 'paid')
+            .reduce((sum, t) => sum + parseFloat(t.amount_paid || 0), 0);
+        _exportCache.dataReady = true;
+    } catch (_) {}
+}
+
+// Explicitly attach to window so inline onclick= attributes can find them
+window.openExportModal = function () {
+    const overlay = document.getElementById('exportModalOverlay');
+    if (!overlay) return;
+    overlay.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+    _populateModalPreview();
+};
+
+window.closeExportModal = function () {
+    const overlay = document.getElementById('exportModalOverlay');
+    if (!overlay) return;
+    overlay.classList.remove('is-open');
+    document.body.style.overflow = '';
+};
+
+window.triggerExportExcel = function () {
+    window.location.href = '/HFABS/backend/public/index.php?url=analytics/exportExcel';
+};
+
+window.triggerExportPDF = function () {
+    window.location.href = '/HFABS/backend/public/index.php?url=analytics/exportPDF';
+};
+
+async function _populateModalPreview() {
+    if (!_exportCache.dataReady) {
+        await Promise.all([_cacheAnalyticsData(), _cacheRevenueData()]);
+    }
+    _renderModalStats();
+    _renderModalRevenue();
+    _renderModalStatusBreakdown();
+}
+
+function _renderModalStats() {
+    const grid = document.getElementById('modalStatGrid');
+    if (!grid) return;
+    if (!_exportCache.counts) {
+        grid.innerHTML = '<p style="color:#aaa;font-size:12px;grid-column:1/-1;text-align:center;padding:12px 0;">Unable to load stats.</p>';
+        return;
+    }
+    const c = _exportCache.counts;
+    const items = [
+        { label: 'Pending',     value: c.pending,     color: '#f59e0b' },
+        { label: 'Confirmed',   value: c.confirmed,   color: '#10b981' },
+        { label: 'Completed',   value: c.completed,   color: '#6366f1' },
+        { label: 'Rescheduled', value: c.rescheduled, color: '#0ea5e9' },
+        { label: 'Cancelled',   value: c.cancelled,   color: '#ef4444' },
+        { label: 'No-Show',     value: c.noshow,      color: '#64748b' },
+    ];
+    grid.innerHTML = items.map(i => `
+        <div class="export-stat-item">
+            <span class="esi-label">
+                <span class="esi-dot" style="background:${i.color}"></span>${i.label}
+            </span>
+            <span class="esi-value">${i.value}</span>
+        </div>
+    `).join('');
+}
+
+function _renderModalRevenue() {
+    const grid = document.getElementById('modalRevenueGrid');
+    if (!grid) return;
+    grid.innerHTML = `
+        <div class="export-revenue-card">
+            <span class="erc-label"><i class="fas fa-sun"></i> Today's Revenue</span>
+            <span class="erc-value">${formatCurrency(_exportCache.todayRevenue)}</span>
+        </div>
+        <div class="export-revenue-card">
+            <span class="erc-label"><i class="fas fa-coins"></i> Total Revenue</span>
+            <span class="erc-value">${formatCurrency(_exportCache.totalRevenue)}</span>
+        </div>
+    `;
+}
+
+function _renderModalStatusBreakdown() {
+    const container = document.getElementById('modalStatusBreakdown');
+    if (!container) return;
+    if (!_exportCache.counts || _exportCache.allTotal === 0) {
+        container.innerHTML = '<div class="dash-empty"><i class="fas fa-chart-pie"></i><p>No reservation data available.</p></div>';
+        return;
+    }
+    const c = _exportCache.counts;
+    const total = _exportCache.allTotal;
+    const statuses = [
+        { label: 'Pending',     color: '#f59e0b', count: c.pending },
+        { label: 'Confirmed',   color: '#10b981', count: c.confirmed },
+        { label: 'Completed',   color: '#6366f1', count: c.completed },
+        { label: 'Cancelled',   color: '#ef4444', count: c.cancelled },
+        { label: 'Rescheduled', color: '#0ea5e9', count: c.rescheduled },
+        { label: 'No-Show',     color: '#64748b', count: c.noshow },
+    ];
+    let html = '<div class="breakdown-list">';
+    statuses.forEach(s => {
+        const pct = total > 0 ? Math.round((s.count / total) * 100) : 0;
+        html += `<div class="breakdown-item">
+            <div class="breakdown-meta">
+                <span class="breakdown-label">${s.label}</span>
+                <span class="breakdown-count">${s.count} <span class="breakdown-pct">(${pct}%)</span></span>
+            </div>
+            <div class="breakdown-bar-track">
+                <div class="breakdown-bar-fill" style="width:${pct}%;background:${s.color}"></div>
+            </div>
+        </div>`;
+    });
+    html += `<div class="breakdown-total">Total: <strong>${total}</strong> reservation${total !== 1 ? 's' : ''}</div>`;
+    html += '</div>';
+    container.innerHTML = html;
+}
+
+// Backdrop and Escape key listeners
+document.addEventListener('DOMContentLoaded', function () {
+    const overlay = document.getElementById('exportModalOverlay');
+    if (overlay) {
+        overlay.addEventListener('click', function (e) {
+            if (e.target === this) window.closeExportModal();
+        });
+    }
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') window.closeExportModal();
+    });
+});
+
+// Pre-warm cache on page load
+Promise.all([_cacheAnalyticsData(), _cacheRevenueData()]);
 }
 
 // ── Also fix getAllReservations to allow cashier role ──

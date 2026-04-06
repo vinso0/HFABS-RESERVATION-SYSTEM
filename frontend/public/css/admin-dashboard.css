@@ -374,70 +374,54 @@
 .qa-card span { font-size: 13px; font-weight: 600; }
 
 /* ── Export Analytics ── */
-.export-actions {
-    background: #fff;                                              
-    border-radius: 12px;
-    padding: 18px 22px;
-    margin-bottom: 24px;
+.dash-header {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
+    margin-bottom: 24px;
     flex-wrap: wrap;
     gap: 12px;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
 }
 
-.export-actions-header {
+.dash-header-right {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-weight: 600;
-    font-size: 15px;
-    color: #1a1a2e;
+    gap: 12px;
+    flex-wrap: wrap;
 }
 
-.export-actions-header i {
-    color: #d91a7e;                           
-    font-size: 16px;
-}
-
-.export-btn-excel,
-.export-btn-pdf {
-    padding: 10px 18px;
-    border-radius: 10px;
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
+/* ── Compact Export Trigger Button ── */
+.export-trigger-btn {
     display: inline-flex;
     align-items: center;
-    gap: 5px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    border: none;
-}
-
-.export-btn-excel {
-    background: linear-gradient(135deg, #d91a7e, #b5156a);
+    gap: 7px;
+    padding: 9px 18px;
+    background: #D91A7E;
     color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(217, 26, 126, 0.20);
+    letter-spacing: 0.1px;
 }
 
-.export-btn-excel:hover {
-    background: linear-gradient(135deg, #b5156a, #8e1053);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(217,26,126,0.15);
+.export-trigger-btn i {
+    font-size: 13px;
 }
 
-.export-btn-pdf {
-    background: #fff;
-    color: #d91a7e;
-    border: 2px solid #d91a7e;
+.export-trigger-btn:hover {
+    background: #b5156a;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(217, 26, 126, 0.28);
 }
 
-.export-btn-pdf:hover {
-    background: #fdf2f8;
-    box-shadow: 0 4px 12px rgba(217,26,126,0.18);
-    transform: translateY(-2px);
+.export-trigger-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 4px rgba(217, 26, 126, 0.15);
 }
 
 /* ── Responsive ── */
