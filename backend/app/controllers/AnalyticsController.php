@@ -40,35 +40,58 @@ class AnalyticsPDF extends FPDF {
     public $logoPath   = '';
 
     public function Header() {
-        // Primary pink title bar
-        $this->SetFillColor(217, 26, 126);
-        $this->Rect(0, 0, 210, 22, 'F');
+      // ── Primary pink title bar — taller to fit logo comfortably ──
+      $this->SetFillColor(217, 26, 126);
+      $this->Rect(0, 0, 210, 24, 'F');
 
-        // FIX 2: Draw logo if file exists
-        if ($this->logoPath !== '' && file_exists($this->logoPath)) {
-            // Logo sits inside the pink bar — 14mm tall, auto-width, 3mm from left edge
-            $this->Image($this->logoPath, 4, 3, 0, 14);
-            $titleX = 25; // shift title right so it doesn't overlap the logo
-        } else {
-            $titleX = 10;
-        }
+      // ── Logo ──
+      $logoX    = 4;
+      $logoY    = 3;
+      $logoH    = 16;   // height in mm
+      $textX    = 10;   // default if no logo
 
-        $this->SetFont('Arial', 'B', 14);
-        $this->SetTextColor(255, 255, 255);
-        $this->SetXY($titleX, 5);
-        // FIX 1: wrap branch name through pdfStr()
-        $this->Cell(0, 12, pdfStr('HAPPY FACE & BODY SPA - ' . strtoupper($this->branchName)), 0, 1, 'L');
+      if ($this->logoPath && file_exists($this->logoPath)) {
+          $imgInfo = @getimagesize($this->logoPath);
+          if ($imgInfo !== false) {
+              $mimeToType = [
+                  'image/jpeg' => 'JPG',
+                  'image/png'  => 'PNG',
+                  'image/gif'  => 'GIF',
+              ];
+              $type = $mimeToType[$imgInfo['mime'] ?? ''] ?? null;
+              if ($type !== null) {
+                  try {
+                      // Image() with type: X, Y, W=0 (auto-width), H=logoH
+                      $this->Image($this->logoPath, $logoX, $logoY, 0, $logoH, $type);
+                      // Calculate actual rendered width from aspect ratio
+                      $imgW    = $imgInfo[0]; // px
+                      $imgHpx  = $imgInfo[1]; // px
+                      $ratio   = $imgHpx > 0 ? $imgW / $imgHpx : 1;
+                      $logoRenderedW = $logoH * $ratio; // mm
+                      $textX   = $logoX + $logoRenderedW + 3; // 3mm gap after logo
+                  } catch (Exception $e) {
+                      $textX = 10;
+                  }
+              }
+          }
+      }
 
-        // Darker pink sub-header bar
-        $this->SetFillColor(181, 21, 106);
-        $this->Rect(0, 22, 210, 8, 'F');
-        $this->SetFont('Arial', 'I', 8);
-        $this->SetTextColor(255, 220, 240);
-        $this->SetXY(10, 23);
-        // FIX 1: wrap date string through pdfStr()
-        $this->Cell(0, 6, pdfStr('Analytics Report | Generated: ' . $this->reportDate), 0, 1, 'L');
-        $this->Ln(6);
-    }
+      // ── Branch name — vertically centered in the 24mm bar ──
+      $this->SetFont('Arial', 'B', 13);
+      $this->SetTextColor(255, 255, 255);
+      $this->SetXY($textX, 6);  // ~6mm top offset centers 13pt text in 24mm bar
+      $this->Cell(210 - $textX - 4, 12, pdfStr('HAPPY FACE & BODY SPA - ' . strtoupper($this->branchName)), 0, 1, 'L');
+
+      // ── Darker sub-header bar ──
+      $this->SetFillColor(181, 21, 106);
+      $this->Rect(0, 24, 210, 8, 'F');
+      $this->SetFont('Arial', 'I', 8);
+      $this->SetTextColor(255, 220, 240);
+      $this->SetXY(10, 25);
+      $this->Cell(0, 6, pdfStr('Analytics Report  |  Generated: ' . $this->reportDate), 0, 1, 'L');
+
+      $this->Ln(5);
+  }
 
     public function Footer() {
         $this->SetY(-12);
@@ -441,23 +464,38 @@ class AnalyticsController extends Controller {
         foreach ($data['reservations_per_day'] as $r) {
             $totalReservations += (int)$r['total'];
         }
-        $totalRevenue = 0.0;
+        $totalRevenue = 0;
         foreach ($data['revenue_per_day'] as $r) {
             $totalRevenue += (float)$r['total_revenue'];
         }
         $topService = !empty($data['most_reserved_services'])
             ? $data['most_reserved_services'][0]['service_name']
             : 'N/A';
+        $returningCount = (string)count($data['returning_customers']);
 
-        // FIX 1: SummaryBox values now use pdfMoney() so no garbled ₱ symbol
-        $pdf->SummaryBox('Total Reservations (Last 30 Days)', (string)$totalReservations, 10, $pdf->GetY());
-        $pdf->SummaryBox('Total Revenue (Last 30 Days)', pdfMoney($totalRevenue), 108, $pdf->GetY() - 18);
-        $pdf->Ln(24);
+        // Fixed layout: 2 columns × 2 rows
+        // Left col X=10, Right col X=108, box W=88, box H=20, gap between rows=4
+        $boxW  = 88;
+        $boxH  = 20;
+        $colL  = 10;
+        $colR  = 108; // 10 + 88 + 10 margin = 108
+        $rowGap = 4;
 
-        $pdf->SummaryBox('Top Service', $topService, 10, $pdf->GetY());
-        $pdf->SummaryBox('Returning Customers', (string)count($data['returning_customers']), 108, $pdf->GetY() - 18);
-        $pdf->Ln(28);
+        // Row 1 Y
+        $row1Y = $pdf->GetY();
 
+        $pdf->SummaryBox('Total Reservations (Last 30 Days)', (string)$totalReservations, $colL, $row1Y, $boxW, $boxH);
+        $pdf->SummaryBox('Total Revenue (Last 30 Days)', 'PHP ' . number_format($totalRevenue, 2), $colR, $row1Y, $boxW, $boxH);
+
+        // Row 2 Y — always exactly boxH + rowGap below row 1
+        $row2Y = $row1Y + $boxH + $rowGap;
+
+        $pdf->SummaryBox('Top Service', $topService, $colL, $row2Y, $boxW, $boxH);
+        $pdf->SummaryBox('Returning Customers', $returningCount, $colR, $row2Y, $boxW, $boxH);
+
+        // Advance cursor to just below the second row + small breathing gap
+        $pdf->SetY($row2Y + $boxH + 6);
+        
         // ── Section 1 ──
         $pdf->SectionTitle('1. Reservations Per Day (Last 30 Days)');
         $pdf->TableHeader(['Date', 'Total Reservations'], [130, 60], ['L', 'C']);
