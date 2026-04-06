@@ -375,8 +375,7 @@
 
 /* ── Export Analytics ── */
 .export-actions {
-    background: #fff;
-    border: 1px solid #e5e7eb;
+    background: #fff;                                              
     border-radius: 12px;
     padding: 18px 22px;
     margin-bottom: 24px;
@@ -394,59 +393,51 @@
     gap: 8px;
     font-weight: 600;
     font-size: 15px;
-    color: #374151;
+    color: #1a1a2e;
 }
 
 .export-actions-header i {
-    color: #6366f1;
+    color: #d91a7e;                           
     font-size: 16px;
 }
 
-.export-btn-group {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
-.export-btn {
+.export-btn-excel,
+.export-btn-pdf {
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 9px 18px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    text-decoration: none;
-    transition: background 0.18s, box-shadow 0.18s, transform 0.12s;
+    gap: 5px;
     cursor: pointer;
+    transition: all 0.2s ease;
     border: none;
 }
 
-.export-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-}
-
 .export-btn-excel {
-    background: linear-gradient(135deg, #22c55e, #16a34a);
+    background: linear-gradient(135deg, #d91a7e, #b5156a);
     color: #fff;
 }
 
 .export-btn-excel:hover {
-    background: linear-gradient(135deg, #16a34a, #15803d);
+    background: linear-gradient(135deg, #b5156a, #8e1053);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(217,26,126,0.15);
 }
 
 .export-btn-pdf {
-    background: linear-gradient(135deg, #ef4444, #dc2626);
-    color: #fff;
+    background: #fff;
+    color: #d91a7e;
+    border: 2px solid #d91a7e;
 }
 
 .export-btn-pdf:hover {
-    background: linear-gradient(135deg, #dc2626, #b91c1c);
-}
-
-.export-btn i {
-    font-size: 16px;
+    background: #fdf2f8;
+    box-shadow: 0 4px 12px rgba(217,26,126,0.18);
+    transform: translateY(-2px);
 }
 
 /* ── Responsive ── */

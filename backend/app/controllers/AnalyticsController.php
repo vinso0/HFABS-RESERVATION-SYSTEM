@@ -12,22 +12,24 @@ use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 
-// ── FPDF subclass must be at file scope (not inside a method) ──
 class AnalyticsPDF extends FPDF {
     public $branchName = '';
     public $reportDate = '';
 
     public function Header() {
-        $this->SetFillColor(79, 70, 229);
+        // ── Primary pink title bar ──
+        $this->SetFillColor(217, 26, 126);          // #D91A7E
         $this->Rect(0, 0, 210, 22, 'F');
         $this->SetFont('Arial', 'B', 14);
         $this->SetTextColor(255, 255, 255);
         $this->SetXY(10, 5);
         $this->Cell(0, 12, 'HAPPY FACE & BODY SPA - ' . strtoupper($this->branchName), 0, 1, 'L');
-        $this->SetFillColor(99, 102, 241);
+
+        // ── Darker pink sub-header bar ──
+        $this->SetFillColor(181, 21, 106);          // #B5156A
         $this->Rect(0, 22, 210, 8, 'F');
         $this->SetFont('Arial', 'I', 8);
-        $this->SetTextColor(220, 220, 255);
+        $this->SetTextColor(255, 220, 240);         // soft white-pink
         $this->SetXY(10, 23);
         $this->Cell(0, 6, 'Analytics Report  |  Generated: ' . $this->reportDate, 0, 1, 'L');
         $this->Ln(6);
@@ -41,28 +43,32 @@ class AnalyticsPDF extends FPDF {
     }
 
     public function SectionTitle($title) {
-        $this->SetFillColor(99, 102, 241);
+        $this->SetFillColor(217, 26, 126);          // #D91A7E
         $this->SetTextColor(255, 255, 255);
         $this->SetFont('Arial', 'B', 10);
         $this->Cell(0, 8, '  ' . $title, 0, 1, 'L', true);
-        $this->SetTextColor(30, 30, 30);
+        $this->SetTextColor(26, 26, 46);            // navy
         $this->Ln(1);
     }
 
     public function TableHeader($headers, $widths) {
-        $this->SetFillColor(129, 140, 248);
-        $this->SetTextColor(255, 255, 255);
+        $this->SetFillColor(242, 173, 213);         // light pink
+        $this->SetTextColor(142, 16, 83);           // deep pink
         $this->SetFont('Arial', 'B', 8);
         foreach ($headers as $i => $h) {
             $this->Cell($widths[$i], 7, $h, 1, 0, 'C', true);
         }
         $this->Ln();
-        $this->SetTextColor(30, 30, 30);
+        $this->SetTextColor(26, 26, 46);
     }
 
     public function TableRow($values, $widths, $alt = false) {
         $this->SetFont('Arial', '', 8);
-        $this->SetFillColor($alt ? 245 : 255, $alt ? 243 : 255, $alt ? 255 : 255);
+        if ($alt) {
+            $this->SetFillColor(253, 242, 248);     // soft pink row
+        } else {
+            $this->SetFillColor(255, 255, 255);
+        }
         foreach ($values as $i => $v) {
             $this->Cell($widths[$i], 6, $v, 1, 0, 'L', true);
         }
@@ -71,9 +77,9 @@ class AnalyticsPDF extends FPDF {
 
     public function TableEmpty($totalWidth) {
         $this->SetFont('Arial', 'I', 8);
-        $this->SetTextColor(156, 163, 175);
+        $this->SetTextColor(200, 150, 180);
         $this->Cell($totalWidth, 6, 'No data available', 1, 1, 'C');
-        $this->SetTextColor(30, 30, 30);
+        $this->SetTextColor(26, 26, 46);
     }
 }
 
@@ -126,32 +132,43 @@ class AnalyticsController extends Controller {
         $sheet = $spreadsheet->getActiveSheet();
         $sheet->setTitle('Analytics Report');
 
+        // ── Title bar ──
         $titleStyle = [
             'font'      => ['bold' => true, 'size' => 16, 'color' => ['rgb' => 'FFFFFF']],
-            'fill'      => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => '4F46E5']],
+            'fill'      => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => 'D91A7E']], // primary pink
             'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER],
         ];
+
+        // ── Subtitle ──
         $subTitleStyle = [
-            'font'      => ['italic' => true, 'color' => ['rgb' => '6B7280']],
+            'font'      => ['italic' => true, 'color' => ['rgb' => 'D91A7E']],                    // pink text
             'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER],
         ];
+
+        // ── Section header bar ──
         $sectionStyle = [
             'font'      => ['bold' => true, 'size' => 11, 'color' => ['rgb' => 'FFFFFF']],
-            'fill'      => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => '6366F1']],
+            'fill'      => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => 'B5156A']], // dark pink
             'alignment' => ['horizontal' => Alignment::HORIZONTAL_LEFT],
         ];
+
+        // ── Column header row ──
         $headerStyle = [
-            'font'      => ['bold' => true, 'size' => 9, 'color' => ['rgb' => 'FFFFFF']],
-            'fill'      => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => '818CF8']],
+            'font'      => ['bold' => true, 'size' => 9, 'color' => ['rgb' => '8E1053']],         // deep pink text
+            'fill'      => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => 'F2ADD5']], // light pink fill
             'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER],
-            'borders'   => ['allBorders' => ['borderStyle' => Border::BORDER_THIN, 'color' => ['rgb' => 'CCCCCC']]],
+            'borders'   => ['allBorders' => ['borderStyle' => Border::BORDER_THIN, 'color' => ['rgb' => 'F8D7EB']]],
         ];
+
+        // ── Data rows ──
         $dataStyle = [
             'alignment' => ['horizontal' => Alignment::HORIZONTAL_LEFT],
-            'borders'   => ['allBorders' => ['borderStyle' => Border::BORDER_THIN, 'color' => ['rgb' => 'E5E7EB']]],
+            'borders'   => ['allBorders' => ['borderStyle' => Border::BORDER_THIN, 'color' => ['rgb' => 'F8D7EB']]],
         ];
+
+        // ── Alternating rows ──
         $altStyle = [
-            'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => 'F5F3FF']],
+            'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => 'FDF2F8']],      // #fdf2f8 soft pink
         ];
 
         $row = 1;
