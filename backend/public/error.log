@@ -27076,3 +27076,187 @@ Stack trace:
   thrown in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php on line 693
 [06-Apr-2026 16:35:34 Europe/Berlin] Router received URL: about/getAbout
 [06-Apr-2026 16:35:34 Europe/Berlin] Router received URL: about/getAllPolicies
+[06-Apr-2026 16:41:13 Europe/Berlin] Router received URL: auth/logout
+[06-Apr-2026 16:41:24 Europe/Berlin] Router received URL: auth/login
+[06-Apr-2026 16:41:24 Europe/Berlin] Router received URL: reservation/getAllReservations
+[06-Apr-2026 16:41:24 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[06-Apr-2026 16:41:24 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[06-Apr-2026 16:41:24 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[06-Apr-2026 16:41:24 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[06-Apr-2026 16:41:24 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[06-Apr-2026 16:41:24 Europe/Berlin] Router received URL: transaction/getByBranch
+[06-Apr-2026 17:09:21 Europe/Berlin] Router received URL: transaction/getByBranch
+[06-Apr-2026 17:09:21 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[06-Apr-2026 17:09:21 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[06-Apr-2026 17:09:21 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[06-Apr-2026 17:09:21 Europe/Berlin] Router received URL: reservation/getAllReservations
+[06-Apr-2026 17:09:21 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[06-Apr-2026 17:09:21 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[06-Apr-2026 17:09:25 Europe/Berlin] Router received URL: analytics/exportExcel
+[06-Apr-2026 17:09:25 Europe/Berlin] PHP Warning:  require_once(C:\xampp\htdocs\HFABS\backend\app\controllers/../../vendor/autoload.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\controllers\AnalyticsController.php on line 3
+[06-Apr-2026 17:09:25 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\controllers/../../vendor/autoload.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\controllers\AnalyticsController.php:3
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(23): require_once()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\AnalyticsController.php on line 3
+[06-Apr-2026 17:09:27 Europe/Berlin] Router received URL: analytics/exportExcel
+[06-Apr-2026 17:09:27 Europe/Berlin] PHP Warning:  require_once(C:\xampp\htdocs\HFABS\backend\app\controllers/../../vendor/autoload.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\controllers\AnalyticsController.php on line 3
+[06-Apr-2026 17:09:27 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\controllers/../../vendor/autoload.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\controllers\AnalyticsController.php:3
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(23): require_once()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\AnalyticsController.php on line 3
+[06-Apr-2026 17:09:28 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[06-Apr-2026 17:09:28 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[06-Apr-2026 17:09:28 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[06-Apr-2026 17:09:28 Europe/Berlin] Router received URL: reservation/getAllReservations
+[06-Apr-2026 17:09:28 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[06-Apr-2026 17:09:28 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[06-Apr-2026 17:09:28 Europe/Berlin] Router received URL: transaction/getByBranch
+[06-Apr-2026 17:09:29 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[06-Apr-2026 17:09:29 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[06-Apr-2026 17:09:29 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[06-Apr-2026 17:09:29 Europe/Berlin] Router received URL: transaction/getByBranch
+[06-Apr-2026 17:09:29 Europe/Berlin] Router received URL: reservation/getAllReservations
+[06-Apr-2026 17:09:29 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[06-Apr-2026 17:09:29 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[06-Apr-2026 17:09:29 Europe/Berlin] Router received URL: analytics/exportExcel
+[06-Apr-2026 17:09:29 Europe/Berlin] PHP Warning:  require_once(C:\xampp\htdocs\HFABS\backend\app\controllers/../../vendor/autoload.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\controllers\AnalyticsController.php on line 3
+[06-Apr-2026 17:09:29 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\controllers/../../vendor/autoload.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\controllers\AnalyticsController.php:3
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(23): require_once()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\AnalyticsController.php on line 3
+[06-Apr-2026 17:10:13 Europe/Berlin] Router received URL: reservation/getAllReservations
+[06-Apr-2026 17:10:13 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[06-Apr-2026 17:10:13 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[06-Apr-2026 17:10:13 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[06-Apr-2026 17:10:13 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[06-Apr-2026 17:10:13 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[06-Apr-2026 17:10:13 Europe/Berlin] Router received URL: transaction/getByBranch
+[06-Apr-2026 17:10:14 Europe/Berlin] Router received URL: reservation/getAllReservations
+[06-Apr-2026 17:10:14 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[06-Apr-2026 17:10:14 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[06-Apr-2026 17:10:14 Europe/Berlin] Router received URL: transaction/getByBranch
+[06-Apr-2026 17:10:14 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[06-Apr-2026 17:10:14 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[06-Apr-2026 17:10:14 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[06-Apr-2026 17:10:15 Europe/Berlin] Router received URL: analytics/exportExcel
+[06-Apr-2026 17:10:15 Europe/Berlin] PHP Warning:  require_once(C:\xampp\htdocs\HFABS\backend\app\controllers/../vendor/autoload.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\controllers\AnalyticsController.php on line 3
+[06-Apr-2026 17:10:15 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\controllers/../vendor/autoload.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\controllers\AnalyticsController.php:3
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(23): require_once()
+#1 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#2 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\controllers\AnalyticsController.php on line 3

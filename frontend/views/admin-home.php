@@ -49,6 +49,27 @@ $greeting = $hour < 12 ? 'Morning' : ($hour < 18 ? 'Afternoon' : 'Evening');
                     <span id="liveTime"></span>
                 </div>
             </div>
+            <!-- ── Export Analytics Buttons ── -->
+            <div class="export-actions" id="exportActions">
+            <div class="export-actions-header">
+                <i class="fas fa-download"></i>
+                <span>Export Analytics Report</span>
+            </div>
+            <div class="export-btn-group">
+                <a href="/HFABS/backend/public/index.php?url=analytics/exportExcel"
+                class="export-btn export-btn-excel"
+                title="Download full analytics report as Excel">
+                <i class="fas fa-file-excel"></i>
+                Download as Excel
+                </a>
+                <a href="/HFABS/backend/public/index.php?url=analytics/exportPDF"
+                class="export-btn export-btn-pdf"
+                title="Download full analytics report as PDF">
+                <i class="fas fa-file-pdf"></i>
+                Download as PDF
+                </a>
+            </div>
+            </div>
 
             <!-- Stat Cards -->
             <div class="stats-grid" id="statsGrid">

@@ -373,6 +373,82 @@
 .qa-card i    { font-size: 22px; color: #d91a7e; }
 .qa-card span { font-size: 13px; font-weight: 600; }
 
+/* ── Export Analytics ── */
+.export-actions {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 18px 22px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+
+.export-actions-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 15px;
+    color: #374151;
+}
+
+.export-actions-header i {
+    color: #6366f1;
+    font-size: 16px;
+}
+
+.export-btn-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.export-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 18px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.18s, box-shadow 0.18s, transform 0.12s;
+    cursor: pointer;
+    border: none;
+}
+
+.export-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+.export-btn-excel {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    color: #fff;
+}
+
+.export-btn-excel:hover {
+    background: linear-gradient(135deg, #16a34a, #15803d);
+}
+
+.export-btn-pdf {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: #fff;
+}
+
+.export-btn-pdf:hover {
+    background: linear-gradient(135deg, #dc2626, #b91c1c);
+}
+
+.export-btn i {
+    font-size: 16px;
+}
+
 /* ── Responsive ── */
 @media (max-width: 1280px) {
     .stats-grid { grid-template-columns: repeat(3, 1fr); }
