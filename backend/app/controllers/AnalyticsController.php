@@ -12,86 +12,67 @@ use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 
-// ─────────────────────────────────────────────────────────────────────────────
-// FIX 1: UTF-8 → Latin-1 converter for FPDF (prevents â,± garbling)
-// FPDF uses ISO-8859-1 internally. All strings passed to Cell() must go
-// through this function, especially any text containing the ₱ symbol.
-// ─────────────────────────────────────────────────────────────────────────────
 function pdfStr(string $text): string {
     return iconv('UTF-8', 'ISO-8859-1//TRANSLIT//IGNORE', $text);
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// FIX 1 (cont): Safe money formatter for FPDF.
-// Uses "PHP " prefix instead of the ₱ UTF-8 symbol to avoid encoding issues.
-// ─────────────────────────────────────────────────────────────────────────────
 function pdfMoney(float $amount): string {
     return 'PHP ' . number_format($amount, 2);
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// PDF Class
-// ─────────────────────────────────────────────────────────────────────────────
 class AnalyticsPDF extends FPDF {
 
     public $branchName = '';
     public $reportDate = '';
-    // FIX 2: Logo support — set to absolute server path before AddPage()
     public $logoPath   = '';
 
     public function Header() {
-      // ── Primary pink title bar — taller to fit logo comfortably ──
-      $this->SetFillColor(217, 26, 126);
-      $this->Rect(0, 0, 210, 24, 'F');
+        $this->SetFillColor(217, 26, 126);
+        $this->Rect(0, 0, 210, 24, 'F');
 
-      // ── Logo ──
-      $logoX    = 4;
-      $logoY    = 3;
-      $logoH    = 16;   // height in mm
-      $textX    = 10;   // default if no logo
+        $logoX = 4;
+        $logoY = 3;
+        $logoH = 16;
+        $textX = 10;
 
-      if ($this->logoPath && file_exists($this->logoPath)) {
-          $imgInfo = @getimagesize($this->logoPath);
-          if ($imgInfo !== false) {
-              $mimeToType = [
-                  'image/jpeg' => 'JPG',
-                  'image/png'  => 'PNG',
-                  'image/gif'  => 'GIF',
-              ];
-              $type = $mimeToType[$imgInfo['mime'] ?? ''] ?? null;
-              if ($type !== null) {
-                  try {
-                      // Image() with type: X, Y, W=0 (auto-width), H=logoH
-                      $this->Image($this->logoPath, $logoX, $logoY, 0, $logoH, $type);
-                      // Calculate actual rendered width from aspect ratio
-                      $imgW    = $imgInfo[0]; // px
-                      $imgHpx  = $imgInfo[1]; // px
-                      $ratio   = $imgHpx > 0 ? $imgW / $imgHpx : 1;
-                      $logoRenderedW = $logoH * $ratio; // mm
-                      $textX   = $logoX + $logoRenderedW + 3; // 3mm gap after logo
-                  } catch (Exception $e) {
-                      $textX = 10;
-                  }
-              }
-          }
-      }
+        if ($this->logoPath && file_exists($this->logoPath)) {
+            $imgInfo = @getimagesize($this->logoPath);
+            if ($imgInfo !== false) {
+                $mimeToType = [
+                    'image/jpeg' => 'JPG',
+                    'image/png'  => 'PNG',
+                    'image/gif'  => 'GIF',
+                ];
+                $type = $mimeToType[$imgInfo['mime'] ?? ''] ?? null;
+                if ($type !== null) {
+                    try {
+                        $this->Image($this->logoPath, $logoX, $logoY, 0, $logoH, $type);
+                        $imgW          = $imgInfo[0];
+                        $imgHpx        = $imgInfo[1];
+                        $ratio         = $imgHpx > 0 ? $imgW / $imgHpx : 1;
+                        $logoRenderedW = $logoH * $ratio;
+                        $textX         = $logoX + $logoRenderedW + 3;
+                    } catch (Exception $e) {
+                        $textX = 10;
+                    }
+                }
+            }
+        }
 
-      // ── Branch name — vertically centered in the 24mm bar ──
-      $this->SetFont('Arial', 'B', 13);
-      $this->SetTextColor(255, 255, 255);
-      $this->SetXY($textX, 6);  // ~6mm top offset centers 13pt text in 24mm bar
-      $this->Cell(210 - $textX - 4, 12, pdfStr('HAPPY FACE & BODY SPA - ' . strtoupper($this->branchName)), 0, 1, 'L');
+        $this->SetFont('Arial', 'B', 13);
+        $this->SetTextColor(255, 255, 255);
+        $this->SetXY($textX, 6);
+        $this->Cell(210 - $textX - 4, 12, pdfStr('HAPPY FACE & BODY SPA - ' . strtoupper($this->branchName)), 0, 1, 'L');
 
-      // ── Darker sub-header bar ──
-      $this->SetFillColor(181, 21, 106);
-      $this->Rect(0, 24, 210, 8, 'F');
-      $this->SetFont('Arial', 'I', 8);
-      $this->SetTextColor(255, 220, 240);
-      $this->SetXY(10, 25);
-      $this->Cell(0, 6, pdfStr('Analytics Report  |  Generated: ' . $this->reportDate), 0, 1, 'L');
+        $this->SetFillColor(181, 21, 106);
+        $this->Rect(0, 24, 210, 8, 'F');
+        $this->SetFont('Arial', 'I', 8);
+        $this->SetTextColor(255, 220, 240);
+        $this->SetXY(10, 25);
+        $this->Cell(0, 6, pdfStr('Analytics Report  |  Generated: ' . $this->reportDate), 0, 1, 'L');
 
-      $this->Ln(5);
-  }
+        $this->Ln(5);
+    }
 
     public function Footer() {
         $this->SetY(-12);
@@ -105,27 +86,23 @@ class AnalyticsPDF extends FPDF {
         $this->SetFillColor(217, 26, 126);
         $this->SetTextColor(255, 255, 255);
         $this->SetFont('Arial', 'B', 10);
-        // FIX 1: pdfStr on title
         $this->Cell(0, 9, pdfStr(' ' . $title), 0, 1, 'L', true);
         $this->SetTextColor(26, 26, 46);
         $this->Ln(1);
     }
 
-    // Accepts alignment per column (default 'C' for headers)
     public function TableHeader($headers, $widths, $aligns = []) {
         $this->SetFillColor(242, 173, 213);
         $this->SetTextColor(142, 16, 83);
         $this->SetFont('Arial', 'B', 8);
         foreach ($headers as $i => $h) {
             $align = $aligns[$i] ?? 'C';
-            // FIX 1: pdfStr on every header cell
             $this->Cell($widths[$i], 7, pdfStr($h), 1, 0, $align, true);
         }
         $this->Ln();
         $this->SetTextColor(26, 26, 46);
     }
 
-    // Accepts alignment per column
     public function TableRow($values, $widths, $alt = false, $aligns = []) {
         $this->SetFont('Arial', '', 8);
         if ($alt) {
@@ -133,7 +110,6 @@ class AnalyticsPDF extends FPDF {
         } else {
             $this->SetFillColor(255, 255, 255);
         }
-        // Dynamic row height based on longest cell content
         $maxLines = 1;
         foreach ($values as $i => $v) {
             $w = $widths[$i];
@@ -145,7 +121,6 @@ class AnalyticsPDF extends FPDF {
 
         foreach ($values as $i => $v) {
             $align = $aligns[$i] ?? 'L';
-            // FIX 1: pdfStr on every data cell
             $this->Cell($widths[$i], $cellH, pdfStr((string)$v), 1, 0, $align, true);
         }
         $this->Ln();
@@ -158,7 +133,6 @@ class AnalyticsPDF extends FPDF {
         $this->SetTextColor(26, 26, 46);
     }
 
-    // Summary KPI box
     public function SummaryBox($label, $value, $x, $y, $w = 88, $h = 18) {
         $this->SetXY($x, $y);
         $this->SetFillColor(253, 242, 248);
@@ -167,7 +141,6 @@ class AnalyticsPDF extends FPDF {
         $this->SetFont('Arial', 'B', 7);
         $this->SetTextColor(217, 26, 126);
         $this->SetXY($x + 3, $y + 2);
-        // FIX 1: pdfStr on label and value
         $this->Cell($w - 6, 5, pdfStr(strtoupper($label)), 0, 1, 'L');
         $this->SetFont('Arial', 'B', 13);
         $this->SetTextColor(26, 26, 46);
@@ -176,9 +149,6 @@ class AnalyticsPDF extends FPDF {
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Controller
-// ─────────────────────────────────────────────────────────────────────────────
 class AnalyticsController extends Controller {
 
     private $model;
@@ -210,9 +180,9 @@ class AnalyticsController extends Controller {
         $this->model = new AnalyticsModel($db->getConnection());
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
-    // EXCEL EXPORT  (unchanged from your uploaded version)
-    // ─────────────────────────────────────────────────────────────────────────
+    // ─────────────────────
+    // EXCEL EXPORT 
+    // ─────────────────────
     public function exportExcel() {
         date_default_timezone_set('Asia/Manila');
 
@@ -229,70 +199,96 @@ class AnalyticsController extends Controller {
         $sheet = $spreadsheet->getActiveSheet();
         $sheet->setTitle('Analytics Report');
 
+        // ── Style definitions ──────────────────────────────────────────────
+
         $titleStyle = [
-            'font'      => ['bold' => true, 'size' => 16, 'color' => ['rgb' => 'FFFFFF']],
+            'font'      => ['bold' => true, 'size' => 18, 'color' => ['rgb' => 'FFFFFF']],
             'fill'      => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => 'D91A7E']],
-            'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER, 'vertical' => Alignment::VERTICAL_CENTER],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_CENTER,
+                'vertical'   => Alignment::VERTICAL_CENTER,
+            ],
         ];
+
         $subTitleStyle = [
-            'font'      => ['italic' => true, 'size' => 10, 'color' => ['rgb' => 'D91A7E']],
-            'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER, 'vertical' => Alignment::VERTICAL_CENTER],
+            'font'      => ['italic' => true, 'size' => 11, 'color' => ['rgb' => 'D91A7E']],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_CENTER,
+                'vertical'   => Alignment::VERTICAL_CENTER,
+            ],
         ];
+
         $sectionStyle = [
-            'font'      => ['bold' => true, 'size' => 11, 'color' => ['rgb' => 'FFFFFF']],
+            'font'      => ['bold' => true, 'size' => 12, 'color' => ['rgb' => 'FFFFFF']],
             'fill'      => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => 'B5156A']],
-            'alignment' => ['horizontal' => Alignment::HORIZONTAL_LEFT, 'vertical' => Alignment::VERTICAL_CENTER, 'indent' => 1],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_LEFT,
+                'vertical'   => Alignment::VERTICAL_CENTER,
+                'indent'     => 1,
+            ],
         ];
+
         $headerStyle = [
-            'font'      => ['bold' => true, 'size' => 9, 'color' => ['rgb' => '8E1053']],
+            'font'      => ['bold' => true, 'size' => 11, 'color' => ['rgb' => '8E1053']],
             'fill'      => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => 'F2ADD5']],
-            'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER, 'vertical' => Alignment::VERTICAL_CENTER, 'wrapText' => true],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_CENTER,
+                'vertical'   => Alignment::VERTICAL_CENTER,
+                'wrapText'   => true,
+            ],
             'borders'   => ['allBorders' => ['borderStyle' => Border::BORDER_THIN, 'color' => ['rgb' => 'D991BC']]],
         ];
+
         $dataStyle = [
-            'font'      => ['size' => 9],
-            'alignment' => ['horizontal' => Alignment::HORIZONTAL_LEFT, 'vertical' => Alignment::VERTICAL_CENTER, 'wrapText' => true],
+            'font'      => ['size' => 11],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_CENTER,
+                'vertical'   => Alignment::VERTICAL_CENTER,
+                'wrapText'   => true,
+            ],
             'borders'   => ['allBorders' => ['borderStyle' => Border::BORDER_THIN, 'color' => ['rgb' => 'F0D0E4']]],
         ];
+
         $altStyle = [
             'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => 'FDF2F8']],
         ];
-        $numberStyle = [
-            'alignment' => ['horizontal' => Alignment::HORIZONTAL_RIGHT],
-        ];
+
+        // ── Header rows ───────────────────────────────────────────────────
 
         $row = 1;
 
         $sheet->mergeCells('A1:F1');
         $sheet->setCellValue('A1', 'HAPPY FACE & BODY SPA - ' . $branchName);
         $sheet->getStyle('A1:F1')->applyFromArray($titleStyle);
-        $sheet->getRowDimension(1)->setRowHeight(32);
-        $row = 2;
+        $sheet->getRowDimension(1)->setRowHeight(38);
 
+        $row = 2;
         $sheet->mergeCells('A2:F2');
-        $sheet->setCellValue('A2', 'Analytics Report | Generated: ' . $reportDate);
+        $sheet->setCellValue('A2', 'Analytics Report  |  Generated: ' . $reportDate);
         $sheet->getStyle('A2:F2')->applyFromArray($subTitleStyle);
-        $sheet->getRowDimension(2)->setRowHeight(20);
+        $sheet->getRowDimension(2)->setRowHeight(22);
         $row = 4;
 
+        // ── Section writer closure ────────────────────────────────────────
         $writeSection = function(
             string $title,
-            array $headers,
-            array $rows,
-            int &$row,
-            array $colWidths = [],
-            array $numericCols = []
-        ) use ($sheet, $sectionStyle, $headerStyle, $dataStyle, $altStyle, $numberStyle) {
+            array  $headers,
+            array  $rows,
+            int    &$row,
+            array  $colWidths = []
+        ) use ($sheet, $sectionStyle, $headerStyle, $dataStyle, $altStyle) {
 
             $colCount = count($headers);
             $endCol   = chr(64 + $colCount);
 
+            // Section title row
             $sheet->mergeCells('A' . $row . ':' . $endCol . $row);
-            $sheet->setCellValue('A' . $row, ' ' . $title);
+            $sheet->setCellValue('A' . $row, '  ' . $title);
             $sheet->getStyle('A' . $row . ':' . $endCol . $row)->applyFromArray($sectionStyle);
-            $sheet->getRowDimension($row)->setRowHeight(22);
+            $sheet->getRowDimension($row)->setRowHeight(26);   // ← was 22
             $row++;
 
+            // Column header row
             foreach ($headers as $i => $header) {
                 $col = chr(65 + $i);
                 $sheet->setCellValue($col . $row, $header);
@@ -303,9 +299,10 @@ class AnalyticsController extends Controller {
                 }
             }
             $sheet->getStyle('A' . $row . ':' . $endCol . $row)->applyFromArray($headerStyle);
-            $sheet->getRowDimension($row)->setRowHeight(18);
+            $sheet->getRowDimension($row)->setRowHeight(24);   // ← was 18
             $row++;
 
+            // Data rows
             if (empty($rows)) {
                 $sheet->mergeCells('A' . $row . ':' . $endCol . $row);
                 $sheet->setCellValue('A' . $row, 'No data available');
@@ -313,7 +310,7 @@ class AnalyticsController extends Controller {
                     'font'      => ['italic' => true, 'color' => ['rgb' => '9CA3AF']],
                     'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER],
                 ]);
-                $sheet->getRowDimension($row)->setRowHeight(16);
+                $sheet->getRowDimension($row)->setRowHeight(20);
                 $row++;
             } else {
                 foreach ($rows as $idx => $dataRow) {
@@ -327,51 +324,50 @@ class AnalyticsController extends Controller {
                     if ($idx % 2 === 1) {
                         $sheet->getStyle($rangeRef)->applyFromArray($altStyle);
                     }
-                    foreach ($numericCols as $ni) {
-                        $col = chr(65 + $ni);
-                        $sheet->getStyle($col . $row)->applyFromArray($numberStyle);
-                    }
-                    $sheet->getRowDimension($row)->setRowHeight(16);
+                    $sheet->getRowDimension($row)->setRowHeight(20);   // ← was 16
                     $row++;
                 }
             }
+
             $row += 2;
         };
+
+        // ── Sections ──────────────────────────────────────────────────────
 
         $writeSection('1. Reservations Per Day (Last 30 Days)',
             ['Date', 'Total Reservations'],
             array_map(fn($r) => [$r['period'], $r['total']], $data['reservations_per_day']),
-            $row, [22, 28], [1]);
+            $row, [28, 32]);
 
         $writeSection('2. Reservations Per Week (Last 12 Weeks)',
             ['Week Starting', 'Total Reservations'],
             array_map(fn($r) => [$r['week_start'], $r['total']], $data['reservations_per_week']),
-            $row, [22, 28], [1]);
+            $row, [28, 32]);
 
         $writeSection('3. Reservations Per Month',
             ['Month', 'Total Reservations'],
             array_map(fn($r) => [$r['label'], $r['total']], $data['reservations_per_month']),
-            $row, [22, 28], [1]);
+            $row, [28, 32]);
 
         $writeSection('4. Reservations Per Year',
             ['Year', 'Total Reservations'],
             array_map(fn($r) => [$r['period'], $r['total']], $data['reservations_per_year']),
-            $row, [16, 28], [1]);
+            $row, [20, 32]);
 
         $writeSection('5. Most Reserved Days of the Week',
             ['Day of Week', 'Total Reservations'],
             array_map(fn($r) => [$r['day_name'], $r['total']], $data['most_reserved_days']),
-            $row, [22, 28], [1]);
+            $row, [28, 32]);
 
         $writeSection('6. Most Reserved Months',
             ['Month', 'Total Reservations'],
             array_map(fn($r) => [$r['month_name'], $r['total']], $data['most_reserved_months']),
-            $row, [22, 28], [1]);
+            $row, [28, 32]);
 
         $writeSection('7. Returning Customers',
             ['Username', 'Email', 'Completed Reservations'],
             array_map(fn($r) => [$r['username'], $r['email'], $r['reservation_count']], $data['returning_customers']),
-            $row, [22, 40, 30], [2]);
+            $row, [26, 46, 32]);
 
         $writeSection('8. Most Reserved Services (Top 10)',
             ['Service Name', 'Category', 'Bookings', 'Total Revenue (PHP)'],
@@ -381,7 +377,7 @@ class AnalyticsController extends Controller {
                 $r['booking_count'],
                 number_format((float)$r['total_revenue'], 2),
             ], $data['most_reserved_services']),
-            $row, [36, 22, 16, 26], [2, 3]);
+            $row, [40, 26, 18, 30]);
 
         $writeSection('9. Revenue Per Day (Last 30 Days)',
             ['Date', 'Total Revenue (PHP)', 'Transactions'],
@@ -390,7 +386,7 @@ class AnalyticsController extends Controller {
                 number_format((float)$r['total_revenue'], 2),
                 $r['transaction_count'],
             ], $data['revenue_per_day']),
-            $row, [22, 28, 20], [1, 2]);
+            $row, [28, 32, 24]);
 
         $writeSection('10. Revenue Per Month',
             ['Month', 'Total Revenue (PHP)', 'Transactions'],
@@ -399,7 +395,7 @@ class AnalyticsController extends Controller {
                 number_format((float)$r['total_revenue'], 2),
                 $r['transaction_count'],
             ], $data['revenue_per_month']),
-            $row, [22, 28, 20], [1, 2]);
+            $row, [28, 32, 24]);
 
         $writeSection('11. Revenue Per Year',
             ['Year', 'Total Revenue (PHP)', 'Transactions'],
@@ -408,12 +404,19 @@ class AnalyticsController extends Controller {
                 number_format((float)$r['total_revenue'], 2),
                 $r['transaction_count'],
             ], $data['revenue_per_year']),
-            $row, [16, 28, 20], [1, 2]);
+            $row, [20, 32, 24]);
 
-        $sheet->freezePane('A4');
-        $sheet->getPageSetup()->setFitToPage(true)->setFitToWidth(1)->setFitToHeight(0);
-        $sheet->getPageMargins()->setTop(0.5)->setBottom(0.5)->setLeft(0.5)->setRight(0.5);
-        $sheet->getPageSetup()->setPaperSize(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::PAPERSIZE_A4);
+        // ── Page setup ────────────────────────────────────────────────────
+        $sheet->getPageSetup()
+            ->setFitToPage(true)
+            ->setFitToWidth(1)
+            ->setFitToHeight(0);
+        $sheet->getPageMargins()
+            ->setTop(0.5)->setBottom(0.5)
+            ->setLeft(0.5)->setRight(0.5);
+        $sheet->getPageSetup()->setPaperSize(
+            \PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::PAPERSIZE_A4
+        );
 
         $filename = 'HFABS_Analytics_' . str_replace(' ', '_', $this->branch_name) . '_' . date('Y-m-d') . '.xlsx';
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
@@ -425,9 +428,9 @@ class AnalyticsController extends Controller {
         exit;
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
+    // ──────────────────────────
     // PDF EXPORT
-    // ─────────────────────────────────────────────────────────────────────────
+    // ──────────────────────────
     public function exportPDF() {
         date_default_timezone_set('Asia/Manila');
 
@@ -439,12 +442,6 @@ class AnalyticsController extends Controller {
         $pdf->branchName = $branchName;
         $pdf->reportDate = $reportDate;
 
-        // ── FIX 2: Logo ──────────────────────────────────────────────────────
-        // Place your spa logo file at:   backend/assets/logo.jpg  (or .png)
-        // The path below is relative to this controller file's location.
-        // Adjust __DIR__ depth if your folder structure differs.
-        // Supported: JPG, PNG, GIF  (WebP and SVG are NOT supported by FPDF)
-        // ─────────────────────────────────────────────────────────────────────
         $logoJpg = __DIR__ . '/../../assets/logo.jpg';
         $logoPng = __DIR__ . '/../../assets/logo.png';
         if (file_exists($logoJpg)) {
@@ -452,14 +449,13 @@ class AnalyticsController extends Controller {
         } elseif (file_exists($logoPng)) {
             $pdf->logoPath = $logoPng;
         } else {
-            $pdf->logoPath = ''; // no logo — title starts at left edge as before
+            $pdf->logoPath = '';
         }
 
         $pdf->AliasNbPages();
         $pdf->AddPage();
         $pdf->SetAutoPageBreak(true, 18);
 
-        // ── KPI Summary Boxes ──
         $totalReservations = 0;
         foreach ($data['reservations_per_day'] as $r) {
             $totalReservations += (int)$r['total'];
@@ -468,35 +464,27 @@ class AnalyticsController extends Controller {
         foreach ($data['revenue_per_day'] as $r) {
             $totalRevenue += (float)$r['total_revenue'];
         }
-        $topService = !empty($data['most_reserved_services'])
+        $topService     = !empty($data['most_reserved_services'])
             ? $data['most_reserved_services'][0]['service_name']
             : 'N/A';
         $returningCount = (string)count($data['returning_customers']);
 
-        // Fixed layout: 2 columns × 2 rows
-        // Left col X=10, Right col X=108, box W=88, box H=20, gap between rows=4
-        $boxW  = 88;
-        $boxH  = 20;
-        $colL  = 10;
-        $colR  = 108; // 10 + 88 + 10 margin = 108
+        $boxW   = 88;
+        $boxH   = 20;
+        $colL   = 10;
+        $colR   = 108;
         $rowGap = 4;
-
-        // Row 1 Y
-        $row1Y = $pdf->GetY();
+        $row1Y  = $pdf->GetY();
 
         $pdf->SummaryBox('Total Reservations (Last 30 Days)', (string)$totalReservations, $colL, $row1Y, $boxW, $boxH);
         $pdf->SummaryBox('Total Revenue (Last 30 Days)', 'PHP ' . number_format($totalRevenue, 2), $colR, $row1Y, $boxW, $boxH);
 
-        // Row 2 Y — always exactly boxH + rowGap below row 1
         $row2Y = $row1Y + $boxH + $rowGap;
-
         $pdf->SummaryBox('Top Service', $topService, $colL, $row2Y, $boxW, $boxH);
         $pdf->SummaryBox('Returning Customers', $returningCount, $colR, $row2Y, $boxW, $boxH);
 
-        // Advance cursor to just below the second row + small breathing gap
         $pdf->SetY($row2Y + $boxH + 6);
-        
-        // ── Section 1 ──
+
         $pdf->SectionTitle('1. Reservations Per Day (Last 30 Days)');
         $pdf->TableHeader(['Date', 'Total Reservations'], [130, 60], ['L', 'C']);
         foreach ($data['reservations_per_day'] as $idx => $r) {
@@ -505,7 +493,6 @@ class AnalyticsController extends Controller {
         if (empty($data['reservations_per_day'])) { $pdf->TableEmpty(190); }
         $pdf->Ln(4);
 
-        // ── Section 2 ──
         $pdf->SectionTitle('2. Reservations Per Week (Last 12 Weeks)');
         $pdf->TableHeader(['Week Starting', 'Total Reservations'], [130, 60], ['L', 'C']);
         foreach ($data['reservations_per_week'] as $idx => $r) {
@@ -514,7 +501,6 @@ class AnalyticsController extends Controller {
         if (empty($data['reservations_per_week'])) { $pdf->TableEmpty(190); }
         $pdf->Ln(4);
 
-        // ── Section 3 ──
         $pdf->SectionTitle('3. Reservations Per Month');
         $pdf->TableHeader(['Month', 'Total Reservations'], [130, 60], ['L', 'C']);
         foreach ($data['reservations_per_month'] as $idx => $r) {
@@ -523,7 +509,6 @@ class AnalyticsController extends Controller {
         if (empty($data['reservations_per_month'])) { $pdf->TableEmpty(190); }
         $pdf->Ln(4);
 
-        // ── Section 4 ──
         $pdf->SectionTitle('4. Reservations Per Year');
         $pdf->TableHeader(['Year', 'Total Reservations'], [130, 60], ['L', 'C']);
         foreach ($data['reservations_per_year'] as $idx => $r) {
@@ -532,7 +517,6 @@ class AnalyticsController extends Controller {
         if (empty($data['reservations_per_year'])) { $pdf->TableEmpty(190); }
         $pdf->Ln(4);
 
-        // ── Section 5 ──
         $pdf->SectionTitle('5. Most Reserved Days of the Week');
         $pdf->TableHeader(['Day of Week', 'Total Reservations'], [130, 60], ['L', 'C']);
         foreach ($data['most_reserved_days'] as $idx => $r) {
@@ -541,7 +525,6 @@ class AnalyticsController extends Controller {
         if (empty($data['most_reserved_days'])) { $pdf->TableEmpty(190); }
         $pdf->Ln(4);
 
-        // ── Section 6 ──
         $pdf->SectionTitle('6. Most Reserved Months');
         $pdf->TableHeader(['Month', 'Total Reservations'], [130, 60], ['L', 'C']);
         foreach ($data['most_reserved_months'] as $idx => $r) {
@@ -550,7 +533,6 @@ class AnalyticsController extends Controller {
         if (empty($data['most_reserved_months'])) { $pdf->TableEmpty(190); }
         $pdf->Ln(4);
 
-        // ── Section 7 ──
         $pdf->SectionTitle('7. Returning Customers');
         $pdf->TableHeader(['Username', 'Email', 'Completed'], [45, 110, 35], ['L', 'L', 'C']);
         foreach ($data['returning_customers'] as $idx => $r) {
@@ -562,7 +544,6 @@ class AnalyticsController extends Controller {
         if (empty($data['returning_customers'])) { $pdf->TableEmpty(190); }
         $pdf->Ln(4);
 
-        // ── Section 8 ──
         $pdf->SectionTitle('8. Most Reserved Services (Top 10)');
         $pdf->TableHeader(['Service Name', 'Category', 'Bookings', 'Revenue (PHP)'], [75, 45, 25, 45], ['L', 'L', 'C', 'R']);
         foreach ($data['most_reserved_services'] as $idx => $r) {
@@ -570,19 +551,16 @@ class AnalyticsController extends Controller {
                 $r['service_name'],
                 ucfirst($r['category'] ?? '-'),
                 $r['booking_count'],
-                // FIX 1: pdfMoney() — no ₱ symbol, no garbling
                 pdfMoney((float)$r['total_revenue']),
             ], [75, 45, 25, 45], $idx % 2 === 1, ['L', 'L', 'C', 'R']);
         }
         if (empty($data['most_reserved_services'])) { $pdf->TableEmpty(190); }
         $pdf->Ln(4);
 
-        // ── Section 9 ──
         $pdf->SectionTitle('9. Revenue Per Day (Last 30 Days)');
         $pdf->TableHeader(['Date', 'Total Revenue (PHP)', 'Transactions'], [80, 75, 35], ['L', 'R', 'C']);
         foreach ($data['revenue_per_day'] as $idx => $r) {
             $pdf->TableRow(
-                // FIX 1: pdfMoney() instead of '₱' . number_format(...)
                 [$r['period'], pdfMoney((float)$r['total_revenue']), $r['transaction_count']],
                 [80, 75, 35], $idx % 2 === 1, ['L', 'R', 'C']
             );
@@ -590,7 +568,6 @@ class AnalyticsController extends Controller {
         if (empty($data['revenue_per_day'])) { $pdf->TableEmpty(190); }
         $pdf->Ln(4);
 
-        // ── Section 10 ──
         $pdf->SectionTitle('10. Revenue Per Month');
         $pdf->TableHeader(['Month', 'Total Revenue (PHP)', 'Transactions'], [80, 75, 35], ['L', 'R', 'C']);
         foreach ($data['revenue_per_month'] as $idx => $r) {
@@ -602,7 +579,6 @@ class AnalyticsController extends Controller {
         if (empty($data['revenue_per_month'])) { $pdf->TableEmpty(190); }
         $pdf->Ln(4);
 
-        // ── Section 11 ──
         $pdf->SectionTitle('11. Revenue Per Year');
         $pdf->TableHeader(['Year', 'Total Revenue (PHP)', 'Transactions'], [80, 75, 35], ['L', 'R', 'C']);
         foreach ($data['revenue_per_year'] as $idx => $r) {
