@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 28, 2026 at 06:20 AM
+-- Generation Time: Apr 06, 2026 at 04:12 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,6 +20,28 @@ SET time_zone = "+00:00";
 --
 -- Database: `hfabs`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `about_content`
+--
+
+CREATE TABLE `about_content` (
+  `id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL DEFAULT 'About Happy Face & Body Spa',
+  `description` text NOT NULL,
+  `vision` text DEFAULT NULL,
+  `mission` text DEFAULT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `about_content`
+--
+
+INSERT INTO `about_content` (`id`, `title`, `description`, `vision`, `mission`, `updated_at`) VALUES
+(1, 'About Happy Face & Body Spa', 'Happy Face & Body Spa is your premier destination for beauty and wellness. We are committed to providing exceptional spa services that rejuvenate your body, mind, and spirit. We bring luxury and relaxation closer to you.', 'To be the leading spa and wellness center in the Philippines, known for our world-class services and heartfelt care.', 'To provide every client with a personalized, relaxing, and transformative spa experience at an affordable price.', '2026-03-28 07:24:57');
 
 -- --------------------------------------------------------
 
@@ -66,7 +88,7 @@ CREATE TABLE `branch` (
 --
 
 INSERT INTO `branch` (`branch_id`, `branch_name`, `branch_location`, `contact_number`, `opening_time`, `closing_time`, `down_payment_rate`, `email`, `status`) VALUES
-(1, 'caloocan branch', '102 Caimito Rd., Caloocan City, Unit 1D, Caimito Place', '09231240241', '11:00:00', '21:00:00', 0.4000, 'hfabscal@gmail.com', 'active'),
+(1, 'caloocan branch', '102 Caimito Rd., Caloocan City, Unit 1D, Caimito Place', '09231240241', '11:00:00', '21:00:00', 0.4000, 'socao2005@gmail.com', 'active'),
 (2, 'quezon city branch', '850 Atherton, Quezon City', '0946 178 23', '08:00:00', '20:00:00', 0.5000, 'hfabsqc@gmail.com', 'active');
 
 -- --------------------------------------------------------
@@ -395,6 +417,13 @@ CREATE TABLE `feedback_reports` (
   `reported_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `feedback_reports`
+--
+
+INSERT INTO `feedback_reports` (`report_id`, `feedback_id`, `reporter_id`, `reason`, `reported_at`) VALUES
+(1, 1, 6, 'Spam or fake review', '2026-03-28 13:40:29');
+
 -- --------------------------------------------------------
 
 --
@@ -421,6 +450,32 @@ INSERT INTO `payments` (`payment_id`, `paymongo_payment_id`, `reservation_id`, `
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `policies`
+--
+
+CREATE TABLE `policies` (
+  `policy_id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `content` text NOT NULL,
+  `sort_order` int(11) NOT NULL DEFAULT 0,
+  `is_active` tinyint(1) NOT NULL DEFAULT 1,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `policies`
+--
+
+INSERT INTO `policies` (`policy_id`, `title`, `content`, `sort_order`, `is_active`, `created_at`, `updated_at`) VALUES
+(1, 'Reservation Policy', 'All reservations must be made at least 8 hours in advance. Walk-in appointments are subject to availability. We recommend booking online for guaranteed slots.', 1, 1, '2026-03-28 07:14:19', '2026-03-28 08:47:37'),
+(2, 'Cancellation Policy', 'Cancellations must be made at least 3 hours before the scheduled appointment. Late cancellations or no-shows may result in forfeiture of the down payment.', 2, 1, '2026-03-28 07:14:19', '2026-03-28 07:25:48'),
+(3, 'Payment Policy', 'A down payment is required to confirm your reservation. The remaining balance is due on the day of your appointment. We accept GCash and Maya as payment methods.', 3, 1, '2026-03-28 07:14:19', '2026-03-28 07:14:19'),
+(6, 'Rescheduling Policy', 'Rescheduling must be made at least 6 hours before the scheduled time.', 4, 1, '2026-03-28 09:04:45', '2026-03-28 09:04:45');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `reservations`
 --
 
@@ -430,7 +485,7 @@ CREATE TABLE `reservations` (
   `branch_id` int(11) NOT NULL,
   `reservation_date` date NOT NULL,
   `total_price` decimal(10,2) NOT NULL,
-  `status` enum('confirmed','no-show','completed','rescheduled','cancelled') NOT NULL,
+  `status` enum('pending','confirmed','no-show','completed','rescheduled','cancelled') NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -439,9 +494,9 @@ CREATE TABLE `reservations` (
 --
 
 INSERT INTO `reservations` (`reservation_id`, `user_id`, `branch_id`, `reservation_date`, `total_price`, `status`, `created_at`) VALUES
-(1, 2, 1, '2026-01-09', 1600.00, 'cancelled', '2026-01-09 11:42:11'),
+(1, 2, 1, '2026-01-09', 1600.00, 'confirmed', '2026-01-09 11:42:11'),
 (2, 6, 1, '2026-02-14', 750.00, 'cancelled', '2026-02-13 16:40:37'),
-(3, 2, 1, '2026-02-14', 750.00, 'no-show', '2026-02-14 02:54:38'),
+(3, 2, 1, '2026-02-14', 750.00, 'completed', '2026-02-14 02:54:38'),
 (4, 2, 1, '2026-02-13', 350.00, 'completed', '2026-02-14 06:06:27');
 
 -- --------------------------------------------------------
@@ -498,7 +553,7 @@ CREATE TABLE `reservation_services` (
 INSERT INTO `reservation_services` (`reservation_service_id`, `reservation_id`, `default_service_id`, `branch_service_override_id`, `booked_package_id`, `remaining_balance`, `booked_service_name`, `booked_description`, `booked_duration_minutes`, `booked_unit_price`, `booked_category_name`) VALUES
 (1, 1, 11, NULL, NULL, 800.00, 'Aromatherapy Massage', 'Essential oil massage therapy', 60, 1600.00, 'massage'),
 (2, 2, 1, 1, NULL, 375.00, 'Hair Spa Treatment', 'Deep conditioning hair treatment', 60, 750.00, 'hair'),
-(3, 3, 1, 1, NULL, 375.00, 'Hair Spa Treatment', 'Deep conditioning hair treatment', 60, 750.00, 'hair'),
+(3, 3, 1, 1, NULL, 0.00, 'Hair Spa Treatment', 'Deep conditioning hair treatment', 60, 750.00, 'hair'),
 (4, 4, 3, NULL, NULL, 125.00, 'Classic Manicure', 'Basic nail care and polish', 60, 350.00, 'nail');
 
 -- --------------------------------------------------------
@@ -538,6 +593,12 @@ INSERT INTO `users` (`user_id`, `username`, `email`, `contact_number`, `profile_
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `about_content`
+--
+ALTER TABLE `about_content`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `audit_logs`
@@ -660,6 +721,12 @@ ALTER TABLE `payments`
   ADD KEY `idx_payments_reservation_id` (`reservation_id`);
 
 --
+-- Indexes for table `policies`
+--
+ALTER TABLE `policies`
+  ADD PRIMARY KEY (`policy_id`);
+
+--
 -- Indexes for table `reservations`
 --
 ALTER TABLE `reservations`
@@ -697,6 +764,12 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `about_content`
+--
+ALTER TABLE `about_content`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `audit_logs`
@@ -786,13 +859,19 @@ ALTER TABLE `feedback_photos`
 -- AUTO_INCREMENT for table `feedback_reports`
 --
 ALTER TABLE `feedback_reports`
-  MODIFY `report_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `report_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
   MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `policies`
+--
+ALTER TABLE `policies`
+  MODIFY `policy_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `reservations`

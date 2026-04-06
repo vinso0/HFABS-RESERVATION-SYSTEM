@@ -2,7 +2,8 @@
 
 class Reservation extends Database
 {
-    public function confirmReservation($reservationId) {
+    public function confirmReservation($reservationId)
+    {
         // Assuming you have a database connection property like $this->db
         $query = "UPDATE reservations SET status = 'confirmed' WHERE reservation_id = ?";
         $stmt = $this->db->prepare($query);
@@ -65,21 +66,19 @@ class Reservation extends Database
             // Get schedule information
             $scheduleQuery = "
                 SELECT 
-                    rsch.schedule_date,
-                    rsch.start_time,
-                    rsch.end_time
-                FROM reservation_schedule rsch
-                LEFT JOIN reservation_services rsv ON rsch.reservation_service_id = rsv.reservation_service_id
+                    rs.schedule_date,
+                    rs.start_time,
+                    rs.end_time
+                FROM reservation_schedule rs
+                LEFT JOIN reservation_services rsv ON rs.reservation_service_id = rsv.reservation_service_id
                 WHERE rsv.reservation_id = ?
-                ORDER BY rsch.reservation_schedule_id DESC
-                LIMIT 1
             ";
-
+            
             $scheduleStmt = $this->db->prepare($scheduleQuery);
             $scheduleStmt->bind_param('i', $row['reservation_id']);
             $scheduleStmt->execute();
             $scheduleResult = $scheduleStmt->get_result();
-
+            
             $schedule = null;
             if ($scheduleRow = $scheduleResult->fetch_assoc()) {
                 $schedule = $scheduleRow;
@@ -112,7 +111,7 @@ class Reservation extends Database
                 $feedbackRow['photos'] = $photos;
                 $feedback[] = $feedbackRow;
             }
-
+            
             $reservations[] = [
                 'reservation_id' => $row['reservation_id'],
                 'reservation_date' => $row['reservation_date'],
@@ -133,16 +132,13 @@ class Reservation extends Database
 
     public function rescheduleReservation($reservationId, $newDate, $newTime, $reason = '')
     {
-        error_log('[' . date('Y-m-d H:i:s') . '] rescheduleReservation called with: reservationId=' . $reservationId . 
-                 ', newDate=' . $newDate . ', newTime=' . $newTime . ', reason=' . $reason);
         // Validate input parameters first
-        if (!$this->isValidReservationId($reservationId) || 
-            !$this->isValidDate($newDate) || 
+        if (!$this->isValidReservationId($reservationId) ||
+            !$this->isValidDate($newDate) ||
             !$this->isValidTime($newTime)) {
-            error_log('[' . date('Y-m-d H:i:s') . '] Validation failed for reschedule parameters');
             return false;
         }
-        error_log('[' . date('Y-m-d H:i:s') . '] Parameters validated, starting transaction');
+
         // Start transaction
         $this->db->begin_transaction();
         
@@ -159,27 +155,23 @@ class Reservation extends Database
             $servicesStmt->execute();
             $servicesResult = $servicesStmt->get_result();
             
-            error_log('[' . date('Y-m-d H:i:s') . '] Found ' . $servicesResult->num_rows . ' services for reservation ' . $reservationId);
             // Validate if reservation has any services
             if ($servicesResult->num_rows === 0) {
-                error_log('[' . date('Y-m-d H:i:s') . '] No services found for reservation ' . $reservationId);
                 $this->db->rollback();
                 return false;
             }
+
             // Reuse DateTime objects outside loop for performance
             $startTime = new DateTime($newTime);
             $timeFormat = 'H:i:s';
             
-            error_log('[' . date('Y-m-d H:i:s') . '] Processing services for reschedule');
             while ($serviceRow = $servicesResult->fetch_assoc()) {
-                error_log('[' . date('Y-m-d H:i:s') . '] Processing service ID: ' . $serviceRow['reservation_service_id'] . 
-                         ', duration: ' . $serviceRow['booked_duration_minutes'] . ' minutes');
                 // Get current schedule for the service
                 $scheduleQuery = "
-                    SELECT schedule_id, schedule_date, start_time, end_time 
+                    SELECT reservation_schedule_id, schedule_date, start_time, end_time 
                     FROM reservation_schedule 
                     WHERE reservation_service_id = ?
-                    ORDER BY schedule_id DESC 
+                    ORDER BY reservation_schedule_id DESC 
                     LIMIT 1
                 ";
                 
@@ -189,7 +181,6 @@ class Reservation extends Database
                 $scheduleResult = $scheduleStmt->get_result();
                 
                 if ($scheduleRow = $scheduleResult->fetch_assoc()) {
-                    error_log('[' . date('Y-m-d H:i:s') . '] Found existing schedule, creating new one');
                     // Calculate new end time based on duration (reuse start time clone)
                     $endTime = clone $startTime;
                     $endTime->add(new DateInterval('PT' . $serviceRow['booked_duration_minutes'] . 'M'));
@@ -198,7 +189,6 @@ class Reservation extends Database
                     $formattedStartTime = $startTime->format($timeFormat);
                     $formattedEndTime = $endTime->format($timeFormat);
                     
-                    error_log('[' . date('Y-m-d H:i:s') . '] New times: start=' . $formattedStartTime . ', end=' . $formattedEndTime);
                     // Create new schedule entry
                     $newScheduleQuery = "
                         INSERT INTO reservation_schedule 
@@ -208,28 +198,23 @@ class Reservation extends Database
                     
                     $newScheduleStmt = $this->db->prepare($newScheduleQuery);
                     $newScheduleStmt->bind_param(
-                        'isssis', 
-                        $serviceRow['reservation_service_id'], 
-                        $newDate, 
-                        $formattedStartTime, 
-                        $formattedEndTime, 
-                        $scheduleRow['schedule_id'], 
+                        'isssis',
+                        $serviceRow['reservation_service_id'],
+                        $newDate,
+                        $formattedStartTime,
+                        $formattedEndTime,
+                        $scheduleRow['reservation_schedule_id'],
                         $reason
                     );
                     $newScheduleStmt->execute();
                     
                     // Check for query execution errors
                     if ($newScheduleStmt->affected_rows <= 0) {
-                        error_log('[' . date('Y-m-d H:i:s') . '] Failed to create new schedule entry for service ' . $serviceRow['reservation_service_id']);
                         throw new Exception('Failed to create new schedule entry');
                     }
-                    error_log('[' . date('Y-m-d H:i:s') . '] Successfully created new schedule entry');
-                } else {
-                    error_log('[' . date('Y-m-d H:i:s') . '] No existing schedule found for service ' . $serviceRow['reservation_service_id']);
                 }
             }
             
-            error_log('[' . date('Y-m-d H:i:s') . '] Updating reservation status to rescheduled');
             // Update reservation status to rescheduled
             $updateQuery = "
                 UPDATE reservations 
@@ -241,25 +226,19 @@ class Reservation extends Database
             $updateStmt->bind_param('i', $reservationId);
             $updateStmt->execute();
             
-            // Check for update errors - don't fail if status is already 'rescheduled'
+            // Check for update errors
             if ($updateStmt->affected_rows <= 0) {
-                error_log('[' . date('Y-m-d H:i:s') . '] Reservation status update affected 0 rows (may already be rescheduled)');
-                // Don't throw exception - the schedule was still created successfully
+                throw new Exception('Failed to update reservation status');
             }
             
-            error_log('[' . date('Y-m-d H:i:s') . '] Committing transaction');
             // Commit transaction
             $this->db->commit();
-            error_log('[' . date('Y-m-d H:i:s') . '] Reschedule completed successfully for reservation ' . $reservationId);
             return true;
         } catch (Exception $e) {
             // Rollback transaction if any error occurs
-            error_log('[' . date('Y-m-d H:i:s') . '] Exception during reschedule: ' . $e->getMessage());
-            error_log('[' . date('Y-m-d H:i:s') . '] Rolling back transaction');
             $this->db->rollback();
             // Log error for debugging
             error_log('Reservation reschedule failed: ' . $e->getMessage());
-            error_log('Exception trace: ' . $e->getTraceAsString());
             return false;
         }
     }
@@ -271,9 +250,7 @@ class Reservation extends Database
      */
     private function isValidReservationId($reservationId): bool
     {
-        // Accept both integer and numeric string
-        return (is_int($reservationId) && $reservationId > 0) || 
-               (is_string($reservationId) && ctype_digit($reservationId) && (int)$reservationId > 0);
+        return is_int($reservationId) && $reservationId > 0;
     }
 
     /**
@@ -294,28 +271,22 @@ class Reservation extends Database
      */
     private function isValidTime($time): bool
     {
-        // Try HH:MM:SS format first
         $dateTime = DateTime::createFromFormat('H:i:s', $time);
-        if ($dateTime !== false && $dateTime->format('H:i:s') === $time) {
-            return true;
-        }
+        return $dateTime !== false && $dateTime->format('H:i:s') === $time;
+    }
+
+    public function cancelReservation($reservationId)
+    {
+        $query = "
+            UPDATE reservations
+            SET status = 'cancelled'
+            WHERE reservation_id = ?
+        ";
         
-        // Try HH:MM format
-        $dateTime = DateTime::createFromFormat('H:i', $time);
-        if ($dateTime !== false && $dateTime->format('H:i') === $time) {
-            return true;
-        }
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', $reservationId);
         
-        // Try parsing with strtotime for more flexibility
-        $timestamp = strtotime($time);
-        if ($timestamp !== false) {
-            // Check if it's a valid time (0-23 hours)
-            $hour = (int)date('H', $timestamp);
-            $minute = (int)date('i', $timestamp);
-            return $hour >= 0 && $hour <= 23 && $minute >= 0 && $minute <= 59;
-        }
-        
-        return false;
+        return $stmt->execute();
     }
 
     public function getTodaysReservations($userId)
@@ -324,7 +295,7 @@ class Reservation extends Database
         $branchQuery = "
             SELECT b.branch_id, b.branch_name
             FROM users u
-            JOIN branch_id ab ON u.user_id = ab.user_id
+            JOIN admin_branch ab ON u.user_id = ab.user_id
             JOIN branch b ON ab.branch_id = b.branch_id
             WHERE u.user_id = ?
         ";
@@ -420,8 +391,6 @@ class Reservation extends Database
                 FROM reservation_schedule rs
                 LEFT JOIN reservation_services rsv ON rs.reservation_service_id = rsv.reservation_service_id
                 WHERE rsv.reservation_id = ?
-                ORDER BY rs.schedule_id DESC
-                LIMIT 1
             ";
             
             $scheduleStmt = $this->db->prepare($scheduleQuery);
@@ -521,8 +490,6 @@ class Reservation extends Database
                 FROM reservation_schedule rs
                 LEFT JOIN reservation_services rsv ON rs.reservation_service_id = rsv.reservation_service_id
                 WHERE rsv.reservation_id = ?
-                ORDER BY rs.schedule_id DESC
-                LIMIT 1
             ";
             
             $scheduleStmt = $this->db->prepare($scheduleQuery);
@@ -555,29 +522,43 @@ class Reservation extends Database
 
     public function getAllReservations($userId, $status = 'all', $page = 1, $itemsPerPage = 10)
     {
-        // Get branch information for admin user from users table
+        // First, get the branch associated with the admin user (if admin_branch table exists)
         $branchQuery = "
             SELECT b.branch_id, b.branch_name
             FROM users u
-            LEFT JOIN branch b ON u.branch_id = b.branch_id
-            WHERE u.user_id = ? AND u.role = 'admin'
+            JOIN admin_branch ab ON u.user_id = ab.user_id
+            JOIN branch b ON ab.branch_id = b.branch_id
+            WHERE u.user_id = ?
         ";
         
-        $branchStmt = $this->db->prepare($branchQuery);
+        try {
+            $branchStmt = $this->db->prepare($branchQuery);
+            
+            if (!$branchStmt) {
+                // Table doesn't exist - treat as superadmin, show all reservations
+                error_log('admin_branch table does not exist, showing all reservations');
+                return $this->getAllReservationsSuperadmin($status, $page, $itemsPerPage);
+            }
+        } catch (Exception $e) {
+            // Table doesn't exist or other error - treat as superadmin
+            error_log('Exception in getAllReservations: ' . $e->getMessage());
+            return $this->getAllReservationsSuperadmin($status, $page, $itemsPerPage);
+        }
+        
         $branchStmt->bind_param('i', $userId);
         $branchStmt->execute();
         $branchResult = $branchStmt->get_result();
         
         if (!$branchResult || $branchResult->num_rows === 0) {
-            error_log('No branch found for admin user_id: ' . $userId . ', showing all reservations');
-            // No branch assigned or user is not admin - treat as superadmin
+            error_log('No branch found for user_id: ' . $userId);
+            // No branch assigned - treat as superadmin
             return $this->getAllReservationsSuperadmin($status, $page, $itemsPerPage);
         }
         
         $branch = $branchResult->fetch_assoc();
         $branchId = $branch['branch_id'];
         $branchName = $branch['branch_name'];
-
+        
         // Build the base query
         $whereClause = "r.branch_id = ?";
         $params = [$branchId];
@@ -669,7 +650,7 @@ class Reservation extends Database
                 FROM reservation_schedule rs
                 LEFT JOIN reservation_services rsv ON rs.reservation_service_id = rsv.reservation_service_id
                 WHERE rsv.reservation_id = ?
-                ORDER BY rs.schedule_id DESC
+                ORDER BY rs.schedule_date ASC, rs.start_time ASC
                 LIMIT 1
             ";
             
@@ -806,7 +787,7 @@ class Reservation extends Database
                 FROM reservation_schedule rs
                 LEFT JOIN reservation_services rsv ON rs.reservation_service_id = rsv.reservation_service_id
                 WHERE rsv.reservation_id = ?
-                ORDER BY rs.schedule_id DESC
+                ORDER BY rs.schedule_date ASC, rs.start_time ASC
                 LIMIT 1
             ";
             
@@ -851,27 +832,56 @@ class Reservation extends Database
         if (!in_array($status, $validStatuses)) {
             return false;
         }
-        
-        $query = "
-            UPDATE reservations
-            SET status = ?
-            WHERE reservation_id = ?
-        ";
-        
-        $stmt = $this->db->prepare($query);
-        $stmt->bind_param('si', $status, $reservationId);
-        
-        return $stmt->execute();
+
+        // Start a transaction so both updates succeed or fail together
+        $this->db->begin_transaction();
+
+        try {
+            // 1. Update the reservation status
+            $statusQuery = "
+                UPDATE reservations
+                SET status = ?
+                WHERE reservation_id = ?
+            ";
+            $statusStmt = $this->db->prepare($statusQuery);
+            $statusStmt->bind_param('si', $status, $reservationId);
+            $statusStmt->execute();
+
+            if ($statusStmt->affected_rows === 0) {
+                // Reservation not found or status already the same
+                error_log('[' . date('Y-m-d H:i:s') . '] updateReservationStatus: no rows affected for reservation_id=' . $reservationId);
+            }
+
+            // 2. If marking as completed, zero out remaining_balance
+            //    for all services tied to this reservation
+            if ($status === 'completed') {
+                $balanceQuery = "
+                    UPDATE reservation_services
+                    SET remaining_balance = 0
+                    WHERE reservation_id = ?
+                ";
+                $balanceStmt = $this->db->prepare($balanceQuery);
+                $balanceStmt->bind_param('i', $reservationId);
+                $balanceStmt->execute();
+
+                error_log('[' . date('Y-m-d H:i:s') . '] updateReservationStatus: zeroed remaining_balance for reservation_id=' . $reservationId . ', affected rows=' . $balanceStmt->affected_rows);
+            }
+
+            $this->db->commit();
+            return true;
+
+        } catch (Exception $e) {
+            $this->db->rollback();
+            error_log('[' . date('Y-m-d H:i:s') . '] updateReservationStatus failed: ' . $e->getMessage());
+            return false;
+        }
     }
 
-    public function insertReservation($userId, $branchId, $totalPrice, $status = 'pending', $reservationDate = null)
+    public function insertReservation($userId, $branchId, $totalPrice, $status = 'pending')
     {
-        // Use provided reservation date or default to current date
-        $dateToUse = $reservationDate ? "'$reservationDate'" : 'CURDATE()';
-        
         $query = "
             INSERT INTO reservations (user_id, branch_id, total_price, status, reservation_date, created_at) 
-            VALUES (?, ?, ?, ?, $dateToUse, NOW())
+            VALUES (?, ?, ?, ?, CURDATE(), NOW())
         ";
         
         $stmt = $this->db->prepare($query);
@@ -902,391 +912,5 @@ class Reservation extends Database
         $result = $stmt->get_result();
         
         return $result->fetch_assoc();
-    }
-
-    public function addReservationService($reservationId, $serviceData)
-    {
-        $query = "
-            INSERT INTO reservation_services (
-                reservation_id, 
-                booked_service_name, 
-                booked_unit_price, 
-                booked_duration_minutes, 
-                booked_category_name, 
-                booked_description, 
-                default_service_id, 
-                branch_service_override_id, 
-                remaining_balance
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-        ";
-        
-        $stmt = $this->db->prepare($query);
-        $stmt->bind_param(
-            'isdissidd', 
-            $reservationId,
-            $serviceData['service_name'],
-            $serviceData['price'],
-            $serviceData['duration_minutes'],
-            $serviceData['category_name'],
-            $serviceData['description'],
-            $serviceData['default_service_id'],
-            $serviceData['branch_service_override_id'],
-            $serviceData['remaining_balance']
-        );
-        
-        if ($stmt->execute()) {
-            return $stmt->insert_id;
-        }
-        
-        error_log("DB Error in addReservationService: " . $stmt->error);
-        return false;
-    }
-
-    public function addReservationSchedule($reservationServiceId, $scheduleData)
-    {
-        // Get service duration from reservation service
-        $durationQuery = "
-            SELECT rs.booked_duration_minutes, ds.duration_minutes as default_duration
-            FROM reservation_services rs
-            LEFT JOIN default_services ds ON rs.default_service_id = ds.service_id
-            WHERE rs.reservation_service_id = ?
-        ";
-        
-        $stmt = $this->db->prepare($durationQuery);
-        $stmt->bind_param('i', $reservationServiceId);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $serviceData = $result->fetch_assoc();
-        
-        if (!$serviceData) {
-            error_log("DB Error in addReservationSchedule: Service not found for reservation_service_id: $reservationServiceId");
-            return false;
-        }
-        
-        // Use booked duration first, then default duration
-        $durationMinutes = $serviceData['booked_duration_minutes'] ?? $serviceData['default_duration'] ?? 60;
-        
-        // Calculate end time based on start time and duration
-        $startTime = $scheduleData['start_time'];
-        $endTime = $this->calculateEndTime($startTime, $durationMinutes);
-        
-        $query = "
-            INSERT INTO reservation_schedule (
-                reservation_service_id, 
-                schedule_date, 
-                start_time, 
-                end_time, 
-                is_rescheduled, 
-                previous_schedule_id, 
-                reschedule_reason
-            ) VALUES (?, ?, ?, ?, ?, ?, ?)
-        ";
-        
-        $isRescheduled = $scheduleData['is_rescheduled'] ?? 0;
-        $previousScheduleId = $scheduleData['previous_schedule_id'] ?? null;
-        $rescheduleReason = $scheduleData['reschedule_reason'] ?? null;
-        
-        $stmt = $this->db->prepare($query);
-        
-        // Handle NULL for previous_schedule_id properly
-        if ($previousScheduleId === null) {
-            $stmt->bind_param(
-                'isssiss', 
-                $reservationServiceId,
-                $scheduleData['schedule_date'],
-                $startTime,
-                $endTime,
-                $isRescheduled,
-                $previousScheduleId,
-                $rescheduleReason
-            );
-        } else {
-            $stmt->bind_param(
-                'isssiis', 
-                $reservationServiceId,
-                $scheduleData['schedule_date'],
-                $startTime,
-                $endTime,
-                $isRescheduled,
-                $previousScheduleId,
-                $rescheduleReason
-            );
-        }
-        
-        if ($stmt->execute()) {
-            error_log("Schedule created: Start=$startTime, End=$endTime, Duration=$durationMinutes minutes");
-            return $stmt->insert_id;
-        }
-        
-        error_log("DB Error in addReservationSchedule: " . $stmt->error);
-        return false;
-    }
-    
-    private function calculateEndTime($startTime, $durationMinutes)
-    {
-        // Convert start time to 24-hour format for calculation
-        $time24 = date('H:i', strtotime($startTime));
-        
-        // Add duration minutes
-        $endTime24 = date('H:i', strtotime($time24 . ' + ' . $durationMinutes . ' minutes'));
-        
-        // Convert back to 24-hour format for database storage
-        return date('H:i:s', strtotime($endTime24));
-    }
-
-    public function checkPackageServiceTimeAvailability($date, $time, $packageId)
-    {
-        error_log('[' . date('Y-m-d H:i:s') . '] checkPackageServiceTimeAvailability called with: date=' . $date . ', time=' . $time . ', packageId=' . $packageId);
-        
-        // Convert time to 24-hour format for database comparison
-        $time24 = date('H:i:s', strtotime($time));
-        error_log('[' . date('Y-m-d H:i:s') . '] Converted time to 24h format: ' . $time24);
-        
-        // Get all services in this package
-        $packageQuery = "
-            SELECT COALESCE(bso.duration_minutes_override, ds.duration_minutes) as duration_minutes, 
-                   bso.default_service_id, ds.service_name
-            FROM branch_package_services bps
-            JOIN branch_service_overrides bso ON bps.branch_service_override_id = bso.branch_service_override_id
-            JOIN default_services ds ON bso.default_service_id = ds.service_id
-            WHERE bps.package_id = ?
-        ";
-        $packageStmt = $this->db->prepare($packageQuery);
-        $packageStmt->bind_param('i', $packageId);
-        $packageStmt->execute();
-        $packageResult = $packageStmt->get_result();
-        
-        if ($packageResult->num_rows === 0) {
-            error_log('[' . date('Y-m-d H:i:s') . '] Package not found with ID: ' . $packageId);
-            return false; // Package not found
-        }
-        
-        $services = [];
-        while ($service = $packageResult->fetch_assoc()) {
-            $services[] = $service;
-        }
-        
-        error_log('[' . date('Y-m-d H:i:s') . '] Package contains ' . count($services) . ' services');
-        
-        // Check each service individually - if ANY service is unavailable, the package is unavailable
-        foreach ($services as $service) {
-            $serviceId = $service['default_service_id'];
-            $serviceName = $service['service_name'];
-            $duration = $service['duration_minutes'];
-            
-            error_log('[' . date('Y-m-d H:i:s') . '] Checking availability for service: ' . $serviceName . ' (ID: ' . $serviceId . ')');
-            
-            // Calculate end time for this specific service
-            $startTime = new DateTime($date . ' ' . $time24);
-            $endTime = clone $startTime;
-            $endTime->add(new DateInterval('PT' . $duration . 'M'));
-            $endTime24 = $endTime->format('H:i:s');
-            
-            // Check for existing reservations of this specific service that overlap with the requested time slot
-            $checkQuery = "
-                SELECT COUNT(*) as conflicting_reservations
-                FROM reservation_schedule rs
-                INNER JOIN reservation_services rsv ON rs.reservation_service_id = rsv.reservation_service_id
-                INNER JOIN reservations r ON rsv.reservation_id = r.reservation_id
-                WHERE rs.schedule_date = ?
-                AND r.status NOT IN ('cancelled', 'completed')
-                AND rsv.default_service_id = ?
-                AND (
-                    (rs.start_time <= ? AND rs.end_time > ?) OR
-                    (rs.start_time < ? AND rs.end_time >= ?) OR
-                    (rs.start_time >= ? AND rs.end_time <= ?)
-                )
-            ";
-            
-            $checkStmt = $this->db->prepare($checkQuery);
-            $checkStmt->bind_param(
-                'sissssss',
-                $date,
-                $serviceId,
-                $time24,
-                $time24,
-                $endTime24,
-                $endTime24,
-                $time24,
-                $endTime24
-            );
-            $checkStmt->execute();
-            $checkResult = $checkStmt->get_result();
-            $conflicts = $checkResult->fetch_assoc();
-            
-            $isServiceAvailable = $conflicts['conflicting_reservations'] == 0;
-            
-            error_log('[' . date('Y-m-d H:i:s') . '] Service ' . $serviceName . ' (ID: ' . $serviceId . ') availability: ' . ($isServiceAvailable ? 'AVAILABLE' : 'NOT AVAILABLE') . ' - Conflicts: ' . $conflicts['conflicting_reservations']);
-            
-            // If this service is not available, the entire package is not available
-            if (!$isServiceAvailable) {
-                error_log('[' . date('Y-m-d H:i:s') . '] Package unavailable because service ' . $serviceName . ' is not available at ' . $time24);
-                return false;
-            }
-        }
-        
-        // All services are available
-        error_log('[' . date('Y-m-d H:i:s') . '] Package availability result: AVAILABLE (all services available)');
-        return true;
-    }
-
-    public function checkServiceTimeAvailability($date, $time, $serviceId)
-    {
-        error_log('[' . date('Y-m-d H:i:s') . '] checkServiceTimeAvailability called with: date=' . $date . ', time=' . $time . ', serviceId=' . $serviceId);
-        
-        // Convert time to 24-hour format for database comparison
-        $time24 = date('H:i:s', strtotime($time));
-        error_log('[' . date('Y-m-d H:i:s') . '] Converted time to 24h format: ' . $time24);
-        
-        // Get service duration to calculate end time
-        $serviceQuery = "SELECT duration_minutes FROM default_services WHERE service_id = ?";
-        $serviceStmt = $this->db->prepare($serviceQuery);
-        $serviceStmt->bind_param('i', $serviceId);
-        $serviceStmt->execute();
-        $serviceResult = $serviceStmt->get_result();
-        
-        if ($serviceResult->num_rows === 0) {
-            error_log('[' . date('Y-m-d H:i:s') . '] Service not found with ID: ' . $serviceId);
-            return false; // Service not found
-        }
-        
-        $service = $serviceResult->fetch_assoc();
-        $duration = $service['duration_minutes'];
-        error_log('[' . date('Y-m-d H:i:s') . '] Service duration: ' . $duration . ' minutes');
-        
-        // Calculate end time
-        $startTime = new DateTime($date . ' ' . $time24);
-        $endTime = clone $startTime;
-        $endTime->add(new DateInterval('PT' . $duration . 'M'));
-        $endTime24 = $endTime->format('H:i:s');
-        error_log('[' . date('Y-m-d H:i:s') . '] Time slot: ' . $time24 . ' to ' . $endTime24);
-        
-        // Check for existing reservations of this specific service that overlap with the requested time slot
-        $checkQuery = "
-            SELECT COUNT(*) as conflicting_reservations
-            FROM reservation_schedule rs
-            INNER JOIN reservation_services rsv ON rs.reservation_service_id = rsv.reservation_service_id
-            INNER JOIN reservations r ON rsv.reservation_id = r.reservation_id
-            WHERE rs.schedule_date = ?
-            AND r.status NOT IN ('cancelled', 'completed')
-            AND rsv.default_service_id = ?
-            AND (
-                (rs.start_time <= ? AND rs.end_time > ?) OR
-                (rs.start_time < ? AND rs.end_time >= ?) OR
-                (rs.start_time >= ? AND rs.end_time <= ?)
-            )
-        ";
-        
-        error_log('[' . date('Y-m-d H:i:s') . '] Executing service availability check query');
-        error_log('[' . date('Y-m-d H:i:s') . '] Query: ' . str_replace("\n", " ", $checkQuery));
-        error_log('[' . date('Y-m-d H:i:s') . '] Parameters: date=' . $date . ', serviceId=' . $serviceId . ', time24=' . $time24 . ', endTime24=' . $endTime24);
-        
-        $checkStmt = $this->db->prepare($checkQuery);
-        $checkStmt->bind_param(
-            'sissssss',
-            $date,
-            $serviceId,
-            $time24,
-            $time24,
-            $endTime24,
-            $endTime24,
-            $time24,
-            $endTime24
-        );
-        $checkStmt->execute();
-        $checkResult = $checkStmt->get_result();
-        $conflicts = $checkResult->fetch_assoc();
-        
-        error_log('[' . date('Y-m-d H:i:s') . '] Found ' . $conflicts['conflicting_reservations'] . ' conflicting reservations for service ' . $serviceId);
-        
-        // Let's also check what's actually in the tables for debugging
-        $debugQuery = "
-            SELECT r.reservation_id, rs.schedule_date, rs.start_time, rs.end_time, r.status, rsv.default_service_id
-            FROM reservation_schedule rs
-            INNER JOIN reservation_services rsv ON rs.reservation_service_id = rsv.reservation_service_id
-            INNER JOIN reservations r ON rsv.reservation_id = r.reservation_id
-            WHERE rs.schedule_date = ?
-            AND rsv.default_service_id = ?
-            ORDER BY rs.schedule_date, rs.start_time
-        ";
-        
-        $debugStmt = $this->db->prepare($debugQuery);
-        $debugStmt->bind_param('si', $date, $serviceId);
-        $debugStmt->execute();
-        $debugResult = $debugStmt->get_result();
-        
-        error_log('[' . date('Y-m-d H:i:s') . '] Debug: Existing reservations for service ' . $serviceId . ' on date ' . $date . ':');
-        while ($row = $debugResult->fetch_assoc()) {
-            error_log('[' . date('Y-m-d H:i:s') . '] Debug: Reservation ID ' . $row['reservation_id'] . 
-                     ' from ' . $row['start_time'] . ' to ' . $row['end_time'] . 
-                     ' status: ' . $row['status']);
-        }
-        
-        // Return true if no conflicts found, false if conflicts exist
-        $isAvailable = $conflicts['conflicting_reservations'] == 0;
-        error_log('[' . date('Y-m-d H:i:s') . '] Service availability result: ' . ($isAvailable ? 'AVAILABLE' : 'NOT AVAILABLE'));
-
-        return $isAvailable;
-    }
-
-    public function getServiceDurationMinutes($serviceId)
-    {
-        $query = "SELECT duration_minutes FROM default_services WHERE service_id = ?";
-        $stmt = $this->db->prepare($query);
-        $stmt->bind_param('i', $serviceId);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        if (!$result || $result->num_rows === 0) {
-            return null;
-        }
-
-        $row = $result->fetch_assoc();
-        return (int) ($row['duration_minutes'] ?? 0);
-    }
-
-    public function countConcurrentCategoryBookings($branchCategoryOverrideId, $branchId, $date, $startTime, $endTime, $excludeReservationId = null)
-    {
-        $query = "
-            SELECT COUNT(*) AS concurrent_count
-            FROM reservation_schedule rs
-            INNER JOIN reservation_services rsv ON rs.reservation_service_id = rsv.reservation_service_id
-            INNER JOIN reservations r ON rsv.reservation_id = r.reservation_id
-            INNER JOIN branch_service_overrides bso ON rsv.branch_service_override_id = bso.branch_service_override_id
-            INNER JOIN default_services ds ON ds.service_id = bso.default_service_id
-            INNER JOIN branch_category_overrides bco ON bco.default_category_id = ds.category_id AND bco.branch_id = r.branch_id
-            WHERE rs.schedule_date = ?
-              AND r.status NOT IN ('cancelled','rejected')
-              AND r.branch_id = ?
-              AND bco.branch_category_override_id = ?
-              AND (
-                (rs.start_time < ? AND rs.end_time > ?) OR
-                (rs.start_time < ? AND rs.end_time > ?) OR
-                (rs.start_time >= ? AND rs.end_time <= ?)
-              )
-        ";
-
-        if ($excludeReservationId !== null) {
-            $query .= ' AND r.reservation_id != ?';
-        }
-
-        $stmt = $this->db->prepare($query);
-
-        if ($excludeReservationId !== null) {
-            $stmt->bind_param('sisisssssi', $date, $branchId, $branchCategoryOverrideId, $endTime, $startTime, $endTime, $startTime, $startTime, $endTime, $excludeReservationId);
-        } else {
-            $stmt->bind_param('sisisssss', $date, $branchId, $branchCategoryOverrideId, $endTime, $startTime, $endTime, $startTime, $startTime, $endTime);
-        }
-
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $row = $result->fetch_assoc();
-
-        return (int) ($row['concurrent_count'] ?? 0);
-    }
-
-    public function adminReschedule($reservationId, $newDate, $newTime, $reason = 'Updated by admin')
-    {
-        return $this->rescheduleReservation($reservationId, $newDate, $newTime, $reason);
     }
 }
