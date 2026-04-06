@@ -104,19 +104,26 @@ class Branch extends Database
     {
         $conn = $this->getConnection();
         
+        // Modified query to include categories without overrides (available to all branches)
+        // and respect is_active_override for branch-specific overrides
+        // Include inactive categories but tag them properly
         $sql = 'SELECT
-                    bco.branch_category_override_id as categoryid,
+                    COALESCE(bco.branch_category_override_id, dsc.service_category_id) as categoryid,
                     COALESCE(bco.display_name, dsc.category_name) as categoryname,
                     COALESCE(bco.description_override, dsc.description) as description,
                     COALESCE(bco.capacity_override, dsc.def_capacity) as capacity,
-                    COALESCE(bco.is_active_override, 1) as isactive,
+                    CASE 
+                        WHEN bco.is_active_override IS NOT NULL THEN bco.is_active_override
+                        WHEN dsc.is_active = 1 THEN 1
+                        ELSE 0
+                    END as isactive,
                     dsc.service_category_id as default_category_id
-                FROM branch_category_overrides bco
-                LEFT JOIN default_services_categories dsc ON bco.default_category_id = dsc.service_category_id
-                WHERE bco.branch_id = ?';
+                FROM default_services_categories dsc
+                LEFT JOIN branch_category_overrides bco ON dsc.service_category_id = bco.default_category_id AND bco.branch_id = ?
+                WHERE (bco.branch_id = ? OR bco.branch_id IS NULL)';
         
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param('i', $branchId);
+        $stmt->bind_param('ii', $branchId, $branchId);
         $stmt->execute();
         
         $result = $stmt->get_result();

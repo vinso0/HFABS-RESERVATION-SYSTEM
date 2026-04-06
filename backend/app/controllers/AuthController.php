@@ -1,6 +1,50 @@
 <?php
 class AuthController extends Controller
 {
+    /**
+     * Enhanced email validation with allowlist approach
+     * Uses dynamically updated domain lists
+     */
+    private function validateEmail($email)
+    {
+        // Basic format validation
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return false;
+        }
+
+        require_once __DIR__ . '/../services/DomainBlacklistService.php';
+        $domainService = new DomainBlacklistService();
+        
+        // Auto-update domain lists if needed (runs in background)
+        $domainService->autoUpdateIfNeeded();
+
+        // Extract domain from email
+        $domain = strtolower(substr(strrchr($email, "@"), 1));
+        
+        // Get current allowlist and blacklist
+        $allowlist = $domainService->getAllowlistFromFile();
+        $blacklist = $domainService->getBlacklist();
+        $wildcardDomains = $domainService->getWildcardDomains();
+        
+        // Check if domain is blacklisted (disposable emails)
+        if (in_array($domain, $blacklist)) {
+            return false;
+        }
+        
+        // Check if domain is exactly in allowed list
+        if (in_array($domain, $allowlist)) {
+            return true;
+        }
+        
+        // Check wildcard domains (.edu.ph, .gov.ph)
+        foreach ($wildcardDomains as $wildcard) {
+            if (substr($domain, -strlen($wildcard)) === $wildcard) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     public function register()
     {
@@ -42,12 +86,12 @@ class AuthController extends Controller
             exit;
         }
 
-        // Basic email validation
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        // Enhanced email validation with allowlist
+        if (!$this->validateEmail($email)) {
             http_response_code(422);
             echo json_encode([
                 'success' => false,
-                'message' => 'Invalid email address'
+                'message' => 'Only trusted email domains are allowed (Gmail, Outlook, Yahoo, .edu.ph, .gov.ph, etc.)'
             ]);
             exit;
         }

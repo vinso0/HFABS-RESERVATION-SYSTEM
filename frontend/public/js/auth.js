@@ -147,7 +147,7 @@ if (sendOtpBtn) {
     }
     
     if (!validateEmail(email)) {
-      showAuthError(registerForm, 'Please enter a valid email address', 'error');
+      showAuthError(registerForm, 'Only trusted email domains are allowed (Gmail, Outlook, Yahoo, .edu.ph, .gov.ph, etc.)', 'error');
       return;
     }
     
@@ -209,10 +209,56 @@ function startOtpCountdown() {
   }, 1000);
 }
 
-// Email validation helper
+// Enhanced email validation with allowlist
 function validateEmail(email) {
-  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return re.test(email);
+  // Basic format validation
+  const basicRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!basicRegex.test(email)) {
+    return false;
+  }
+
+  // List of allowed trusted domains
+  const allowedDomains = [
+    // Major email providers
+    'gmail.com', 'googlemail.com',
+    'outlook.com', 'hotmail.com', 'live.com', 'msn.com',
+    'yahoo.com', 'ymail.com', 'rocketmail.com',
+    
+    // Other popular providers
+    'icloud.com', 'me.com', 'mac.com',
+    'aol.com', 'protonmail.com', 'tutanota.com',
+    
+    // Philippine educational domains
+    'up.edu.ph', 'dlsu.edu.ph', 'ust.edu.ph', 'admu.edu.ph',
+    'pnu.edu.ph', 'feu.edu.ph', 'cebu.edu.ph', 'slsu.edu.ph',
+    'msuiit.edu.ph', 'usc.edu.ph', 'xu.edu.ph', 'wvsu.edu.ph',
+    'bsu.edu.ph', 'isu.edu.ph', 'msu.edu.ph', 'clsu.edu.ph',
+    'pup.edu.ph', 'tips.edu.ph', 'ceu.edu.ph', 'hnu.edu.ph',
+    'usc.edu.ph', 'csu.edu.ph', 'nmsc.edu.ph', 'uvis.edu.ph',
+    
+    // Philippine government domains
+    'gov.ph', 'dost.gov.ph', 'deped.gov.ph', 'ched.gov.ph',
+  ];
+
+  // Extract domain from email
+  const domain = email.substring(email.lastIndexOf('@') + 1).toLowerCase();
+  
+  // Check if domain is exactly in allowed list
+  if (allowedDomains.includes(domain)) {
+    return true;
+  }
+  
+  // Check if it's a .edu.ph domain (allow all educational institutions)
+  if (domain.endsWith('.edu.ph')) {
+    return true;
+  }
+  
+  // Check if it's a .gov.ph domain (allow government institutions)
+  if (domain.endsWith('.gov.ph')) {
+    return true;
+  }
+
+  return false;
 }
 
 if (registerForm) {

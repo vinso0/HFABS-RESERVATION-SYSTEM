@@ -26782,3 +26782,297 @@ Stack trace:
 )
 
 [06-Apr-2026 16:13:06 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[06-Apr-2026 16:26:18 Europe/Berlin] Router received URL: auth/logout
+[06-Apr-2026 16:26:27 Europe/Berlin] Router received URL: auth/login
+[06-Apr-2026 16:26:27 Europe/Berlin] Router received URL: superadmin/recentAdmins
+[06-Apr-2026 16:26:27 Europe/Berlin] Router received URL: superadmin/dashboardStats
+[06-Apr-2026 16:26:27 Europe/Berlin] Router received URL: superadmin/branches
+[06-Apr-2026 16:26:33 Europe/Berlin] Router received URL: superadmin/branches
+[06-Apr-2026 16:26:33 Europe/Berlin] Router received URL: superadmin/admins
+[06-Apr-2026 16:26:35 Europe/Berlin] Router received URL: superadmin/branches
+[06-Apr-2026 16:26:41 Europe/Berlin] Router received URL: superadmin/branches
+[06-Apr-2026 16:26:43 Europe/Berlin] Router received URL: superadmin/branches
+[06-Apr-2026 16:26:47 Europe/Berlin] Router received URL: superadmin/branches
+[06-Apr-2026 16:27:42 Europe/Berlin] Router received URL: superadmin/branches
+[06-Apr-2026 16:27:43 Europe/Berlin] Router received URL: superadmin/branches
+[06-Apr-2026 16:27:43 Europe/Berlin] Router received URL: superadmin/services/deactivated
+[06-Apr-2026 16:27:43 Europe/Berlin] Router received URL: superadmin/services
+[06-Apr-2026 16:27:50 Europe/Berlin] Router received URL: superadmin/branches
+[06-Apr-2026 16:27:50 Europe/Berlin] Router received URL: superadmin/services
+[06-Apr-2026 16:27:50 Europe/Berlin] Router received URL: superadmin/services/deactivated
+[06-Apr-2026 16:28:22 Europe/Berlin] Router received URL: superadmin/categories
+[06-Apr-2026 16:28:22 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'c.is_active' in 'field list' in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php:693
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php(693): mysqli->prepare('SELECT c.servic...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(431): SuperadminModel->getCategories()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(421): SuperadminController->getCategories()
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): SuperadminController->categories()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php on line 693
+[06-Apr-2026 16:28:25 Europe/Berlin] Router received URL: superadmin/categories
+[06-Apr-2026 16:28:25 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'c.is_active' in 'field list' in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php:693
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php(693): mysqli->prepare('SELECT c.servic...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(431): SuperadminModel->getCategories()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(421): SuperadminController->getCategories()
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): SuperadminController->categories()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php on line 693
+[06-Apr-2026 16:28:26 Europe/Berlin] Router received URL: superadmin/categories
+[06-Apr-2026 16:28:26 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'c.is_active' in 'field list' in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php:693
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php(693): mysqli->prepare('SELECT c.servic...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(431): SuperadminModel->getCategories()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(421): SuperadminController->getCategories()
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): SuperadminController->categories()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php on line 693
+[06-Apr-2026 16:28:30 Europe/Berlin] Router received URL: superadmin/categories
+[06-Apr-2026 16:28:30 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'c.is_active' in 'field list' in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php:693
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php(693): mysqli->prepare('SELECT c.servic...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(431): SuperadminModel->getCategories()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(421): SuperadminController->getCategories()
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): SuperadminController->categories()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php on line 693
+[06-Apr-2026 16:28:36 Europe/Berlin] Router received URL: superadmin/categories
+[06-Apr-2026 16:28:36 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'c.is_active' in 'field list' in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php:693
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php(693): mysqli->prepare('SELECT c.servic...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(431): SuperadminModel->getCategories()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(421): SuperadminController->getCategories()
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): SuperadminController->categories()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php on line 693
+[06-Apr-2026 16:28:38 Europe/Berlin] Router received URL: superadmin/categories
+[06-Apr-2026 16:28:38 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'c.is_active' in 'field list' in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php:693
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php(693): mysqli->prepare('SELECT c.servic...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(431): SuperadminModel->getCategories()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(421): SuperadminController->getCategories()
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): SuperadminController->categories()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php on line 693
+[06-Apr-2026 16:28:39 Europe/Berlin] Router received URL: superadmin/categories
+[06-Apr-2026 16:28:39 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'c.is_active' in 'field list' in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php:693
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php(693): mysqli->prepare('SELECT c.servic...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(431): SuperadminModel->getCategories()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(421): SuperadminController->getCategories()
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): SuperadminController->categories()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php on line 693
+[06-Apr-2026 16:28:42 Europe/Berlin] Router received URL: superadmin/categories
+[06-Apr-2026 16:28:42 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'c.is_active' in 'field list' in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php:693
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php(693): mysqli->prepare('SELECT c.servic...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(431): SuperadminModel->getCategories()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(421): SuperadminController->getCategories()
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): SuperadminController->categories()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php on line 693
+[06-Apr-2026 16:29:17 Europe/Berlin] Router received URL: superadmin/categories
+[06-Apr-2026 16:29:17 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'c.is_active' in 'field list' in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php:693
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php(693): mysqli->prepare('SELECT c.servic...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(431): SuperadminModel->getCategories()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(421): SuperadminController->getCategories()
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): SuperadminController->categories()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php on line 693
+[06-Apr-2026 16:29:17 Europe/Berlin] Router received URL: about/getAbout
+[06-Apr-2026 16:29:17 Europe/Berlin] Router received URL: about/getAllPolicies
+[06-Apr-2026 16:29:19 Europe/Berlin] Router received URL: about/getAbout
+[06-Apr-2026 16:29:19 Europe/Berlin] Router received URL: about/getAllPolicies
+[06-Apr-2026 16:29:20 Europe/Berlin] Router received URL: superadmin/categories
+[06-Apr-2026 16:29:20 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'c.is_active' in 'field list' in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php:693
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php(693): mysqli->prepare('SELECT c.servic...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(431): SuperadminModel->getCategories()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(421): SuperadminController->getCategories()
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): SuperadminController->categories()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php on line 693
+[06-Apr-2026 16:29:21 Europe/Berlin] Router received URL: about/getAbout
+[06-Apr-2026 16:29:21 Europe/Berlin] Router received URL: about/getAllPolicies
+[06-Apr-2026 16:29:28 Europe/Berlin] Router received URL: superadmin/categories
+[06-Apr-2026 16:29:28 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'c.is_active' in 'field list' in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php:693
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php(693): mysqli->prepare('SELECT c.servic...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(431): SuperadminModel->getCategories()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(421): SuperadminController->getCategories()
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): SuperadminController->categories()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php on line 693
+[06-Apr-2026 16:29:32 Europe/Berlin] Router received URL: superadmin/categories
+[06-Apr-2026 16:29:32 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'c.is_active' in 'field list' in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php:693
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php(693): mysqli->prepare('SELECT c.servic...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(431): SuperadminModel->getCategories()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(421): SuperadminController->getCategories()
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): SuperadminController->categories()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php on line 693
+[06-Apr-2026 16:29:47 Europe/Berlin] Router received URL: superadmin/categories
+[06-Apr-2026 16:29:47 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'c.is_active' in 'field list' in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php:693
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php(693): mysqli->prepare('SELECT c.servic...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(431): SuperadminModel->getCategories()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(421): SuperadminController->getCategories()
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): SuperadminController->categories()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php on line 693
+[06-Apr-2026 16:30:45 Europe/Berlin] Router received URL: superadmin/categories
+[06-Apr-2026 16:30:45 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'c.is_active' in 'field list' in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php:693
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php(693): mysqli->prepare('SELECT c.servic...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(431): SuperadminModel->getCategories()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(421): SuperadminController->getCategories()
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): SuperadminController->categories()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php on line 693
+[06-Apr-2026 16:30:47 Europe/Berlin] Router received URL: superadmin/categories
+[06-Apr-2026 16:30:47 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'c.is_active' in 'field list' in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php:693
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php(693): mysqli->prepare('SELECT c.servic...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(431): SuperadminModel->getCategories()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(421): SuperadminController->getCategories()
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): SuperadminController->categories()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php on line 693
+[06-Apr-2026 16:33:11 Europe/Berlin] Router received URL: superadmin/categories
+[06-Apr-2026 16:33:11 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'c.is_active' in 'field list' in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php:693
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php(693): mysqli->prepare('SELECT c.servic...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(431): SuperadminModel->getCategories()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(421): SuperadminController->getCategories()
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): SuperadminController->categories()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php on line 693
+[06-Apr-2026 16:33:22 Europe/Berlin] Router received URL: superadmin/categories
+[06-Apr-2026 16:33:22 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'c.is_active' in 'field list' in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php:693
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php(693): mysqli->prepare('SELECT c.servic...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(431): SuperadminModel->getCategories()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(421): SuperadminController->getCategories()
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): SuperadminController->categories()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php on line 693
+[06-Apr-2026 16:33:24 Europe/Berlin] Router received URL: auth/logout
+[06-Apr-2026 16:33:31 Europe/Berlin] Router received URL: auth/login
+[06-Apr-2026 16:33:31 Europe/Berlin] Router received URL: superadmin/recentAdmins
+[06-Apr-2026 16:33:31 Europe/Berlin] Router received URL: superadmin/dashboardStats
+[06-Apr-2026 16:33:31 Europe/Berlin] Router received URL: superadmin/branches
+[06-Apr-2026 16:33:32 Europe/Berlin] Router received URL: about/getAllPolicies
+[06-Apr-2026 16:33:32 Europe/Berlin] Router received URL: about/getAbout
+[06-Apr-2026 16:33:33 Europe/Berlin] Router received URL: superadmin/categories
+[06-Apr-2026 16:33:33 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'c.is_active' in 'field list' in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php:693
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php(693): mysqli->prepare('SELECT c.servic...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(431): SuperadminModel->getCategories()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(421): SuperadminController->getCategories()
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): SuperadminController->categories()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php on line 693
+[06-Apr-2026 16:33:35 Europe/Berlin] Router received URL: superadmin/categories
+[06-Apr-2026 16:33:35 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'c.is_active' in 'field list' in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php:693
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php(693): mysqli->prepare('SELECT c.servic...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(431): SuperadminModel->getCategories()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(421): SuperadminController->getCategories()
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): SuperadminController->categories()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php on line 693
+[06-Apr-2026 16:35:10 Europe/Berlin] Router received URL: superadmin/branches
+[06-Apr-2026 16:35:10 Europe/Berlin] Router received URL: superadmin/services/deactivated
+[06-Apr-2026 16:35:10 Europe/Berlin] Router received URL: superadmin/services
+[06-Apr-2026 16:35:13 Europe/Berlin] Router received URL: superadmin/branches
+[06-Apr-2026 16:35:13 Europe/Berlin] Router received URL: superadmin/services/deactivated
+[06-Apr-2026 16:35:13 Europe/Berlin] Router received URL: superadmin/services
+[06-Apr-2026 16:35:23 Europe/Berlin] Router received URL: superadmin/branches
+[06-Apr-2026 16:35:24 Europe/Berlin] Router received URL: superadmin/branches
+[06-Apr-2026 16:35:24 Europe/Berlin] Router received URL: superadmin/services
+[06-Apr-2026 16:35:24 Europe/Berlin] Router received URL: superadmin/services/deactivated
+[06-Apr-2026 16:35:24 Europe/Berlin] Router received URL: superadmin/categories
+[06-Apr-2026 16:35:24 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'c.is_active' in 'field list' in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php:693
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php(693): mysqli->prepare('SELECT c.servic...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(431): SuperadminModel->getCategories()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(421): SuperadminController->getCategories()
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): SuperadminController->categories()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php on line 693
+[06-Apr-2026 16:35:25 Europe/Berlin] Router received URL: superadmin/services/deactivated
+[06-Apr-2026 16:35:25 Europe/Berlin] Router received URL: superadmin/services
+[06-Apr-2026 16:35:25 Europe/Berlin] Router received URL: superadmin/branches
+[06-Apr-2026 16:35:26 Europe/Berlin] Router received URL: superadmin/branches
+[06-Apr-2026 16:35:26 Europe/Berlin] Router received URL: superadmin/services/deactivated
+[06-Apr-2026 16:35:26 Europe/Berlin] Router received URL: superadmin/services
+[06-Apr-2026 16:35:26 Europe/Berlin] Router received URL: superadmin/categories
+[06-Apr-2026 16:35:26 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'c.is_active' in 'field list' in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php:693
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php(693): mysqli->prepare('SELECT c.servic...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(431): SuperadminModel->getCategories()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(421): SuperadminController->getCategories()
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): SuperadminController->categories()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php on line 693
+[06-Apr-2026 16:35:27 Europe/Berlin] Router received URL: superadmin/categories
+[06-Apr-2026 16:35:27 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'c.is_active' in 'field list' in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php:693
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php(693): mysqli->prepare('SELECT c.servic...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(431): SuperadminModel->getCategories()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(421): SuperadminController->getCategories()
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): SuperadminController->categories()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php on line 693
+[06-Apr-2026 16:35:28 Europe/Berlin] Router received URL: superadmin/branches
+[06-Apr-2026 16:35:28 Europe/Berlin] Router received URL: superadmin/services
+[06-Apr-2026 16:35:28 Europe/Berlin] Router received URL: superadmin/services/deactivated
+[06-Apr-2026 16:35:29 Europe/Berlin] Router received URL: superadmin/branches
+[06-Apr-2026 16:35:29 Europe/Berlin] Router received URL: superadmin/admins
+[06-Apr-2026 16:35:29 Europe/Berlin] Router received URL: superadmin/branches
+[06-Apr-2026 16:35:30 Europe/Berlin] Router received URL: superadmin/dashboardStats
+[06-Apr-2026 16:35:30 Europe/Berlin] Router received URL: superadmin/recentAdmins
+[06-Apr-2026 16:35:30 Europe/Berlin] Router received URL: superadmin/branches
+[06-Apr-2026 16:35:31 Europe/Berlin] Router received URL: superadmin/branches
+[06-Apr-2026 16:35:31 Europe/Berlin] Router received URL: superadmin/admins
+[06-Apr-2026 16:35:32 Europe/Berlin] Router received URL: superadmin/branches
+[06-Apr-2026 16:35:33 Europe/Berlin] Router received URL: superadmin/services
+[06-Apr-2026 16:35:33 Europe/Berlin] Router received URL: superadmin/branches
+[06-Apr-2026 16:35:33 Europe/Berlin] Router received URL: superadmin/services/deactivated
+[06-Apr-2026 16:35:33 Europe/Berlin] Router received URL: superadmin/categories
+[06-Apr-2026 16:35:33 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'c.is_active' in 'field list' in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php:693
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php(693): mysqli->prepare('SELECT c.servic...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(431): SuperadminModel->getCategories()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(421): SuperadminController->getCategories()
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): SuperadminController->categories()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php on line 693
+[06-Apr-2026 16:35:34 Europe/Berlin] Router received URL: about/getAbout
+[06-Apr-2026 16:35:34 Europe/Berlin] Router received URL: about/getAllPolicies

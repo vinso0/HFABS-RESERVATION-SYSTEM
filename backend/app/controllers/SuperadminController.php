@@ -2,6 +2,13 @@
 
 class SuperadminController extends Controller
 {
+    private $superadminModel;
+
+    public function __construct()
+    {
+        $this->superadminModel = $this->model('SuperadminModel');
+    }
+
     // ── Auth guard ──
     private function requireSuperadmin()
     {
@@ -33,38 +40,12 @@ class SuperadminController extends Controller
     public function dashboardStats()
     {
         $this->requireSuperadmin();
-        $conn = $this->db();
-
-        // Total admins + cashiers
-        $result      = $conn->query("SELECT COUNT(*) AS total FROM users WHERE role IN ('admin','cashier') AND deleted_at IS NULL");
-        $totalAdmins = (int) $result->fetch_assoc()['total'];
-
-        // Active admins + cashiers
-        $result       = $conn->query("SELECT COUNT(*) AS total FROM users WHERE role IN ('admin','cashier') AND is_active = 1 AND deleted_at IS NULL");
-        $activeAdmins = (int) $result->fetch_assoc()['total'];
-
-        // Total branches
-        $result        = $conn->query("SELECT COUNT(*) AS total FROM branch");
-        $totalBranches = (int) $result->fetch_assoc()['total'];
-
-        // Active branches
-        $result         = $conn->query("SELECT COUNT(*) AS total FROM branch WHERE status = 'active'");
-        $activeBranches = (int) $result->fetch_assoc()['total'];
-
-        // Total system users (not deleted)
-        $result     = $conn->query("SELECT COUNT(*) AS total FROM users WHERE deleted_at IS NULL");
-        $totalUsers = (int) $result->fetch_assoc()['total'];
+        
+        $stats = $this->superadminModel->getDashboardStats();
 
         $this->json([
             'success' => true,
-            'data'    => [
-                'total_admins'      => $totalAdmins,
-                'active_admins'     => $activeAdmins,
-                'total_branches'    => $totalBranches,
-                'active_branches'   => $activeBranches,
-                'inactive_branches' => $totalBranches - $activeBranches,
-                'total_users'       => $totalUsers,
-            ]
+            'data'    => $stats
         ]);
     }
 
@@ -72,27 +53,102 @@ class SuperadminController extends Controller
     public function recentAdmins()
     {
         $this->requireSuperadmin();
-        $conn = $this->db();
+        
+        $recentAdmins = $this->superadminModel->getRecentAdmins();
 
-        $stmt = $conn->prepare(
-            "SELECT u.user_id, u.username, u.email, u.contact_number,
-                    u.role, u.branch_id, u.is_active, u.created_at,
-                    b.branch_name
-             FROM users u
-             LEFT JOIN branch b ON u.branch_id = b.branch_id
-             WHERE u.role IN ('admin','cashier') AND u.deleted_at IS NULL
-             ORDER BY u.created_at DESC
-             LIMIT 5"
-        );
-        $stmt->execute();
-        $result = $stmt->get_result();
+        $this->json(['success' => true, 'data' => $recentAdmins]);
+    }
 
-        $rows = [];
-        while ($row = $result->fetch_assoc()) {
-            $rows[] = $row;
+    // =========================================================
+    //  DOMAIN MANAGEMENT
+    //  POST ?url=superadmin/updateDomains
+    // =========================================================
+    public function updateDomains()
+    {
+        $this->requireSuperadmin();
+        
+        require_once __DIR__ . '/../services/DomainBlacklistService.php';
+        $domainService = new DomainBlacklistService();
+        
+        $result = $domainService->updateDomainLists();
+        
+        $this->json($result);
+    }
+    
+    // =========================================================
+    //  DOMAIN STATUS
+    //  GET ?url=superadmin/domainStatus
+    // =========================================================
+    public function domainStatus()
+    {
+        $this->requireSuperadmin();
+        
+        require_once __DIR__ . '/../services/DomainBlacklistService.php';
+        $domainService = new DomainBlacklistService();
+        
+        $blacklist = $domainService->getBlacklist();
+        $allowlist = $domainService->getAllowlistFromFile();
+        $wildcardDomains = $domainService->getWildcardDomains();
+        $needsUpdate = $domainService->needsUpdate();
+        
+        $timestampFile = __DIR__ . '/../../storage/domains_last_updated.txt';
+        $lastUpdated = file_exists($timestampFile) ? file_get_contents($timestampFile) : 'Never';
+        
+        $this->json([
+            'success' => true,
+            'data' => [
+                'blacklisted_count' => count($blacklist),
+                'allowed_count' => count($allowlist),
+                'wildcard_domains' => $wildcardDomains,
+                'last_updated' => $lastUpdated,
+                'needs_update' => $needsUpdate,
+                'source' => 'https://github.com/disposable-email-domains/disposable-email-domains'
+            ]
+        ]);
+    }
+
+    // =========================================================
+    //  ADMIN PASSWORD RESET
+    //  POST ?url=superadmin/resetAdminPassword/{id}
+    // =========================================================
+    public function resetAdminPassword($id)
+    {
+        $this->requireSuperadmin();
+        
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            http_response_code(405);
+            $this->json(['success' => false, 'message' => 'Method not allowed']);
         }
-
-        $this->json(['success' => true, 'data' => $rows]);
+        
+        $id = (int)$id;
+        $input = json_decode(file_get_contents('php://input'), true);
+        
+        $superadminPassword = $input['superadmin_password'] ?? '';
+        $newPassword = $input['new_password'] ?? '';
+        $confirmPassword = $input['confirm_password'] ?? '';
+        
+        $result = $this->superadminModel->resetAdminPassword(
+            $id, 
+            $superadminPassword, 
+            $newPassword, 
+            $confirmPassword, 
+            $_SESSION['user_id']
+        );
+        
+        // Set appropriate HTTP status code
+        if (!$result['success']) {
+            if (strpos($result['message'], 'not found') !== false) {
+                http_response_code(404);
+            } elseif (strpos($result['message'], 'Incorrect') !== false) {
+                http_response_code(401);
+            } elseif (strpos($result['message'], 'required') !== false || strpos($result['message'], 'password must be') !== false || strpos($result['message'], 'do not match') !== false) {
+                http_response_code(400);
+            } else {
+                http_response_code(500);
+            }
+        }
+        
+        $this->json($result);
     }
 
     // =========================================================
@@ -116,31 +172,12 @@ class SuperadminController extends Controller
 
     private function getAdmins()
     {
-        $conn = $this->db();
-
-        $stmt = $conn->prepare(
-            "SELECT u.user_id, u.username, u.email, u.contact_number,
-                    u.role, u.branch_id, u.is_active, u.created_at,
-                    b.branch_name
-             FROM users u
-             LEFT JOIN branch b ON u.branch_id = b.branch_id
-             WHERE u.role IN ('admin','cashier') AND u.deleted_at IS NULL
-             ORDER BY u.created_at DESC"
-        );
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        $rows = [];
-        while ($row = $result->fetch_assoc()) {
-            $rows[] = $row;
-        }
-
-        $this->json(['success' => true, 'data' => $rows]);
+        $admins = $this->superadminModel->getAdmins();
+        $this->json(['success' => true, 'data' => $admins]);
     }
 
     private function addAdmin()
     {
-        $conn  = $this->db();
         $input = json_decode(file_get_contents('php://input'), true);
 
         $username       = trim($input['username']       ?? '');
@@ -151,41 +188,17 @@ class SuperadminController extends Controller
         $is_active      = isset($input['is_active'])    ? (int)$input['is_active'] : 1;
         $password       = $input['password']            ?? '';
 
-        if (!$username || !$email || !$password) {
+        $result = $this->superadminModel->addAdmin($username, $email, $contact_number, $role, $branch_id, $is_active, $password);
+
+        if (!$result['success']) {
             http_response_code(400);
-            $this->json(['success' => false, 'message' => 'Username, email, and password are required.']);
         }
 
-        if (!in_array($role, ['admin', 'cashier'])) {
-            http_response_code(400);
-            $this->json(['success' => false, 'message' => 'Invalid role. Must be admin or cashier.']);
-        }
-
-        // Check duplicate email
-        $stmt = $conn->prepare("SELECT user_id FROM users WHERE email = ?");
-        $stmt->bind_param('s', $email);
-        $stmt->execute();
-        if ($stmt->get_result()->num_rows > 0) {
-            http_response_code(409);
-            $this->json(['success' => false, 'message' => 'Email is already in use.']);
-        }
-
-        $hashed = password_hash($password, PASSWORD_BCRYPT);
-
-        $stmt = $conn->prepare(
-            "INSERT INTO users (username, email, contact_number, password, role, branch_id, is_active)
-             VALUES (?, ?, ?, ?, ?, ?, ?)"
-        );
-        $stmt->bind_param('sssssii', $username, $email, $contact_number, $hashed, $role, $branch_id, $is_active);
-        $stmt->execute();
-        $newId = $conn->insert_id;
-
-        $this->json(['success' => true, 'message' => 'Admin account added successfully.', 'user_id' => $newId]);
+        $this->json($result);
     }
 
     private function updateAdmin($id)
     {
-        $conn  = $this->db();
         $id    = (int)$id;
         $input = json_decode(file_get_contents('php://input'), true);
 
@@ -196,54 +209,117 @@ class SuperadminController extends Controller
         $branch_id      = !empty($input['branch_id'])   ? (int)$input['branch_id'] : null;
         $is_active      = isset($input['is_active'])    ? (int)$input['is_active'] : 1;
 
-        if (!$username || !$email) {
+        $result = $this->superadminModel->updateAdmin($id, $username, $email, $contact_number, $role, $branch_id, $is_active);
+
+        if (!$result['success']) {
             http_response_code(400);
-            $this->json(['success' => false, 'message' => 'Username and email are required.']);
         }
 
-        if (!in_array($role, ['admin', 'cashier'])) {
-            http_response_code(400);
-            $this->json(['success' => false, 'message' => 'Invalid role.']);
-        }
-
-        // Check duplicate email (exclude self)
-        $stmt = $conn->prepare("SELECT user_id FROM users WHERE email = ? AND user_id != ?");
-        $stmt->bind_param('si', $email, $id);
-        $stmt->execute();
-        if ($stmt->get_result()->num_rows > 0) {
-            http_response_code(409);
-            $this->json(['success' => false, 'message' => 'Email is already used by another account.']);
-        }
-
-        $stmt = $conn->prepare(
-            "UPDATE users SET username=?, email=?, contact_number=?, role=?, branch_id=?, is_active=?
-             WHERE user_id=? AND deleted_at IS NULL"
-        );
-        $stmt->bind_param('ssssiis', $username, $email, $contact_number, $role, $branch_id, $is_active, $id);
-        $stmt->execute();
-
-        $this->json(['success' => true, 'message' => 'Admin account updated successfully.']);
+        $this->json($result);
     }
 
     private function deleteAdmin($id)
     {
-        $conn = $this->db();
-        $id   = (int)$id;
+        $id = (int)$id;
+        $result = $this->superadminModel->deleteAdmin($id);
 
-        // Soft delete
-        $stmt = $conn->prepare(
-            "UPDATE users SET deleted_at = NOW(), is_active = 0
-             WHERE user_id = ? AND role IN ('admin','cashier')"
-        );
-        $stmt->bind_param('i', $id);
-        $stmt->execute();
-
-        if ($conn->affected_rows === 0) {
+        if (!$result['success']) {
             http_response_code(404);
-            $this->json(['success' => false, 'message' => 'Admin not found.']);
         }
 
-        $this->json(['success' => true, 'message' => 'Admin account deleted successfully.']);
+        $this->json($result);
+    }
+
+    // =========================================================
+    //  SERVICE MANAGEMENT
+    //  GET/POST  ?url=superadmin/services
+    //  PUT/DELETE ?url=superadmin/services/{id}
+    // =========================================================
+    public function services($id = null)
+    {
+        $this->requireSuperadmin();
+        $method = $_SERVER['REQUEST_METHOD'];
+
+        if ($method === 'GET'    && $id === null) { $this->getServices();        return; }
+        if ($method === 'GET'    && $id === 'deactivated') { $this->getDeactivatedServices(); return; }
+        if ($method === 'POST'   && $id === null) { $this->addService();         return; }
+        if ($method === 'PUT'    && $id !== null) { $this->updateService($id);   return; }
+        if ($method === 'DELETE' && $id !== null) { $this->deleteService($id);   return; }
+
+        http_response_code(405);
+        $this->json(['success' => false, 'message' => 'Method not allowed']);
+    }
+
+    private function getServices()
+    {
+        $services = $this->superadminModel->getServices();
+        $this->json(['success' => true, 'data' => $services]);
+    }
+
+    private function getDeactivatedServices()
+    {
+        $services = $this->superadminModel->getDeactivatedServices();
+        $this->json(['success' => true, 'data' => $services]);
+    }
+
+    private function addService()
+    {
+        $input = json_decode(file_get_contents('php://input'), true);
+
+        $service_name     = trim($input['service_name']     ?? '');
+        $description      = trim($input['description']      ?? '');
+        $base_price      = isset($input['base_price'])      ? (float)$input['base_price'] : 0;
+        $duration_minutes = isset($input['duration_minutes']) ? (int)$input['duration_minutes'] : 30;
+        $category_id      = isset($input['category_id'])      ? (int)$input['category_id'] : 1;
+        $is_active       = isset($input['is_active'])       ? (int)$input['is_active'] : 1;
+        $branch_ids      = $input['branch_ids'] ?? [];
+        $reactivate_id   = isset($input['reactivate_id'])   ? (int)$input['reactivate_id'] : null;
+
+        $result = $this->superadminModel->addService($service_name, $description, $base_price, $duration_minutes, $category_id, $is_active, $branch_ids, $reactivate_id);
+
+        if (!$result['success']) {
+            http_response_code(400);
+        }
+
+        $this->json($result);
+    }
+
+    private function updateService($id)
+    {
+        $id = (int)$id;
+        $input = json_decode(file_get_contents('php://input'), true);
+
+        $service_name     = trim($input['service_name']     ?? '');
+        $description      = trim($input['description']      ?? '');
+        $base_price      = isset($input['base_price'])      ? (float)$input['base_price'] : 0;
+        $duration_minutes = isset($input['duration_minutes']) ? (int)$input['duration_minutes'] : 30;
+        $category_id      = isset($input['category_id'])      ? (int)$input['category_id'] : 1;
+        $is_active       = isset($input['is_active'])       ? (int)$input['is_active'] : 1;
+        $branch_ids      = $input['branch_ids'] ?? [];
+
+        $result = $this->superadminModel->updateService($id, $service_name, $description, $base_price, $duration_minutes, $category_id, $is_active, $branch_ids);
+
+        if (!$result['success']) {
+            http_response_code(400);
+        }
+
+        $this->json($result);
+    }
+
+    private function deleteService($id)
+    {
+        $id = (int)$id;
+        $result = $this->superadminModel->deleteService($id);
+
+        if (!$result['success']) {
+            if (strpos($result['message'], 'Cannot delete service') !== false) {
+                http_response_code(409);
+            } else {
+                http_response_code(404);
+            }
+        }
+
+        $this->json($result);
     }
 
     // =========================================================
@@ -267,20 +343,12 @@ class SuperadminController extends Controller
 
     private function getBranches()
     {
-        $conn   = $this->db();
-        $result = $conn->query("SELECT * FROM branch ORDER BY branch_id ASC");
-
-        $rows = [];
-        while ($row = $result->fetch_assoc()) {
-            $rows[] = $row;
-        }
-
-        $this->json(['success' => true, 'data' => $rows]);
+        $branches = $this->superadminModel->getBranches();
+        $this->json(['success' => true, 'data' => $branches]);
     }
 
     private function addBranch()
     {
-        $conn  = $this->db();
         $input = json_decode(file_get_contents('php://input'), true);
 
         $branch_name       = trim($input['branch_name']      ?? '');
@@ -292,26 +360,18 @@ class SuperadminController extends Controller
         $down_payment_rate = isset($input['down_payment_rate']) ? (float)$input['down_payment_rate'] : 0.5;
         $status            = in_array($input['status'] ?? '', ['active','inactive']) ? $input['status'] : 'active';
 
-        if (!$branch_name || !$branch_location || !$opening_time || !$closing_time) {
+        $result = $this->superadminModel->addBranch($branch_name, $branch_location, $contact_number, $email, $opening_time, $closing_time, $down_payment_rate, $status);
+
+        if (!$result['success']) {
             http_response_code(400);
-            $this->json(['success' => false, 'message' => 'Branch name, location, and hours are required.']);
         }
 
-        $stmt = $conn->prepare(
-            "INSERT INTO branch (branch_name, branch_location, contact_number, opening_time, closing_time, down_payment_rate, email, status)
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
-        );
-        $stmt->bind_param('sssssds s', $branch_name, $branch_location, $contact_number, $opening_time, $closing_time, $down_payment_rate, $email, $status);
-        $stmt->execute();
-        $newId = $conn->insert_id;
-
-        $this->json(['success' => true, 'message' => 'Branch added successfully.', 'branch_id' => $newId]);
+        $this->json($result);
     }
 
     private function updateBranch($id)
     {
-        $conn  = $this->db();
-        $id    = (int)$id;
+        $id = (int)$id;
         $input = json_decode(file_get_contents('php://input'), true);
 
         $branch_name       = trim($input['branch_name']      ?? '');
@@ -323,53 +383,106 @@ class SuperadminController extends Controller
         $down_payment_rate = isset($input['down_payment_rate']) ? (float)$input['down_payment_rate'] : 0.5;
         $status            = in_array($input['status'] ?? '', ['active','inactive']) ? $input['status'] : 'active';
 
-        if (!$branch_name || !$branch_location || !$opening_time || !$closing_time) {
+        $result = $this->superadminModel->updateBranch($id, $branch_name, $branch_location, $contact_number, $email, $opening_time, $closing_time, $down_payment_rate, $status);
+
+        if (!$result['success']) {
             http_response_code(400);
-            $this->json(['success' => false, 'message' => 'Branch name, location, and hours are required.']);
         }
 
-        $stmt = $conn->prepare(
-            "UPDATE branch
-             SET branch_name=?, branch_location=?, contact_number=?,
-                 opening_time=?, closing_time=?, down_payment_rate=?, email=?, status=?
-             WHERE branch_id=?"
-        );
-        $stmt->bind_param('sssssdssi', $branch_name, $branch_location, $contact_number, $opening_time, $closing_time, $down_payment_rate, $email, $status, $id);
-        $stmt->execute();
-
-        $this->json(['success' => true, 'message' => 'Branch updated successfully.']);
+        $this->json($result);
     }
 
     private function deleteBranch($id)
     {
-        $conn = $this->db();
-        $id   = (int)$id;
+        $id = (int)$id;
+        $result = $this->superadminModel->deleteBranch($id);
 
-        // Safety: prevent deleting branch with assigned users
-        $stmt = $conn->prepare(
-            "SELECT COUNT(*) AS cnt FROM users WHERE branch_id = ? AND deleted_at IS NULL"
-        );
-        $stmt->bind_param('i', $id);
-        $stmt->execute();
-        $cnt = (int) $stmt->get_result()->fetch_assoc()['cnt'];
-
-        if ($cnt > 0) {
-            http_response_code(409);
-            $this->json([
-                'success' => false,
-                'message' => 'Cannot delete branch: ' . $cnt . ' admin account(s) are still assigned to it. Reassign or delete them first.'
-            ]);
+        if (!$result['success']) {
+            if (strpos($result['message'], 'Cannot delete branch') !== false) {
+                http_response_code(409);
+            } else {
+                http_response_code(404);
+            }
         }
 
-        $stmt = $conn->prepare("DELETE FROM branch WHERE branch_id = ?");
-        $stmt->bind_param('i', $id);
-        $stmt->execute();
+        $this->json($result);
+    }
 
-        if ($conn->affected_rows === 0) {
-            http_response_code(404);
-            $this->json(['success' => false, 'message' => 'Branch not found.']);
+    // =========================================================
+    //  CATEGORIES MANAGEMENT
+    //  GET/POST  ?url=superadmin/categories
+    //  PUT/DELETE ?url=superadmin/categories/{id}
+    // =========================================================
+    public function categories($id = null)
+    {
+        $this->requireSuperadmin();
+        $method = $_SERVER['REQUEST_METHOD'];
+
+        if ($method === 'GET'    && $id === null) { $this->getCategories();        return; }
+        if ($method === 'POST'   && $id === null) { $this->addCategory();         return; }
+        if ($method === 'PUT'    && $id !== null) { $this->updateCategory($id);   return; }
+        if ($method === 'DELETE' && $id !== null) { $this->deleteCategory($id);   return; }
+
+            $this->json(['success' => true, 'message' => 'Branch deleted successfully.']);
         }
 
-        $this->json(['success' => true, 'message' => 'Branch deleted successfully.']);
+    private function getCategories()
+    {
+        $result = $this->superadminModel->getCategories();
+        $this->json($result);
+    }
+
+    private function addCategory()
+    {
+        $input = json_decode(file_get_contents('php://input'), true);
+
+        $category_name    = trim($input['category_name']    ?? '');
+        $description      = trim($input['description']      ?? '');
+        $def_capacity     = isset($input['def_capacity']) ? (int)$input['def_capacity'] : 5;
+        $is_active        = isset($input['is_active'])        ? (int)$input['is_active'] : 1;
+        $branch_ids      = $input['branch_ids'] ?? [];
+
+        $result = $this->superadminModel->addCategory($category_name, $description, $def_capacity, $is_active, $branch_ids);
+        
+        // Set HTTP status code if provided in result
+        if (isset($result['status'])) {
+            http_response_code($result['status']);
+        }
+        
+        $this->json($result);
+    }
+
+    private function updateCategory($id)
+    {
+        $id    = (int)$id;
+        $input = json_decode(file_get_contents('php://input'), true);
+
+        $category_name    = trim($input['category_name']    ?? '');
+        $description      = trim($input['description']      ?? '');
+        $def_capacity     = isset($input['def_capacity']) ? (int)$input['def_capacity'] : 5;
+        $is_active        = isset($input['is_active'])        ? (int)$input['is_active'] : 1;
+        $branch_ids      = $input['branch_ids'] ?? [];
+
+        $result = $this->superadminModel->updateCategory($id, $category_name, $description, $def_capacity, $is_active, $branch_ids);
+        
+        // Set HTTP status code if provided in result
+        if (isset($result['status'])) {
+            http_response_code($result['status']);
+        }
+        
+        $this->json($result);
+    }
+
+    private function deleteCategory($id)
+    {
+        $id = (int)$id;
+        $result = $this->superadminModel->deleteCategory($id);
+        
+        // Set HTTP status code if provided in result
+        if (isset($result['status'])) {
+            http_response_code($result['status']);
+        }
+        
+        $this->json($result);
     }
 }

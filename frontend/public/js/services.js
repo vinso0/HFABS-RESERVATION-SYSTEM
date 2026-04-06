@@ -33,7 +33,7 @@ async function initializePage() {
 }
 
 // ============================================================
-// ✅ NEW: Load active categories for this branch from the DB
+// ✅ NEW: Load all categories for this branch from the DB (including inactive)
 // ============================================================
 async function loadCategories(branchId) {
   try {
@@ -44,8 +44,11 @@ async function loadCategories(branchId) {
     // The endpoint returns a plain array (see BranchController::categories)
     const raw = Array.isArray(result) ? result : (result.data || []);
 
-    // Only keep categories where isactive == 1
-    allCategories = raw.filter(cat => parseInt(cat.isactive) === 1);
+    // Keep all categories but preserve their active status
+    allCategories = raw.map(cat => ({
+      ...cat,
+      isactive: parseInt(cat.isactive) === 1
+    }));
   } catch (error) {
     console.error('Error loading categories:', error);
     allCategories = [];
@@ -53,7 +56,7 @@ async function loadCategories(branchId) {
 }
 
 // ============================================================
-// ✅ NEW: Dynamically render category tab buttons from DB data
+// NEW: Dynamically render category tab buttons from DB data (including inactive)
 // ============================================================
 function renderCategoryTabs() {
   const tabsContainer = document.getElementById('categoryTabs');
@@ -70,13 +73,21 @@ function renderCategoryTabs() {
   allBtn.textContent = 'All';
   tabsContainer.appendChild(allBtn);
 
-  // Add one tab per active DB category
+  // Add one tab per category (both active and inactive)
   allCategories.forEach(cat => {
     const btn = document.createElement('button');
     btn.className = 'tab-btn';
+    
+    // Add disabled styling for inactive categories
+    if (!cat.isactive) {
+      btn.classList.add('inactive');
+      btn.disabled = true;
+      btn.title = 'This category is currently unavailable';
+    }
+    
     // Use the formatted display name (already ucfirst + " Services" from model)
     btn.dataset.category = cat.categoryname;
-    btn.dataset.categoryId = cat.default_category_id;  // ✅ use ID for precise matching
+    btn.dataset.categoryId = cat.default_category_id;  // use ID for precise matching
     btn.textContent = cat.categoryname;
     tabsContainer.appendChild(btn);
   });
@@ -249,8 +260,9 @@ function createServiceItem(service) {
 
   const isAvailable = service.isavailable === 1;
   if (!isAvailable) {
-    item.style.opacity = '0.5';
-    item.style.cursor = 'not-allowed';
+    item.classList.add('inactive');
+  } else {
+    item.addEventListener('click', () => toggleService(service, item));
   }
 
   item.innerHTML = `
@@ -265,7 +277,6 @@ function createServiceItem(service) {
     <div class="service-action"></div>
   `;
 
-  if (isAvailable) item.addEventListener('click', () => toggleService(service, item));
   return item;
 }
 

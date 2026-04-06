@@ -147,6 +147,61 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'superadmin') {
         </div>
     </div>
 
+    <!-- Password Reset Modal -->
+    <div class="modal-overlay" id="passwordResetModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Reset Admin Password</h3>
+                <button class="modal-close" onclick="closeModal('passwordResetModal')"><i class="fas fa-times"></i></button>
+            </div>
+            <form id="passwordResetForm" onsubmit="resetAdminPassword(event)">
+                <input type="hidden" id="resetAdminId">
+                
+                <div class="alert alert-warning" style="margin-bottom: 20px;">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <strong>Security Notice:</strong> You are about to reset the password for <strong id="resetAdminName"></strong>. This action will be logged.
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Your Superadmin Password</label>
+                    <div class="input-group">
+                        <input type="password" class="form-control" id="superadminPassword" placeholder="Enter your password to verify" required>
+                        <button type="button" class="password-toggle" data-target="superadminPassword" tabindex="-1">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <small class="form-text">For security, enter your own password to authorize this change.</small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">New Admin Password</label>
+                    <div class="input-group">
+                        <input type="password" class="form-control" id="newAdminPassword" placeholder="Enter new password" minlength="8" required>
+                        <button type="button" class="password-toggle" data-target="newAdminPassword" tabindex="-1">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <small class="form-text">Must be at least 8 characters long.</small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Confirm New Password</label>
+                    <div class="input-group">
+                        <input type="password" class="form-control" id="confirmNewPassword" placeholder="Confirm new password" minlength="8" required>
+                        <button type="button" class="password-toggle" data-target="confirmNewPassword" tabindex="-1">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" onclick="closeModal('passwordResetModal')">Cancel</button>
+                    <button type="submit" class="btn btn-warning"><i class="fas fa-key"></i> Reset Password</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script src="../public/js/pagination.js"></script>
     <script src="../public/js/superadmin-sidebar.js"></script>
     <script src="../public/js/superadmin-toast.js"></script>

@@ -62,8 +62,7 @@ function renderBranches() {
             '<td>' + (parseFloat(b.down_payment_rate) * 100).toFixed(0) + '%</td>' +
             '<td><span class="badge ' + statusClass + '">' + b.status + '</span></td>' +
             '<td>' +
-                '<button class="btn btn-outline btn-icon btn-sm" onclick=\'openEditBranchModal(' + JSON.stringify(b) + ')\' title="Edit"><i class="fas fa-edit"></i></button> ' +
-                '<button class="btn btn-danger btn-icon btn-sm" onclick=\'openDeleteBranchModal(' + b.branch_id + ', "' + safeName + '")\' title="Delete"><i class="fas fa-trash-alt"></i></button>' +
+                '<button class="btn btn-outline btn-icon btn-sm" onclick=\'openEditBranchModal(' + JSON.stringify(b) + ')\' title="Edit"><i class="fas fa-edit"></i></button>' +
             '</td>' +
         '</tr>';
     }).join('');

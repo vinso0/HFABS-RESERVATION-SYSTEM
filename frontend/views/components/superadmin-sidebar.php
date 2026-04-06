@@ -21,7 +21,14 @@
             <i class="fas fa-store"></i>
             <span>Manage Branches</span>
         </a>
-
+        <a href="manage-services.php" class="nav-item">
+            <i class="fas fa-concierge-bell"></i>
+            <span>Manage Services</span>
+        </a>
+        <a href="manage-categories.php" class="nav-item">
+            <i class="fas fa-th-large"></i>
+            <span>Manage Categories</span>
+        </a>
         <a href="superadmin-about.php" class="nav-item">
             <i class="fas fa-info-circle"></i>
             <span>Manage About</span>

@@ -70,7 +70,7 @@ function renderAdmins() {
             '<td>' + date + '</td>' +
             '<td>' +
                 '<button class="btn btn-outline btn-icon btn-sm" onclick=\'openEditModal(' + JSON.stringify(a) + ')\' title="Edit"><i class="fas fa-edit"></i></button> ' +
-                '<button class="btn btn-danger btn-icon btn-sm" onclick=\'openDeleteModal(' + a.user_id + ', "' + safeName + '")\' title="Delete"><i class="fas fa-trash-alt"></i></button>' +
+                '<button class="btn btn-warning btn-icon btn-sm" onclick=\'openPasswordResetModal(' + a.user_id + ', "' + safeName + '")\' title="Reset Password"><i class="fas fa-key"></i></button>' +
             '</td>' +
         '</tr>';
     }).join('');
@@ -215,6 +215,72 @@ function confirmDelete() {
         });
 }
 
+// ── Open Password Reset Modal ──
+function openPasswordResetModal(id, name) {
+    document.getElementById('resetAdminId').value = id;
+    document.getElementById('resetAdminName').textContent = name;
+    document.getElementById('passwordResetForm').reset();
+    document.getElementById('passwordResetModal').classList.add('open');
+}
+
+// ── Reset Admin Password ──
+function resetAdminPassword(e) {
+    e.preventDefault();
+    
+    var adminId = document.getElementById('resetAdminId').value;
+    var payload = {
+        superadmin_password: document.getElementById('superadminPassword').value,
+        new_password: document.getElementById('newAdminPassword').value,
+        confirm_password: document.getElementById('confirmNewPassword').value
+    };
+    
+    // Validate form
+    if (!payload.superadmin_password || !payload.new_password || !payload.confirm_password) {
+        showToast('All fields are required', 'error', 'Validation Error');
+        return;
+    }
+    
+    if (payload.new_password.length < 8) {
+        showToast('New password must be at least 8 characters long', 'error', 'Validation Error');
+        return;
+    }
+    
+    if (payload.new_password !== payload.confirm_password) {
+        showToast('New passwords do not match', 'error', 'Validation Error');
+        return;
+    }
+    
+    // Disable button to prevent double submit
+    var resetBtn = document.querySelector('#passwordResetForm button[type="submit"]');
+    var originalText = resetBtn.innerHTML;
+    resetBtn.disabled = true;
+    resetBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Resetting…';
+    
+    fetch(API + 'resetAdminPassword/' + adminId, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+    })
+    .then(function(res) { return res.json(); })
+    .then(function(json) {
+        resetBtn.disabled = false;
+        resetBtn.innerHTML = originalText;
+        
+        if (json.success) {
+            closeModal('passwordResetModal');
+            showToast(json.message, 'success', 'Password Reset');
+        } else {
+            showToast(json.message || 'Password reset failed.', 'error', 'Error');
+        }
+    })
+    .catch(function(err) {
+        resetBtn.disabled = false;
+        resetBtn.innerHTML = originalText;
+        console.error(err);
+        showToast('Network error. Please try again.', 'error', 'Error');
+    });
+}
+
 // ── Close Modal ──
 function closeModal(id) {
     document.getElementById(id).classList.remove('open');
@@ -237,4 +303,26 @@ document.addEventListener('DOMContentLoaded', function() {
             if (e.target === overlay) overlay.classList.remove('open');
         });
     });
+});
+
+// A quick regex check is instant
+const validateEmail = (email) => {
+  return String(email)
+    .toLowerCase()
+    .match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+};
+
+// ── Password Toggle (Font Awesome fa-eye / fa-eye-slash) ──────────
+document.querySelectorAll('.password-toggle').forEach((btn) => {
+  // Seed the icon on load
+  btn.innerHTML = '<i class="fas fa-eye"></i>';
+
+  btn.addEventListener('click', () => {
+    const input = document.getElementById(btn.dataset.target);
+    if (!input) return;
+    const isPassword = input.type === 'password';
+    input.type = isPassword ? 'text' : 'password';
+    btn.querySelector('i').className = isPassword ? 'fas fa-eye-slash' : 'fas fa-eye';
+    btn.setAttribute('aria-label', isPassword ? 'Hide password' : 'Show password');
+  });
 });
