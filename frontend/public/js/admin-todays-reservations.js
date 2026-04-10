@@ -1,7 +1,17 @@
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', init);
+
+/* ─── Constants (now dynamic — set after branch fetch) ──── */
+let GRID_START_HOUR = 8;   // fallback: 8 AM
+let GRID_END_HOUR   = 22;  // fallback: 10 PM
+const HOUR_HEIGHT_PX = 64;
+
+/* ─── Boot: fetch branch hours THEN reservations ─────────── */
+async function init() {
+    await fetchBranchHours();
     fetchTodaysReservations();
     setInterval(fetchTodaysReservations, 30000);
 
+    // Sidebar active state
     const navItems = document.querySelectorAll('.sidebar-nav .nav-item');
     navItems.forEach(item => {
         if (item.querySelector('span') &&
@@ -9,33 +19,49 @@ document.addEventListener('DOMContentLoaded', function () {
             item.classList.add('active');
         }
     });
-});
+}
 
-/* ─── Constants ─────────────────────────────────── */
-const GRID_START_HOUR = 8;
-const GRID_END_HOUR   = 22;
-const HOUR_HEIGHT_PX  = 64;
+/* ─── Fetch branch opening/closing time ──────────────────── */
+async function fetchBranchHours() {
+    try {
+        const res = await fetch('../../backend/public/index.php?url=branch/settings', {
+            credentials: 'same-origin'
+        });
+        if (!res.ok) return; // keep fallback values on error
 
-/* ─── API fetch ──────────────────────────────────── */
+        const result = await res.json();
+        if (result.success && result.data) {
+            const opening = result.data.opening_time; // e.g. "09:00:00"
+            const closing = result.data.closing_time; // e.g. "21:00:00"
+
+            if (opening) {
+                // Parse "HH:MM:SS" → integer hour, floor so grid starts at or before opening
+                GRID_START_HOUR = parseInt(opening.split(':')[0], 10);
+            }
+            if (closing) {
+                // Ceiling: if closing has non-zero minutes, extend grid one extra hour
+                const [ch, cm] = closing.split(':').map(Number);
+                GRID_END_HOUR = cm > 0 ? ch + 1 : ch;
+            }
+        }
+    } catch (e) {
+        console.warn('Could not fetch branch hours, using defaults:', e);
+    }
+}
+
+/* ─── API fetch ──────────────────────────────────────────── */
 async function fetchTodaysReservations() {
     try {
         const response = await fetch('../../backend/public/index.php?url=reservation/getTodaysReservations', {
             credentials: 'same-origin'
         });
-
         if (response.status === 401) {
             alert('Session expired or not authorized. Please log in again.');
             return;
         }
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-
         const result = await response.json();
-
-        // ── FIX 1: result.data is always an array (never wrapped in .reservations)
-        // getTodaysReservations returns a plain array, not { reservations: [], total: n }
-        const data = result.success ? result.data : [];
-        renderReservations(Array.isArray(data) ? data : []);
-
+        renderReservations(result.success ? result.data : []);
     } catch (error) {
         console.error('Error fetching reservations:', error);
         renderReservations(getSampleReservations());
@@ -550,19 +576,26 @@ async function updateReservationStatus(reservationId, status) {
         });
 
         if (response.status === 401) {
-            alert('Session expired. Please log in again.');
+            Toast.error('Session expired. Please log in again.');
             return;
         }
 
         const result = await response.json();
+
         if (result.success) {
+            const statusLabels = {
+                'completed': 'Reservation marked as Completed.',
+                'cancelled': 'Reservation has been Cancelled.',
+                'no-show':   'Reservation marked as No-Show.'
+            };
+            Toast.success(statusLabels[status] || 'Status updated successfully.');
             fetchTodaysReservations();
         } else {
-            alert(`Error: ${result.message}`);
+            Toast.error(result.message || 'Failed to update reservation status.');
         }
     } catch (error) {
         console.error('Error updating reservation status:', error);
-        alert('Failed to update reservation status. Please try again.');
+        Toast.error('Could not connect to the server. Please try again.');
     }
 }
 
