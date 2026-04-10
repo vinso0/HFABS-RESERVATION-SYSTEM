@@ -1,17 +1,15 @@
 document.addEventListener('DOMContentLoaded', init);
 
-/* ─── Constants (now dynamic — set after branch fetch) ──── */
-let GRID_START_HOUR = 8;   // fallback: 8 AM
-let GRID_END_HOUR   = 22;  // fallback: 10 PM
+let GRID_START_HOUR = 8;    // fallbacks in case fetchBranchHours fails
+let GRID_END_HOUR   = 22;
 const HOUR_HEIGHT_PX = 64;
 
-/* ─── Boot: fetch branch hours THEN reservations ─────────── */
+/* ─── Boot ───────────────────────────────────────────────── */
 async function init() {
     await fetchBranchHours();
     fetchTodaysReservations();
     setInterval(fetchTodaysReservations, 30000);
 
-    // Sidebar active state
     const navItems = document.querySelectorAll('.sidebar-nav .nav-item');
     navItems.forEach(item => {
         if (item.querySelector('span') &&
@@ -21,25 +19,23 @@ async function init() {
     });
 }
 
-/* ─── Fetch branch opening/closing time ──────────────────── */
+/* ─── Fetch branch opening/closing time ─────────────────── */
 async function fetchBranchHours() {
     try {
         const res = await fetch('../../backend/public/index.php?url=branch/settings', {
             credentials: 'same-origin'
         });
-        if (!res.ok) return; // keep fallback values on error
+        if (!res.ok) return;
 
         const result = await res.json();
         if (result.success && result.data) {
-            const opening = result.data.opening_time; // e.g. "09:00:00"
-            const closing = result.data.closing_time; // e.g. "21:00:00"
+            const opening = result.data.opening_time;
+            const closing = result.data.closing_time; 
 
             if (opening) {
-                // Parse "HH:MM:SS" → integer hour, floor so grid starts at or before opening
                 GRID_START_HOUR = parseInt(opening.split(':')[0], 10);
             }
             if (closing) {
-                // Ceiling: if closing has non-zero minutes, extend grid one extra hour
                 const [ch, cm] = closing.split(':').map(Number);
                 GRID_END_HOUR = cm > 0 ? ch + 1 : ch;
             }
@@ -49,19 +45,26 @@ async function fetchBranchHours() {
     }
 }
 
-/* ─── API fetch ──────────────────────────────────────────── */
+/* ─── API fetch ──────────────────────────────────── */
 async function fetchTodaysReservations() {
     try {
         const response = await fetch('../../backend/public/index.php?url=reservation/getTodaysReservations', {
             credentials: 'same-origin'
         });
+
         if (response.status === 401) {
             alert('Session expired or not authorized. Please log in again.');
             return;
         }
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
         const result = await response.json();
-        renderReservations(result.success ? result.data : []);
+
+        // ── FIX 1: result.data is always an array (never wrapped in .reservations)
+        // getTodaysReservations returns a plain array, not { reservations: [], total: n }
+        const data = result.success ? result.data : [];
+        renderReservations(Array.isArray(data) ? data : []);
+
     } catch (error) {
         console.error('Error fetching reservations:', error);
         renderReservations(getSampleReservations());
@@ -99,57 +102,11 @@ function getSampleReservations() {
             branch_name: 'Quezon City Branch',
             status: 'confirmed',
             total_price: 1500
-        },
-        {
-            reservation_id: 3,
-            customer_name: 'Michael Johnson',
-            customer_contact: '+63 918 456 7890',
-            customer_email: 'michael.johnson@example.com',
-            services: [
-                { service_name: 'Hair Color',    category_name: 'Hair Services', price: 1800, duration_minutes: 90 },
-                { service_name: 'Hair Treatment', category_name: 'Hair Services', price: 1200, duration_minutes: 60 }
-            ],
-            schedule: { schedule_date: '2026-04-10', start_time: '11:30:00', end_time: '13:30:00' },
-            reservation_date: '2026-04-10',
-            branch_name: 'Quezon City Branch',
-            status: 'confirmed',
-            total_price: 3000
-        },
-        {
-            reservation_id: 4,
-            customer_name: 'Sarah Williams',
-            customer_contact: '+63 919 234 5678',
-            customer_email: 'sarah.williams@example.com',
-            services: [
-                { service_name: 'Nail Art', category_name: 'Nail Services', price: 800, duration_minutes: 60 },
-                { service_name: 'Foot Spa',  category_name: 'Nail Services', price: 600, duration_minutes: 60 }
-            ],
-            schedule: { schedule_date: '2026-04-10', start_time: '14:00:00', end_time: '16:00:00' },
-            reservation_date: '2026-04-10',
-            branch_name: 'Quezon City Branch',
-            status: 'confirmed',
-            total_price: 1400
-        },
-        {
-            reservation_id: 5,
-            customer_name: 'David Brown',
-            customer_contact: '+63 920 345 6789',
-            customer_email: 'david.brown@example.com',
-            services: [
-                { service_name: 'Hot Stone Massage', category_name: 'Massage Services', price: 1800, duration_minutes: 90 }
-            ],
-            schedule: { schedule_date: '2026-04-10', start_time: '15:30:00', end_time: '17:00:00' },
-            reservation_date: '2026-04-10',
-            branch_name: 'Quezon City Branch',
-            status: 'confirmed',
-            total_price: 1800
         }
     ];
 }
 
 /* ─── Helpers ────────────────────────────────────── */
-
-// ── FIX 2: Safe parseTime — returns -1 if input is missing/invalid
 function parseTime(timeStr) {
     if (!timeStr || typeof timeStr !== 'string') return -1;
     const parts = timeStr.split(':');
