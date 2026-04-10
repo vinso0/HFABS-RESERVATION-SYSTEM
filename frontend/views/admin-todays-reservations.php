@@ -21,17 +21,29 @@ if (!isset($_SESSION['role']) || !in_array($_SESSION['role'], ['admin', 'cashier
 </head>
 <body>
     <?php include 'components/admin-sidebar.php'; ?>
-    
+
     <main class="main-content">
         <?php include 'components/admin-navbar.php'; ?>
 
         <section class="todays-reservations-section">
-            <h2>Today's Reservations</h2>
-            <p class="subtitle-text">Manage all confirmed reservations for today</p>
-
-            <div class="reservations-container" id="reservationsContainer">
-                <!-- Reservation cards will be populated by JavaScript -->
+            <div class="tr-page-header">
+                <div>
+                    <h2>Today's Reservations</h2>
+                    <p class="subtitle-text">Manage all confirmed reservations for today</p>
+                </div>
+                <div class="stats-bar" id="statsBar">
+                    <div class="stat-chip"><span id="statTotal">0</span> Total</div>
+                    <div class="stat-chip stat-confirmed"><span id="statConfirmed">0</span> Confirmed</div>
+                    <div class="stat-chip stat-completed"><span id="statCompleted">0</span> Completed</div>
+                    <div class="stat-chip stat-noshow"><span id="statNoShow">0</span> No-Show</div>
+                </div>
             </div>
+
+            <div class="calendar-wrapper" id="calendarWrapper">
+                <div class="time-grid" id="timeGrid"></div>
+            </div>
+
+            <div id="reservationsContainer" style="display:none;"></div>
 
             <div class="no-reservations" id="noReservations" style="display: none;">
                 <i class="fas fa-calendar-times"></i>

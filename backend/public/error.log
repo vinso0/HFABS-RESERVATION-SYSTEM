@@ -29004,3 +29004,732 @@ Stack trace:
 [06-Apr-2026 18:55:12 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
 [06-Apr-2026 18:55:12 Europe/Berlin] Router received URL: transaction/getByBranch
 [06-Apr-2026 18:55:14 Europe/Berlin] Router received URL: analytics/exportExcel
+[10-Apr-2026 07:13:10 Europe/Berlin] Router received URL: auth/login
+[10-Apr-2026 07:13:10 Europe/Berlin] Router received URL: reservation/getAllReservations
+[10-Apr-2026 07:13:10 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:13:10 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:13:10 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:13:10 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:13:10 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:13:10 Europe/Berlin] Router received URL: transaction/getByBranch
+[10-Apr-2026 07:13:10 Europe/Berlin] Router received URL: reservation/getAllReservations
+[10-Apr-2026 07:13:10 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:13:10 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:13:10 Europe/Berlin] Router received URL: transaction/getByBranch
+[10-Apr-2026 07:13:18 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:13:18 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:13:18 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:13:24 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:13:24 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:13:24 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:13:25 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:13:25 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:13:25 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:13:55 Europe/Berlin] Router received URL: reservation/getAllReservations
+[10-Apr-2026 07:13:55 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:13:55 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:13:55 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:13:55 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:13:55 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:13:55 Europe/Berlin] Router received URL: transaction/getByBranch
+[10-Apr-2026 07:13:55 Europe/Berlin] Router received URL: reservation/getAllReservations
+[10-Apr-2026 07:13:55 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:13:55 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:13:55 Europe/Berlin] Router received URL: transaction/getByBranch
+[10-Apr-2026 07:14:03 Europe/Berlin] Router received URL: reservation/getAllReservations
+[10-Apr-2026 07:14:03 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:14:03 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:14:08 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:14:08 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:14:08 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:14:39 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:14:39 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:14:39 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:15:09 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:15:09 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:15:09 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:15:39 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:15:39 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:15:39 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:16:09 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:16:09 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:16:09 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:16:20 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:16:20 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:16:20 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:16:22 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:16:22 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:16:22 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:16:22 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:16:22 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:16:22 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:16:23 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:16:23 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:16:23 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:16:24 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:16:24 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:16:24 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:16:54 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:16:54 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:16:54 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:17:24 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:17:24 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:17:24 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:17:30 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:17:30 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:17:30 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:17:42 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:17:42 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:17:42 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:18:12 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:18:12 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:18:12 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:18:42 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:18:42 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:18:42 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:19:12 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:19:12 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:19:12 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:19:42 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:19:42 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:19:42 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:20:12 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:20:12 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:20:12 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:20:42 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:20:42 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:20:42 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:21:12 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:21:12 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:21:12 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:21:14 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:21:14 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:21:14 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:21:15 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:21:15 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:21:15 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:21:16 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:21:16 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:21:16 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:21:16 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:21:16 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:21:16 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:21:17 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:21:17 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:21:17 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:21:18 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:21:18 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:21:18 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:21:21 Europe/Berlin] Router received URL: auth/logout
+[10-Apr-2026 07:21:27 Europe/Berlin] Router received URL: auth/login
+[10-Apr-2026 07:21:27 Europe/Berlin] Router received URL: reservation/getAllReservations
+[10-Apr-2026 07:21:27 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:21:27 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:21:27 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:21:27 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:21:27 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:21:27 Europe/Berlin] Router received URL: transaction/getByBranch
+[10-Apr-2026 07:21:27 Europe/Berlin] Router received URL: transaction/getByBranch
+[10-Apr-2026 07:21:27 Europe/Berlin] Router received URL: reservation/getAllReservations
+[10-Apr-2026 07:21:27 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:21:27 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:21:29 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:21:29 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:21:29 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:21:59 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:21:59 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:21:59 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:22:29 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:22:29 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:22:29 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:22:59 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:22:59 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:22:59 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:23:08 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:23:08 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:23:08 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:23:24 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:23:24 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:23:24 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:23:54 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:23:54 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:23:54 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:24:24 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:24:24 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:24:24 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:24:54 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:24:54 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:24:54 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:25:24 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:25:24 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:25:24 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:25:54 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:25:54 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:25:54 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:26:24 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:26:24 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:26:24 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:26:54 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:26:54 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:26:54 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:27:32 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:27:32 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:27:32 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:27:54 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:27:54 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:27:54 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:28:03 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:28:03 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:28:04 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:28:33 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:28:33 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:28:33 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:29:03 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:29:03 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:29:04 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:29:33 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:29:33 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:29:34 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[10-Apr-2026 07:30:04 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[10-Apr-2026 07:30:04 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => cal branch admin
+    [email] => admin@admin
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan branch
+)
+
+[10-Apr-2026 07:30:04 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
