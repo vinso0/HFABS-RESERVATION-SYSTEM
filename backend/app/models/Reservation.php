@@ -346,7 +346,7 @@ class Reservation extends Database
             JOIN reservation_schedule rsch ON rs.reservation_service_id = rsch.reservation_service_id
             WHERE r.branch_id = ?
                 AND DATE(rsch.schedule_date) = ?
-                AND r.status = 'confirmed'
+                AND r.status IN ('confirmed', 'rescheduled')
             GROUP BY r.reservation_id
             ORDER BY rsch.schedule_date ASC, rsch.start_time ASC
         ";
@@ -367,7 +367,8 @@ class Reservation extends Database
                     rs.booked_unit_price as price,
                     rs.booked_duration_minutes as duration_minutes,
                     rs.booked_category_name as category_name,
-                    rs.booked_description as description
+                    rs.booked_description as description,
+                    rs.remaining_balance
                 FROM reservation_services rs
                 WHERE rs.reservation_id = ?
             ";
@@ -402,12 +403,15 @@ class Reservation extends Database
             if ($scheduleRow = $scheduleResult->fetch_assoc()) {
                 $schedule = $scheduleRow;
             }
+
+            $totalRemainingBalance = array_sum(array_column($services, 'remaining_balance'));
             
             $reservations[] = [
                 'reservation_id' => $row['reservation_id'],
                 'reservation_date' => $row['reservation_date'],
                 'status' => $row['status'],
                 'total_price' => $row['total_price'],
+                'total_remaining_balance' => $totalRemainingBalance,
                 'customer_name' => $row['customer_name'],
                 'customer_email' => $row['customer_email'],
                 'customer_contact' => $row['customer_contact'],
@@ -445,7 +449,7 @@ class Reservation extends Database
             JOIN reservation_schedule rsch ON rs.reservation_service_id = rsch.reservation_service_id
             LEFT JOIN branch b ON r.branch_id = b.branch_id
             WHERE DATE(rsch.schedule_date) = ?
-                AND r.status = 'confirmed'
+            AND r.status IN ('confirmed', 'rescheduled')
             GROUP BY r.reservation_id
             ORDER BY rsch.schedule_date ASC, rsch.start_time ASC
         ";

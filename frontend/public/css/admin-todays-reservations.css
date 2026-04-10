@@ -55,6 +55,7 @@
 .stat-chip.stat-confirmed span { color: #d91a7e; }
 .stat-chip.stat-completed span { color: #0d894f; }
 .stat-chip.stat-noshow span    { color: #d82626; }
+.stat-chip.stat-rescheduled span { color: #6b4fc8; }
 
 /* ── Calendar wrapper ── */
 .calendar-wrapper {
@@ -197,6 +198,11 @@
     border-radius: 10px;
     background: rgba(255,255,255,0.55);
     color: #444;
+}
+
+.res-block.status-rescheduled {
+    background: linear-gradient(135deg, #e8dff9 0%, #d4c5f4 100%);
+    border-color: #9b7de8;
 }
 
 /* Block actions (visible on hover for tall blocks) */

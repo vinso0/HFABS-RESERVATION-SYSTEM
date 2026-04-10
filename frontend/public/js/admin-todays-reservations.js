@@ -371,10 +371,11 @@ function renderReservations(reservations) {
 
 /* ─── Stats bar ──────────────────────────────────── */
 function updateStats(reservations) {
-    document.getElementById('statTotal').textContent     = reservations.length;
-    document.getElementById('statConfirmed').textContent = reservations.filter(r => r.status === 'confirmed').length;
-    document.getElementById('statCompleted').textContent = reservations.filter(r => r.status === 'completed').length;
-    document.getElementById('statNoShow').textContent    = reservations.filter(r => r.status === 'no-show').length;
+    document.getElementById('statTotal').textContent          = reservations.length;
+    document.getElementById('statConfirmed').textContent     = reservations.filter(r => r.status === 'confirmed').length;
+    document.getElementById('statRescheduled').textContent   = reservations.filter(r => r.status === 'rescheduled').length;
+    document.getElementById('statCompleted').textContent     = reservations.filter(r => r.status === 'completed').length;
+    document.getElementById('statNoShow').textContent        = reservations.filter(r => r.status === 'no-show').length;
 }
 
 /* ─── Auto-scroll ────────────────────────────────── */
@@ -409,10 +410,14 @@ window.viewReservationDetails = function (reservationId) {
 };
 
 function populateTodaysReservationDetailsModal(reservation) {
+    // Expose reservation ID for the inline onclick buttons in the modal
+    window._modalReservationId = reservation.reservation_id;
+
     document.getElementById('todaysModalCustomerName').textContent = reservation.customer_name || 'N/A';
     document.getElementById('todaysModalEmail').textContent        = reservation.customer_email || 'N/A';
     document.getElementById('todaysModalContact').textContent      = reservation.customer_contact || 'N/A';
 
+    // Services list
     const servicesContainer = document.getElementById('todaysModalServices');
     if (reservation.services && reservation.services.length > 0) {
         servicesContainer.innerHTML = reservation.services.map(service => {
@@ -420,27 +425,56 @@ function populateTodaysReservationDetailsModal(reservation) {
             const category = typeof service === 'string' ? 'N/A' : (service.category_name || 'N/A');
             const price    = typeof service === 'string' ? 'N/A'
                 : `₱${parseFloat(service.price || 0).toLocaleString('en-PH', { minimumFractionDigits: 2 })}`;
+            const balance  = (typeof service !== 'string' && service.remaining_balance != null)
+                ? `₱${parseFloat(service.remaining_balance).toLocaleString('en-PH', { minimumFractionDigits: 2 })}`
+                : null;
             return `<div class="service-item">
                         <div class="service-name">${name}</div>
                         <div class="service-category">${category}</div>
                         <div class="service-price">${price}</div>
+                        ${balance ? `<div class="service-balance" style="font-size:11px;color:#d91a7e;margin-top:2px;">Balance: ${balance}</div>` : ''}
                     </div>`;
         }).join('');
     } else {
         servicesContainer.innerHTML = '<p>No services listed</p>';
     }
 
+    // Reservation info
     document.getElementById('todaysModalReservationId').textContent   = reservation.reservation_id;
-    // ── FIX 6: Use schedule_date (actual model field) not reservation_date for schedule date
     document.getElementById('todaysModalScheduleDate').textContent    = formatDate(getScheduleDate(reservation));
     document.getElementById('todaysModalReservationDate').textContent = formatDate(reservation.reservation_date);
     document.getElementById('todaysModalTime').textContent =
         `${formatTime(getStartTime(reservation))} - ${formatTime(getEndTime(reservation))}`;
-    document.getElementById('todaysModalBranch').textContent      = reservation.branch_name || 'N/A';
-    document.getElementById('todaysModalTotalPrice').textContent  =
+    document.getElementById('todaysModalBranch').textContent = reservation.branch_name || 'N/A';
+
+    // Payment summary
+    document.getElementById('todaysModalTotalPrice').textContent =
         `₱${parseFloat(reservation.total_price || 0).toLocaleString('en-PH', { minimumFractionDigits: 2 })}`;
+
+    const remaining = reservation.total_remaining_balance != null
+        ? parseFloat(reservation.total_remaining_balance)
+        : null;
+    const balanceEl = document.getElementById('todaysModalRemainingBalance');
+    if (remaining !== null) {
+        balanceEl.textContent = `₱${remaining.toLocaleString('en-PH', { minimumFractionDigits: 2 })}`;
+        balanceEl.style.color = remaining > 0 ? '#d91a7e' : '#0d894f';
+    } else {
+        balanceEl.textContent = 'N/A';
+    }
+
+    // Status badge
     document.getElementById('todaysModalStatus').innerHTML =
         `<span class="status-badge status-${reservation.status}">${capitalizeFirstLetter(reservation.status)}</span>`;
+
+    // Show/hide status action buttons based on current status
+    // Terminal statuses (completed, cancelled, no-show) cannot be changed
+    const terminalStatuses = ['completed', 'cancelled', 'no-show'];
+    const actionsSection = document.getElementById('todaysModalStatusActions');
+    if (terminalStatuses.includes(reservation.status)) {
+        actionsSection.classList.add('modal-status-actions-hidden');
+    } else {
+        actionsSection.classList.remove('modal-status-actions-hidden');
+    }
 }
 
 function openTodaysReservationDetailsModal() {

@@ -354,6 +354,104 @@
     box-shadow: 0 4px 12px rgba(217, 26, 126, 0.3);
 }
 
+/* ── Payment summary box ── */
+.payment-summary-box {
+    background: #fafafa;
+    border: 1px solid #efefef;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.payment-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    font-size: 13px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.payment-row:last-child {
+    border-bottom: none;
+}
+
+.payment-row-balance {
+    background: #fff8fc;
+}
+
+.payment-label {
+    color: #666;
+    font-weight: 500;
+}
+
+.payment-value {
+    font-weight: 700;
+    color: #222;
+}
+
+.payment-balance {
+    color: #d91a7e;
+    font-size: 15px;
+}
+
+/* ── Status action buttons ── */
+.status-action-btns {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.status-action-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border-radius: 7px;
+    border: none;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: opacity 0.18s ease, transform 0.12s ease;
+    width: 100%;
+    justify-content: center;
+}
+
+.status-action-btn:hover {
+    opacity: 0.87;
+    transform: translateY(-1px);
+}
+
+.status-action-btn:active {
+    transform: translateY(0);
+}
+
+.btn-mark-completed {
+    background: #0d894f;
+    color: #fff;
+}
+
+.btn-mark-noshow {
+    background: #e67e00;
+    color: #fff;
+}
+
+.btn-mark-cancelled {
+    background: #f5f5f5;
+    color: #d82626;
+    border: 1px solid #e8e8e8;
+}
+
+/* Hide status actions for terminal statuses */
+.modal-status-actions-hidden {
+    display: none !important;
+}
+
+/* Rescheduled badge */
+.status-rescheduled {
+    background: #6b4fc8;
+    color: #fff;
+}
+
 @media (max-width: 768px) {
     .modal-container {
         max-width: 100%;

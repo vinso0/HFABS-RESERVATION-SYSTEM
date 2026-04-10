@@ -7,8 +7,9 @@
                 <i class="fas fa-times"></i>
             </button>
         </div>
-        
+
         <div class="modal-body">
+            <!-- Customer Info -->
             <div class="modal-section">
                 <h4 class="section-title">Customer Information</h4>
                 <div class="detail-group">
@@ -25,13 +26,13 @@
                 </div>
             </div>
 
+            <!-- Services -->
             <div class="modal-section">
                 <h4 class="section-title">Services</h4>
-                <div id="todaysModalServices" class="services-list">
-                    <!-- Services will be dynamically populated -->
-                </div>
+                <div id="todaysModalServices" class="services-list"></div>
             </div>
 
+            <!-- Reservation Details -->
             <div class="modal-section">
                 <h4 class="section-title">Reservation Details</h4>
                 <div class="detail-group">
@@ -54,17 +55,48 @@
                     <label>Branch</label>
                     <p id="todaysModalBranch">-</p>
                 </div>
-                <div class="detail-group">
-                    <label>Total Price</label>
-                    <p id="todaysModalTotalPrice" class="price-text">-</p>
+            </div>
+
+            <!-- Payment Summary -->
+            <div class="modal-section">
+                <h4 class="section-title">Payment Summary</h4>
+                <div class="payment-summary-box">
+                    <div class="payment-row">
+                        <span class="payment-label">Total Price</span>
+                        <span class="payment-value" id="todaysModalTotalPrice">-</span>
+                    </div>
+                    <div class="payment-row payment-row-balance">
+                        <span class="payment-label">Remaining Balance</span>
+                        <span class="payment-value payment-balance" id="todaysModalRemainingBalance">-</span>
+                    </div>
                 </div>
             </div>
 
+            <!-- Status -->
             <div class="modal-section">
                 <h4 class="section-title">Status</h4>
                 <div class="detail-group">
-                    <label>Reservation Status</label>
+                    <label>Current Status</label>
                     <p id="todaysModalStatus">-</p>
+                </div>
+            </div>
+
+            <!-- Update Status Actions -->
+            <div class="modal-section" id="todaysModalStatusActions">
+                <h4 class="section-title">Update Status</h4>
+                <div class="status-action-btns">
+                    <button class="status-action-btn btn-mark-completed"
+                            onclick="handleStatusChange(window._modalReservationId, 'completed')">
+                        <i class="fas fa-check-circle"></i> Mark as Completed
+                    </button>
+                    <button class="status-action-btn btn-mark-noshow"
+                            onclick="handleStatusChange(window._modalReservationId, 'no-show')">
+                        <i class="fas fa-user-slash"></i> Mark as No-Show
+                    </button>
+                    <button class="status-action-btn btn-mark-cancelled"
+                            onclick="handleStatusChange(window._modalReservationId, 'cancelled')">
+                        <i class="fas fa-times-circle"></i> Cancel Reservation
+                    </button>
                 </div>
             </div>
         </div>

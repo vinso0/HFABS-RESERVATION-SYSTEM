@@ -34,6 +34,7 @@ if (!isset($_SESSION['role']) || !in_array($_SESSION['role'], ['admin', 'cashier
                 <div class="stats-bar" id="statsBar">
                     <div class="stat-chip"><span id="statTotal">0</span> Total</div>
                     <div class="stat-chip stat-confirmed"><span id="statConfirmed">0</span> Confirmed</div>
+                    <div class="stat-chip stat-rescheduled"><span id="statRescheduled">0</span> Rescheduled</div>
                     <div class="stat-chip stat-completed"><span id="statCompleted">0</span> Completed</div>
                     <div class="stat-chip stat-noshow"><span id="statNoShow">0</span> No-Show</div>
                 </div>
