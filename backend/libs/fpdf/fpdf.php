@@ -102,10 +102,7 @@ function __construct($orientation='P', $unit='mm', $size='A4')
 	$this->ws = 0;
 	$this->iconv = function_exists('iconv');
 	// Font path
-	if(defined('FPDF_FONTPATH'))
-		$this->fontpath = FPDF_FONTPATH;
-	else
-		$this->fontpath = dirname(__FILE__).'/font/';
+	$this->fontpath = defined('FPDF_FONTPATH') ? constant('FPDF_FONTPATH') : dirname(__FILE__).'/font/';
 	// Core fonts
 	$this->CoreFonts = array('courier', 'helvetica', 'times', 'symbol', 'zapfdingbats');
 	// Scale factor

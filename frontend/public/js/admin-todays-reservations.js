@@ -8,7 +8,11 @@ const HOUR_HEIGHT_PX = 64;
 async function init() {
     await fetchBranchHours();
     fetchTodaysReservations();
-    setInterval(fetchTodaysReservations, 30000);
+
+    setInterval(async () => {
+        await fetchBranchHours();
+        fetchTodaysReservations();
+    }, 30000);
 
     const navItems = document.querySelectorAll('.sidebar-nav .nav-item');
     navItems.forEach(item => {
@@ -41,7 +45,7 @@ async function fetchBranchHours() {
             }
         }
     } catch (e) {
-        console.warn('Could not fetch branch hours, using defaults:', e);
+        console.warn('[BranchHours] fetch error, using defaults:', e);
     }
 }
 
@@ -155,7 +159,6 @@ function getScheduleDate(reservation) {
 
 /* ─── Overlap layout ─────────────────────────────── */
 function computeLayout(reservations) {
-    // ── FIX 4: Filter out reservations with missing/invalid schedule before layout
     const valid = reservations.filter(r => {
         const s = parseTime(getStartTime(r));
         const e = parseTime(getEndTime(r));
@@ -191,17 +194,20 @@ function computeLayout(reservations) {
     });
 
     layout.forEach(item => {
-        const start = parseTime(getStartTime(item.reservation));
-        const end   = parseTime(getEndTime(item.reservation));
-        let maxCol  = item.col;
+    const start = parseTime(getStartTime(item.reservation));
+    const end   = parseTime(getEndTime(item.reservation));
+
+        // Collect all columns used by ANY reservation that overlaps with this one
+        const overlappingCols = new Set();
         layout.forEach(other => {
             const oStart = parseTime(getStartTime(other.reservation));
             const oEnd   = parseTime(getEndTime(other.reservation));
             if (oStart < end && oEnd > start) {
-                maxCol = Math.max(maxCol, other.col);
+                overlappingCols.add(other.col);
             }
         });
-        item.totalCols = maxCol + 1;
+
+        item.totalCols = overlappingCols.size;
     });
 
     return layout;

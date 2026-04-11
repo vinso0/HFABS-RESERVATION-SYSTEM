@@ -55,7 +55,7 @@ class NavbarLoader {
       return;
     }
 
-    container.innerHTML = '<div class="navbar-loading">Loading...</div>';
+    container.innerHTML = '<div class="navbar-loading"></div>';
 
     try {
       const componentPath = this.getComponentPath();

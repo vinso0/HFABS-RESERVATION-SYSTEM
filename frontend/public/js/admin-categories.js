@@ -106,7 +106,8 @@ function loadCategories() {
 }
 
 function loadBranchCategories() {
-    fetch(`${API_BASE_URL}=services/myBranchCategories`, { credentials: 'same-origin' })
+    const branchId = getCurrentBranchId();
+    fetch(`${API_BASE_URL}=services/branchCategories/${branchId}`, { credentials: 'same-origin' })
         .then(res => res.json())
         .then(result => {
             if (result.success) {
@@ -138,46 +139,21 @@ function renderCategoriesList() {
 
     const categoriesHTML = categoriesData.map(cat => {
         const branchCat = branchCategoriesData.find(bc => bc.default_category_id == cat.service_category_id);
-        const capacity  = branchCat ? branchCat.capacity : cat.def_capacity;
-        const isActive  = branchCat ? (parseInt(branchCat.isactive) === 1) : true;
-        const iconClass = getCategoryClass(cat.service_category_id);
-        const iconHtml  = getCategoryIcon(cat.service_category_id);
-        const displayName = branchCat?.categoryname || cat.category_name;
-
+        const capacity = branchCat ? branchCat.capacity : cat.def_capacity;
+        const isActive = branchCat ? branchCat.is_active : true;
+        
         return `
-            <div class="category-item ${!isActive ? 'inactive' : ''}" id="cat-row-${cat.service_category_id}">
-                <div class="category-icon-small ${iconClass}">${iconHtml}</div>
-
+            <div class="category-item ${!isActive ? 'inactive' : ''}">
                 <div class="category-info">
-                    <div class="category-name">
-                        ${displayName}
-                        <span class="visibility-badge ${isActive ? 'badge-active' : 'badge-inactive'}">
-                            <i class="fas ${isActive ? 'fa-eye' : 'fa-eye-slash'}"></i>
-                            ${isActive ? 'Visible to customers' : 'Hidden from customers'}
-                        </span>
-                    </div>
-                    <div class="category-details">${branchCat?.description || cat.description || 'No description'}</div>
+                    <div class="category-name">${branchCat?.display_name || cat.category_name}</div>
+                    <div class="category-details">${branchCat?.description || cat.description}</div>
+                    ${!isActive ? `<div class="category-status inactive-status">Inactive</div>` : ''}
                 </div>
-
                 <div class="category-actions">
                     <div class="category-capacity">
                         <i class="fas fa-users"></i>
                         <span>${capacity} capacity</span>
                     </div>
-
-                    <!-- ✅ Quick Toggle Switch -->
-                    <div class="toggle-wrapper" title="${isActive ? 'Click to hide from customers' : 'Click to show to customers'}">
-                        <span class="toggle-label">${isActive ? 'Active' : 'Inactive'}</span>
-                        <label class="toggle-switch">
-                            <input
-                                type="checkbox"
-                                ${isActive ? 'checked' : ''}
-                                onchange="quickToggleCategory(${cat.service_category_id}, this.checked)"
-                            >
-                            <span class="toggle-slider"></span>
-                        </label>
-                    </div>
-
                     <button class="btn-edit-category" onclick="openEditCategoryModal(${cat.service_category_id})" title="Edit Category">
                         <i class="fas fa-edit"></i>
                     </button>
@@ -187,66 +163,6 @@ function renderCategoriesList() {
     }).join('');
 
     categoriesList.innerHTML = categoriesHTML;
-}
-
-// ==========================================
-// Quick toggle active/inactive
-// ==========================================
-
-async function quickToggleCategory(categoryId, makeActive) {
-    const category  = categoriesData.find(c => c.service_category_id == categoryId);
-    const branchCat = branchCategoriesData.find(bc => bc.default_category_id == categoryId);
-
-    if (!category) return;
-
-    // Optimistically update the UI row immediately
-    const row = document.getElementById(`cat-row-${categoryId}`);
-    if (row) {
-        row.classList.toggle('inactive', !makeActive);
-    }
-
-    const formData = {
-        default_category_id:  parseInt(categoryId),
-        display_name:         branchCat?.categoryname || null,
-        description_override: branchCat?.description || null,
-        capacity_override:    parseInt(branchCat?.capacity || category.def_capacity),
-        is_active_override:   makeActive ? 1 : 0
-    };
-
-    let url, method;
-    if (branchCat?.branch_category_override_id) {
-        url    = `${API_BASE_URL}=services/myBranchCategoryUpdate/${branchCat.branch_category_override_id}`;
-        method = 'PUT';
-    } else {
-        url    = `${API_BASE_URL}=services/myBranchCategoryStore`;
-        method = 'POST';
-    }
-
-    try {
-        const res    = await fetch(url, {
-            method,
-            headers:     { 'Content-Type': 'application/json' },
-            credentials: 'same-origin',
-            body:        JSON.stringify(formData)
-        });
-        
-        const result = await res.json();
-
-        if (result.success) {
-            Toast.success(makeActive
-                ? `"${branchCat?.categoryname || category.category_name}" is now visible to customers`
-                : `"${branchCat?.categoryname || category.category_name}" is now hidden from customers`
-            );
-            loadBranchCategories();
-        } else {
-            Toast.error(result.message || result.error || 'Failed to update category');
-            loadBranchCategories();
-        }
-    } catch (err) {
-        console.error('quickToggleCategory:', err);
-        Toast.error('Could not connect to server');
-        loadBranchCategories();
-    }
 }
 
 // ==========================================
@@ -266,12 +182,12 @@ function openEditCategoryModal(categoryId) {
     document.getElementById('editCategoryId').value = categoryId;
     document.getElementById('editBranchCategoryId').value = branchCat?.branch_category_override_id || '';
     document.getElementById('editCategoryName').textContent = category.category_name;
-    document.getElementById('branchDisplayName').value = branchCat?.categoryname || '';
+    document.getElementById('branchDisplayName').value = branchCat?.display_name || '';
     document.getElementById('defaultDescriptionDisplay').textContent = category.description;
     document.getElementById('branchDescription').value = branchCat?.description || '';
     document.getElementById('branchCapacity').value = branchCat ? branchCat.capacity : category.def_capacity;
     document.getElementById('defaultCapacityDisplay').textContent = category.def_capacity;
-    document.getElementById('branchActive').checked = branchCat ? branchCat.isactive : true;
+    document.getElementById('branchActive').checked = branchCat ? branchCat.is_active : true;
     
     // Set icon
     const iconContainer = document.getElementById('editCategoryIcon');
@@ -297,6 +213,7 @@ function handleCategoryUpdate(e) {
     
     const categoryId = document.getElementById('editCategoryId').value;
     const branchCategoryId = document.getElementById('editBranchCategoryId').value;
+    const branchId = getCurrentBranchId();
     
     const displayName = document.getElementById('branchDisplayName').value.trim();
     const description = document.getElementById('branchDescription').value.trim();
@@ -309,6 +226,7 @@ function handleCategoryUpdate(e) {
     }
     
     const formData = {
+        branch_id: branchId,
         default_category_id: parseInt(categoryId),
         display_name: displayName || null,
         description_override: description || null,
@@ -321,11 +239,11 @@ function handleCategoryUpdate(e) {
     
     if (branchCategoryId) {
         // Update existing branch category override
-        url = `${API_BASE_URL}=services/myBranchCategoryUpdate/${branchCategoryId}`;
+        url = `${API_BASE_URL}=services/branchCategoryUpdate/${branchCategoryId}`;
         method = 'PUT';
     } else {
         // Create new branch category override
-        url = `${API_BASE_URL}=services/myBranchCategoryStore`;
+        url = `${API_BASE_URL}=services/branchCategoryStore`;
         method = 'POST';
     }
     
