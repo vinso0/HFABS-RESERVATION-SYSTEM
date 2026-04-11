@@ -5,7 +5,10 @@
 
 main {
   position: relative;
-  padding: 0;
+  padding-top: 90px;    /* FIXED: was padding:0 — must clear the fixed navbar (~70px tall + 16px top offset) */
+  padding-bottom: 0;
+  padding-left: 0;
+  padding-right: 0;
   z-index: 1;
 }
 
@@ -38,7 +41,7 @@ main {
 
 .content-wrapper {
   display: grid;
-  grid-template-columns: 1fr 380px;
+  grid-template-columns: 1fr 380px;   /* FIXED: services take remaining space, sidebar fixed 380px */
   gap: 2rem;
   align-items: start;
 }
@@ -48,8 +51,9 @@ main {
   background: #ffffff;
   border: 1px solid var(--border-light);
   border-radius: var(--border-radius);
-  margin-top: 1.5rem;
+  margin-top: 0;         /* FIXED: was 1.5rem — main padding-top already provides top spacing */
   padding: 2rem;
+  min-width: 0;          /* FIXED: prevents grid blowout on long service names */
 }
 
 .page-title {
@@ -60,7 +64,7 @@ main {
   color: var(--text-main);
 }
 
-/* Category Toggle Button (Mobile) */
+/* Category Toggle Button (Mobile only — hidden on desktop) */
 .category-toggle {
   display: none;
   width: 100%;
@@ -224,28 +228,17 @@ main {
   border-color: #e9ecef;
 }
 
-.service-item.inactive .service-name {
-  color: #6c757d;
-}
-
-.service-item.inactive .service-price {
-  color: #6c757d;
-}
-
-.service-item.inactive .service-description {
-  color: #adb5bd;
-}
-
+.service-item.inactive .service-name  { color: #6c757d; }
+.service-item.inactive .service-price { color: #6c757d; }
+.service-item.inactive .service-description { color: #adb5bd; }
 .service-item.inactive .service-duration {
   background: #e9ecef;
   color: #6c757d;
 }
-
 .service-item.inactive .service-action {
   border-color: #e9ecef;
   background: #f8f9fa;
 }
-
 .service-item.inactive .service-action::after {
   content: '×';
   color: #adb5bd;
@@ -253,7 +246,7 @@ main {
   font-weight: 300;
 }
 
-.service-info { flex: 1; }
+.service-info { flex: 1; min-width: 0; } /* FIXED: min-width:0 prevents text overflow breaking grid */
 
 .service-header {
   display: flex;
@@ -346,7 +339,7 @@ main {
   font-weight: 300;
 }
 
-/* ── Package items in services list ── */
+/* Package items */
 .pkg-badge {
   display: inline-flex;
   align-items: center;
@@ -389,12 +382,11 @@ main {
 }
 
 /* === Summary Sidebar === */
-/* === Summary Sidebar === */
 .summary-sidebar {
   position: sticky;
-  top: 90px;                    /* fine-tuned — accounts for floating navbar height (~70px) + spacing */
-  max-height: calc(100vh - 110px);  /* prevents sidebar from extending beyond the viewport */
-  overflow-y: auto;             /* allows internal scroll if content is tall */
+  top: 100px;                         /* FIXED: sits just below the fixed navbar */
+  max-height: calc(100vh - 120px);    /* FIXED: stays fully within the viewport */
+  overflow-y: auto;
   background: white;
   border: 1.5px solid var(--border-light);
   border-radius: var(--border-radius);
@@ -405,10 +397,7 @@ main {
   box-shadow: var(--shadow-sm);
 }
 
-/* Hide scrollbar visually but keep it functional */
-.summary-sidebar::-webkit-scrollbar {
-  width: 4px;
-}
+.summary-sidebar::-webkit-scrollbar { width: 4px; }
 .summary-sidebar::-webkit-scrollbar-thumb {
   background: var(--border-light);
   border-radius: 4px;
@@ -516,9 +505,7 @@ main {
   transform: translateY(-3px);
   box-shadow: var(--shadow-pink);
 }
-
 .continue-btn:active:not(:disabled) { transform: translateY(-1px); }
-
 .continue-btn:disabled {
   background: #e8dced;
   color: var(--text-muted);
@@ -533,31 +520,34 @@ main {
   font-size: 0.875rem;
 }
 
-/* === Responsive === */
+/* =============================================
+   RESPONSIVE
+   ============================================= */
 
-/* Collapse to single column earlier — avoids the narrow-desktop squeeze */
+/* Collapse to single column at 1100px and below */
 @media (max-width: 1100px) {
   .content-wrapper {
     grid-template-columns: 1fr;
   }
   .summary-sidebar {
-    position: static;           /* no longer sticky in single-column */
-    max-height: none;           /* remove height cap in stacked layout */
+    position: static;
+    max-height: none;
     overflow-y: visible;
-    order: -1;                  /* move summary ABOVE services list */
+    order: -1;             /* summary appears ABOVE services in stacked layout */
   }
 }
 
 @media (max-width: 768px) {
+  main { padding-top: 80px; }   /* slightly less offset on mobile — navbar may be smaller */
   .breadcrumb { padding: 1rem 1.5rem 0; }
   .container { padding: 1rem 1.5rem 2rem; }
-  .services-section { padding: 1.5rem; margin-top: 1rem; }
+  .services-section { padding: 1.5rem; }
   .page-title { font-size: 1.5rem; }
   .category-title { font-size: 1.25rem; }
   .service-item { flex-direction: column; gap: 1rem; }
   .service-action { align-self: flex-end; }
 
-  /* Show category toggle on mobile */
+  /* Show toggle button on mobile */
   .category-toggle {
     display: flex;
     min-height: 44px;
@@ -566,7 +556,7 @@ main {
     user-select: none;
   }
 
-  /* Hide category tabs by default on mobile */
+  /* Hide tabs by default on mobile, show when .show is toggled */
   .category-tabs {
     display: none;
     flex-direction: column;
@@ -581,7 +571,6 @@ main {
     display: flex;
   }
 
-  /* Full-width tap-friendly tab buttons on mobile */
   .category-tabs .tab-btn {
     width: 100%;
     min-height: 44px;
