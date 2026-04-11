@@ -38,7 +38,7 @@ main {
 
 .content-wrapper {
   display: grid;
-  grid-template-columns: 1fr 400px;
+  grid-template-columns: 1fr 380px;
   gap: 2rem;
   align-items: start;
 }
@@ -48,7 +48,7 @@ main {
   background: #ffffff;
   border: 1px solid var(--border-light);
   border-radius: var(--border-radius);
-  margin-top: 4.8rem;
+  margin-top: 1.5rem;
   padding: 2rem;
 }
 
@@ -389,9 +389,12 @@ main {
 }
 
 /* === Summary Sidebar === */
+/* === Summary Sidebar === */
 .summary-sidebar {
   position: sticky;
-  top: 100px;
+  top: 90px;                    /* fine-tuned — accounts for floating navbar height (~70px) + spacing */
+  max-height: calc(100vh - 110px);  /* prevents sidebar from extending beyond the viewport */
+  overflow-y: auto;             /* allows internal scroll if content is tall */
   background: white;
   border: 1.5px solid var(--border-light);
   border-radius: var(--border-radius);
@@ -400,6 +403,15 @@ main {
   flex-direction: column;
   gap: 1.5rem;
   box-shadow: var(--shadow-sm);
+}
+
+/* Hide scrollbar visually but keep it functional */
+.summary-sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+.summary-sidebar::-webkit-scrollbar-thumb {
+  background: var(--border-light);
+  border-radius: 4px;
 }
 
 .branch-info {
@@ -522,34 +534,67 @@ main {
 }
 
 /* === Responsive === */
-@media (max-width: 1024px) {
-  .content-wrapper { grid-template-columns: 1fr; }
-  .summary-sidebar { position: static; order: -1; }
+
+/* Collapse to single column earlier — avoids the narrow-desktop squeeze */
+@media (max-width: 1100px) {
+  .content-wrapper {
+    grid-template-columns: 1fr;
+  }
+  .summary-sidebar {
+    position: static;           /* no longer sticky in single-column */
+    max-height: none;           /* remove height cap in stacked layout */
+    overflow-y: visible;
+    order: -1;                  /* move summary ABOVE services list */
+  }
 }
 
 @media (max-width: 768px) {
   .breadcrumb { padding: 1rem 1.5rem 0; }
   .container { padding: 1rem 1.5rem 2rem; }
-  .services-section { padding: 1.5rem; }
+  .services-section { padding: 1.5rem; margin-top: 1rem; }
   .page-title { font-size: 1.5rem; }
   .category-title { font-size: 1.25rem; }
   .service-item { flex-direction: column; gap: 1rem; }
   .service-action { align-self: flex-end; }
-  
+
   /* Show category toggle on mobile */
   .category-toggle {
     display: flex;
+    min-height: 44px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
   }
-  
-  /* Hide category tabs by default on mobile, show when toggle is active */
+
+  /* Hide category tabs by default on mobile */
   .category-tabs {
     display: none;
+    flex-direction: column;
+    gap: 0.5rem;
     margin-bottom: 1rem;
+    padding: 0.75rem 0;
+    border-radius: var(--border-radius);
+    animation: slideDown 0.2s ease-out;
   }
-  
+
   .category-tabs.show {
     display: flex;
   }
+
+  /* Full-width tap-friendly tab buttons on mobile */
+  .category-tabs .tab-btn {
+    width: 100%;
+    min-height: 44px;
+    justify-content: center;
+    text-align: center;
+    margin: 0;
+    border-radius: var(--border-radius);
+  }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 @media (max-width: 480px) {

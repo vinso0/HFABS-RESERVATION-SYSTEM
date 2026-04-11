@@ -110,8 +110,10 @@ function setupEventListeners() {
   const categoryToggle = document.getElementById('categoryToggle');
   if (categoryToggle) {
     categoryToggle.addEventListener('click', function () {
-      this.classList.toggle('expanded');
-      tabsContainer.classList.toggle('expanded');
+      // FIX: was toggling 'expanded' — CSS uses 'active' for the button arrow
+      this.classList.toggle('active');
+      // FIX: was toggling 'expanded' — CSS uses 'show' to display the tabs panel
+      tabsContainer.classList.toggle('show');
     });
   }
 
@@ -131,9 +133,9 @@ function setupEventListeners() {
       if (toggleText) {
         toggleText.textContent = btn.textContent;
       }
-      // Collapse the categories after selection on mobile
-      categoryToggle.classList.remove('expanded');
-      tabsContainer.classList.remove('expanded');
+      // FIX: was removing 'expanded' — must remove 'active' and 'show' to collapse
+      categoryToggle.classList.remove('active');
+      tabsContainer.classList.remove('show');
     }
 
     if (currentCategory === 'packages') {
@@ -143,7 +145,7 @@ function setupEventListeners() {
       document.getElementById('categoryTitle').textContent = 'Featured';
       displayServices(allServices);
     } else {
-      // ✅ Filter by category_id (integer match) — precise, no string fragility
+      // Filter by category_id (integer match) — precise, no string fragility
       document.getElementById('categoryTitle').textContent = currentCategory;
       filterServicesByCategoryId(parseInt(categoryId));
     }
