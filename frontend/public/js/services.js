@@ -247,11 +247,19 @@ function displayServices(services) {
     return;
   }
 
-  servicesList.innerHTML = '';
-  services.forEach(service => {
-    servicesList.appendChild(createServiceItem(service));
-  });
-}
+    var imageHtml = service.image_url
+      ? '<img src="' + service.image_url + '" alt="' + service.display_name + '" '
+      + 'style="width:100%;height:130px;object-fit:cover;border-radius:8px 8px 0 0;display:block;" '
+      + 'loading="lazy" onerror="this.style.display=\'none\'">'
+      : '<div style="width:100%;height:130px;border-radius:8px 8px 0 0;background:linear-gradient(135deg,#f3e5f5,#e8eaf6);'
+      + 'display:flex;align-items:center;justify-content:center;color:#b0bec5;font-size:28px;">'
+      + '<i class="fas fa-spa"></i></div>';
+
+    servicesList.innerHTML = '';
+    services.forEach(service => {
+      servicesList.appendChild(createServiceItem(service));
+    });
+  }
 
 function createServiceItem(service) {
   const item = document.createElement('div');
@@ -267,7 +275,19 @@ function createServiceItem(service) {
     item.addEventListener('click', () => toggleService(service, item));
   }
 
+  // Build image HTML — show image if available, placeholder if not
+  const imageHtml = service.image_url
+    ? `<img 
+          class="service-card-img" 
+          src="${service.image_url}" 
+          alt="${service.servicename}" 
+          loading="lazy"
+          onerror="this.outerHTML='<div class=\\'service-card-img-placeholder\\'><i class=\\'fas fa-spa\\'></i></div>'"
+        >`
+    : `<div class="service-card-img-placeholder"><i class="fas fa-spa"></i></div>`;
+
   item.innerHTML = `
+    ${imageHtml}
     <div class="service-info">
       <div class="service-header">
         <h3 class="service-name">${service.servicename}</h3>

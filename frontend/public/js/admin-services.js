@@ -415,6 +415,12 @@ function openEditServiceModal(serviceId) {
         document.getElementById('serviceDurationEdit').value = service.duration || '';
         document.getElementById('serviceAvailableEdit').checked = service.is_available;
     }
+
+    // Populate branch image override
+    var overrideUrl = selectedService.image_url || null;   // full URL from API
+    // For global image — fetch from the service list or pass alongside
+    var globalUrl   = null; // if you have a global image URL available, set it here
+    adminSetImagePreview(overrideUrl, globalUrl);
     
     editServiceModal.classList.add('active');
 }
@@ -671,4 +677,68 @@ function getCategoryIcon(categoryId) {
         5: '<i class="fas fa-face-smile"></i>'
     };
     return icons[categoryId] || '<i class="fas fa-tag"></i>';
+}
+
+// ── Branch Service Image Override Handling (Admin) ──
+
+function adminHandleImageSelect(event) {
+    var file = event.target.files[0];
+    if (!file) return;
+
+    if (file.size > 5 * 1024 * 1024) {
+        Toast.error('Image too large. Maximum size is 5MB.');
+        event.target.value = '';
+        return;
+    }
+
+    var reader = new FileReader();
+    reader.onload = function(e) {
+        document.getElementById('adminImagePreview').src              = e.target.result;
+        document.getElementById('adminImageBase64').value             = e.target.result;
+        document.getElementById('adminImagePreviewBox').style.display = 'block';
+        document.getElementById('adminImageUploadLabel').style.display= 'none';
+        document.getElementById('adminGlobalImageRef').style.display  = 'none';
+        document.getElementById('adminRemoveImage').value             = '0';
+    };
+    reader.readAsDataURL(file);
+}
+
+function adminRemoveImage() {
+    document.getElementById('adminImagePreview').src               = '';
+    document.getElementById('adminImageBase64').value              = '';
+    document.getElementById('adminImagePreviewBox').style.display  = 'none';
+    document.getElementById('adminImageUploadLabel').style.display = 'flex';
+    document.getElementById('adminImageFileInput').value           = '';
+    document.getElementById('adminRemoveImage').value              = '1';
+
+    // Show global fallback again
+    var globalRef = document.getElementById('adminGlobalImageRef');
+    if (globalRef) globalRef.style.display = 'block';
+}
+
+function adminSetImagePreview(overrideUrl, globalUrl) {
+    var previewBox   = document.getElementById('adminImagePreviewBox');
+    var uploadLabel  = document.getElementById('adminImageUploadLabel');
+    var globalRef    = document.getElementById('adminGlobalImageRef');
+    var globalThumb  = document.getElementById('adminGlobalImageThumb');
+
+    // Reset
+    document.getElementById('adminImageBase64').value = '';
+    document.getElementById('adminRemoveImage').value = '0';
+
+    if (overrideUrl) {
+        document.getElementById('adminImagePreview').src = overrideUrl;
+        previewBox.style.display   = 'block';
+        uploadLabel.style.display  = 'none';
+        if (globalRef) globalRef.style.display = 'none';
+    } else {
+        previewBox.style.display   = 'none';
+        uploadLabel.style.display  = 'flex';
+        if (globalRef && globalUrl) {
+            globalThumb.src            = globalUrl;
+            globalRef.style.display    = 'block';
+        } else if (globalRef) {
+            globalRef.style.display    = 'none';
+        }
+    }
 }

@@ -80,6 +80,10 @@ function renderServices() {
         
         return '<tr>' +
             '<td>' + (range.start + idx + 1) + '</td>' +
+            '<td>' + (s.image_url
+                ? '<img src="' + s.image_url + '" alt="' + s.service_name + '" style="width:48px;height:36px;object-fit:cover;border-radius:6px;border:1px solid #eee;" onerror="this.style.display=\'none\'">'
+                : '<span style="width:48px;height:36px;border-radius:6px;background:#f3f0ff;display:inline-flex;align-items:center;justify-content:center;color:#b0bec5;font-size:14px;"><i class=\'fas fa-image\'></i></span>'
+            ) + '</td>' +
             '<td><strong>' + s.service_name + '</strong></td>' +
             '<td>' + (s.description || '—') + '</td>' +
             '<td>₱' + price + '</td>' +
@@ -191,7 +195,8 @@ function openAddModal() {
     } else {
         document.getElementById('reactivateSection').style.display = 'none';
     }
-    
+
+    saResetImageField();
     document.getElementById('serviceModal').classList.add('open');
 }
 
@@ -309,6 +314,12 @@ function openEditModal(service) {
     setSelectedBranches(branchIds);
     
     document.getElementById('serviceModal').classList.add('open');
+
+    if (service.image_url) {
+    saSetImageFromUrl(service.image_url);
+    } else {
+        saResetImageField();
+    }
 }
 
 // ── Save (Add or Edit) ──
@@ -331,7 +342,9 @@ function saveService(e) {
         duration_minutes: parseInt(document.getElementById('fieldDuration').value) || 30,
         category_id:     document.getElementById('fieldCategory').value || 1,
         is_active:       parseInt(document.getElementById('fieldStatus').value),
-        branch_ids:      isReactivation ? getReactivateSelectedBranchIds() : branchIds
+        branch_ids:      isReactivation ? getReactivateSelectedBranchIds() : branchIds,
+        image_base64: document.getElementById('saImageBase64').value || null,
+        remove_image: document.getElementById('saRemoveImage').value === '1'
     };
 
     // Add reactivate_id if reactivating
@@ -407,6 +420,55 @@ fetch(API + 'services/' + deleteTargetId, { method: 'DELETE' })
         console.error(err);
         showToast('Network error. Please try again.', 'error', 'Error');
     });
+}
+
+// ── Service Image Handling (Superadmin) ──
+function saHandleImageSelect(event) {
+    var file = event.target.files[0];
+    if (!file) return;
+
+    if (file.size > 5 * 1024 * 1024) {
+        alert('Image too large. Maximum size is 5MB.');
+        event.target.value = '';
+        return;
+    }
+
+    var reader = new FileReader();
+    reader.onload = function(e) {
+        document.getElementById('saImagePreview').src       = e.target.result;
+        document.getElementById('saImageBase64').value      = e.target.result;  // full data URI
+        document.getElementById('saImagePreviewBox').style.display   = 'block';
+        document.getElementById('saImageUploadLabel').style.display  = 'none';
+        document.getElementById('saRemoveImage').value      = '0';
+    };
+    reader.readAsDataURL(file);
+}
+
+function saRemoveImage() {
+    document.getElementById('saImagePreview').src                    = '';
+    document.getElementById('saImageBase64').value                   = '';
+    document.getElementById('saImagePreviewBox').style.display       = 'none';
+    document.getElementById('saImageUploadLabel').style.display      = 'flex';
+    document.getElementById('saImageFileInput').value                = '';
+    document.getElementById('saRemoveImage').value                   = '1';
+}
+
+function saSetImageFromUrl(url) {
+    if (!url) { saRemoveImage(); return; }
+    document.getElementById('saImagePreview').src                    = url;
+    document.getElementById('saImageBase64').value                   = '';     // no new upload
+    document.getElementById('saImagePreviewBox').style.display       = 'block';
+    document.getElementById('saImageUploadLabel').style.display      = 'none';
+    document.getElementById('saRemoveImage').value                   = '0';
+}
+
+function saResetImageField() {
+    document.getElementById('saImagePreview').src                    = '';
+    document.getElementById('saImageBase64').value                   = '';
+    document.getElementById('saImagePreviewBox').style.display       = 'none';
+    document.getElementById('saImageUploadLabel').style.display      = 'flex';
+    document.getElementById('saImageFileInput').value                = '';
+    document.getElementById('saRemoveImage').value                   = '0';
 }
 
 // ── Initialize ──

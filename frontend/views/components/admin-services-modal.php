@@ -140,6 +140,45 @@
                 <textarea id="serviceDescriptionEdit" name="serviceDescriptionEdit" placeholder="Describe the service..." rows="3"></textarea>
             </div>
 
+            <div class="form-group">
+                <label>
+                    <i class="fas fa-image"></i>
+                    Branch Image Override <small style="color:#aaa;font-weight:400;">(optional)</small>
+                </label>
+                <div id="adminImageWrapper">
+                    <!-- Global image reference (shown when no override) -->
+                    <div id="adminGlobalImageRef" style="display:none;margin-bottom:8px;">
+                        <small style="color:#888;">Global image (fallback):</small><br>
+                        <img id="adminGlobalImageThumb" src="" alt=""
+                            style="width:80px;height:60px;object-fit:cover;border-radius:6px;border:1px solid #ddd;margin-top:4px;">
+                    </div>
+                    <!-- Override preview -->
+                    <div id="adminImagePreviewBox" style="display:none;position:relative;margin-bottom:8px;">
+                        <img id="adminImagePreview" src="" alt="Preview"
+                            style="width:100%;max-height:160px;object-fit:cover;border-radius:8px;border:1px solid #ddd;display:block;">
+                        <button type="button" onclick="adminRemoveImage()"
+                                style="position:absolute;top:-8px;right:-8px;width:24px;height:24px;border-radius:50%;
+                                    background:#e53935;color:#fff;border:2px solid #fff;cursor:pointer;
+                                    font-size:11px;display:flex;align-items:center;justify-content:center;padding:0;">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <!-- Upload trigger -->
+                    <label id="adminImageUploadLabel" for="adminImageFileInput"
+                        style="display:flex;flex-direction:column;align-items:center;justify-content:center;
+                                gap:5px;padding:16px;border:2px dashed #d0d5dd;border-radius:8px;
+                                background:#fafafa;color:#9aa5b4;cursor:pointer;text-align:center;transition:border-color .2s;">
+                        <i class="fas fa-image" style="font-size:20px;"></i>
+                        <span style="font-size:12px;font-weight:500;">Click to upload branch image</span>
+                        <small style="font-size:11px;color:#b0bec5;">JPEG, PNG, WebP or GIF · Max 5MB</small>
+                    </label>
+                    <input type="file" id="adminImageFileInput" accept="image/jpeg,image/png,image/webp,image/gif"
+                        style="display:none;" onchange="adminHandleImageSelect(event)">
+                    <input type="hidden" id="adminImageBase64" value="">
+                    <input type="hidden" id="adminRemoveImage" value="0">
+                </div>
+            </div>
+
             <div class="form-row">
                 <div class="form-group">
                     <label for="servicePriceEdit">

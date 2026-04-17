@@ -56,6 +56,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'superadmin') {
                         <thead>
                             <tr>
                                 <th>#</th>
+                                <th>Image</th>
                                 <th>Service Name</th>
                                 <th>Description</th>
                                 <th>Base Price</th>
@@ -144,6 +145,36 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'superadmin') {
                             <label class="form-label">Description</label>
                             <textarea class="form-control" id="fieldDescription" placeholder="Service description..." rows="3"></textarea>
                         </div>
+                        <div class="form-group">
+                        <label class="form-label">Service Image <small style="color:#aaa;font-weight:400;">(optional)</small></label>
+                        <div id="saImageWrapper">
+                            <!-- Preview (hidden by default) -->
+                            <div id="saImagePreviewBox" style="display:none;position:relative;margin-bottom:8px;">
+                                <img id="saImagePreview" src="" alt="Preview"
+                                    style="width:100%;max-height:180px;object-fit:cover;border-radius:8px;border:1px solid #ddd;display:block;">
+                                <button type="button" onclick="saRemoveImage()"
+                                        style="position:absolute;top:-8px;right:-8px;width:24px;height:24px;border-radius:50%;
+                                            background:#e53935;color:#fff;border:2px solid #fff;cursor:pointer;
+                                            font-size:11px;display:flex;align-items:center;justify-content:center;padding:0;">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <!-- Upload trigger (shown when no image) -->
+                            <label id="saImageUploadLabel" for="saImageFileInput"
+                                style="display:flex;flex-direction:column;align-items:center;justify-content:center;
+                                        gap:6px;padding:20px 16px;border:2px dashed #d0d5dd;border-radius:8px;
+                                        background:#fafafa;color:#9aa5b4;cursor:pointer;text-align:center;transition:border-color .2s,background .2s;">
+                                <i class="fas fa-image" style="font-size:24px;"></i>
+                                <span style="font-size:13px;font-weight:500;">Click to upload image</span>
+                                <small style="font-size:11px;color:#b0bec5;">JPEG, PNG, WebP or GIF · Max 5MB</small>
+                            </label>
+                            <input type="file" id="saImageFileInput" accept="image/jpeg,image/png,image/webp,image/gif"
+                                style="display:none;" onchange="saHandleImageSelect(event)">
+                            <!-- Hidden field carries base64 data -->
+                            <input type="hidden" id="saImageBase64" value="">
+                            <input type="hidden" id="saRemoveImage" value="0">
+                        </div>
+                    </div>
                         <div class="form-group">
                             <label class="form-label">Status</label>
                             <select class="form-control" id="fieldStatus">

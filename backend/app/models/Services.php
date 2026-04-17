@@ -74,13 +74,15 @@ class Services
     public function createDefaultService($data)
     {
         $conn = $this->db->getConnection();
-        $sql = 'INSERT INTO default_services (category_id, service_name, description, duration_minutes, price, is_available) 
-                VALUES (?, ?, ?, ?, ?, ?)';
+        $sql = 'INSERT INTO default_services (category_id, service_name, description, image_path, duration_minutes, price, is_available) 
+                VALUES (?, ?, ?, ?, ?, ?, ?)';
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param('issidi', 
+        $imagePath = $data['image_path'] ?? null;
+        $stmt->bind_param('isssdii',
             $data['category_id'],
             $data['service_name'],
             $data['description'],
+            $imagePath,
             $data['duration_minutes'],
             $data['price'],
             $data['is_available']
@@ -96,19 +98,56 @@ class Services
     public function updateDefaultService($id, $data)
     {
         $conn = $this->db->getConnection();
-        $sql = 'UPDATE default_services 
-                SET category_id = ?, service_name = ?, description = ?, duration_minutes = ?, price = ?, is_available = ? 
-                WHERE service_id = ?';
+
+        // Build query dynamically so partial updates (image only, etc.) work correctly
+        $fields = [];
+        $types  = '';
+        $values = [];
+
+        if (isset($data['category_id'])) {
+            $fields[] = 'category_id = ?';
+            $types   .= 'i';
+            $values[] = $data['category_id'];
+        }
+        if (isset($data['service_name'])) {
+            $fields[] = 'service_name = ?';
+            $types   .= 's';
+            $values[] = $data['service_name'];
+        }
+        if (isset($data['description'])) {
+            $fields[] = 'description = ?';
+            $types   .= 's';
+            $values[] = $data['description'];
+        }
+        if (array_key_exists('image_path', $data)) {
+            $fields[] = 'image_path = ?';
+            $types   .= 's';
+            $values[] = $data['image_path']; // null is allowed (removes image)
+        }
+        if (isset($data['duration_minutes'])) {
+            $fields[] = 'duration_minutes = ?';
+            $types   .= 'i';
+            $values[] = $data['duration_minutes'];
+        }
+        if (isset($data['price'])) {
+            $fields[] = 'price = ?';
+            $types   .= 'd';
+            $values[] = $data['price'];
+        }
+        if (isset($data['is_available'])) {
+            $fields[] = 'is_available = ?';
+            $types   .= 'i';
+            $values[] = $data['is_available'];
+        }
+
+        if (empty($fields)) return false;
+
+        $sql    = 'UPDATE default_services SET ' . implode(', ', $fields) . ' WHERE service_id = ?';
+        $types .= 'i';
+        $values[] = $id;
+
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param('issidii', 
-            $data['category_id'],
-            $data['service_name'],
-            $data['description'],
-            $data['duration_minutes'],
-            $data['price'],
-            $data['is_available'],
-            $id
-        );
+        $stmt->bind_param($types, ...$values);
 
         return $stmt->execute();
     }
@@ -132,7 +171,7 @@ class Services
     public function getBranchServices($branchId)
     {
         $conn = $this->db->getConnection();
-        
+
         $sql = 'SELECT
                     bso.branch_service_override_id as serviceid,
                     bso.branch_id,
@@ -146,25 +185,27 @@ class Services
                         UCASE(LEFT(dsc.category_name, 1)),
                         SUBSTRING(dsc.category_name, 2)
                     ) as category,
-                    COALESCE(bso.is_available_override, ds.is_available) as isavailable
+                    COALESCE(bso.is_available_override, ds.is_available) as isavailable,
+                    ds.image_path,
+                    bso.image_path_override
                 FROM branch_service_overrides bso
                 LEFT JOIN default_services ds ON bso.default_service_id = ds.service_id
                 LEFT JOIN default_services_categories dsc ON ds.category_id = dsc.service_category_id
                 WHERE bso.branch_id = ?';
-        
+
         $stmt = $conn->prepare($sql);
         $stmt->bind_param('i', $branchId);
         $stmt->execute();
-        
+
         $result = $stmt->get_result();
-        
+
         $services = array();
         if ($result && $result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
                 $services[] = $row;
             }
         }
-        
+
         return $services;
     }
 
@@ -242,19 +283,51 @@ class Services
     public function updateBranchServiceOverride($id, $data)
     {
         $conn = $this->db->getConnection();
-        $sql = 'UPDATE branch_service_overrides 
-                SET display_name = ?, description_override = ?, duration_minutes_override = ?, 
-                    price_override = ?, is_available_override = ? 
-                WHERE branch_service_override_id = ?';
+
+        // Build query dynamically so image-only or field-only updates both work
+        $fields = [];
+        $types  = '';
+        $values = [];
+
+        if (isset($data['display_name'])) {
+            $fields[] = 'display_name = ?';
+            $types   .= 's';
+            $values[] = $data['display_name'];
+        }
+        if (isset($data['description_override'])) {
+            $fields[] = 'description_override = ?';
+            $types   .= 's';
+            $values[] = $data['description_override'];
+        }
+        if (array_key_exists('image_path_override', $data)) {
+            $fields[] = 'image_path_override = ?';
+            $types   .= 's';
+            $values[] = $data['image_path_override']; // null is allowed (removes override)
+        }
+        if (isset($data['duration_minutes_override'])) {
+            $fields[] = 'duration_minutes_override = ?';
+            $types   .= 'i';
+            $values[] = $data['duration_minutes_override'];
+        }
+        if (isset($data['price_override'])) {
+            $fields[] = 'price_override = ?';
+            $types   .= 'd';
+            $values[] = $data['price_override'];
+        }
+        if (isset($data['is_available_override'])) {
+            $fields[] = 'is_available_override = ?';
+            $types   .= 'i';
+            $values[] = $data['is_available_override'];
+        }
+
+        if (empty($fields)) return false;
+
+        $sql    = 'UPDATE branch_service_overrides SET ' . implode(', ', $fields) . ' WHERE branch_service_override_id = ?';
+        $types .= 'i';
+        $values[] = $id;
+
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param('ssiddi', 
-            $data['display_name'],
-            $data['description_override'],
-            $data['duration_minutes_override'],
-            $data['price_override'],
-            $data['is_available_override'],
-            $id
-        );
+        $stmt->bind_param($types, ...$values);
 
         return $stmt->execute();
     }
