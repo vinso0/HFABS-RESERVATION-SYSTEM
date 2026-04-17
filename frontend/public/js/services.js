@@ -269,16 +269,16 @@ function createServiceItem(service) {
         item.addEventListener('click', () => toggleService(service, item));
     }
 
-    // Image: use image_url from API (already resolved with fallback logic by backend)
+    // Left-side thumbnail — shown only when image_url exists
     const imageHtml = service.image_url
         ? `<img
-                class="service-card-img"
+                class="service-card-thumb"
                 src="${service.image_url}"
                 alt="${service.servicename || service.display_name}"
                 loading="lazy"
-                onerror="this.outerHTML='<div class=\\'service-card-img-placeholder\\'><i class=\\'fas fa-spa\\'></i></div>'"
+                onerror="this.outerHTML='<div class=\\'service-card-thumb service-card-thumb--placeholder\\'><i class=\\'fas fa-spa\\'></i></div>'"
            >`
-        : `<div class="service-card-img-placeholder"><i class="fas fa-spa"></i></div>`;
+        : `<div class="service-card-thumb service-card-thumb--placeholder"><i class="fas fa-spa"></i></div>`;
 
     item.innerHTML = `
         ${imageHtml}
@@ -293,6 +293,7 @@ function createServiceItem(service) {
                 ${!isAvailable ? '<span class="unavailable-badge">Unavailable</span>' : ''}
             </div>
         </div>
+        <div class="service-action"></div>
     `;
 
     return item;

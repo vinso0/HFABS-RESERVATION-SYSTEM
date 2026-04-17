@@ -234,14 +234,14 @@ function renderServices() {
     const tableHTML = pageServices.map(service => `
         <tr>
             <td>${service.branch_service_override_id}</td>
-            <td style="width:48px; padding-left:12px; padding-right:4px;">
+            <td style="width:48px; padding-left:16px; padding-right:4px;">
                 ${service.image_url
                     ? `<img src="${service.image_url}" class="service-thumb" alt="${service.display_name}" loading="lazy" onerror="this.outerHTML='<span class=\\'service-thumb-placeholder\\'><i class=\\'fas fa-image\\'></i></span>'">`
                     : `<span class="service-thumb-placeholder"><i class="fas fa-image"></i></span>`
                 }
             </td>
             <td><span class="service-name">${service.display_name}</span></td>
-            <td>
+            <td style="padding-left:6px;">
                 <span class="category-badge ${getCategoryClass(service.category_id)}">
                     ${getCategoryIcon(service.category_id)}
                     ${service.category}
@@ -249,7 +249,7 @@ function renderServices() {
             </td>
             <td>₱${parseFloat(service.price).toFixed(2)}</td>
             <td>${service.duration} mins</td>
-            <td>
+            <td style="padding-left:14px;">
                 <span class="status-badge ${service.is_available ? 'available' : 'unavailable'}">
                     ${service.is_available ? 'Available' : 'Unavailable'}
                 </span>

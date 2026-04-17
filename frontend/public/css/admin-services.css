@@ -175,8 +175,8 @@
 
 /* ── Service thumbnail in table ── */
 .service-thumb {
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
     object-fit: cover;
     border-radius: 6px;
     border: 1px solid rgba(0, 0, 0, 0.08);
@@ -186,8 +186,8 @@
 }
 
 .service-thumb-placeholder {
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
     border-radius: 6px;
     background: #f0eef8;
     display: inline-flex;
