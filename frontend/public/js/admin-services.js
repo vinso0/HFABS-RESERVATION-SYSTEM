@@ -234,6 +234,12 @@ function renderServices() {
     const tableHTML = pageServices.map(service => `
         <tr>
             <td>${service.branch_service_override_id}</td>
+            <td>
+                ${service.image_url
+                    ? `<img src="${service.image_url}" class="service-thumb" alt="${service.display_name}" loading="lazy" onerror="this.style.display='none'">`
+                    : `<span class="service-thumb-placeholder"><i class="fas fa-image"></i></span>`
+                }
+            </td>
             <td><span class="service-name">${service.display_name}</span></td>
             <td>
                 <span class="category-badge ${getCategoryClass(service.category_id)}">
@@ -407,21 +413,20 @@ function openEditServiceModal(serviceId) {
     const service = servicesData.find(s => s.branch_service_override_id == serviceId);
     
     if (service) {
-        document.getElementById('editBranchServiceId').value = service.branch_service_override_id;
-        document.getElementById('editServiceSelect').value = service.default_service_id;
-        document.getElementById('serviceNameEdit').value = service.display_name || '';
+        document.getElementById('editBranchServiceId').value  = service.branch_service_override_id;
+        document.getElementById('editServiceSelect').value    = service.default_service_id;
+        document.getElementById('serviceNameEdit').value      = service.display_name || '';
         document.getElementById('serviceDescriptionEdit').value = service.description || '';
-        document.getElementById('servicePriceEdit').value = service.price || '';
-        document.getElementById('serviceDurationEdit').value = service.duration || '';
+        document.getElementById('servicePriceEdit').value     = service.price || '';
+        document.getElementById('serviceDurationEdit').value  = service.duration || '';
         document.getElementById('serviceAvailableEdit').checked = service.is_available;
+
+        // ✅ Populate image preview correctly using the service variable (not undefined selectedService)
+        var overrideUrl = service.image_url || null;
+        var globalUrl   = service.global_image_url || null; // backend needs to return this too (see note below)
+        adminSetImagePreview(overrideUrl, globalUrl);
     }
 
-    // Populate branch image override
-    var overrideUrl = selectedService.image_url || null;   // full URL from API
-    // For global image — fetch from the service list or pass alongside
-    var globalUrl   = null; // if you have a global image URL available, set it here
-    adminSetImagePreview(overrideUrl, globalUrl);
-    
     editServiceModal.classList.add('active');
 }
 
@@ -573,33 +578,45 @@ function handleEditServiceSubmit(e) {
         return;
     }
     
-    const serviceNameInput = document.getElementById('serviceNameEdit');
-    const serviceDescInput = document.getElementById('serviceDescriptionEdit');
-    const servicePriceInput = document.getElementById('servicePriceEdit');
+    const serviceNameInput     = document.getElementById('serviceNameEdit');
+    const serviceDescInput     = document.getElementById('serviceDescriptionEdit');
+    const servicePriceInput    = document.getElementById('servicePriceEdit');
     const serviceDurationInput = document.getElementById('serviceDurationEdit');
     const serviceAvailableInput = document.getElementById('serviceAvailableEdit');
-    
-    // Validate required fields
+
     if (!serviceNameInput.value.trim()) {
         Toast.error('Please enter a service name');
         return;
     }
-    
-    const formData = {
-        branch_id: branchId,
-        display_name: serviceNameInput.value.trim(),
-        description_override: serviceDescInput.value.trim() || null,
-        price_override: parseFloat(servicePriceInput.value) || null,
-        duration_minutes_override: parseInt(serviceDurationInput.value) || null,
-        is_available_override: serviceAvailableInput.checked ? 1 : 0
-    };
-    
+
+    // ✅ Use FormData instead of JSON so the image file is included
+    const formData = new FormData();
+    formData.append('branch_id',                  branchId);
+    formData.append('display_name',               serviceNameInput.value.trim());
+    formData.append('description_override',       serviceDescInput.value.trim() || '');
+    formData.append('price_override',             parseFloat(servicePriceInput.value) || '');
+    formData.append('duration_minutes_override',  parseInt(serviceDurationInput.value) || '');
+    formData.append('is_available_override',      serviceAvailableInput.checked ? 1 : 0);
+    formData.append('_method',                    'PUT'); // ✅ tells PHP this is actually a PUT
+
+    // ✅ Append image file if one was selected
+    const imageFileInput = document.getElementById('adminImageFileInput');
+    if (imageFileInput && imageFileInput.files[0]) {
+        formData.append('service_image', imageFileInput.files[0]);
+    }
+
+    // ✅ Append remove flag if user clicked the remove button
+    const removeImage = document.getElementById('adminRemoveImage');
+    if (removeImage) {
+        formData.append('remove_image', removeImage.value);
+    }
+
     const url = `${API_BASE_URL}=services/branchServiceUpdate/${branchServiceOverrideId}`;
-    
+
+    // ✅ POST with FormData — do NOT set Content-Type header (browser sets it with boundary)
     fetch(url, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        method: 'POST',
+        body: formData,
         credentials: 'same-origin'
     })
     .then(res => res.json())

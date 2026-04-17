@@ -70,6 +70,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
                     <thead>
                         <tr>
                             <th>ID</th>
+                            <th>Image</th>
                             <th>Service Name</th>
                             <th>Category</th>
                             <th>Price</th>
