@@ -278,11 +278,15 @@ class AuthController extends Controller
     public function login()
     {
         header('Content-Type: application/json');
+        
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
 
         $data = json_decode(file_get_contents("php://input"), true);
+
+        // Get expected role from query parameter (e.g., ?role=customer)
+        $expectedRole = $_GET['role'] ?? null;
 
         // Accept either email or username
         $identifier = '';
@@ -306,6 +310,28 @@ class AuthController extends Controller
         $user = $userModel->login($identifier);
 
         if ($user && password_verify($password, $user['password'])) {
+            // Get expected role from query parameter
+            $expectedRole = $_GET['role'] ?? null;
+            $actualRole = $user['role'];
+            
+            // Role validation - each login page only accepts its specific role
+            $allowedRoles = [
+                'admin' => ['admin', 'cashier'],
+                'superadmin' => ['superadmin'],
+                'customer' => ['customer']
+            ];
+            
+            $allowed = $allowedRoles[$expectedRole] ?? [];
+            
+            if ($expectedRole && !in_array($actualRole, $allowed)) {
+                http_response_code(403);
+                echo json_encode([
+                    'success' => false,
+                    'message' => "Your account is a {$actualRole}. Please use the {$actualRole} login page."
+                ]);
+                exit;
+            }
+            
             $_SESSION['user_id'] = $user['user_id'];
             $_SESSION['user_name'] = $user['username'];
             $_SESSION['email'] = $user['email'];

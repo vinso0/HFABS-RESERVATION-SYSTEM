@@ -1,6 +1,10 @@
 <header class="page-header">
     <div class="page-flex">
+        <div class="spacer"></div>
         <div class="user-info">
+            <!-- Admin Notification Bell -->
+            <?php include_once __DIR__ . '/admin-notification-bell.php'; ?>
+            
             <div class="user-profile">
                 <div class="user-avatar">
                     <?php
@@ -28,5 +32,6 @@
                 </div>
             </div>
         </div>
+        
     </div>
 </header>

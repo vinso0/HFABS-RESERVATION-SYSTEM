@@ -469,7 +469,7 @@ class ServicesController extends Controller
 
     // Get all categories
     // API endpoint: GET /services/categories
-    public function categoriesList()
+    public function categories()
     {
         $categories = $this->servicesModel->getAllCategories();
         
@@ -488,6 +488,13 @@ class ServicesController extends Controller
             'success' => true,
             'data' => $formattedCategories
         ));
+    }
+
+    // Get all categories (alias for categoriesList)
+    // API endpoint: GET /services/categoriesList
+    public function categoriesList()
+    {
+        return $this->categories();
     }
 
     // Get category by ID

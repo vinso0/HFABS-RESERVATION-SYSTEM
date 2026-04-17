@@ -163,7 +163,8 @@ function loadCategories() {
 }
 
 function loadBranchCategories() {
-    fetch(`${API_BASE_URL}=services/myBranchCategories`, { credentials: 'same-origin' })
+    const branchId = getCurrentBranchId();
+    fetch(`${API_BASE_URL}=services/branchCategories/${branchId}`, { credentials: 'same-origin' })
         .then(res => res.json())
         .then(result => {
             if (result.success) {
@@ -177,7 +178,8 @@ function loadBranchCategories() {
 }
 
 function loadServices() {
-    fetch(`${API_BASE_URL}=services/myBranchServices`, { credentials: 'same-origin' })
+    const branchId = getCurrentBranchId();
+    fetch(`${API_BASE_URL}=services/branchServices/${branchId}`, { credentials: 'same-origin' })
         .then(res => res.json())
         .then(result => {
             if (result.success) {
@@ -442,13 +444,14 @@ function handleAddServiceSubmit(e) {
     e.preventDefault();
     
     const isCreateNew = isCreateNewMode;
+    const branchId = getCurrentBranchId();
     
     let formData;
     let url;
     let method;
     
     if (isCreateNew) {
-        // Create new default service AND branch override (session-based)
+        // Create new default service AND branch override
         const categorySelect = document.getElementById('serviceCategoryAdd');
         const serviceNameInput = document.getElementById('serviceNameAdd');
         const serviceDescInput = document.getElementById('serviceDescriptionAdd');
@@ -484,13 +487,14 @@ function handleAddServiceSubmit(e) {
             description: serviceDescInput.value.trim(),
             duration_minutes: parseInt(serviceDurationInput.value),
             price: parseFloat(servicePriceInput.value),
-            is_available: serviceAvailableInput.checked ? 1 : 0
+            is_available: serviceAvailableInput.checked ? 1 : 0,
+            branch_id: branchId
         };
         
-        url = `${API_BASE_URL}=services/myBranchServiceWithNew`;
+        url = `${API_BASE_URL}=services/storeWithBranch`;
         method = 'POST';
     } else {
-        // Create branch service override for existing service (session-based)
+        // Create branch service override for existing service
         const defaultServiceId = document.getElementById('serviceSelectAdd').value;
         const serviceNameInput = document.getElementById('serviceNameAdd');
         const serviceDescInput = document.getElementById('serviceDescriptionAdd');
@@ -505,6 +509,7 @@ function handleAddServiceSubmit(e) {
         
         // Service name is optional for overrides - use default if not provided
         formData = {
+            branch_id: branchId,
             default_service_id: parseInt(defaultServiceId),
             display_name: serviceNameInput.value.trim() || null,
             description_override: serviceDescInput.value.trim() || null,
@@ -513,7 +518,7 @@ function handleAddServiceSubmit(e) {
             is_available_override: serviceAvailableInput.checked ? 1 : 0
         };
         
-        url = `${API_BASE_URL}=services/myBranchServiceStore`;
+        url = `${API_BASE_URL}=services/branchServiceStore`;
         method = 'POST';
     }
     
@@ -555,6 +560,7 @@ function handleEditServiceSubmit(e) {
     e.preventDefault();
     
     const branchServiceOverrideId = document.getElementById('editBranchServiceId').value;
+    const branchId = getCurrentBranchId();
     
     if (!branchServiceOverrideId) {
         Toast.error('Invalid service ID');
@@ -574,6 +580,7 @@ function handleEditServiceSubmit(e) {
     }
     
     const formData = {
+        branch_id: branchId,
         display_name: serviceNameInput.value.trim(),
         description_override: serviceDescInput.value.trim() || null,
         price_override: parseFloat(servicePriceInput.value) || null,
@@ -581,7 +588,7 @@ function handleEditServiceSubmit(e) {
         is_available_override: serviceAvailableInput.checked ? 1 : 0
     };
     
-    const url = `${API_BASE_URL}=services/myBranchServiceUpdate/${branchServiceOverrideId}`;
+    const url = `${API_BASE_URL}=services/branchServiceUpdate/${branchServiceOverrideId}`;
     
     fetch(url, {
         method: 'PUT',
@@ -617,7 +624,7 @@ function confirmDeleteService(serviceId) {
 function handleDeleteService() {
     if (!selectedServiceId) return;
     
-    const url = `${API_BASE_URL}=services/myBranchServiceDestroy/${selectedServiceId}`;
+    const url = `${API_BASE_URL}=services/branchServiceDestroy/${selectedServiceId}`;
     
     fetch(url, {
         method: 'DELETE',

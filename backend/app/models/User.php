@@ -7,6 +7,12 @@ class User extends Database
     {
         // Password is already hashed in the controller, don't hash again!
         
+        // Check if email already exists
+        if ($this->getUserByEmail($email)) {
+            error_log("Registration error: Email already exists - " . $email);
+            return false;
+        }
+        
         $stmt = $this->db->prepare(
             "INSERT INTO users (username, email, password, contact_number, role) VALUES (?, ?, ?, ?, 'customer')"
         );
@@ -48,6 +54,7 @@ class User extends Database
         return $stmt->get_result()->fetch_assoc();
     }
 
+    // UPDATE PROFILE
     public function updateProfile($userId, $username, $email, $contactNumber)
     {
         // Check if email is taken by another user
@@ -87,6 +94,18 @@ class User extends Database
         return $row['password'] ?? null;
     }
 
+    // GET USER BY EMAIL
+    public function getUserByEmail($email)
+    {
+        $stmt = $this->db->prepare(
+            "SELECT * FROM users WHERE email = ?"
+        );
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+
+        return $stmt->get_result()->fetch_assoc();
+    }
+
     public function changePassword($userId, $newHashedPassword)
     {
         $stmt = $this->db->prepare(
@@ -101,6 +120,103 @@ class User extends Database
         }
 
         return true;
+    }
+
+    // CREATE PASSWORD RESET TOKEN
+    public function createPasswordResetToken($userId, $token, $expiresAt)
+    {
+        // First, invalidate any existing tokens for this user
+        $this->invalidatePasswordResetTokens($userId);
+        
+        error_log("[User] Creating password reset token for user ID: " . $userId);
+        error_log("[User] Token being stored: " . $token);
+        error_log("[User] Token length: " . strlen($token));
+        error_log("[User] Expires at: " . $expiresAt);
+        
+        $stmt = $this->db->prepare(
+            "INSERT INTO password_resets (user_id, token, expires_at) VALUES (?, ?, ?)"
+        );
+        $stmt->bind_param("iss", $userId, $token, $expiresAt);
+        
+        $result = $stmt->execute();
+        
+        error_log("[User] Token insertion result: " . ($result ? 'SUCCESS' : 'FAILED'));
+        
+        return $result;
+    }
+
+    // INVALIDATE EXISTING TOKENS
+    public function invalidatePasswordResetTokens($userId)
+    {
+        $stmt = $this->db->prepare(
+            "UPDATE password_resets SET used = 1 WHERE user_id = ? AND used = 0"
+        );
+        $stmt->bind_param("i", $userId);
+        return $stmt->execute();
+    }
+
+    // GET VALID RESET TOKEN
+    public function getValidResetToken($token)
+    {
+        error_log("[User] Looking for token: " . $token);
+        error_log("[User] Token length: " . strlen($token));
+        
+        $stmt = $this->db->prepare(
+            "SELECT pr.*, u.email, u.username 
+             FROM password_resets pr 
+             JOIN users u ON pr.user_id = u.user_id 
+             WHERE pr.token = ? AND pr.used = 0 AND pr.expires_at > ?"
+        );
+        $currentTime = date('Y-m-d H:i:s');
+        $stmt->bind_param("ss", $token, $currentTime);
+        $result = $stmt->execute();
+        
+        error_log("[User] Query executed: " . ($result ? 'SUCCESS' : 'FAILED'));
+        error_log("[User] Current time: " . $currentTime);
+        error_log("[User] Affected rows: " . $stmt->affected_rows);
+        
+        $data = $stmt->get_result()->fetch_assoc();
+        
+        if ($data) {
+            error_log("[User] Token found - ID: " . $data['id'] . ", User: " . $data['username']);
+            error_log("[User] Token expires at: " . $data['expires_at']);
+        } else {
+            error_log("[User] Token NOT FOUND in database");
+        }
+        
+        return $data;
+    }
+
+    // RESET PASSWORD
+    public function resetPassword($userId, $newPassword)
+    {
+        // Hash the new password
+        $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+        
+        // Update password
+        $stmt = $this->db->prepare(
+            "UPDATE users SET password = ? WHERE user_id = ?"
+        );
+        $stmt->bind_param("si", $hashedPassword, $userId);
+        
+        $result = $stmt->execute();
+        
+        if ($result) {
+            // Mark all tokens as used
+            $this->invalidatePasswordResetTokens($userId);
+        }
+        
+        return $result;
+    }
+
+    // MARK TOKEN AS USED
+    public function markTokenAsUsed($token)
+    {
+        $stmt = $this->db->prepare(
+            "UPDATE password_resets SET used = 1 WHERE token = ?"
+        );
+        $stmt->bind_param("s", $token);
+        return $stmt->execute();
     }
 
     // GET ALL CUSTOMERS WITH RESERVATION COUNT
@@ -303,5 +419,85 @@ class User extends Database
         $row = $result->fetch_assoc();
 
         return $row['total'] ?? 0;
+    }
+
+    // CREATE EMAIL VERIFICATION OTP
+    public function createEmailOTP($email, $otpCode, $expiresAt)
+    {
+        // First, invalidate any existing OTPs for this email
+        $this->invalidateEmailOTPs($email);
+        
+        error_log("[User] Creating email OTP for: " . $email);
+        error_log("[User] OTP: " . $otpCode);
+        error_log("[User] Expires at: " . $expiresAt);
+        
+        $stmt = $this->db->prepare(
+            "INSERT INTO email_verification_otp (email, otp_code, expires_at) VALUES (?, ?, ?)"
+        );
+        $stmt->bind_param("sss", $email, $otpCode, $expiresAt);
+        
+        $result = $stmt->execute();
+        
+        error_log("[User] OTP creation result: " . ($result ? 'SUCCESS' : 'FAILED'));
+        
+        return $result;
+    }
+
+    // INVALIDATE EXISTING EMAIL OTPS
+    public function invalidateEmailOTPs($email)
+    {
+        $stmt = $this->db->prepare(
+            "UPDATE email_verification_otp SET is_used = 1 WHERE email = ? AND is_used = 0"
+        );
+        $stmt->bind_param("s", $email);
+        $result = $stmt->execute();
+        
+        error_log("[User] Invalidated existing OTPs for: " . $email . " - Result: " . ($result ? 'SUCCESS' : 'FAILED'));
+        
+        return $result;
+    }
+
+    // VERIFY EMAIL OTP
+    public function verifyEmailOTP($email, $otpCode)
+    {
+        error_log("[User] Verifying OTP for email: " . $email);
+        error_log("[User] OTP provided: " . $otpCode);
+        
+        $stmt = $this->db->prepare(
+            "SELECT * FROM email_verification_otp 
+             WHERE email = ? AND otp_code = ? AND is_used = 0 AND expires_at > ?"
+        );
+        $currentTime = date('Y-m-d H:i:s');
+        $stmt->bind_param("sss", $email, $otpCode, $currentTime);
+        $stmt->execute();
+        
+        $result = $stmt->get_result()->fetch_assoc();
+        
+        if ($result) {
+            error_log("[User] OTP found and valid");
+            // Mark OTP as used
+            $this->markOTPAsUsed($result['id']);
+            return true;
+        } else {
+            error_log("[User] Invalid or expired OTP");
+            return false;
+        }
+    }
+
+    // MARK OTP AS USED
+    public function markOTPAsUsed($otpId)
+    {
+        $stmt = $this->db->prepare(
+            "UPDATE email_verification_otp SET is_used = 1 WHERE id = ?"
+        );
+        $stmt->bind_param("i", $otpId);
+        return $stmt->execute();
+    }
+
+    // CHECK IF EMAIL IS ALREADY REGISTERED
+    public function isEmailRegistered($email)
+    {
+        $user = $this->getUserByEmail($email);
+        return !empty($user);
     }
 }

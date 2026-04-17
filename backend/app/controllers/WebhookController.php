@@ -9,13 +9,19 @@
  * 
  * This keeps the main error.log clean while preserving detailed debug info when needed
  */
+require_once __DIR__ . '/../services/NotificationService.php';
+
 class WebhookController extends Controller {
     private $paymentModel;
     private $webhookEventModel;
+    private $notificationService;
+    private $db;
 
     public function __construct() {
         $this->paymentModel = $this->model('Payment');
         $this->webhookEventModel = $this->model('WebhookEvent');
+        $this->notificationService = new NotificationService();
+        $this->db = (new Database())->getConnection();
     }
 
     public function handle() {
@@ -156,6 +162,32 @@ private function handlePaymentPaid($payload) {
         // Confirm the reservation
         $reservationModel->confirmReservation($reservationId);
         error_log("WEBHOOK SUCCESS: Payment processed successfully - Reservation ID: $reservationId, Payment ID: $paymentId, Amount: $amountPaid");
+        
+        // Get reservation details for admin notification
+        $reservationDetails = $reservationModel->getReservationById($reservationId);
+        if ($reservationDetails) {
+            // Count services for this reservation
+            $servicesCountQuery = "SELECT COUNT(*) as services_count FROM reservation_services WHERE reservation_id = ?";
+            $stmt = $this->db->prepare($servicesCountQuery);
+            $stmt->bind_param('i', $reservationId);
+            $stmt->execute();
+            $servicesResult = $stmt->get_result();
+            $servicesRow = $servicesResult->fetch_assoc();
+            
+            $reservationData = [
+                'reservation_id' => $reservationId,
+                'customer_name' => $reservationDetails['customer_name'],
+                'customer_email' => $reservationDetails['customer_email'],
+                'branch_name' => $reservationDetails['branch_name'],
+                'branch_id' => $reservationDetails['branch_id'],
+                'reservation_date' => $reservationDetails['reservation_date'],
+                'total_price' => $reservationDetails['total_price'],
+                'services_count' => $servicesRow['services_count'] ?? 0
+            ];
+            
+            // Send admin notifications
+            $this->notificationService->notifyAdminsNewReservation($reservationData);
+        }
     } else {
         error_log("WEBHOOK ERROR: Failed to create payment for Reservation ID: $reservationId. Check database logs for details.");
     }

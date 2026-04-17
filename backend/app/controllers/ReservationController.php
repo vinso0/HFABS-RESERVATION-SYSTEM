@@ -130,7 +130,15 @@ class ReservationController extends Controller
         $userId = $_SESSION['user_id'];
         
         // Get reschedule data from POST
-        $data = json_decode(file_get_contents('php://input'), true);
+        $jsonInput = file_get_contents('php://input');
+        error_log('Raw JSON input: ' . $jsonInput);
+        $data = json_decode($jsonInput, true);
+        error_log('Decoded data: ' . print_r($data, true));
+        
+        error_log('Checking required fields:');
+        error_log('reservation_id isset: ' . (isset($data['reservation_id']) ? 'YES (' . $data['reservation_id'] . ')' : 'NO'));
+        error_log('new_date isset: ' . (isset($data['new_date']) ? 'YES (' . $data['new_date'] . ')' : 'NO'));
+        error_log('new_time isset: ' . (isset($data['new_time']) ? 'YES (' . $data['new_time'] . ')' : 'NO'));
         
         if (!isset($data['reservation_id'], $data['new_date'], $data['new_time'])) {
             http_response_code(400);
@@ -144,11 +152,15 @@ class ReservationController extends Controller
         // Load reservation model
         $reservationModel = $this->model('Reservation');
         
+        // Convert data types for validation
+        $reservationId = (int)$data['reservation_id'];
+        $newTime = $data['new_time'] . ':00'; // Convert H:i to H:i:s format
+        
         // Reschedule reservation
         $result = $reservationModel->rescheduleReservation(
-            $data['reservation_id'],
+            $reservationId,
             $data['new_date'],
-            $data['new_time'],
+            $newTime,
             $data['reason'] ?? ''
         );
         
@@ -756,4 +768,202 @@ class ReservationController extends Controller
 
         exit;
     }
-}
+
+    public function validateReschedule()
+    {
+        header('Content-Type: application/json');
+
+        require_once __DIR__ . '/../config/config.php';
+
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        error_log('[' . date('Y-m-d H:i:s') . '] validateReschedule called');
+
+        // Check if user is logged in
+        if (!isset($_SESSION['user_id'])) {
+            error_log('[' . date('Y-m-d H:i:s') . '] User not authenticated in validateReschedule');
+            http_response_code(401);
+            echo json_encode([
+                'success' => false,
+                'message' => 'User not authenticated'
+            ]);
+            exit;
+        }
+
+        // Get parameters
+        $reservationId = $_GET['reservationId'] ?? '';
+        $date          = $_GET['date']          ?? '';
+        $time          = $_GET['time']          ?? '';
+        $serviceId     = $_GET['serviceId']     ?? '';
+
+        error_log('[' . date('Y-m-d H:i:s') . '] validateReschedule parameters: reservationId=' . $reservationId . ', date=' . $date . ', time=' . $time . ', serviceId=' . $serviceId);
+
+        if (!$reservationId || !$date || !$time || !$serviceId) {
+            error_log('[' . date('Y-m-d H:i:s') . '] Missing parameters in validateReschedule');
+            http_response_code(400);
+            echo json_encode([
+                'success' => false,
+                'message' => 'Missing required parameters: reservationId, date, time, serviceId'
+            ]);
+            exit;
+        }
+
+        // ── BUSINESS RULE 1: Reservations must be made at least 8 hours in advance ──
+        $now = new DateTime('now');
+        $minAllowedDateTime = clone $now;
+        $minAllowedDateTime->modify('+8 hours');
+
+        $requestedDateTimeStr = $date . ' ' . $time;
+        try {
+            $requestedDateTime = new DateTime($requestedDateTimeStr);
+        } catch (Exception $e) {
+            error_log('[' . date('Y-m-d H:i:s') . '] Invalid date/time format in validateReschedule: ' . $requestedDateTimeStr);
+            http_response_code(400);
+            echo json_encode([
+                'success' => false,
+                'message' => 'Invalid date or time format provided.'
+            ]);
+            exit;
+        }
+
+        if ($requestedDateTime < $minAllowedDateTime) {
+            error_log('[' . date('Y-m-d H:i:s') . '] Advance notice check FAILED in validateReschedule');
+            echo json_encode([
+                'success'   => true,
+                'available' => false,
+                'reason'    => 'Reservations must be made at least 8 hours in advance.'
+            ]);
+            exit;
+        }
+
+        // ── BUSINESS RULE 2: Check if date is blocked ──
+        $branchId = (int) ($_SESSION['branch_id'] ?? 0);
+
+        if ($branchId) {
+            $branchModel = $this->model('Branch');
+            if ($branchModel->isDateBlocked($branchId, $date)) {
+                error_log('[' . date('Y-m-d H:i:s') . '] Date is blocked in validateReschedule: ' . $date);
+                echo json_encode([
+                    'success'   => true,
+                    'available' => false,
+                    'reason'    => 'This date is not available for booking.'
+                ]);
+                exit;
+            }
+        }
+
+        // ── BUSINESS RULE 3 & 4: Check category capacity (excluding current reservation) ──
+        if ($branchId) {
+            $servicesModel = $this->model('Services');
+            $conn = (new Database())->getConnection();
+            $reservationModel = $this->model('Reservation');
+
+            // Find the branch_category_override_id for this service
+            $stmt = $conn->prepare("
+                SELECT bco.branch_category_override_id
+                FROM branch_service_overrides bso
+                JOIN default_services ds ON ds.service_id = bso.default_service_id
+                JOIN branch_category_overrides bco
+                    ON bco.default_category_id = ds.category_id
+                    AND bco.branch_id = bso.branch_id
+                WHERE bso.branch_service_override_id = ?
+                AND bso.branch_id = ?
+            ");
+            $stmt->bind_param('ii', $serviceId, $branchId);
+            $stmt->execute();
+            $catRow = $stmt->get_result()->fetch_assoc();
+
+            if ($catRow) {
+                $branchCategoryOverrideId = (int) $catRow['branch_category_override_id'];
+                $effectiveCapacity = $servicesModel->getEffectiveCapacity($branchId, $branchCategoryOverrideId, $date);
+
+                if ($effectiveCapacity !== null) {
+                    // RULE 3: Check daily capacity (exclude current reservation)
+                    $stmt2 = $conn->prepare("
+                        SELECT COUNT(*) AS booking_count
+                        FROM reservations r
+                        JOIN branch_service_overrides bso ON bso.branch_service_override_id = r.service_id
+                        JOIN default_services ds ON ds.service_id = bso.default_service_id
+                        JOIN branch_category_overrides bco
+                            ON bco.default_category_id = ds.category_id
+                            AND bco.branch_id = r.branch_id
+                        WHERE r.reservation_date = ?
+                        AND bco.branch_category_override_id = ?
+                        AND r.branch_id = ?
+                        AND r.status NOT IN ('cancelled', 'rejected')
+                        AND r.reservation_id != ?
+                    ");
+                    $stmt2->bind_param('siii', $date, $branchCategoryOverrideId, $branchId, $reservationId);
+                    $stmt2->execute();
+                    $countRow     = $stmt2->get_result()->fetch_assoc();
+                    $bookingCount = (int) ($countRow['booking_count'] ?? 0);
+
+                    if ($bookingCount >= $effectiveCapacity) {
+                        error_log('[' . date('Y-m-d H:i:s') . '] Category capacity full for date in validateReschedule: ' . $date);
+                        echo json_encode([
+                            'success'   => true,
+                            'available' => false,
+                            'reason'    => 'This category is fully booked for the selected date.'
+                        ]);
+                        exit;
+                    }
+
+                    // RULE 4: Check time-specific category capacity (exclude current reservation)
+                    $serviceDuration = $reservationModel->getServiceDurationMinutes($serviceId);
+                    if (!$serviceDuration || $serviceDuration <= 0) {
+                        $serviceDuration = 60;
+                    }
+
+                    $startTime = date('H:i:s', strtotime($time));
+                    $endTime = date('H:i:s', strtotime($time . ' +' . $serviceDuration . ' minutes'));
+
+                    $concurrent = $reservationModel->countConcurrentCategoryBookings(
+                        $branchCategoryOverrideId,
+                        $branchId,
+                        $date,
+                        $startTime,
+                        $endTime,
+                        $reservationId  // ← Exclude current reservation
+                    );
+
+                    if ($concurrent >= $effectiveCapacity) {
+                        error_log('[' . date('Y-m-d H:i:s') . '] Category capacity out for time range in validateReschedule: ' . $date . ' ' . $startTime . '-' . $endTime);
+                        echo json_encode([
+                            'success'   => true,
+                            'available' => false,
+                            'reason'    => 'This category is fully booked for selected time range.'
+                        ]);
+                        exit;
+                    }
+                }
+            }
+        }
+
+        // ── BUSINESS RULE 5: Check service time overlap (exclude current reservation) ──
+        $reservationModel = $this->model('Reservation');
+
+        if (!$reservationModel) {
+            error_log('[' . date('Y-m-d H:i:s') . '] Failed to load reservation model in validateReschedule');
+            http_response_code(500);
+            echo json_encode([
+                'success' => false,
+                'message' => 'Failed to load reservation model'
+            ]);
+            exit;
+        }
+
+        error_log('[' . date('Y-m-d H:i:s') . '] Calling checkServiceTimeAvailability for reschedule with: date=' . $date . ', time=' . $time . ', serviceId=' . $serviceId . ', excludeReservationId=' . $reservationId);
+        $isAvailable = $reservationModel->checkServiceTimeAvailability($date, $time, $serviceId, $reservationId);
+
+        error_log('[' . date('Y-m-d H:i:s') . '] checkServiceTimeAvailability result for reschedule: ' . ($isAvailable ? 'AVAILABLE' : 'NOT AVAILABLE'));
+
+        echo json_encode([
+            'success'   => true,
+            'available' => $isAvailable
+        ]);
+
+        exit;
+    }
+}   

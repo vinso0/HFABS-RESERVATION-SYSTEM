@@ -24,6 +24,7 @@ $greeting = $hour < 12 ? 'Morning' : ($hour < 18 ? 'Afternoon' : 'Evening');
         <link rel="stylesheet" href="../public/css/admin-navbar.css">
         <link rel="stylesheet" href="../public/css/admin-dashboard.css">
         <link rel="stylesheet" href="../public/css/export-modal.css">
+        <link rel="stylesheet" href="../public/css/admin-notifications.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     </head>
     <body>
@@ -214,5 +215,6 @@ $greeting = $hour < 12 ? 'Morning' : ($hour < 18 ? 'Afternoon' : 'Evening');
             </div><!-- /.export-modal -->
         </div><!-- /.export-modal-overlay -->
         <script src="../public/js/admin-dashboard.js"></script>
+        <script src="../public/js/admin-notifications.js"></script>
     </body>
 </html>

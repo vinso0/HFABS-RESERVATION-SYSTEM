@@ -14,9 +14,12 @@ if (!isset($_SESSION['role']) || !in_array($_SESSION['role'], ['admin', 'cashier
     <title>Today's Reservations | Happy Face & Body Spa</title>
     <link rel="stylesheet" href="../public/css/admin-sidebar.css">
     <link rel="stylesheet" href="../public/css/admin-navbar.css">
-    <link rel="stylesheet" href="../public/css/admin-todays-reservations.css">
+    <link rel="stylesheet" href="../public/css/admin-sidebar.css">
+    <link rel="stylesheet" href="../public/css/admin-navbar.css">
     <link rel="stylesheet" href="../public/css/admin-reservation-modal.css">
     <link rel="stylesheet" href="../public/css/admin-status-confirmation-modal.css">
+    <link rel="stylesheet" href="../public/css/admin-todays-reservations.css">
+    <link rel="stylesheet" href="../public/css/admin-notifications.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -59,5 +62,6 @@ if (!isset($_SESSION['role']) || !in_array($_SESSION['role'], ['admin', 'cashier
 
     <script src="../public/js/toast.js"></script>
     <script src="../public/js/admin-todays-reservations.js"></script>
+    <script src="../public/js/admin-notifications.js"></script>
 </body>
 </html>

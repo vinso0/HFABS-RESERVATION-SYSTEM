@@ -11,6 +11,10 @@ class Payment extends Database
         $services = [],
         $scheduleData = []
     ) {
+        error_log("PAYMENT DEBUG: createPayment called with reservationId=$reservationId, amountPaid=$amountPaid, services count=" . count($services));
+        error_log("PAYMENT DEBUG: Services data: " . json_encode($services));
+        error_log("PAYMENT DEBUG: Schedule data: " . json_encode($scheduleData));
+        
         // ── 1. Insert into payments ──────────────────────────────────────
         $query = "INSERT INTO payments 
                     (reservation_id, amount_paid, payment_method, status, paymongo_payment_id, created_at) 
@@ -26,39 +30,14 @@ class Payment extends Database
 
         $paymentId = $stmt->insert_id;
         $stmt->close();
+        
+        error_log("PAYMENT DEBUG: Payment record created successfully with ID: $paymentId");
 
-        // ── 2. Insert reservation_schedules ─────────────────────────────
-        if (!empty($scheduleData)) {
-            $schSql = "INSERT INTO reservation_schedules
-                           (reservation_id, schedule_date, start_time, end_time,
-                            is_rescheduled, previous_schedule_id, reschedule_reason)
-                       VALUES (?, ?, ?, ?, ?, ?, ?)";
-
-            $schStmt = $this->db->prepare($schSql);
-            $isRescheduled      = (int)($scheduleData['is_rescheduled']      ?? 0);
-            $previousScheduleId = $scheduleData['previous_schedule_id'] ?? null;
-            $rescheduleReason   = $scheduleData['reschedule_reason']    ?? null;
-
-            $schStmt->bind_param(
-                'isssiis',
-                $reservationId,
-                $scheduleData['schedule_date'],
-                $scheduleData['start_time'],
-                $scheduleData['end_time'],
-                $isRescheduled,
-                $previousScheduleId,
-                $rescheduleReason
-            );
-
-            if (!$schStmt->execute()) {
-                error_log("DB Error (reservation_schedules insert): " . $schStmt->error);
-            }
-            $schStmt->close();
-        }
-
-        // ── 3. Insert reservation_services ──────────────────────────────
+        // ── 2. Insert reservation_services ──────────────────────────────
         if (!empty($services)) {
+            error_log("PAYMENT DEBUG: Processing services insertion...");
             $firstService = $services[0];
+            error_log("PAYMENT DEBUG: First service data: " . json_encode($firstService));
 
             if (!empty($firstService['is_package']) && !empty($firstService['booked_package_id'])) {
                 // ── PACKAGE BOOKING ─────────────────────────────────────
@@ -67,27 +46,23 @@ class Payment extends Database
 
                 // Fetch all services under this package
                 $pkgSql = "
-                    SELECT
-                        bps.branch_service_override_id,
-                        COALESCE(bso.duration_minutes_override, ds.duration_minutes) AS duration_minutes
+                    SELECT COALESCE(bso.duration_minutes_override, ds.duration_minutes) as duration_minutes,
+                           COALESCE(bso.price_override, ds.price) as price, 
+                           dsc.category_name,
+                           bso.branch_service_override_id,
+                           ds.service_id as default_service_id,
+                           ds.service_name
                     FROM branch_package_services bps
-                    INNER JOIN branch_service_overrides bso
-                        ON bps.branch_service_override_id = bso.branch_service_override_id
-                    INNER JOIN default_services ds
-                        ON ds.service_id = bso.default_service_id
+                    JOIN branch_service_overrides bso ON bps.branch_service_override_id = bso.branch_service_override_id
+                    JOIN default_services ds ON bso.default_service_id = ds.service_id
+                    JOIN default_services_categories dsc ON ds.category_id = dsc.service_category_id
                     WHERE bps.package_id = ?
-                    ORDER BY bps.sort_order ASC
                 ";
-
                 $pkgStmt = $this->db->prepare($pkgSql);
                 $pkgStmt->bind_param('i', $packageId);
                 $pkgStmt->execute();
                 $pkgResult = $pkgStmt->get_result();
-
-                $pkgServices = [];
-                while ($row = $pkgResult->fetch_assoc()) {
-                    $pkgServices[] = $row;
-                }
+                $pkgServices = $pkgResult->fetch_all(MYSQLI_ASSOC);
                 $pkgStmt->close();
 
                 if (empty($pkgServices)) {
@@ -98,22 +73,34 @@ class Payment extends Database
                 $perServiceBalance = $count > 0 ? round($remainingBalance / $count, 2) : 0;
 
                 $rsSql = "INSERT INTO reservation_services
-                              (reservation_id, branch_service_override_id, duration_minutes,
-                               remaining_balance, booked_package_id)
-                          VALUES (?, ?, ?, ?, ?)";
+                              (reservation_id, default_service_id, branch_service_override_id, 
+                               remaining_balance, booked_package_id, booked_service_name, 
+                               booked_description, booked_duration_minutes, booked_unit_price, 
+                               booked_category_name)
+                          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
                 foreach ($pkgServices as $svc) {
                     $rsStmt   = $this->db->prepare($rsSql);
+                    $defaultServiceId = (int)$svc['default_service_id'];
                     $bsoId    = (int)$svc['branch_service_override_id'];
                     $duration = (int)$svc['duration_minutes'];
+                    $serviceName = $svc['service_name'] ?? 'Unknown Service';
+                    $description = $svc['description'] ?? 'Service description';
+                    $unitPrice = (float)($svc['price'] ?? 0);
+                    $categoryName = $svc['category_name'] ?? null;
 
                     $rsStmt->bind_param(
-                        'iidii',
+                        'iiiddssdds',
                         $reservationId,
+                        $defaultServiceId,
                         $bsoId,
-                        $duration,
                         $perServiceBalance,
-                        $packageId
+                        $packageId,
+                        $serviceName,
+                        $description,
+                        $duration,
+                        $unitPrice,
+                        $categoryName
                     );
 
                     if (!$rsStmt->execute()) {
@@ -126,21 +113,47 @@ class Payment extends Database
 
             } else {
                 // ── SINGLE SERVICE BOOKING ───────────────────────────────
+                error_log("PAYMENT DEBUG: Processing single service booking...");
+                
                 $rsSql = "INSERT INTO reservation_services
-                              (reservation_id, branch_service_override_id, duration_minutes,
-                               remaining_balance, booked_package_id)
-                          VALUES (?, ?, ?, ?, NULL)";
+                              (reservation_id, default_service_id, branch_service_override_id, 
+                               remaining_balance, booked_package_id, booked_service_name, 
+                               booked_description, booked_duration_minutes, booked_unit_price, 
+                               booked_category_name)
+                          VALUES (?, ?, ?, ?, NULL, ?, ?, ?, ?, ?)";
+                
+                error_log("PAYMENT DEBUG: Single service SQL: " . $rsSql);
 
                 foreach ($services as $svc) {
                     $rsStmt           = $this->db->prepare($rsSql);
+                    $defaultServiceId = (int)($svc['default_service_id'] ?? 0);
                     $bsoId            = isset($svc['branch_service_override_id']) ? (int)$svc['branch_service_override_id'] : null;
                     $duration         = (int)($svc['duration_minutes'] ?? 60);
                     $remainingBalance = (float)($svc['remaining_balance'] ?? 0);
+                    $serviceName      = $svc['service_name'] ?? 'Unknown Service';
+                    $description      = $svc['description'] ?? 'Service description';
+                    $unitPrice        = (float)($svc['price'] ?? 0);
+                    $categoryName     = $svc['category_name'] ?? null;
 
-                    $rsStmt->bind_param('iidd', $reservationId, $bsoId, $duration, $remainingBalance);
+                    error_log("PAYMENT DEBUG: Binding params - reservationId: $reservationId, defaultServiceId: $defaultServiceId, bsoId: " . ($bsoId ?? 'NULL') . ", remainingBalance: $remainingBalance, serviceName: $serviceName, description: $description, duration: $duration, unitPrice: $unitPrice, categoryName: " . ($categoryName ?? 'NULL'));
+
+                    $rsStmt->bind_param(
+                        'iiidssdds',
+                        $reservationId,           // 1. reservation_id (i)
+                        $defaultServiceId,       // 2. default_service_id (i)
+                        $bsoId,                   // 3. branch_service_override_id (i)
+                        $remainingBalance,        // 4. remaining_balance (d)
+                        $serviceName,             // 6. booked_service_name (s)
+                        $description,             // 7. booked_description (s)
+                        $duration,                // 8. booked_duration_minutes (d)
+                        $unitPrice,               // 9. booked_unit_price (d)
+                        $categoryName             // 10. booked_category_name (s)
+                    );
 
                     if (!$rsStmt->execute()) {
                         error_log("DB Error (reservation_services single): " . $rsStmt->error);
+                    } else {
+                        error_log("PAYMENT DEBUG: Single service inserted successfully for reservation $reservationId");
                     }
                     $rsStmt->close();
                 }
@@ -149,6 +162,54 @@ class Payment extends Database
             }
         }
 
+        // ── 3. Insert reservation_schedules (AFTER services are created) ─────────────────────────────
+        if (!empty($scheduleData)) {
+            $schSql = "INSERT INTO reservation_schedule
+                           (reservation_service_id, schedule_date, start_time, end_time,
+                            schedule_status, is_rescheduled, previous_schedule_id, reschedule_reason)
+                       VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+            // Get the first reservation service ID (for single service bookings)
+            $getServiceIdSql = "SELECT reservation_service_id FROM reservation_services 
+                                WHERE reservation_id = ? ORDER BY reservation_service_id ASC LIMIT 1";
+            $getServiceStmt = $this->db->prepare($getServiceIdSql);
+            $getServiceStmt->bind_param('i', $reservationId);
+            $getServiceStmt->execute();
+            $serviceResult = $getServiceStmt->get_result();
+            $serviceRow = $serviceResult->fetch_assoc();
+            $reservationServiceId = $serviceRow['reservation_service_id'] ?? null;
+
+            if ($reservationServiceId) {
+                $schStmt = $this->db->prepare($schSql);
+                $isRescheduled      = (int)($scheduleData['is_rescheduled']      ?? 0);
+                $previousScheduleId = $scheduleData['previous_schedule_id'] ?? null;
+                $rescheduleReason   = $scheduleData['reschedule_reason']    ?? null;
+                $scheduleStatus     = $scheduleData['schedule_status'] ?? 'confirmed';
+
+                error_log("PAYMENT DEBUG: Inserting schedule with status: $scheduleStatus");
+
+                $schStmt->bind_param(
+                    'isssisss',
+                    $reservationServiceId,
+                    $scheduleData['schedule_date'],
+                    $scheduleData['start_time'],
+                    $scheduleData['end_time'],
+                    $scheduleStatus,
+                    $isRescheduled,
+                    $previousScheduleId,
+                    $rescheduleReason
+                );
+
+                if (!$schStmt->execute()) {
+                    error_log("DB Error (reservation_schedule insert): " . $schStmt->error);
+                }
+                $schStmt->close();
+            } else {
+                error_log("WARNING: Could not find reservation_service_id for reservation $reservationId");
+            }
+        }
+
+        error_log("PAYMENT DEBUG: createPayment completed successfully, returning paymentId: $paymentId");
         return $paymentId;
     }
 

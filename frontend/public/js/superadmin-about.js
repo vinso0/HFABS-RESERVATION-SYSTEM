@@ -3,13 +3,31 @@ document.addEventListener('DOMContentLoaded', () => {
   loadAllPolicies();
 
   document.getElementById('aboutForm').addEventListener('submit', saveAbout);
-  document.getElementById('addPolicyBtn').addEventListener('click', openAddModal);
-  document.getElementById('closePolicyModal').addEventListener('click', closeModal);
-  document.getElementById('cancelPolicyModal').addEventListener('click', closeModal);
+  document.getElementById('addPolicyBtn').addEventListener('click', openAddPolicyModal);
+  document.getElementById('closePolicyModal').addEventListener('click', () => closeModal('policyModal'));
+  document.getElementById('cancelPolicyModal').addEventListener('click', () => closeModal('policyModal'));
   document.getElementById('savePolicyBtn').addEventListener('click', savePolicy);
+
+  // Close modal when clicking the overlay background
+  document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', function (e) {
+      if (e.target === this) closeModal(this.id);
+    });
+  });
 });
 
 const API = '/HFABS/backend/public/index.php?url=about/';
+
+// ── Modal Helpers (consistent with other superadmin pages) ────────────────────
+function openModal(modalId) {
+  const el = document.getElementById(modalId);
+  if (el) el.classList.add('open');
+}
+
+function closeModal(modalId) {
+  const el = document.getElementById(modalId);
+  if (el) el.classList.remove('open');
+}
 
 // ── About Content ─────────────────────────────────────────────────────────────
 function loadAboutContent() {
@@ -32,12 +50,15 @@ function saveAbout(e) {
     vision:      document.getElementById('aboutVision').value.trim(),
     mission:     document.getElementById('aboutMission').value.trim(),
   };
-  if (!payload.description) { showToast('Description is required.', 'error'); return; }
+  if (!payload.description) {
+    showToast('Description is required.', 'error');
+    return;
+  }
 
   fetch(API + 'saveAbout', {
-    method: 'POST',
+    method:  'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
+    body:    JSON.stringify(payload),
   })
     .then(r => r.json())
     .then(({ success, message }) => showToast(message, success ? 'success' : 'error'));
@@ -46,17 +67,26 @@ function saveAbout(e) {
 // ── Policies ──────────────────────────────────────────────────────────────────
 function loadAllPolicies() {
   const container = document.getElementById('policiesTable');
-  container.innerHTML = '<div class="loading-text"><i class="fas fa-spinner fa-spin"></i> Loading...</div>';
+  container.innerHTML = `
+    <div class="empty-state">
+      <i class="fas fa-spinner fa-spin"></i>
+      <p>Loading policies...</p>
+    </div>`;
 
   fetch(API + 'getAllPolicies')
     .then(r => r.json())
     .then(({ success, data }) => {
       if (!success || !data || data.length === 0) {
-        container.innerHTML = '<p class="no-data">No policies found. Add one above.</p>';
+        container.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-list-alt"></i>
+            <p>No policies found. Click <strong>Add Policy</strong> to create one.</p>
+          </div>`;
         return;
       }
+
       let html = `
-        <table class="sa-table">
+        <table class="data-table">
           <thead>
             <tr>
               <th>#</th>
@@ -66,8 +96,8 @@ function loadAllPolicies() {
               <th>Actions</th>
             </tr>
           </thead>
-          <tbody>
-      `;
+          <tbody>`;
+
       data.forEach((p, i) => {
         html += `
           <tr>
@@ -75,49 +105,48 @@ function loadAllPolicies() {
             <td>${escHtml(p.title)}</td>
             <td>${p.sort_order}</td>
             <td>
-              <span class="badge ${p.is_active == 1 ? 'badge-success' : 'badge-inactive'}">
+              <span class="badge ${p.is_active == 1 ? 'badge-active' : 'badge-inactive'}">
                 ${p.is_active == 1 ? 'Active' : 'Hidden'}
               </span>
             </td>
             <td>
-              <button class="btn-icon btn-edit" onclick="openEditModal(${p.policy_id},'${escHtml(p.title).replace(/'/g,"\\'")}','${escHtml(p.content).replace(/'/g,"\\'")}',${p.sort_order},${p.is_active})">
+              <button class="btn btn-icon" title="Edit"
+                onclick="openEditPolicyModal(${p.policy_id},'${escHtml(p.title).replace(/'/g, "\\'")}','${escHtml(p.content).replace(/'/g, "\\'")}',${p.sort_order},${p.is_active})"
+                style="color:#d91a7e;">
                 <i class="fas fa-edit"></i>
               </button>
-              <button class="btn-icon btn-delete" onclick="deletePolicy(${p.policy_id})">
+              <button class="btn btn-icon btn-danger" title="Delete"
+                onclick="deletePolicy(${p.policy_id})">
                 <i class="fas fa-trash"></i>
               </button>
             </td>
-          </tr>
-        `;
+          </tr>`;
       });
+
       html += '</tbody></table>';
       container.innerHTML = html;
     });
 }
 
-function openAddModal() {
-  document.getElementById('modalTitle').textContent = 'Add Policy';
-  document.getElementById('editPolicyId').value     = '';
-  document.getElementById('policyTitle').value      = '';
-  document.getElementById('policyContent').value    = '';
-  document.getElementById('policySortOrder').value  = '0';
-  document.getElementById('activeToggleGroup').style.display = 'none';
-  document.getElementById('policyModal').style.display = 'flex';
+function openAddPolicyModal() {
+  document.getElementById('modalTitle').textContent              = 'Add Policy';
+  document.getElementById('editPolicyId').value                  = '';
+  document.getElementById('policyTitle').value                   = '';
+  document.getElementById('policyContent').value                 = '';
+  document.getElementById('policySortOrder').value               = '0';
+  document.getElementById('activeToggleGroup').style.display     = 'none';
+  openModal('policyModal');
 }
 
-function openEditModal(id, title, content, order, isActive) {
-  document.getElementById('modalTitle').textContent      = 'Edit Policy';
-  document.getElementById('editPolicyId').value          = id;
-  document.getElementById('policyTitle').value           = title;
-  document.getElementById('policyContent').value         = content;
-  document.getElementById('policySortOrder').value       = order;
-  document.getElementById('policyIsActive').checked      = isActive == 1;
-  document.getElementById('activeToggleGroup').style.display = 'block';
-  document.getElementById('policyModal').style.display   = 'flex';
-}
-
-function closeModal() {
-  document.getElementById('policyModal').style.display = 'none';
+function openEditPolicyModal(id, title, content, order, isActive) {
+  document.getElementById('modalTitle').textContent              = 'Edit Policy';
+  document.getElementById('editPolicyId').value                  = id;
+  document.getElementById('policyTitle').value                   = title;
+  document.getElementById('policyContent').value                 = content;
+  document.getElementById('policySortOrder').value               = order;
+  document.getElementById('policyIsActive').checked              = isActive == 1;
+  document.getElementById('activeToggleGroup').style.display     = 'block';
+  openModal('policyModal');
 }
 
 function savePolicy() {
@@ -127,7 +156,10 @@ function savePolicy() {
   const order   = parseInt(document.getElementById('policySortOrder').value) || 0;
   const active  = document.getElementById('policyIsActive').checked ? 1 : 0;
 
-  if (!title || !content) { showToast('Title and content are required.', 'error'); return; }
+  if (!title || !content) {
+    showToast('Title and content are required.', 'error');
+    return;
+  }
 
   const endpoint = id ? 'updatePolicy' : 'addPolicy';
   const payload  = id
@@ -135,23 +167,27 @@ function savePolicy() {
     : { title, content, sort_order: order };
 
   fetch(API + endpoint, {
-    method: 'POST',
+    method:  'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
+    body:    JSON.stringify(payload),
   })
     .then(r => r.json())
     .then(({ success, message }) => {
       showToast(message, success ? 'success' : 'error');
-      if (success) { closeModal(); loadAllPolicies(); }
+      if (success) {
+        closeModal('policyModal');
+        loadAllPolicies();
+      }
     });
 }
 
 function deletePolicy(id) {
   if (!confirm('Delete this policy? This cannot be undone.')) return;
+
   fetch(API + 'deletePolicy', {
-    method: 'POST',
+    method:  'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ policy_id: id }),
+    body:    JSON.stringify({ policy_id: id }),
   })
     .then(r => r.json())
     .then(({ success, message }) => {
@@ -168,11 +204,32 @@ function escHtml(text) {
 }
 
 function showToast(msg, type = 'success') {
+  const icons = {
+    success: 'check-circle',
+    error:   'times-circle',
+    warning: 'exclamation-triangle',
+    info:    'info-circle',
+  };
+
   const container = document.getElementById('toastContainer');
-  const toast = document.createElement('div');
+  const toast     = document.createElement('div');
   toast.className = `toast toast-${type}`;
-  toast.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i> ${msg}`;
+  toast.innerHTML = `
+    <div class="toast-icon">
+      <i class="fas fa-${icons[type] || 'info-circle'}"></i>
+    </div>
+    <div class="toast-content">
+      <div class="toast-message">${msg}</div>
+    </div>
+    <button class="toast-close" onclick="this.closest('.toast').remove()">
+      <i class="fas fa-times"></i>
+    </button>`;
+
   container.appendChild(toast);
-  setTimeout(() => toast.classList.add('show'), 10);
-  setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 300); }, 3500);
+
+  // Auto-remove after 3.5s
+  setTimeout(() => {
+    toast.classList.add('toast-hide');
+    setTimeout(() => toast.remove(), 300);
+  }, 3500);
 }
