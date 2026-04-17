@@ -234,9 +234,9 @@ function renderServices() {
     const tableHTML = pageServices.map(service => `
         <tr>
             <td>${service.branch_service_override_id}</td>
-            <td>
+            <td style="width:48px; padding-left:12px; padding-right:4px;">
                 ${service.image_url
-                    ? `<img src="${service.image_url}" class="service-thumb" alt="${service.display_name}" loading="lazy" onerror="this.style.display='none'">`
+                    ? `<img src="${service.image_url}" class="service-thumb" alt="${service.display_name}" loading="lazy" onerror="this.outerHTML='<span class=\\'service-thumb-placeholder\\'><i class=\\'fas fa-image\\'></i></span>'">`
                     : `<span class="service-thumb-placeholder"><i class="fas fa-image"></i></span>`
                 }
             </td>

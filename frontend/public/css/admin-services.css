@@ -173,6 +173,33 @@
     font-size: 11px;
 }
 
+/* ── Service thumbnail in table ── */
+.service-thumb {
+    width: 36px;
+    height: 36px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    display: inline-block;
+    vertical-align: middle;
+    flex-shrink: 0;
+}
+
+.service-thumb-placeholder {
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    background: #f0eef8;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #c5b8e8;
+    font-size: 14px;
+    vertical-align: middle;
+    flex-shrink: 0;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
 /* Status Badge */
 .status-badge {
     display: inline-block;

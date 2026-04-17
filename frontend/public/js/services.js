@@ -254,44 +254,48 @@ function displayServices(services) {
 }
 
 function createServiceItem(service) {
-  const item = document.createElement('div');
-  item.className = 'service-item';
-  item.dataset.serviceid = service.serviceid;
+    const item = document.createElement('div');
+    item.className = 'service-item';
+    item.dataset.serviceid = service.serviceid || service.branch_service_override_id;
 
-  if (selectedServices.has(service.serviceid)) item.classList.add('selected');
+    if (selectedServices.has(service.serviceid || service.branch_service_override_id)) {
+        item.classList.add('selected');
+    }
 
-  const isAvailable = service.isavailable === 1;
-  if (!isAvailable) {
-    item.classList.add('inactive');
-  } else {
-    item.addEventListener('click', () => toggleService(service, item));
-  }
+    const isAvailable = parseInt(service.isavailable) === 1 || parseInt(service.is_available) === 1;
+    if (!isAvailable) {
+        item.classList.add('inactive');
+    } else {
+        item.addEventListener('click', () => toggleService(service, item));
+    }
 
-  // Build image HTML — show image if available, placeholder if not
-  const imageHtml = service.image_url
-    ? `<img 
-          class="service-card-img" 
-          src="${service.image_url}" 
-          alt="${service.servicename}" 
-          loading="lazy"
-          onerror="this.outerHTML='<div class=\\'service-card-img-placeholder\\'><i class=\\'fas fa-spa\\'></i></div>'"
-        >`
-    : `<div class="service-card-img-placeholder"><i class="fas fa-spa"></i></div>`;
+    // Image: use image_url from API (already resolved with fallback logic by backend)
+    const imageHtml = service.image_url
+        ? `<img
+                class="service-card-img"
+                src="${service.image_url}"
+                alt="${service.servicename || service.display_name}"
+                loading="lazy"
+                onerror="this.outerHTML='<div class=\\'service-card-img-placeholder\\'><i class=\\'fas fa-spa\\'></i></div>'"
+           >`
+        : `<div class="service-card-img-placeholder"><i class="fas fa-spa"></i></div>`;
 
-  item.innerHTML = `
-    ${imageHtml}
-    <div class="service-info">
-      <div class="service-header">
-        <h3 class="service-name">${service.servicename}</h3>
-        <span class="service-duration">${service.duration || 'N/A'}</span>
-      </div>
-      <p class="service-description">${service.description}</p>
-      <p class="service-price">₱${parseFloat(service.price).toFixed(2)}</p>
-    </div>
-    <div class="service-action"></div>
-  `;
+    item.innerHTML = `
+        ${imageHtml}
+        <div class="service-info">
+            <div class="service-header">
+                <h3 class="service-name">${service.servicename || service.display_name}</h3>
+                <span class="service-duration">${service.duration || 'N/A'}</span>
+            </div>
+            <p class="service-description">${service.description || ''}</p>
+            <div class="service-footer">
+                <p class="service-price">₱${parseFloat(service.price).toFixed(2)}</p>
+                ${!isAvailable ? '<span class="unavailable-badge">Unavailable</span>' : ''}
+            </div>
+        </div>
+    `;
 
-  return item;
+    return item;
 }
 
 function displayPackages(packages) {
