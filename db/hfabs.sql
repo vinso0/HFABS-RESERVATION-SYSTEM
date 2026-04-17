@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 17, 2026 at 06:52 PM
+-- Generation Time: Apr 17, 2026 at 07:17 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -215,6 +215,7 @@ CREATE TABLE `branch_service_overrides` (
   `default_service_id` int(11) NOT NULL,
   `display_name` varchar(60) DEFAULT NULL,
   `description_override` text DEFAULT NULL,
+  `image_path_override` varchar(500) DEFAULT NULL,
   `duration_minutes_override` int(11) DEFAULT NULL,
   `price_override` decimal(10,2) DEFAULT NULL,
   `is_available_override` tinyint(1) DEFAULT NULL,
@@ -226,38 +227,38 @@ CREATE TABLE `branch_service_overrides` (
 -- Dumping data for table `branch_service_overrides`
 --
 
-INSERT INTO `branch_service_overrides` (`branch_service_override_id`, `branch_id`, `default_service_id`, `display_name`, `description_override`, `duration_minutes_override`, `price_override`, `is_available_override`, `created_at`, `updated_at`) VALUES
-(2, 2, 1, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
-(3, 1, 2, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
-(4, 2, 2, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
-(5, 1, 7, NULL, NULL, NULL, NULL, 0, '2026-02-07 06:27:40', '2026-02-07 06:30:21'),
-(6, 2, 7, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
-(7, 1, 8, NULL, NULL, NULL, NULL, 0, '2026-02-07 06:27:40', '2026-02-07 06:30:21'),
-(8, 2, 8, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
-(9, 1, 9, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
-(10, 2, 9, NULL, NULL, NULL, NULL, 0, '2026-02-07 06:27:40', '2026-02-07 06:30:39'),
-(11, 1, 10, 'Hot Stone Therapy', 'Therapeutic hot stone massage', 60, 2000.00, 1, '2026-02-07 06:27:40', '2026-03-07 10:17:47'),
-(12, 2, 10, NULL, NULL, NULL, NULL, 0, '2026-02-07 06:27:40', '2026-02-07 06:30:39'),
-(13, 1, 11, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
-(14, 2, 11, NULL, NULL, NULL, NULL, 0, '2026-02-07 06:27:40', '2026-02-07 06:30:39'),
-(15, 1, 3, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
-(16, 2, 3, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
-(17, 1, 4, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
-(18, 2, 4, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
-(19, 1, 5, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
-(20, 2, 5, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
-(21, 1, 6, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
-(22, 2, 6, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
-(48, 1, 1, 'Hair Spa Treatment', 'Deep conditioning hair treatment', 60, 800.00, 1, '2026-03-07 10:51:12', '2026-03-07 10:51:12'),
-(78, 2, 17, NULL, NULL, NULL, NULL, NULL, '2026-03-28 08:12:57', '2026-03-28 08:12:57'),
-(87, 1, 21, NULL, NULL, NULL, NULL, NULL, '2026-03-28 08:36:02', '2026-03-28 08:36:02'),
-(88, 4, 1, NULL, NULL, NULL, NULL, NULL, '2026-03-28 08:42:07', '2026-03-28 08:42:07'),
-(89, 4, 2, NULL, NULL, NULL, NULL, NULL, '2026-03-28 08:42:13', '2026-03-28 08:42:13'),
-(90, 4, 3, NULL, NULL, NULL, NULL, NULL, '2026-03-28 08:42:16', '2026-03-28 08:42:16'),
-(91, 4, 5, NULL, NULL, NULL, NULL, NULL, '2026-03-28 08:42:20', '2026-03-28 08:42:20'),
-(92, 4, 7, NULL, NULL, NULL, NULL, NULL, '2026-03-28 08:42:26', '2026-03-28 08:42:26'),
-(93, 5, 21, NULL, NULL, NULL, NULL, NULL, '2026-03-30 12:21:59', '2026-03-30 12:21:59'),
-(94, 5, 17, NULL, NULL, NULL, NULL, NULL, '2026-03-30 12:22:28', '2026-03-30 12:22:28');
+INSERT INTO `branch_service_overrides` (`branch_service_override_id`, `branch_id`, `default_service_id`, `display_name`, `description_override`, `image_path_override`, `duration_minutes_override`, `price_override`, `is_available_override`, `created_at`, `updated_at`) VALUES
+(2, 2, 1, NULL, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
+(3, 1, 2, NULL, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
+(4, 2, 2, NULL, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
+(5, 1, 7, NULL, NULL, NULL, NULL, NULL, 0, '2026-02-07 06:27:40', '2026-02-07 06:30:21'),
+(6, 2, 7, NULL, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
+(7, 1, 8, NULL, NULL, NULL, NULL, NULL, 0, '2026-02-07 06:27:40', '2026-02-07 06:30:21'),
+(8, 2, 8, NULL, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
+(9, 1, 9, NULL, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
+(10, 2, 9, NULL, NULL, NULL, NULL, NULL, 0, '2026-02-07 06:27:40', '2026-02-07 06:30:39'),
+(11, 1, 10, 'Hot Stone Therapy', 'Therapeutic hot stone massage', NULL, 60, 2000.00, 1, '2026-02-07 06:27:40', '2026-03-07 10:17:47'),
+(12, 2, 10, NULL, NULL, NULL, NULL, NULL, 0, '2026-02-07 06:27:40', '2026-02-07 06:30:39'),
+(13, 1, 11, NULL, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
+(14, 2, 11, NULL, NULL, NULL, NULL, NULL, 0, '2026-02-07 06:27:40', '2026-02-07 06:30:39'),
+(15, 1, 3, NULL, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
+(16, 2, 3, NULL, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
+(17, 1, 4, NULL, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
+(18, 2, 4, NULL, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
+(19, 1, 5, NULL, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
+(20, 2, 5, NULL, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
+(21, 1, 6, NULL, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
+(22, 2, 6, NULL, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
+(48, 1, 1, 'Hair Spa Treatment', 'Deep conditioning hair treatment', NULL, 60, 800.00, 1, '2026-03-07 10:51:12', '2026-03-07 10:51:12'),
+(78, 2, 17, NULL, NULL, NULL, NULL, NULL, NULL, '2026-03-28 08:12:57', '2026-03-28 08:12:57'),
+(87, 1, 21, NULL, NULL, NULL, NULL, NULL, NULL, '2026-03-28 08:36:02', '2026-03-28 08:36:02'),
+(88, 4, 1, NULL, NULL, NULL, NULL, NULL, NULL, '2026-03-28 08:42:07', '2026-03-28 08:42:07'),
+(89, 4, 2, NULL, NULL, NULL, NULL, NULL, NULL, '2026-03-28 08:42:13', '2026-03-28 08:42:13'),
+(90, 4, 3, NULL, NULL, NULL, NULL, NULL, NULL, '2026-03-28 08:42:16', '2026-03-28 08:42:16'),
+(91, 4, 5, NULL, NULL, NULL, NULL, NULL, NULL, '2026-03-28 08:42:20', '2026-03-28 08:42:20'),
+(92, 4, 7, NULL, NULL, NULL, NULL, NULL, NULL, '2026-03-28 08:42:26', '2026-03-28 08:42:26'),
+(93, 5, 21, NULL, NULL, NULL, NULL, NULL, NULL, '2026-03-30 12:21:59', '2026-03-30 12:21:59'),
+(94, 5, 17, NULL, NULL, NULL, NULL, NULL, NULL, '2026-03-30 12:22:28', '2026-03-30 12:22:28');
 
 -- --------------------------------------------------------
 
@@ -303,6 +304,7 @@ CREATE TABLE `default_services` (
   `category_id` int(11) NOT NULL,
   `service_name` varchar(30) NOT NULL,
   `description` text NOT NULL,
+  `image_path` varchar(500) DEFAULT NULL,
   `duration_minutes` int(11) NOT NULL,
   `price` decimal(10,2) NOT NULL,
   `is_available` tinyint(1) NOT NULL DEFAULT 1
@@ -312,20 +314,20 @@ CREATE TABLE `default_services` (
 -- Dumping data for table `default_services`
 --
 
-INSERT INTO `default_services` (`service_id`, `category_id`, `service_name`, `description`, `duration_minutes`, `price`, `is_available`) VALUES
-(1, 1, 'Test Global Service', 'Test global service change desc', 30, 300.00, 1),
-(2, 1, 'Hair Rebonding', 'Permanent hair straightening', 120, 3500.00, 1),
-(3, 3, 'Classic Manicure', 'Basic nail care and polish', 60, 350.00, 1),
-(4, 3, 'Gel Pedicure', 'Long-lasting gel nail treatment', 90, 600.00, 1),
-(5, 1, 'Deep Cleansing Facial', 'Deep pore cleansing facial', 60, 1200.00, 1),
-(6, 4, 'Anti-Aging Facial', 'Rejuvenating facial treatment', 60, 2000.00, 1),
-(7, 1, 'Keratin Treatment', 'Smoothing keratin therapy', 90, 4500.00, 1),
-(8, 1, 'Hair Botox', 'Deep repair treatment', 120, 3800.00, 1),
-(9, 2, 'Swedish Massage', 'Relaxing full body massage', 60, 1500.00, 1),
-(10, 2, 'Hot Stone Therapy', 'Therapeutic hot stone massage', 60, 2000.00, 1),
-(11, 2, 'Aromatherapy Massage', 'Essential oil massage therapy', 60, 1600.00, 1),
-(17, 1, 'Hair Treatment', 'lorem ipsum', 60, 150.00, 1),
-(21, 1, 'test change name', 'test change desc', 60, 50.00, 1);
+INSERT INTO `default_services` (`service_id`, `category_id`, `service_name`, `description`, `image_path`, `duration_minutes`, `price`, `is_available`) VALUES
+(1, 1, 'Test Global Service', 'Test global service change desc', NULL, 30, 300.00, 1),
+(2, 1, 'Hair Rebonding', 'Permanent hair straightening', NULL, 120, 3500.00, 1),
+(3, 3, 'Classic Manicure', 'Basic nail care and polish', NULL, 60, 350.00, 1),
+(4, 3, 'Gel Pedicure', 'Long-lasting gel nail treatment', NULL, 90, 600.00, 1),
+(5, 1, 'Deep Cleansing Facial', 'Deep pore cleansing facial', NULL, 60, 1200.00, 1),
+(6, 4, 'Anti-Aging Facial', 'Rejuvenating facial treatment', NULL, 60, 2000.00, 1),
+(7, 1, 'Keratin Treatment', 'Smoothing keratin therapy', NULL, 90, 4500.00, 1),
+(8, 1, 'Hair Botox', 'Deep repair treatment', NULL, 120, 3800.00, 1),
+(9, 2, 'Swedish Massage', 'Relaxing full body massage', NULL, 60, 1500.00, 1),
+(10, 2, 'Hot Stone Therapy', 'Therapeutic hot stone massage', NULL, 60, 2000.00, 1),
+(11, 2, 'Aromatherapy Massage', 'Essential oil massage therapy', NULL, 60, 1600.00, 1),
+(17, 1, 'Hair Treatment', 'lorem ipsum', NULL, 60, 150.00, 1),
+(21, 1, 'test change name', 'test change desc', NULL, 60, 50.00, 1);
 
 -- --------------------------------------------------------
 
@@ -1041,6 +1043,23 @@ INSERT INTO `reservation_services` (`reservation_service_id`, `reservation_id`, 
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `service_wishlists`
+--
+
+CREATE TABLE `service_wishlists` (
+  `wishlist_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `branch_id` int(11) NOT NULL,
+  `default_service_id` int(11) NOT NULL,
+  `branch_service_override_id` int(11) DEFAULT NULL,
+  `reason_code` varchar(50) DEFAULT NULL,
+  `note` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -1444,6 +1463,16 @@ ALTER TABLE `reservation_services`
   ADD KEY `fk_rs_package` (`booked_package_id`);
 
 --
+-- Indexes for table `service_wishlists`
+--
+ALTER TABLE `service_wishlists`
+  ADD PRIMARY KEY (`wishlist_id`),
+  ADD UNIQUE KEY `uq_user_branch_service` (`user_id`,`branch_id`,`default_service_id`),
+  ADD KEY `idx_branch_service` (`branch_id`,`default_service_id`),
+  ADD KEY `idx_branch_override` (`branch_service_override_id`),
+  ADD KEY `fk_sw_default_service` (`default_service_id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -1582,6 +1611,12 @@ ALTER TABLE `reservation_services`
   MODIFY `reservation_service_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
 
 --
+-- AUTO_INCREMENT for table `service_wishlists`
+--
+ALTER TABLE `service_wishlists`
+  MODIFY `wishlist_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
@@ -1711,6 +1746,15 @@ ALTER TABLE `reservation_services`
   ADD CONSTRAINT `fk_rs_default_service` FOREIGN KEY (`default_service_id`) REFERENCES `default_services` (`service_id`),
   ADD CONSTRAINT `fk_rs_package` FOREIGN KEY (`booked_package_id`) REFERENCES `branch_packages` (`package_id`),
   ADD CONSTRAINT `service_reservation` FOREIGN KEY (`reservation_id`) REFERENCES `reservations` (`reservation_id`);
+
+--
+-- Constraints for table `service_wishlists`
+--
+ALTER TABLE `service_wishlists`
+  ADD CONSTRAINT `fk_sw_branch` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`branch_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_sw_branch_service_override` FOREIGN KEY (`branch_service_override_id`) REFERENCES `branch_service_overrides` (`branch_service_override_id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_sw_default_service` FOREIGN KEY (`default_service_id`) REFERENCES `default_services` (`service_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_sw_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `users`
