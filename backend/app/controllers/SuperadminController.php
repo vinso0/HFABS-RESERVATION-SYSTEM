@@ -240,19 +240,29 @@ class SuperadminController extends Controller
         $this->requireSuperadmin();
         $method = $_SERVER['REQUEST_METHOD'];
 
-        if ($method === 'GET'    && $id === null) { $this->getServices();        return; }
-        if ($method === 'GET'    && $id === 'deactivated') { $this->getDeactivatedServices(); return; }
-        if ($method === 'POST'   && $id === null) { $this->addService();         return; }
-        if ($method === 'PUT'    && $id !== null) { $this->updateService($id);   return; }
-        if ($method === 'DELETE' && $id !== null) { $this->deleteService($id);   return; }
+        if ($method === 'GET'    && $id === null)           { $this->getServices();        return; }
+        if ($method === 'GET'    && $id === 'deactivated')  { $this->getDeactivatedServices(); return; }
+        if ($method === 'POST'   && $id === null)           { $this->addService();         return; }
+        if ($method === 'PUT'    && $id !== null)           { $this->updateService($id);   return; }
+        if ($method === 'DELETE' && $id !== null)           { $this->deleteService($id);   return; }
 
         http_response_code(405);
         $this->json(['success' => false, 'message' => 'Method not allowed']);
     }
-
+    
     private function getServices()
     {
         $services = $this->superadminModel->getServices();
+        $baseUrl  = $this->getBaseUrl();
+
+        // Append full image_url for each service
+        foreach ($services as &$s) {
+            $s['image_url'] = !empty($s['image_path'])
+                ? $baseUrl . '/HFABS/backend/public/' . $s['image_path']
+                : null;
+        }
+        unset($s);
+
         $this->json(['success' => true, 'data' => $services]);
     }
 
@@ -266,16 +276,34 @@ class SuperadminController extends Controller
     {
         $input = json_decode(file_get_contents('php://input'), true);
 
-        $service_name     = trim($input['service_name']     ?? '');
-        $description      = trim($input['description']      ?? '');
-        $base_price      = isset($input['base_price'])      ? (float)$input['base_price'] : 0;
-        $duration_minutes = isset($input['duration_minutes']) ? (int)$input['duration_minutes'] : 30;
-        $category_id      = isset($input['category_id'])      ? (int)$input['category_id'] : 1;
-        $is_active       = isset($input['is_active'])       ? (int)$input['is_active'] : 1;
-        $branch_ids      = $input['branch_ids'] ?? [];
-        $reactivate_id   = isset($input['reactivate_id'])   ? (int)$input['reactivate_id'] : null;
+        $service_name     = trim($input['service_name']      ?? '');
+        $description      = trim($input['description']       ?? '');
+        $base_price       = isset($input['base_price'])       ? (float)$input['base_price']       : 0;
+        $duration_minutes = isset($input['duration_minutes']) ? (int)$input['duration_minutes']   : 30;
+        $category_id      = isset($input['category_id'])      ? (int)$input['category_id']        : 1;
+        $is_active        = isset($input['is_active'])        ? (int)$input['is_active']          : 1;
+        $branch_ids       = $input['branch_ids']  ?? [];
+        $reactivate_id    = isset($input['reactivate_id'])    ? (int)$input['reactivate_id']      : null;
+        $image_base64     = $input['image_base64'] ?? null;   // NEW: base64 image data
 
-        $result = $this->superadminModel->addService($service_name, $description, $base_price, $duration_minutes, $category_id, $is_active, $branch_ids, $reactivate_id);
+        // Handle image upload
+        $imagePath = null;
+        if ($image_base64) {
+            require_once __DIR__ . '/../services/ImageUploadService.php';
+            $imgService = new ImageUploadService();
+            $imgResult  = $imgService->saveBase64Image($image_base64);
+            if (!$imgResult['success']) {
+                http_response_code(400);
+                $this->json(['success' => false, 'message' => $imgResult['error']]);
+                return;
+            }
+            $imagePath = $imgResult['path'];
+        }
+
+        $result = $this->superadminModel->addService(
+            $service_name, $description, $base_price, $duration_minutes,
+            $category_id, $is_active, $branch_ids, $reactivate_id, $imagePath
+        );
 
         if (!$result['success']) {
             http_response_code(400);
@@ -286,24 +314,66 @@ class SuperadminController extends Controller
 
     private function updateService($id)
     {
-        $id = (int)$id;
+        $id    = (int)$id;
         $input = json_decode(file_get_contents('php://input'), true);
 
-        $service_name     = trim($input['service_name']     ?? '');
-        $description      = trim($input['description']      ?? '');
-        $base_price      = isset($input['base_price'])      ? (float)$input['base_price'] : 0;
-        $duration_minutes = isset($input['duration_minutes']) ? (int)$input['duration_minutes'] : 30;
-        $category_id      = isset($input['category_id'])      ? (int)$input['category_id'] : 1;
-        $is_active       = isset($input['is_active'])       ? (int)$input['is_active'] : 1;
-        $branch_ids      = $input['branch_ids'] ?? [];
+        $service_name     = trim($input['service_name']      ?? '');
+        $description      = trim($input['description']       ?? '');
+        $base_price       = isset($input['base_price'])       ? (float)$input['base_price']       : 0;
+        $duration_minutes = isset($input['duration_minutes']) ? (int)$input['duration_minutes']   : 30;
+        $category_id      = isset($input['category_id'])      ? (int)$input['category_id']        : 1;
+        $is_active        = isset($input['is_active'])        ? (int)$input['is_active']          : 1;
+        $branch_ids       = $input['branch_ids']  ?? [];
+        $image_base64     = $input['image_base64']  ?? null;  // NEW: base64 image data
+        $remove_image     = isset($input['remove_image']) && $input['remove_image'] == true;
 
-        $result = $this->superadminModel->updateService($id, $service_name, $description, $base_price, $duration_minutes, $category_id, $is_active, $branch_ids);
+        // Handle image
+        $imagePath    = null;
+        $updateImage  = false;
+
+        if ($remove_image) {
+            // Explicitly clearing the image
+            $updateImage = true;
+            $imagePath   = null;
+            // Delete the old file
+            $existing = $this->superadminModel->getServiceById($id);
+            if ($existing && !empty($existing['image_path'])) {
+                require_once __DIR__ . '/../services/ImageUploadService.php';
+                (new ImageUploadService())->deleteImage($existing['image_path']);
+            }
+        } elseif ($image_base64) {
+            $existing = $this->superadminModel->getServiceById($id);
+            $oldPath  = $existing['image_path'] ?? null;
+
+            require_once __DIR__ . '/../services/ImageUploadService.php';
+            $imgService = new ImageUploadService();
+            $imgResult  = $imgService->saveBase64Image($image_base64, $oldPath);
+            if (!$imgResult['success']) {
+                http_response_code(400);
+                $this->json(['success' => false, 'message' => $imgResult['error']]);
+                return;
+            }
+            $imagePath   = $imgResult['path'];
+            $updateImage = true;
+        }
+
+        $result = $this->superadminModel->updateService(
+            $id, $service_name, $description, $base_price, $duration_minutes,
+            $category_id, $is_active, $branch_ids, $updateImage ? $imagePath : false
+        );
 
         if (!$result['success']) {
             http_response_code(400);
         }
 
         $this->json($result);
+    }
+
+    // Add this helper at the bottom of private methods:
+    private function getBaseUrl(): string
+    {
+        return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http')
+            . '://' . $_SERVER['HTTP_HOST'];
     }
 
     private function deleteService($id)

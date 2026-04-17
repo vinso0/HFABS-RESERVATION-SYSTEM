@@ -308,27 +308,22 @@ class SuperadminModel
     public function getServices()
     {
         $stmt = $this->db->prepare(
-            "SELECT s.service_id, s.service_name, s.description, s.price as base_price, s.duration_minutes, 
-                    s.is_available as is_active, s.category_id,
-                    c.category_name,
-                    COALESCE(GROUP_CONCAT(b.branch_id), '') as branch_ids,
-                    COALESCE(GROUP_CONCAT(b.branch_name), '') as branch_names
-             FROM default_services s
-             LEFT JOIN default_services_categories c ON s.category_id = c.service_category_id
-             LEFT JOIN branch_service_overrides bso ON s.service_id = bso.default_service_id
-             LEFT JOIN branch b ON bso.branch_id = b.branch_id
-             GROUP BY s.service_id
-             ORDER BY s.service_id ASC"
+            "SELECT s.service_id, s.service_name, s.description, s.price AS base_price,
+                    s.duration_minutes, s.category_id, s.is_available AS is_active,
+                    s.image_path,
+                    sc.category_name,
+                    GROUP_CONCAT(DISTINCT b.branch_name ORDER BY b.branch_name SEPARATOR ', ') AS branch_names,
+                    s.created_at
+            FROM default_services s
+            LEFT JOIN default_services_categories sc ON s.category_id = sc.service_category_id
+            LEFT JOIN branch_service_overrides bso ON s.service_id = bso.default_service_id
+            LEFT JOIN branch b ON bso.branch_id = b.branch_id
+            WHERE s.is_available IN (0, 1)
+            GROUP BY s.service_id
+            ORDER BY s.service_id DESC"
         );
         $stmt->execute();
-        $result = $stmt->get_result();
-
-        $rows = [];
-        while ($row = $result->fetch_assoc()) {
-            $rows[] = $row;
-        }
-
-        return $rows;
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
     /**
@@ -355,26 +350,37 @@ class SuperadminModel
         return $rows;
     }
 
+    public function getServiceById($id)
+    {
+        $stmt = $this->db->prepare(
+            "SELECT service_id, service_name, description, price, duration_minutes,
+                    category_id, is_available, image_path
+            FROM default_services
+            WHERE service_id = ?"
+        );
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc();
+    }
+
     /**
      * Add new service or reactivate existing
      */
-    public function addService($service_name, $description, $base_price, $duration_minutes, $category_id, $is_active, $branch_ids, $reactivate_id)
+    public function addService($service_name, $description, $base_price, $duration_minutes, $category_id, $is_active, $branch_ids, $reactivate_id, $imagePath = null)
     {
         if (!$service_name) {
             return ['success' => false, 'message' => 'Service name is required.'];
         }
-
         if ($base_price < 0) {
             return ['success' => false, 'message' => 'Base price must be a positive number.'];
         }
-
         if ($duration_minutes <= 0) {
             return ['success' => false, 'message' => 'Duration must be a positive number.'];
         }
 
-        // Handle reactivation
+        // ── Reactivation path ──
         if ($reactivate_id) {
-            // Check if service exists and is deactivated
             $stmt = $this->db->prepare("SELECT service_id FROM default_services WHERE service_id = ? AND is_available = 0");
             $stmt->bind_param('i', $reactivate_id);
             $stmt->execute();
@@ -382,29 +388,30 @@ class SuperadminModel
                 return ['success' => false, 'message' => 'Deactivated service not found.'];
             }
 
-            // Start transaction
             $this->db->begin_transaction();
-
             try {
-                // Reactivate the service
                 $stmt = $this->db->prepare(
-                    "UPDATE default_services SET service_name=?, description=?, price=?, duration_minutes=?, category_id=?, is_available=1
-                     WHERE service_id=?"
+                    "UPDATE default_services
+                    SET service_name=?, description=?, price=?, duration_minutes=?, category_id=?, is_available=1
+                    WHERE service_id=?"
                 );
                 $stmt->bind_param('ssdiii', $service_name, $description, $base_price, $duration_minutes, $category_id, $reactivate_id);
                 $stmt->execute();
 
-                // Update branch assignments - remove existing and add new ones
+                // Update image if provided
+                if ($imagePath !== null) {
+                    $imgStmt = $this->db->prepare("UPDATE default_services SET image_path=? WHERE service_id=?");
+                    $imgStmt->bind_param('si', $imagePath, $reactivate_id);
+                    $imgStmt->execute();
+                }
+
                 $stmt = $this->db->prepare("DELETE FROM branch_service_overrides WHERE default_service_id = ?");
                 $stmt->bind_param('i', $reactivate_id);
                 $stmt->execute();
 
-                // Add new branch assignments if provided
                 if (!empty($branch_ids) && is_array($branch_ids)) {
                     foreach ($branch_ids as $branch_id) {
-                        $stmt = $this->db->prepare(
-                            "INSERT INTO branch_service_overrides (branch_id, default_service_id) VALUES (?, ?)"
-                        );
+                        $stmt = $this->db->prepare("INSERT INTO branch_service_overrides (branch_id, default_service_id) VALUES (?, ?)");
                         $stmt->bind_param('ii', $branch_id, $reactivate_id);
                         $stmt->execute();
                     }
@@ -418,105 +425,96 @@ class SuperadminModel
             }
         }
 
-        // Handle new service creation
-        // Start transaction
+        // ── New service path ──
         $this->db->begin_transaction();
-
         try {
-            // Insert the service
             $stmt = $this->db->prepare(
-                "INSERT INTO default_services (service_name, description, price, duration_minutes, category_id, is_available)
-                 VALUES (?, ?, ?, ?, ?, ?)"
+                "INSERT INTO default_services (service_name, description, price, duration_minutes, category_id, is_available, image_path)
+                VALUES (?, ?, ?, ?, ?, ?, ?)"
             );
-            $stmt->bind_param('ssdiii', $service_name, $description, $base_price, $duration_minutes, $category_id, $is_active);
+            $stmt->bind_param('ssdiiss', $service_name, $description, $base_price, $duration_minutes, $category_id, $is_active, $imagePath);
             $stmt->execute();
-            $newId = $this->db->insert_id;
+            $serviceId = $this->db->insert_id;
 
-            // Add branch assignments if provided
             if (!empty($branch_ids) && is_array($branch_ids)) {
                 foreach ($branch_ids as $branch_id) {
-                    $stmt = $this->db->prepare(
-                        "INSERT INTO branch_service_overrides (branch_id, default_service_id) VALUES (?, ?)"
-                    );
-                    $stmt->bind_param('ii', $branch_id, $newId);
+                    $stmt = $this->db->prepare("INSERT INTO branch_service_overrides (branch_id, default_service_id) VALUES (?, ?)");
+                    $stmt->bind_param('ii', $branch_id, $serviceId);
                     $stmt->execute();
                 }
             }
 
             $this->db->commit();
-            return ['success' => true, 'message' => 'Service added successfully.', 'service_id' => $newId];
+            return ['success' => true, 'message' => 'Service created successfully.', 'service_id' => $serviceId];
         } catch (Exception $e) {
             $this->db->rollback();
-            return ['success' => false, 'message' => 'Failed to add service: ' . $e->getMessage()];
+            return ['success' => false, 'message' => 'Failed to create service: ' . $e->getMessage()];
         }
     }
 
     /**
      * Update service
      */
-    public function updateService($id, $service_name, $description, $base_price, $duration_minutes, $category_id, $is_active, $branch_ids)
+    public function updateService($id, $service_name, $description, $base_price, $duration_minutes, $category_id, $is_active, $branch_ids, $imagePath = false)
     {
         if (!$service_name) {
             return ['success' => false, 'message' => 'Service name is required.'];
         }
-
         if ($base_price < 0) {
             return ['success' => false, 'message' => 'Base price must be a positive number.'];
         }
-
         if ($duration_minutes <= 0) {
             return ['success' => false, 'message' => 'Duration must be a positive number.'];
         }
 
-        // Start transaction
         $this->db->begin_transaction();
-
         try {
-            // Update the service
+            // Update core fields
             $stmt = $this->db->prepare(
-                "UPDATE default_services 
-                 SET service_name=?, description=?, price=?, duration_minutes=?, category_id=?, is_available=?
-                 WHERE service_id=?"
+                "UPDATE default_services
+                SET service_name=?, description=?, price=?, duration_minutes=?, category_id=?, is_available=?
+                WHERE service_id=?"
             );
             $stmt->bind_param('ssdiiii', $service_name, $description, $base_price, $duration_minutes, $category_id, $is_active, $id);
             $stmt->execute();
 
-            // Handle branch assignments - only delete overrides not used in packages
+            // Update image only when explicitly passed (false = don't touch, null = clear it, string = new path)
+            if ($imagePath !== false) {
+                $imgStmt = $this->db->prepare("UPDATE default_services SET image_path=? WHERE service_id=?");
+                $imgStmt->bind_param('si', $imagePath, $id);
+                $imgStmt->execute();
+            }
+
+            // ── Branch assignments (same logic as before) ──
             if (!empty($branch_ids) && is_array($branch_ids)) {
-                // Get existing branch overrides for this service
                 $stmt = $this->db->prepare("SELECT branch_service_override_id, branch_id FROM branch_service_overrides WHERE default_service_id = ?");
                 $stmt->bind_param('i', $id);
                 $stmt->execute();
                 $result = $stmt->get_result();
-                
+
                 $existingOverrides = [];
                 while ($row = $result->fetch_assoc()) {
                     $existingOverrides[] = $row;
                 }
 
-                // Get overrides that are used in packages (cannot be deleted)
                 $usedInPackages = [];
                 if (!empty($existingOverrides)) {
-                    $overrideIds = array_column($existingOverrides, 'branch_service_override_id');
-                    if (!empty($overrideIds)) {
-                        $placeholders = str_repeat('?,', count($overrideIds) - 1) . '?';
-                        $stmt = $this->db->prepare(
-                            "SELECT DISTINCT branch_service_override_id FROM branch_package_services 
-                             WHERE branch_service_override_id IN ($placeholders)"
-                        );
-                        $stmt->bind_param(str_repeat('i', count($overrideIds)), ...$overrideIds);
-                        $stmt->execute();
-                        $pkgResult = $stmt->get_result();
-                        
-                        while ($row = $pkgResult->fetch_assoc()) {
-                            $usedInPackages[] = $row['branch_service_override_id'];
-                        }
+                    $overrideIds  = array_column($existingOverrides, 'branch_service_override_id');
+                    $placeholders = str_repeat('?,', count($overrideIds) - 1) . '?';
+                    $stmt = $this->db->prepare(
+                        "SELECT DISTINCT branch_service_override_id FROM branch_package_services
+                        WHERE branch_service_override_id IN ($placeholders)"
+                    );
+                    $stmt->bind_param(str_repeat('i', count($overrideIds)), ...$overrideIds);
+                    $stmt->execute();
+                    $pkgResult = $stmt->get_result();
+                    while ($row = $pkgResult->fetch_assoc()) {
+                        $usedInPackages[] = $row['branch_service_override_id'];
                     }
                 }
 
-                // Delete overrides not used in packages and not in the new branch list
                 foreach ($existingOverrides as $override) {
-                    if (!in_array($override['branch_service_override_id'], $usedInPackages) && 
+                    if (!in_array($override['branch_service_override_id'], $usedInPackages) &&
                         !in_array($override['branch_id'], $branch_ids)) {
                         $stmt = $this->db->prepare("DELETE FROM branch_service_overrides WHERE branch_service_override_id = ?");
                         $stmt->bind_param('i', $override['branch_service_override_id']);
@@ -524,37 +522,27 @@ class SuperadminModel
                     }
                 }
 
-                // Add new branch assignments
                 foreach ($branch_ids as $branch_id) {
-                    // Check if this branch assignment already exists
                     $exists = false;
                     foreach ($existingOverrides as $override) {
-                        if ($override['branch_id'] == $branch_id) {
-                            $exists = true;
-                            break;
-                        }
+                        if ($override['branch_id'] == $branch_id) { $exists = true; break; }
                     }
-                    
                     if (!$exists) {
-                        $stmt = $this->db->prepare(
-                            "INSERT INTO branch_service_overrides (branch_id, default_service_id) VALUES (?, ?)"
-                        );
+                        $stmt = $this->db->prepare("INSERT INTO branch_service_overrides (branch_id, default_service_id) VALUES (?, ?)");
                         $stmt->bind_param('ii', $branch_id, $id);
                         $stmt->execute();
                     }
                 }
             } else {
-                // If no branch_ids provided, only delete overrides not used in packages
                 $stmt = $this->db->prepare(
-                    "SELECT bso.branch_service_override_id 
-                     FROM branch_service_overrides bso
-                     LEFT JOIN branch_package_services bps ON bso.branch_service_override_id = bps.branch_service_override_id
-                     WHERE bso.default_service_id = ? AND bps.branch_service_override_id IS NULL"
+                    "SELECT bso.branch_service_override_id
+                    FROM branch_service_overrides bso
+                    LEFT JOIN branch_package_services bps ON bso.branch_service_override_id = bps.branch_service_override_id
+                    WHERE bso.default_service_id = ? AND bps.branch_service_override_id IS NULL"
                 );
                 $stmt->bind_param('i', $id);
                 $stmt->execute();
                 $result = $stmt->get_result();
-                
                 while ($row = $result->fetch_assoc()) {
                     $deleteStmt = $this->db->prepare("DELETE FROM branch_service_overrides WHERE branch_service_override_id = ?");
                     $deleteStmt->bind_param('i', $row['branch_service_override_id']);

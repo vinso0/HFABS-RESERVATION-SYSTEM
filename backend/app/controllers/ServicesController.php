@@ -232,29 +232,41 @@ class ServicesController extends Controller
     public function branchServices($branchId)
     {
         $services = $this->servicesModel->getBranchServices($branchId);
-        
-        // Format services to match frontend expected structure
-        $formattedServices = array_map(function($service) {
+
+        $baseUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http')
+                . '://' . $_SERVER['HTTP_HOST'];
+
+        $formattedServices = array_map(function($service) use ($baseUrl) {
+            // Fallback: branch override image → global image → null
+            $rawImagePath = !empty($service['image_path_override'])
+                ? $service['image_path_override']
+                : ($service['image_path'] ?? null);
+
+            $imageUrl = $rawImagePath
+                ? $baseUrl . '/HFABS/backend/public/' . $rawImagePath
+                : null;
+
             return array(
                 'branch_service_override_id' => $service['serviceid'],
-                'branch_id' => $service['branch_id'],
-                'default_service_id' => $service['default_service_id'],
-                'display_name' => $service['servicename'],
-                'description' => $service['description'],
-                'price' => $service['price'],
-                'duration' => $service['duration'],
-                'category_id' => $service['category_id'],
-                'category' => !empty($service['category']) ? ucfirst(strtolower($service['category'])) . ' Services' : 'Other Services',
-                'is_available' => $service['isavailable']
+                'branch_id'                  => $service['branch_id'],
+                'default_service_id'         => $service['default_service_id'],
+                'display_name'               => $service['servicename'],
+                'description'                => $service['description'],
+                'price'                      => $service['price'],
+                'duration'                   => $service['duration'],
+                'category_id'                => $service['category_id'],
+                'category'                   => !empty($service['category'])
+                                                ? ucfirst(strtolower($service['category'])) . ' Services'
+                                                : 'Other Services',
+                'is_available'               => $service['isavailable'],
+                'image_url'                  => $imageUrl,
             );
         }, $services);
-        
+
         header('Content-Type: application/json');
-        echo json_encode(array(
-            'success' => true,
-            'data' => $formattedServices
-        ));
+        echo json_encode(array('success' => true, 'data' => $formattedServices));
     }
+
 
     // Get branch service override by ID
     // API endpoint: GET /services/branch-service/{id}
@@ -327,12 +339,12 @@ class ServicesController extends Controller
         }
     }
 
-    // Update branch service override
-    // API endpoint: PUT /services/branch-service/{id}
+    // Update branch service override (Admin side)
+    // API endpoint: PUT /services/branchServiceUpdate/{id}
     public function branchServiceUpdate($id)
     {
         $data = json_decode(file_get_contents('php://input'), true);
-        
+
         if (!$data) {
             http_response_code(400);
             echo json_encode(array('success' => false, 'error' => 'Invalid request data'));
@@ -340,17 +352,43 @@ class ServicesController extends Controller
         }
 
         $serviceData = array(
-            'display_name' => $data['display_name'] ?? null,
-            'description_override' => $data['description_override'] ?? null,
+            'display_name'              => $data['display_name']              ?? null,
+            'description_override'      => $data['description_override']      ?? null,
             'duration_minutes_override' => $data['duration_minutes_override'] ?? null,
-            'price_override' => $data['price_override'] ?? null,
-            'is_available_override' => $data['is_available_override'] ?? null
+            'price_override'            => $data['price_override']            ?? null,
+            'is_available_override'     => $data['is_available_override']     ?? null,
         );
 
-        // Remove null values
         $serviceData = array_filter($serviceData, function($value) {
             return $value !== null;
         });
+
+        // Handle branch image override (base64)
+        $image_base64 = $data['image_base64'] ?? null;
+        $remove_image = isset($data['remove_image']) && $data['remove_image'] == true;
+
+        if ($remove_image) {
+            $existing = $this->servicesModel->getBranchServiceById($id);
+            if ($existing && !empty($existing['image_path_override'])) {
+                require_once __DIR__ . '/../services/ImageUploadService.php';
+                (new ImageUploadService())->deleteImage($existing['image_path_override']);
+            }
+            $serviceData['image_path_override'] = null;
+        } elseif ($image_base64) {
+            $existing = $this->servicesModel->getBranchServiceById($id);
+            $oldPath  = $existing['image_path_override'] ?? null;
+
+            require_once __DIR__ . '/../services/ImageUploadService.php';
+            $imgService = new ImageUploadService();
+            $imgResult  = $imgService->saveBase64Image($image_base64, $oldPath);
+
+            if (!$imgResult['success']) {
+                http_response_code(400);
+                echo json_encode(array('success' => false, 'message' => $imgResult['error']));
+                return;
+            }
+            $serviceData['image_path_override'] = $imgResult['path'];
+        }
 
         if (empty($serviceData)) {
             http_response_code(400);
@@ -359,12 +397,9 @@ class ServicesController extends Controller
         }
 
         $result = $this->servicesModel->updateBranchServiceOverride($id, $serviceData);
-        
+
         if ($result) {
-            echo json_encode(array(
-                'success' => true,
-                'message' => 'Branch service updated successfully'
-            ));
+            echo json_encode(array('success' => true, 'message' => 'Branch service updated successfully'));
         } else {
             http_response_code(500);
             echo json_encode(array('success' => false, 'error' => 'Failed to update branch service'));
