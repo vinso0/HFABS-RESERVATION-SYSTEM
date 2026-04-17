@@ -242,24 +242,16 @@ function filterServices(category) {
 function displayServices(services) {
   const servicesList = document.getElementById('servicesList');
 
-  if (services.length === 0) {
+  if (!services || services.length === 0) {
     servicesList.innerHTML = '<div class="empty-state">No services available in this category.</div>';
     return;
   }
 
-    var imageHtml = service.image_url
-      ? '<img src="' + service.image_url + '" alt="' + service.display_name + '" '
-      + 'style="width:100%;height:130px;object-fit:cover;border-radius:8px 8px 0 0;display:block;" '
-      + 'loading="lazy" onerror="this.style.display=\'none\'">'
-      : '<div style="width:100%;height:130px;border-radius:8px 8px 0 0;background:linear-gradient(135deg,#f3e5f5,#e8eaf6);'
-      + 'display:flex;align-items:center;justify-content:center;color:#b0bec5;font-size:28px;">'
-      + '<i class="fas fa-spa"></i></div>';
-
-    servicesList.innerHTML = '';
-    services.forEach(service => {
-      servicesList.appendChild(createServiceItem(service));
-    });
-  }
+  servicesList.innerHTML = '';
+  services.forEach(function(service) {
+    servicesList.appendChild(createServiceItem(service));
+  });
+}
 
 function createServiceItem(service) {
   const item = document.createElement('div');

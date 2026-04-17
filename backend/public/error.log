@@ -43650,3 +43650,79 @@ Stack trace:
 [17-Apr-2026 20:44:11 Europe/Berlin] Router received URL: branch/1/categories
 [17-Apr-2026 20:44:11 Europe/Berlin] Router received URL: branch/1/services
 [17-Apr-2026 20:44:11 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[17-Apr-2026 20:49:51 Europe/Berlin] Router received URL: branch/1/services
+[17-Apr-2026 20:49:51 Europe/Berlin] Router received URL: branch/1
+[17-Apr-2026 20:49:51 Europe/Berlin] Router received URL: branch/1/categories
+[17-Apr-2026 20:49:51 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[17-Apr-2026 20:50:14 Europe/Berlin] Router received URL: branch/1
+[17-Apr-2026 20:50:14 Europe/Berlin] Router received URL: branch/1/categories
+[17-Apr-2026 20:50:14 Europe/Berlin] Router received URL: branch/1/services
+[17-Apr-2026 20:50:14 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[17-Apr-2026 20:50:28 Europe/Berlin] Router received URL: auth/login
+[17-Apr-2026 20:50:28 Europe/Berlin] Router received URL: reservation/getAllReservations
+[17-Apr-2026 20:50:28 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => admin1
+    [email] => schofieldkier09@gmail.com
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan
+)
+
+[17-Apr-2026 20:50:28 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[17-Apr-2026 20:50:28 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[17-Apr-2026 20:50:28 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => admin1
+    [email] => schofieldkier09@gmail.com
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan
+)
+
+[17-Apr-2026 20:50:28 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[17-Apr-2026 20:50:28 Europe/Berlin] Router received URL: transaction/getByBranch
+[17-Apr-2026 20:50:28 Europe/Berlin] Router received URL: notification/getAdminNotifications
+[17-Apr-2026 20:50:28 Europe/Berlin] PHP Warning:  require_once(C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[17-Apr-2026 20:50:28 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php:4
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\services\NotificationService.php(4): require_once()
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\NotificationController.php(3): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(23): require_once('C:\\xampp\\htdocs...')
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 C:\xampp\htdocs\HFABS\backend\index.php(3): require_once('C:\\xampp\\htdocs...')
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[17-Apr-2026 20:50:28 Europe/Berlin] Router received URL: reservation/getAllReservations
+[17-Apr-2026 20:50:28 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => admin1
+    [email] => schofieldkier09@gmail.com
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan
+)
+
+[17-Apr-2026 20:50:28 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[17-Apr-2026 20:50:29 Europe/Berlin] Router received URL: transaction/getByBranch
+[17-Apr-2026 20:50:31 Europe/Berlin] Router received URL: services/categoriesList
+[17-Apr-2026 20:50:31 Europe/Berlin] Router received URL: services/index
+[17-Apr-2026 20:50:31 Europe/Berlin] Router received URL: services/branchCategories/1
+[17-Apr-2026 20:50:31 Europe/Berlin] Router received URL: services/branchServices/1
+[17-Apr-2026 20:51:39 Europe/Berlin] Router received URL: branch/1/categories
+[17-Apr-2026 20:51:39 Europe/Berlin] Router received URL: branch/1
+[17-Apr-2026 20:51:39 Europe/Berlin] Router received URL: branch/1/services
+[17-Apr-2026 20:51:39 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[17-Apr-2026 20:51:50 Europe/Berlin] Router received URL: auth/logout
+[17-Apr-2026 20:52:03 Europe/Berlin] Router received URL: auth/login
+[17-Apr-2026 20:52:03 Europe/Berlin] Router received URL: branch/index
+[17-Apr-2026 20:52:04 Europe/Berlin] Router received URL: branch
+[17-Apr-2026 20:52:05 Europe/Berlin] Router received URL: branch
+[17-Apr-2026 20:52:05 Europe/Berlin] Router received URL: branch
+[17-Apr-2026 20:52:06 Europe/Berlin] Router received URL: branch/1
+[17-Apr-2026 20:52:06 Europe/Berlin] Router received URL: branch/1/categories
+[17-Apr-2026 20:52:06 Europe/Berlin] Router received URL: branch/1/services
+[17-Apr-2026 20:52:06 Europe/Berlin] Router received URL: packages/getPublicPackages/1

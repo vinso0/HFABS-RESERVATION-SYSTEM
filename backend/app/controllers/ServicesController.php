@@ -243,7 +243,7 @@ class ServicesController extends Controller
                 : ($service['image_path'] ?? null);
 
             $imageUrl = $rawImagePath
-                ? $baseUrl . '/HFABS/backend/public/' . $rawImagePath
+                ? $baseUrl . '/HFABS/backend/' . ltrim($rawImagePath, '/')
                 : null;
 
             return array(
