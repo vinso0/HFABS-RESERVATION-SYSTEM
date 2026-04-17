@@ -2,11 +2,49 @@ const API_BASE_URL = '/HFABS/backend/public/index.php?url';
 
 let allServices = [];
 let allPackages = [];
-let allCategories = [];                       // ✅ NEW: holds active branch categories
+let allCategories = [];
 let selectedServices = new Map();
 let selectedPackage = null;
 let currentCategory = 'all';
 let branchDownpaymentRate = 0.5;
+
+/**
+ * Normalize a service object from the API so all downstream code
+ * can use consistent field names regardless of which endpoint returned it.
+ *
+ * API fields:  branch_service_override_id, display_name, is_available, image_url
+ * Legacy/dummy fields: serviceid, servicename, isavailable, (no image)
+ */
+function normalizeService(s) {
+    return {
+        // ID — prefer override id, fall back to legacy serviceid
+        serviceid:   s.branch_service_override_id ?? s.serviceid ?? s.id,
+
+        // Name
+        servicename: s.display_name ?? s.servicename ?? s.service_name ?? '',
+
+        // Description
+        description: s.description ?? '',
+
+        // Price & duration
+        price:    s.price ?? 0,
+        duration: s.duration
+                    ? (String(s.duration).includes('min') ? s.duration : s.duration + ' min')
+                    : 'N/A',
+
+        // Availability — handles both '1'/1/true and '0'/0/false
+        isavailable: (s.is_available !== undefined)
+                        ? parseInt(s.is_available)
+                        : parseInt(s.isavailable ?? 1),
+
+        // Category
+        category:    s.category ?? s.category_name ?? '',
+        category_id: s.category_id ?? null,
+
+        // ✅ Image URL — this is what was never being read before
+        image_url: s.image_url ?? null,
+    };
+}
 
 document.addEventListener('DOMContentLoaded', async function () {
   initializePage();
@@ -191,7 +229,13 @@ async function loadServices(branchId) {
   try {
     const response = await fetch(`${API_BASE_URL}=branch/${branchId}/services`);
     if (!response.ok) throw new Error('Failed to fetch services');
-    allServices = await response.json();
+    const result = await response.json();
+
+    // API returns { success: true, data: [...] }
+    // Normalize field names so the rest of the JS works uniformly
+    const raw = result.success ? result.data : (Array.isArray(result) ? result : []);
+    allServices = raw.map(normalizeService);
+
     displayServices(allServices);
   } catch (error) {
     console.error('Error loading services:', error);

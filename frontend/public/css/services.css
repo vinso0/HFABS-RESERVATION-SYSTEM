@@ -183,6 +183,7 @@ main {
 .service-card-thumb {
     width: 86px;
     height: 86px;
+    min-width: 76px; 
     object-fit: cover;
     border-radius: 10px;
     flex-shrink: 0;
@@ -193,6 +194,7 @@ main {
 .service-card-thumb--placeholder {
     width: 86px;
     height: 86px;
+    min-width: 76px; 
     border-radius: 10px;
     flex-shrink: 0;
     align-self: center;
