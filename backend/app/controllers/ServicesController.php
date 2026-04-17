@@ -340,54 +340,99 @@ class ServicesController extends Controller
     }
 
     // Update branch service override (Admin side)
-    // API endpoint: PUT /services/branchServiceUpdate/{id}
+    // API endpoint: POST /services/branchServiceUpdate/{id}
     public function branchServiceUpdate($id)
     {
-        $data = json_decode(file_get_contents('php://input'), true);
+        // Detect whether this is multipart/form-data (file upload) or JSON
+        $contentType = $_SERVER['CONTENT_TYPE'] ?? '';
+        $isMultipart = strpos($contentType, 'multipart/form-data') !== false;
 
-        if (!$data) {
+        if ($isMultipart) {
+            // Data comes from $_POST when multipart
+            $data = $_POST;
+        } else {
+            // Fallback: JSON body (legacy support)
+            $data = json_decode(file_get_contents('php://input'), true);
+        }
+
+        if (empty($data)) {
             http_response_code(400);
             echo json_encode(array('success' => false, 'error' => 'Invalid request data'));
             return;
         }
 
-        $serviceData = array(
-            'display_name'              => $data['display_name']              ?? null,
-            'description_override'      => $data['description_override']      ?? null,
-            'duration_minutes_override' => $data['duration_minutes_override'] ?? null,
-            'price_override'            => $data['price_override']            ?? null,
-            'is_available_override'     => $data['is_available_override']     ?? null,
-        );
+        // Build update array from submitted fields
+        $serviceData = array();
 
-        $serviceData = array_filter($serviceData, function($value) {
-            return $value !== null;
-        });
+        if (isset($data['display_name']) && $data['display_name'] !== '') {
+            $serviceData['display_name'] = $data['display_name'];
+        }
+        if (isset($data['description_override'])) {
+            $serviceData['description_override'] = $data['description_override'];
+        }
+        if (isset($data['duration_minutes_override']) && $data['duration_minutes_override'] !== '') {
+            $serviceData['duration_minutes_override'] = (int) $data['duration_minutes_override'];
+        }
+        if (isset($data['price_override']) && $data['price_override'] !== '') {
+            $serviceData['price_override'] = (float) $data['price_override'];
+        }
+        if (isset($data['is_available_override'])) {
+            $serviceData['is_available_override'] = (int) $data['is_available_override'];
+        }
 
-        // Handle branch image override (base64)
-        $image_base64 = $data['image_base64'] ?? null;
-        $remove_image = isset($data['remove_image']) && $data['remove_image'] == true;
+        // Handle image: file upload takes priority
+        if (!empty($_FILES['service_image']) && $_FILES['service_image']['error'] === UPLOAD_ERR_OK) {
 
-        if ($remove_image) {
-            $existing = $this->servicesModel->getBranchServiceById($id);
-            if ($existing && !empty($existing['image_path_override'])) {
-                require_once __DIR__ . '/../services/ImageUploadService.php';
-                (new ImageUploadService())->deleteImage($existing['image_path_override']);
-            }
-            $serviceData['image_path_override'] = null;
-        } elseif ($image_base64) {
-            $existing = $this->servicesModel->getBranchServiceById($id);
-            $oldPath  = $existing['image_path_override'] ?? null;
+            $allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+            $maxSize      = 5 * 1024 * 1024; // 5MB
 
-            require_once __DIR__ . '/../services/ImageUploadService.php';
-            $imgService = new ImageUploadService();
-            $imgResult  = $imgService->saveBase64Image($image_base64, $oldPath);
-
-            if (!$imgResult['success']) {
+            if ($_FILES['service_image']['size'] > $maxSize) {
                 http_response_code(400);
-                echo json_encode(array('success' => false, 'message' => $imgResult['error']));
+                echo json_encode(array('success' => false, 'error' => 'Image exceeds 5MB limit'));
                 return;
             }
-            $serviceData['image_path_override'] = $imgResult['path'];
+
+            $finfo    = finfo_open(FILEINFO_MIME_TYPE);
+            $mimeType = finfo_file($finfo, $_FILES['service_image']['tmp_name']);
+            finfo_close($finfo);
+
+            if (!in_array($mimeType, $allowedTypes)) {
+                http_response_code(400);
+                echo json_encode(array('success' => false, 'error' => 'Invalid file type. Use JPEG, PNG, WebP or GIF.'));
+                return;
+            }
+
+            // Delete old override image if it exists
+            $existing = $this->servicesModel->getBranchServiceById($id);
+            if ($existing && !empty($existing['image_path_override'])) {
+                $oldFull = dirname(__DIR__, 2) . '/' . ltrim($existing['image_path_override'], '/');
+                if (file_exists($oldFull)) @unlink($oldFull);
+            }
+
+            // Save new image
+            $uploadDir = dirname(__DIR__, 2) . '/uploads/services/';
+            if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
+
+            $ext      = strtolower(pathinfo($_FILES['service_image']['name'], PATHINFO_EXTENSION));
+            $filename = 'service_' . uniqid('', true) . '.' . $ext;
+            $destPath = $uploadDir . $filename;
+
+            if (!move_uploaded_file($_FILES['service_image']['tmp_name'], $destPath)) {
+                http_response_code(500);
+                echo json_encode(array('success' => false, 'error' => 'Failed to save image file'));
+                return;
+            }
+
+            $serviceData['image_path_override'] = 'uploads/services/' . $filename;
+
+        } elseif (isset($data['remove_image']) && $data['remove_image'] == '1') {
+            // User explicitly removed the image
+            $existing = $this->servicesModel->getBranchServiceById($id);
+            if ($existing && !empty($existing['image_path_override'])) {
+                $oldFull = dirname(__DIR__, 2) . '/' . ltrim($existing['image_path_override'], '/');
+                if (file_exists($oldFull)) @unlink($oldFull);
+            }
+            $serviceData['image_path_override'] = null;
         }
 
         if (empty($serviceData)) {
