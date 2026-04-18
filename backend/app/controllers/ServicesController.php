@@ -50,7 +50,7 @@ class ServicesController extends Controller
     public function store()
     {
         $data = json_decode(file_get_contents('php://input'), true);
-        
+
         if (!$data) {
             http_response_code(400);
             echo json_encode(array('success' => false, 'error' => 'Invalid request data'));
@@ -67,22 +67,31 @@ class ServicesController extends Controller
         }
 
         $serviceData = array(
-            'category_id' => $data['category_id'],
-            'service_name' => $data['service_name'],
-            'description' => $data['description'],
+            'category_id'      => $data['category_id'],
+            'service_name'     => $data['service_name'],
+            'description'      => $data['description'],
             'duration_minutes' => $data['duration_minutes'],
-            'price' => $data['price'],
-            'is_available' => $data['is_available'] ?? 1
+            'price'            => $data['price'],
+            'is_available'     => $data['is_available'] ?? 1,
+            'image_path'       => null   // default; overwritten below if image provided
         );
 
+        // ── Handle base64 image ──
+        if (!empty($data['image_base64'])) {
+            $imagePath = $this->saveBase64Image($data['image_base64']);
+            if ($imagePath) {
+                $serviceData['image_path'] = $imagePath;
+            }
+        }
+
         $serviceId = $this->servicesModel->createDefaultService($serviceData);
-        
+
         if ($serviceId) {
             http_response_code(201);
             echo json_encode(array(
                 'success' => true,
                 'message' => 'Service created successfully',
-                'data' => array('service_id' => $serviceId)
+                'data'    => array('service_id' => $serviceId)
             ));
         } else {
             http_response_code(500);
@@ -166,7 +175,7 @@ class ServicesController extends Controller
     public function update($id)
     {
         $data = json_decode(file_get_contents('php://input'), true);
-        
+
         if (!$data) {
             http_response_code(400);
             echo json_encode(array('success' => false, 'error' => 'Invalid request data'));
@@ -174,18 +183,44 @@ class ServicesController extends Controller
         }
 
         $serviceData = array(
-            'category_id' => $data['category_id'] ?? null,
-            'service_name' => $data['service_name'] ?? null,
-            'description' => $data['description'] ?? null,
-            'duration_minutes' => $data['duration_minutes'] ?? null,
-            'price' => $data['price'] ?? null,
-            'is_available' => $data['is_available'] ?? null
+            'category_id'      => $data['category_id']      ?? null,
+            'service_name'     => $data['service_name']      ?? null,
+            'description'      => $data['description']       ?? null,
+            'duration_minutes' => $data['duration_minutes']  ?? null,
+            'price'            => $data['price']             ?? null,
+            'is_available'     => $data['is_available']      ?? null
         );
 
-        // Remove null values
+        // ── Handle base64 image upload ──
+        if (!empty($data['image_base64'])) {
+            $imagePath = $this->saveBase64Image($data['image_base64']);
+            if ($imagePath) {
+                // Delete old image file if one exists
+                $existing = $this->servicesModel->getDefaultServiceById($id);
+                if ($existing && !empty($existing['image_path'])) {
+                    $oldFull = dirname(__DIR__, 2) . '/' . ltrim($existing['image_path'], '/');
+                    if (file_exists($oldFull)) @unlink($oldFull);
+                }
+                $serviceData['image_path'] = $imagePath;
+            }
+        } elseif (isset($data['remove_image']) && $data['remove_image'] == '1') {
+            // Superadmin explicitly removed the image
+            $existing = $this->servicesModel->getDefaultServiceById($id);
+            if ($existing && !empty($existing['image_path'])) {
+                $oldFull = dirname(__DIR__, 2) . '/' . ltrim($existing['image_path'], '/');
+                if (file_exists($oldFull)) @unlink($oldFull);
+            }
+            $serviceData['image_path'] = null;
+        }
+
+        // Remove null values (fields not sent = not changed), but allow explicit null for image_path
         $serviceData = array_filter($serviceData, function($value) {
             return $value !== null;
         });
+        // Re-add image_path = null explicitly if remove was requested
+        if (isset($data['remove_image']) && $data['remove_image'] == '1') {
+            $serviceData['image_path'] = null;
+        }
 
         if (empty($serviceData)) {
             http_response_code(400);
@@ -194,12 +229,9 @@ class ServicesController extends Controller
         }
 
         $result = $this->servicesModel->updateDefaultService($id, $serviceData);
-        
+
         if ($result) {
-            echo json_encode(array(
-                'success' => true,
-                'message' => 'Service updated successfully'
-            ));
+            echo json_encode(array('success' => true, 'message' => 'Service updated successfully'));
         } else {
             http_response_code(500);
             echo json_encode(array('success' => false, 'error' => 'Failed to update service'));
@@ -237,14 +269,16 @@ class ServicesController extends Controller
                 . '://' . $_SERVER['HTTP_HOST'];
 
         $formattedServices = array_map(function($service) use ($baseUrl) {
-            // Fallback: branch override image → global image → null
-            $rawImagePath = !empty($service['image_path_override'])
-                ? $service['image_path_override']
-                : ($service['image_path'] ?? null);
 
-            $imageUrl = $rawImagePath
-                ? $baseUrl . '/HFABS/backend/' . ltrim($rawImagePath, '/')
-                : null;
+            // Branch override image (if any)
+            $overridePath = !empty($service['image_path_override']) ? $service['image_path_override'] : null;
+            // Global default image (if any)
+            $globalPath   = !empty($service['image_path'])          ? $service['image_path']          : null;
+
+            // image_url: override first, then global fallback
+            $mergedPath = $overridePath ?? $globalPath;
+            $imageUrl       = $mergedPath   ? $baseUrl . '/HFABS/backend/' . ltrim($mergedPath, '/')   : null;
+            $globalImageUrl = $globalPath   ? $baseUrl . '/HFABS/backend/' . ltrim($globalPath, '/')   : null;
 
             return array(
                 'branch_service_override_id' => $service['serviceid'],
@@ -260,6 +294,7 @@ class ServicesController extends Controller
                                                 : 'Other Services',
                 'is_available'               => $service['isavailable'],
                 'image_url'                  => $imageUrl,
+                'global_image_url'           => $globalImageUrl,
             );
         }, $services);
 
@@ -985,5 +1020,33 @@ class ServicesController extends Controller
             echo json_encode(['success' => false, 'message' => 'Failed to remove date capacity.']);
         }
         exit;
+    }
+
+    private function saveBase64Image($base64String)
+    {
+        // Strip data URI prefix: "data:image/jpeg;base64,..."
+        if (strpos($base64String, ',') !== false) {
+            list($meta, $base64String) = explode(',', $base64String, 2);
+        }
+
+        $imageData = base64_decode($base64String);
+        if (!$imageData) return null;
+
+        // Detect extension from MIME in the data URI header (default jpeg)
+        $ext = 'jpg';
+        if (isset($meta) && preg_match('/image\/(\w+)/', $meta, $matches)) {
+            $extMap = ['jpeg' => 'jpg', 'jpg' => 'jpg', 'png' => 'png', 'webp' => 'webp', 'gif' => 'gif'];
+            $ext = $extMap[strtolower($matches[1])] ?? 'jpg';
+        }
+
+        $uploadDir = dirname(__DIR__, 2) . '/uploads/services/';
+        if (!is_dir($uploadDir)) mkdir($uploadDir, 0775, true);
+
+        $filename = 'service_' . uniqid('', true) . '.' . $ext;
+        $fullPath = $uploadDir . $filename;
+
+        if (file_put_contents($fullPath, $imageData) === false) return null;
+
+        return 'uploads/services/' . $filename;
     }
 }

@@ -37,16 +37,12 @@ class Services
     public function getDefaultServiceById($id)
     {
         $conn = $this->db->getConnection();
-        $sql = 'SELECT ds.*, dsc.category_name 
-                FROM default_services ds 
-                LEFT JOIN default_services_categories dsc ON ds.category_id = dsc.service_category_id 
-                WHERE ds.service_id = ?';
+        $sql  = 'SELECT * FROM default_services WHERE service_id = ?';
         $stmt = $conn->prepare($sql);
         $stmt->bind_param('i', $id);
         $stmt->execute();
-
         $result = $stmt->get_result();
-        return $result->fetch_assoc();
+        return $result ? $result->fetch_assoc() : null;
     }
 
     // Get default services by category

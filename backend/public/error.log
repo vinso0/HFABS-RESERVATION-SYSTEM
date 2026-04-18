@@ -44777,3 +44777,233 @@ Stack trace:
 [18-Apr-2026 06:38:00 Europe/Berlin] Router received URL: uploads/services/service_69e309b71b6e88.78834069.png
 [18-Apr-2026 06:38:02 Europe/Berlin] Router received URL: uploads/services/service_69e309b71b6e88.78834069.png
 [18-Apr-2026 06:38:04 Europe/Berlin] Router received URL: uploads/services/service_69e309b71b6e88.78834069.png
+[18-Apr-2026 06:45:26 Europe/Berlin] Router received URL: auth/login
+[18-Apr-2026 06:45:26 Europe/Berlin] Router received URL: superadmin/dashboardStats
+[18-Apr-2026 06:45:26 Europe/Berlin] Router received URL: superadmin/recentAdmins
+[18-Apr-2026 06:45:26 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 06:45:28 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 06:45:28 Europe/Berlin] Router received URL: superadmin/services
+[18-Apr-2026 06:45:28 Europe/Berlin] Router received URL: superadmin/services/deactivated
+[18-Apr-2026 06:45:36 Europe/Berlin] Router received URL: superadmin/categories
+[18-Apr-2026 06:45:37 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 06:45:39 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 06:45:39 Europe/Berlin] Router received URL: superadmin/services
+[18-Apr-2026 06:45:39 Europe/Berlin] Router received URL: superadmin/services/deactivated
+[18-Apr-2026 06:45:49 Europe/Berlin] Router received URL: superadmin/services/22
+[18-Apr-2026 06:45:49 Europe/Berlin] Router received URL: superadmin/services
+[18-Apr-2026 06:45:49 Europe/Berlin] Router received URL: superadmin/services/deactivated
+[18-Apr-2026 06:46:21 Europe/Berlin] Router received URL: superadmin/services/22
+[18-Apr-2026 06:46:21 Europe/Berlin] Router received URL: superadmin/services/deactivated
+[18-Apr-2026 06:46:21 Europe/Berlin] Router received URL: superadmin/services
+[18-Apr-2026 06:47:24 Europe/Berlin] Router received URL: superadmin/services/9
+[18-Apr-2026 06:47:24 Europe/Berlin] Router received URL: superadmin/services
+[18-Apr-2026 06:47:24 Europe/Berlin] Router received URL: superadmin/services/deactivated
+[18-Apr-2026 06:47:33 Europe/Berlin] Router received URL: auth/login
+[18-Apr-2026 06:47:33 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[18-Apr-2026 06:47:33 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => admin1
+    [email] => schofieldkier09@gmail.com
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan
+)
+
+[18-Apr-2026 06:47:33 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[18-Apr-2026 06:47:33 Europe/Berlin] Router received URL: reservation/getAllReservations
+[18-Apr-2026 06:47:33 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => admin1
+    [email] => schofieldkier09@gmail.com
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan
+)
+
+[18-Apr-2026 06:47:33 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[18-Apr-2026 06:47:33 Europe/Berlin] Router received URL: transaction/getByBranch
+[18-Apr-2026 06:47:33 Europe/Berlin] Router received URL: notification/getAdminNotifications
+[18-Apr-2026 06:47:33 Europe/Berlin] PHP Warning:  require_once(C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 06:47:33 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php:4
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\services\NotificationService.php(4): require_once()
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\NotificationController.php(3): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(23): require_once('C:\\xampp\\htdocs...')
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 C:\xampp\htdocs\HFABS\backend\index.php(3): require_once('C:\\xampp\\htdocs...')
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 06:47:33 Europe/Berlin] Router received URL: reservation/getAllReservations
+[18-Apr-2026 06:47:33 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => admin1
+    [email] => schofieldkier09@gmail.com
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan
+)
+
+[18-Apr-2026 06:47:33 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[18-Apr-2026 06:47:33 Europe/Berlin] Router received URL: transaction/getByBranch
+[18-Apr-2026 06:47:35 Europe/Berlin] Router received URL: services/index
+[18-Apr-2026 06:47:35 Europe/Berlin] Router received URL: services/categoriesList
+[18-Apr-2026 06:47:35 Europe/Berlin] Router received URL: services/branchCategories/1
+[18-Apr-2026 06:47:35 Europe/Berlin] Router received URL: services/branchServices/1
+[18-Apr-2026 06:47:35 Europe/Berlin] Router received URL: uploads/services/service_69e30cdc29e0e3.77883582.jpg
+[18-Apr-2026 06:47:39 Europe/Berlin] Router received URL: uploads/services/service_69e30cdc29e0e3.77883582.jpg
+[18-Apr-2026 06:47:42 Europe/Berlin] Router received URL: uploads/services/service_69e30cdc29e0e3.77883582.jpg
+[18-Apr-2026 06:47:42 Europe/Berlin] Router received URL: uploads/services/service_69e30cdc29e0e3.77883582.jpg
+[18-Apr-2026 06:48:05 Europe/Berlin] Router received URL: services/branchServiceStore
+[18-Apr-2026 06:48:10 Europe/Berlin] Router received URL: uploads/services/service_69e30cdc29e0e3.77883582.jpg
+[18-Apr-2026 06:48:18 Europe/Berlin] Router received URL: uploads/services/service_69e30cdc29e0e3.77883582.jpg
+[18-Apr-2026 06:48:21 Europe/Berlin] Router received URL: services/index
+[18-Apr-2026 06:48:21 Europe/Berlin] Router received URL: services/categoriesList
+[18-Apr-2026 06:48:21 Europe/Berlin] Router received URL: services/branchCategories/1
+[18-Apr-2026 06:48:21 Europe/Berlin] Router received URL: services/branchServices/1
+[18-Apr-2026 06:48:21 Europe/Berlin] Router received URL: uploads/services/service_69e30cdc29e0e3.77883582.jpg
+[18-Apr-2026 06:48:23 Europe/Berlin] Router received URL: services/categoriesList
+[18-Apr-2026 06:48:23 Europe/Berlin] Router received URL: services/index
+[18-Apr-2026 06:48:23 Europe/Berlin] Router received URL: services/branchCategories/1
+[18-Apr-2026 06:48:23 Europe/Berlin] Router received URL: services/branchServices/1
+[18-Apr-2026 06:48:23 Europe/Berlin] Router received URL: uploads/services/service_69e30cdc29e0e3.77883582.jpg
+[18-Apr-2026 06:48:24 Europe/Berlin] Router received URL: uploads/services/service_69e30cdc29e0e3.77883582.jpg
+[18-Apr-2026 06:48:27 Europe/Berlin] Router received URL: uploads/services/service_69e30cdc29e0e3.77883582.jpg
+[18-Apr-2026 06:50:24 Europe/Berlin] Router received URL: services/index
+[18-Apr-2026 06:50:24 Europe/Berlin] Router received URL: services/branchServices/1
+[18-Apr-2026 06:50:24 Europe/Berlin] Router received URL: services/categoriesList
+[18-Apr-2026 06:50:24 Europe/Berlin] Router received URL: services/branchCategories/1
+[18-Apr-2026 06:50:24 Europe/Berlin] Router received URL: uploads/services/service_69e30cdc29e0e3.77883582.jpg
+[18-Apr-2026 06:50:30 Europe/Berlin] Router received URL: uploads/services/service_69e30cdc29e0e3.77883582.jpg
+[18-Apr-2026 06:50:32 Europe/Berlin] Router received URL: uploads/services/service_69e30cdc29e0e3.77883582.jpg
+[18-Apr-2026 06:50:46 Europe/Berlin] Router received URL: superadmin/services/9
+[18-Apr-2026 06:50:52 Europe/Berlin] Router received URL: auth/login
+[18-Apr-2026 06:50:53 Europe/Berlin] Router received URL: superadmin/recentAdmins
+[18-Apr-2026 06:50:53 Europe/Berlin] Router received URL: superadmin/dashboardStats
+[18-Apr-2026 06:50:53 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 06:50:54 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 06:50:54 Europe/Berlin] Router received URL: superadmin/admins
+[18-Apr-2026 06:50:55 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 06:50:56 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 06:50:56 Europe/Berlin] Router received URL: superadmin/services
+[18-Apr-2026 06:50:56 Europe/Berlin] Router received URL: superadmin/services/deactivated
+[18-Apr-2026 06:51:01 Europe/Berlin] Router received URL: superadmin/services/9
+[18-Apr-2026 06:51:01 Europe/Berlin] Router received URL: superadmin/services/deactivated
+[18-Apr-2026 06:51:01 Europe/Berlin] Router received URL: superadmin/services
+[18-Apr-2026 06:51:09 Europe/Berlin] Router received URL: auth/login
+[18-Apr-2026 06:51:12 Europe/Berlin] Router received URL: auth/login
+[18-Apr-2026 06:51:12 Europe/Berlin] Router received URL: reservation/getAllReservations
+[18-Apr-2026 06:51:12 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => admin1
+    [email] => schofieldkier09@gmail.com
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan
+)
+
+[18-Apr-2026 06:51:12 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[18-Apr-2026 06:51:12 Europe/Berlin] Router received URL: transaction/getByBranch
+[18-Apr-2026 06:51:12 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[18-Apr-2026 06:51:12 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => admin1
+    [email] => schofieldkier09@gmail.com
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan
+)
+
+[18-Apr-2026 06:51:12 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[18-Apr-2026 06:51:12 Europe/Berlin] Router received URL: notification/getAdminNotifications
+[18-Apr-2026 06:51:12 Europe/Berlin] PHP Warning:  require_once(C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 06:51:12 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php:4
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\services\NotificationService.php(4): require_once()
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\NotificationController.php(3): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(23): require_once('C:\\xampp\\htdocs...')
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 C:\xampp\htdocs\HFABS\backend\index.php(3): require_once('C:\\xampp\\htdocs...')
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 06:51:12 Europe/Berlin] Router received URL: reservation/getAllReservations
+[18-Apr-2026 06:51:12 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => admin1
+    [email] => schofieldkier09@gmail.com
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan
+)
+
+[18-Apr-2026 06:51:12 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[18-Apr-2026 06:51:12 Europe/Berlin] Router received URL: transaction/getByBranch
+[18-Apr-2026 06:51:14 Europe/Berlin] Router received URL: services/index
+[18-Apr-2026 06:51:14 Europe/Berlin] Router received URL: services/categoriesList
+[18-Apr-2026 06:51:14 Europe/Berlin] Router received URL: services/branchCategories/1
+[18-Apr-2026 06:51:14 Europe/Berlin] Router received URL: services/branchServices/1
+[18-Apr-2026 06:51:14 Europe/Berlin] Router received URL: uploads/services/service_69e30cdc29e0e3.77883582.jpg
+[18-Apr-2026 06:51:15 Europe/Berlin] Router received URL: uploads/services/service_69e30cdc29e0e3.77883582.jpg
+[18-Apr-2026 06:51:17 Europe/Berlin] Router received URL: uploads/services/service_69e30cdc29e0e3.77883582.jpg
+[18-Apr-2026 06:51:21 Europe/Berlin] Router received URL: uploads/services/service_69e30cdc29e0e3.77883582.jpg
+[18-Apr-2026 06:51:22 Europe/Berlin] Router received URL: uploads/services/service_69e30cdc29e0e3.77883582.jpg
+[18-Apr-2026 06:52:07 Europe/Berlin] Router received URL: branch/index
+[18-Apr-2026 06:52:07 Europe/Berlin] Router received URL: branch
+[18-Apr-2026 06:53:00 Europe/Berlin] Router received URL: services/categoriesList
+[18-Apr-2026 06:53:00 Europe/Berlin] Router received URL: services/branchCategories/1
+[18-Apr-2026 06:53:00 Europe/Berlin] Router received URL: services/dateCapacities
+[18-Apr-2026 06:53:01 Europe/Berlin] Router received URL: packages/getAll
+[18-Apr-2026 06:53:01 Europe/Berlin] Router received URL: packages/getBranchServices
+[18-Apr-2026 06:53:12 Europe/Berlin] Router received URL: services/index
+[18-Apr-2026 06:53:12 Europe/Berlin] Router received URL: services/categoriesList
+[18-Apr-2026 06:53:12 Europe/Berlin] Router received URL: services/branchCategories/1
+[18-Apr-2026 06:53:12 Europe/Berlin] Router received URL: services/branchServices/1
+[18-Apr-2026 06:53:12 Europe/Berlin] Router received URL: uploads/services/service_69e30cdc29e0e3.77883582.jpg
+[18-Apr-2026 06:53:15 Europe/Berlin] Router received URL: uploads/services/service_69e30cdc29e0e3.77883582.jpg
+[18-Apr-2026 06:56:42 Europe/Berlin] Router received URL: uploads/services/service_69e30cdc29e0e3.77883582.jpg
+[18-Apr-2026 06:57:59 Europe/Berlin] Router received URL: auth/login
+[18-Apr-2026 06:57:59 Europe/Berlin] Router received URL: superadmin/dashboardStats
+[18-Apr-2026 06:57:59 Europe/Berlin] Router received URL: superadmin/recentAdmins
+[18-Apr-2026 06:57:59 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 06:58:01 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 06:58:04 Europe/Berlin] Router received URL: superadmin/services
+[18-Apr-2026 06:58:04 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 06:58:04 Europe/Berlin] Router received URL: superadmin/services/deactivated
+[18-Apr-2026 06:58:05 Europe/Berlin] Router received URL: superadmin/categories
+[18-Apr-2026 06:58:06 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 06:58:09 Europe/Berlin] Router received URL: superadmin/categories
+[18-Apr-2026 06:58:10 Europe/Berlin] Router received URL: superadmin/categories
+[18-Apr-2026 06:58:17 Europe/Berlin] Router received URL: auth/logout
+[18-Apr-2026 06:58:26 Europe/Berlin] Router received URL: auth/login
+[18-Apr-2026 06:58:26 Europe/Berlin] Router received URL: superadmin/dashboardStats
+[18-Apr-2026 06:58:26 Europe/Berlin] Router received URL: superadmin/recentAdmins
+[18-Apr-2026 06:58:26 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 06:58:28 Europe/Berlin] Router received URL: superadmin/categories
+[18-Apr-2026 06:58:29 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 06:58:30 Europe/Berlin] Router received URL: superadmin/categories
+[18-Apr-2026 06:58:30 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 06:58:30 Europe/Berlin] Router received URL: superadmin/services
+[18-Apr-2026 06:58:30 Europe/Berlin] Router received URL: superadmin/services/deactivated
+[18-Apr-2026 06:58:31 Europe/Berlin] Router received URL: superadmin/categories
+[18-Apr-2026 06:58:32 Europe/Berlin] Router received URL: superadmin/categories
+[18-Apr-2026 06:58:33 Europe/Berlin] Router received URL: superadmin/categories
+[18-Apr-2026 06:58:34 Europe/Berlin] Router received URL: superadmin/categories
+[18-Apr-2026 06:58:34 Europe/Berlin] Router received URL: superadmin/categories
+[18-Apr-2026 06:58:34 Europe/Berlin] Router received URL: superadmin/categories
+[18-Apr-2026 06:58:34 Europe/Berlin] Router received URL: superadmin/categories
+[18-Apr-2026 06:58:35 Europe/Berlin] Router received URL: superadmin/services/deactivated
+[18-Apr-2026 06:58:35 Europe/Berlin] Router received URL: superadmin/services
+[18-Apr-2026 06:58:35 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 06:58:36 Europe/Berlin] Router received URL: superadmin/categories
+[18-Apr-2026 06:58:37 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 06:58:40 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 06:58:40 Europe/Berlin] Router received URL: superadmin/services
+[18-Apr-2026 06:58:40 Europe/Berlin] Router received URL: superadmin/services/deactivated
+[18-Apr-2026 07:02:09 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 07:02:09 Europe/Berlin] Router received URL: superadmin/services
+[18-Apr-2026 07:02:09 Europe/Berlin] Router received URL: superadmin/services/deactivated
