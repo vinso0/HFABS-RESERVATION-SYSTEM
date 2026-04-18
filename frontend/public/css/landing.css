@@ -852,6 +852,7 @@ main {
   font-size: 1.05rem;
   font-weight: 600;
   margin-bottom: 1.1rem;
+  margin-top: 0.5rem;
   color: var(--text-main);
 }
 

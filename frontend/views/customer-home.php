@@ -217,6 +217,7 @@ $firstName    = ucfirst(strtok($rawUsername, ' _-.'));
   </div>
 
   <script src="../public/js/landing.js"></script>
+  <script src="./public/js/maps-link.js"></script>
   <script src="../public/js/universal-branch-modal.js"></script>
   <script src="../public/js/load-footer-branches.js"></script>
   <script src="../public/js/navbar-loader.js"></script>
