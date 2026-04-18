@@ -171,7 +171,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'superadmin') {
                                 style="display:none;" onchange="saHandleImageSelect(event)">
                             <!-- Hidden field carries base64 data -->
                             <input type="hidden" id="saImageBase64" value="">
-                            <input type="hidden" id="saRemoveImage" value="0">
+                            <input type="hidden" id="saRemoveFlag" value="0">
                         </div>
                     </div>
                         <div class="form-group">

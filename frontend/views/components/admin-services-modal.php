@@ -175,7 +175,7 @@
                     <input type="file" id="adminImageFileInput" accept="image/jpeg,image/png,image/webp,image/gif"
                         style="display:none;" onchange="adminHandleImageSelect(event)">
                     <input type="hidden" id="adminImageBase64" value="">
-                    <input type="hidden" id="adminRemoveImage" value="0">
+                    <input type="hidden" id="adminRemoveFlag" value="0">
                 </div>
             </div>
 

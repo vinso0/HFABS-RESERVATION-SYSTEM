@@ -44689,3 +44689,91 @@ Stack trace:
 [18-Apr-2026 06:24:17 Europe/Berlin] Router received URL: services/branchCategories/1
 [18-Apr-2026 06:24:17 Europe/Berlin] Router received URL: services/categoriesList
 [18-Apr-2026 06:24:17 Europe/Berlin] Router received URL: services/branchServices/1
+[18-Apr-2026 06:33:31 Europe/Berlin] Router received URL: auth/login
+[18-Apr-2026 06:33:31 Europe/Berlin] Router received URL: superadmin/dashboardStats
+[18-Apr-2026 06:33:31 Europe/Berlin] Router received URL: superadmin/recentAdmins
+[18-Apr-2026 06:33:31 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 06:33:32 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 06:33:32 Europe/Berlin] Router received URL: superadmin/services/deactivated
+[18-Apr-2026 06:33:32 Europe/Berlin] Router received URL: superadmin/services
+[18-Apr-2026 06:33:59 Europe/Berlin] Router received URL: superadmin/services
+[18-Apr-2026 06:33:59 Europe/Berlin] Router received URL: superadmin/services
+[18-Apr-2026 06:33:59 Europe/Berlin] Router received URL: superadmin/services/deactivated
+[18-Apr-2026 06:36:32 Europe/Berlin] Router received URL: auth/login
+[18-Apr-2026 06:36:32 Europe/Berlin] Router received URL: reservation/getAllReservations
+[18-Apr-2026 06:36:32 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => admin1
+    [email] => schofieldkier09@gmail.com
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan
+)
+
+[18-Apr-2026 06:36:32 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[18-Apr-2026 06:36:33 Europe/Berlin] Router received URL: transaction/getByBranch
+[18-Apr-2026 06:36:33 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[18-Apr-2026 06:36:33 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => admin1
+    [email] => schofieldkier09@gmail.com
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan
+)
+
+[18-Apr-2026 06:36:33 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[18-Apr-2026 06:36:33 Europe/Berlin] Router received URL: notification/getAdminNotifications
+[18-Apr-2026 06:36:33 Europe/Berlin] PHP Warning:  require_once(C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 06:36:33 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php:4
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\services\NotificationService.php(4): require_once()
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\NotificationController.php(3): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(23): require_once('C:\\xampp\\htdocs...')
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 C:\xampp\htdocs\HFABS\backend\index.php(3): require_once('C:\\xampp\\htdocs...')
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 06:36:33 Europe/Berlin] Router received URL: reservation/getAllReservations
+[18-Apr-2026 06:36:33 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => admin1
+    [email] => schofieldkier09@gmail.com
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan
+)
+
+[18-Apr-2026 06:36:33 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[18-Apr-2026 06:36:33 Europe/Berlin] Router received URL: transaction/getByBranch
+[18-Apr-2026 06:36:40 Europe/Berlin] Router received URL: services/index
+[18-Apr-2026 06:36:40 Europe/Berlin] Router received URL: services/categoriesList
+[18-Apr-2026 06:36:40 Europe/Berlin] Router received URL: services/branchCategories/1
+[18-Apr-2026 06:36:40 Europe/Berlin] Router received URL: services/branchServices/1
+[18-Apr-2026 06:36:41 Europe/Berlin] Router received URL: transaction/getByBranch
+[18-Apr-2026 06:36:42 Europe/Berlin] Router received URL: services/branchCategories/1
+[18-Apr-2026 06:36:42 Europe/Berlin] Router received URL: services/index
+[18-Apr-2026 06:36:42 Europe/Berlin] Router received URL: services/categoriesList
+[18-Apr-2026 06:36:42 Europe/Berlin] Router received URL: services/branchServices/1
+[18-Apr-2026 06:36:56 Europe/Berlin] Router received URL: services/index
+[18-Apr-2026 06:36:56 Europe/Berlin] Router received URL: services/categoriesList
+[18-Apr-2026 06:36:56 Europe/Berlin] Router received URL: services/branchServices/1
+[18-Apr-2026 06:36:56 Europe/Berlin] Router received URL: services/branchCategories/1
+[18-Apr-2026 06:37:07 Europe/Berlin] Router received URL: services/branchServiceStore
+[18-Apr-2026 06:37:07 Europe/Berlin] Router received URL: services/index
+[18-Apr-2026 06:37:07 Europe/Berlin] Router received URL: services/branchServices/1
+[18-Apr-2026 06:37:10 Europe/Berlin] Router received URL: uploads/services/service_69e309b71b6e88.78834069.png
+[18-Apr-2026 06:37:13 Europe/Berlin] Router received URL: uploads/services/service_69e309b71b6e88.78834069.png
+[18-Apr-2026 06:37:20 Europe/Berlin] Router received URL: services/index
+[18-Apr-2026 06:37:20 Europe/Berlin] Router received URL: services/categoriesList
+[18-Apr-2026 06:37:20 Europe/Berlin] Router received URL: services/branchServices/1
+[18-Apr-2026 06:37:20 Europe/Berlin] Router received URL: services/branchCategories/1
+[18-Apr-2026 06:37:22 Europe/Berlin] Router received URL: uploads/services/service_69e309b71b6e88.78834069.png
+[18-Apr-2026 06:37:56 Europe/Berlin] Router received URL: uploads/services/service_69e309b71b6e88.78834069.png
+[18-Apr-2026 06:37:59 Europe/Berlin] Router received URL: uploads/services/service_69e309b71b6e88.78834069.png
+[18-Apr-2026 06:38:00 Europe/Berlin] Router received URL: uploads/services/service_69e309b71b6e88.78834069.png
+[18-Apr-2026 06:38:02 Europe/Berlin] Router received URL: uploads/services/service_69e309b71b6e88.78834069.png
+[18-Apr-2026 06:38:04 Europe/Berlin] Router received URL: uploads/services/service_69e309b71b6e88.78834069.png

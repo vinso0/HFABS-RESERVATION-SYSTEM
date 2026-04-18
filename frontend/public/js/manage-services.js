@@ -342,7 +342,7 @@ function saveService(e) {
         is_active:       parseInt(document.getElementById('fieldStatus').value),
         branch_ids:      isReactivation ? getReactivateSelectedBranchIds() : branchIds,
         image_base64: document.getElementById('saImageBase64').value || null,
-        remove_image: document.getElementById('saRemoveImage').value === '1'
+        remove_image: document.getElementById('saRemoveFlag').value === '1'
     };
 
     // Add reactivate_id if reactivating
@@ -437,7 +437,7 @@ function saHandleImageSelect(event) {
         document.getElementById('saImageBase64').value      = e.target.result;  // full data URI
         document.getElementById('saImagePreviewBox').style.display   = 'block';
         document.getElementById('saImageUploadLabel').style.display  = 'none';
-        document.getElementById('saRemoveImage').value      = '0';
+        document.getElementById('saRemoveFlag').value      = '0';
     };
     reader.readAsDataURL(file);
 }
@@ -448,7 +448,7 @@ function saRemoveImage() {
     document.getElementById('saImagePreviewBox').style.display       = 'none';
     document.getElementById('saImageUploadLabel').style.display      = 'flex';
     document.getElementById('saImageFileInput').value                = '';
-    document.getElementById('saRemoveImage').value                   = '1';
+    document.getElementById('saRemoveFlag').value                   = '1';
 }
 
 function saSetImageFromUrl(url) {
@@ -457,7 +457,7 @@ function saSetImageFromUrl(url) {
     document.getElementById('saImageBase64').value                   = '';     // no new upload
     document.getElementById('saImagePreviewBox').style.display       = 'block';
     document.getElementById('saImageUploadLabel').style.display      = 'none';
-    document.getElementById('saRemoveImage').value                   = '0';
+    document.getElementById('saRemoveFlag').value                   = '0';
 }
 
 function saResetImageField() {
@@ -466,7 +466,7 @@ function saResetImageField() {
     document.getElementById('saImagePreviewBox').style.display       = 'none';
     document.getElementById('saImageUploadLabel').style.display      = 'flex';
     document.getElementById('saImageFileInput').value                = '';
-    document.getElementById('saRemoveImage').value                   = '0';
+    document.getElementById('saRemoveFlag').value                   = '0';
 }
 
 // ── Initialize ──

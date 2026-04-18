@@ -606,7 +606,7 @@ function handleEditServiceSubmit(e) {
     }
 
     // ✅ Append remove flag if user clicked the remove button
-    const removeImage = document.getElementById('adminRemoveImage');
+    const removeImage = document.getElementById('adminRemoveFlag');
     if (removeImage) {
         formData.append('remove_image', removeImage.value);
     }
@@ -715,7 +715,7 @@ function adminHandleImageSelect(event) {
         document.getElementById('adminImagePreviewBox').style.display = 'block';
         document.getElementById('adminImageUploadLabel').style.display= 'none';
         document.getElementById('adminGlobalImageRef').style.display  = 'none';
-        document.getElementById('adminRemoveImage').value             = '0';
+        document.getElementById('adminRemoveFlag').value             = '0';
     };
     reader.readAsDataURL(file);
 }
@@ -726,7 +726,7 @@ function adminRemoveImage() {
     document.getElementById('adminImagePreviewBox').style.display  = 'none';
     document.getElementById('adminImageUploadLabel').style.display = 'flex';
     document.getElementById('adminImageFileInput').value           = '';
-    document.getElementById('adminRemoveImage').value              = '1';
+    document.getElementById('adminRemoveFlag').value              = '1';
 
     // Show global fallback again
     var globalRef = document.getElementById('adminGlobalImageRef');
@@ -741,7 +741,7 @@ function adminSetImagePreview(overrideUrl, globalUrl) {
 
     // Reset
     document.getElementById('adminImageBase64').value = '';
-    document.getElementById('adminRemoveImage').value = '0';
+    document.getElementById('adminRemoveFlag').value = '0';
 
     if (overrideUrl) {
         document.getElementById('adminImagePreview').src = overrideUrl;
