@@ -112,9 +112,11 @@ class BranchController extends Controller
 
     // GET branch/{branchId}/service-ratings
     // Returns aggregated avg + count for services and packages at this branch.
-    // GET branch/{branchId}/service-ratings
     public function serviceRatings($branchId = null)
     {
+        // ── REQUIRED: ensure DB constants are loaded before instantiating any model ──
+        require_once __DIR__ . '/../config/config.php';
+
         ob_start(); // buffer any stray PHP warnings/notices
         header('Content-Type: application/json');
 
@@ -131,7 +133,7 @@ class BranchController extends Controller
         $serviceRatings = $feedbackModel->getServiceRatingsByBranch($branchId);
         $packageRatings = $feedbackModel->getPackageRatingsByBranch($branchId);
 
-        ob_end_clean(); // discard any warnings before sending JSON
+        ob_end_clean(); // discard any warnings before outputting JSON
 
         echo json_encode([
             'success'         => true,
