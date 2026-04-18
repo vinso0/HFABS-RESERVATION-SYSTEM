@@ -138,7 +138,7 @@ function renderServices(cat) {
     return;
   }
 
-  grid.innerHTML = sorted.map(s => {
+    grid.innerHTML = sorted.map(s => {
     const isUnavailable = !parseInt(s.isavailable);
     const name          = s.display_name || s.servicename || '';
     const price         = parseFloat(s.price || 0).toLocaleString('en-PH', { minimumFractionDigits: 2 });
@@ -151,7 +151,9 @@ function renderServices(cat) {
       : `<div class="bsc-img-placeholder"><i class="fas fa-spa"></i></div>`;
 
     return `
-      <div class="bsc ${isUnavailable ? 'bsc--unavailable' : ''}">
+      <div class="bsc ${isUnavailable ? 'bsc--unavailable' : ''}"
+           data-service-id="${s.serviceid}"
+           data-default-service-id="${s.default_service_id || s.serviceid}">
         <div class="bsc-img-wrap">
           ${imageHtml}
           ${isUnavailable ? '<span class="bsc-badge-unavailable">Unavailable</span>' : ''}
@@ -193,7 +195,8 @@ async function loadBranchPackages() {
       const unavailable = pkg.is_available == 0;
 
       return `
-        <div class="package-card ${unavailable ? 'unavailable' : ''}">
+        <div class="package-card ${unavailable ? 'unavailable' : ''}"
+             data-package-id="${pkg.package_id}">
           <div class="package-card-header">
             <h3 class="package-card-name">${pkg.package_name}</h3>
             <span class="package-card-price">₱${parseFloat(pkg.package_price).toLocaleString('en-PH', { minimumFractionDigits: 2 })}</span>

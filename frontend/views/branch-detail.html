@@ -224,79 +224,98 @@
   <script src="../public/js/branch-detail.js"></script>
 
   <script>
-  // ── Wishlist integration for branch-detail.html ──────────────
-  // This patches the existing render functions to inject wishlist buttons
-  // after the branch-detail.js has rendered the service/package cards.
+  // ── Wishlist Integration for branch-detail.html ───────────────
+  // Reads data-service-id / data-package-id set by branch-detail.js
+  // Uses MutationObserver to catch cards re-rendered on filter change
 
   (function () {
-    // Detect login state via a session-forwarded meta tag (see note below)
-    // Since branch-detail.html is plain HTML, we detect login by calling
-    // the wishlist/status endpoint — a 401 means not logged in.
-    let branchId = null;
     let loggedIn = false;
 
-    // Get branchId from the URL (same way branch-detail.js does)
-    const urlParams = new URLSearchParams(window.location.search);
-    branchId = parseInt(urlParams.get('id') || urlParams.get('branch_id'), 10) || null;
+    // branchId is already declared in branch-detail.js (same scope)
+    // We reuse it directly — both scripts share the same page scope
 
-    // Check login state then initialise WishlistManager
     async function initWishlist() {
       if (!branchId) return;
 
-      // Probe the status endpoint – 401 = guest, 200 = logged in
       try {
-        const res  = await fetch(`/HFABS/backend/public/index.php?url=wishlist/status&branch_id=${branchId}`);
-        loggedIn   = res.status !== 401;
-        await WishlistManager.init(branchId, loggedIn);
+        const res = await fetch(`${API_BASE}wishlist/status&branch_id=${branchId}`);
+        if (res.status === 401) {
+          loggedIn = false;
+        } else {
+          loggedIn = true;
+          const data = await res.json();
+          if (data.success) {
+            await WishlistManager.init(branchId, true);
+            // Manually seed the state since init() fetches internally,
+            // but we need to ensure it ran before injectButtons()
+          }
+        }
       } catch (e) {
         loggedIn = false;
       }
 
-      // Inject buttons into already-rendered cards (in case DOM is ready)
+      // Init WishlistManager (fetches status from API itself)
+      await WishlistManager.init(branchId, loggedIn);
       injectWishlistButtons();
     }
 
-    // Called after cards are rendered (either on page load or after AJAX)
     function injectWishlistButtons() {
-      // ── Services ──
-      document.querySelectorAll('#branchServicesGrid .branch-service-card, #branchServicesGrid .service-card').forEach(card => {
-        if (card.querySelector('.wishlist-btn')) return; // already injected
+      // ── Service cards (class: bsc) ──────────────────────────
+      document.querySelectorAll('#branchServicesGrid .bsc').forEach(card => {
+        if (card.querySelector('.wishlist-btn')) return; // already has button
 
-        // The service card has data attributes set by branch-detail.js
-        // Adjust these selectors if your card uses different data attributes
-        const serviceId       = card.dataset.serviceId       || card.getAttribute('data-service-id');
-        const defaultServiceId = card.dataset.defaultServiceId || card.getAttribute('data-default-service-id') || 0;
-
+        const serviceId        = card.dataset.serviceId;
+        const defaultServiceId = card.dataset.defaultServiceId || serviceId;
         if (!serviceId) return;
 
+        // The image-wrap is the correct anchor for the absolute-positioned button
+        const wrap = card.querySelector('.bsc-img-wrap');
+        if (!wrap) return;
+
         const btn = WishlistManager.createButton('service', serviceId, { defaultServiceId });
-        card.style.position = 'relative'; // ensure relative positioning
-        card.appendChild(btn);
+        // bsc-img-wrap already has position:relative from branch-detail.css
+        wrap.appendChild(btn);
       });
 
-      // ── Packages ──
-      document.querySelectorAll('#branchPackagesGrid .branch-package-card, #branchPackagesGrid .package-card').forEach(card => {
+      // ── Package cards (class: package-card) ────────────────
+      document.querySelectorAll('#branchPackagesGrid .package-card').forEach(card => {
         if (card.querySelector('.wishlist-btn')) return;
 
-        const packageId = card.dataset.packageId || card.getAttribute('data-package-id');
+        const packageId = card.dataset.packageId;
         if (!packageId) return;
 
         const btn = WishlistManager.createButton('package', packageId);
-        card.style.position = 'relative';
-        card.appendChild(btn);
+        // Position the button inside the package-card-header
+        const header = card.querySelector('.package-card-header');
+        if (header) {
+          // Header already has flex layout — append button after price span
+          btn.style.position = 'static';         // override absolute positioning
+          btn.style.marginLeft = 'auto';
+          btn.style.flexShrink = '0';
+          header.style.display = 'flex';
+          header.style.flexWrap = 'wrap';
+          header.style.alignItems = 'center';
+          header.style.gap = '0.5rem';
+          header.appendChild(btn);
+        } else {
+          // Fallback: append to top-right of card
+          card.style.position = 'relative';
+          card.appendChild(btn);
+        }
       });
     }
 
-    // Observe the grids for new cards injected via AJAX by branch-detail.js
+    // Re-inject when filter tabs re-render the service grid
     function observeGrid(gridId) {
       const grid = document.getElementById(gridId);
       if (!grid) return;
       const observer = new MutationObserver(() => injectWishlistButtons());
-      observer.observe(grid, { childList: true, subtree: true });
+      observer.observe(grid, { childList: true, subtree: false });
     }
 
-    // Init after DOM ready
-    document.addEventListener('DOMContentLoaded', () => {
+    // Wait for branch-detail.js to finish its own DOMContentLoaded
+    // by running on 'load' (all scripts done) instead of DOMContentLoaded
+    window.addEventListener('load', () => {
       initWishlist();
       observeGrid('branchServicesGrid');
       observeGrid('branchPackagesGrid');

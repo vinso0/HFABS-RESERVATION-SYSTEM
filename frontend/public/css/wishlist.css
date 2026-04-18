@@ -68,7 +68,6 @@
   bottom: calc(100% + 6px);
   right: 0;
   white-space: nowrap;
-  background: #1a1a2e;
   color: #fff;
   font-size: 11px;
   padding: 4px 8px;
@@ -76,7 +75,6 @@
   pointer-events: none;
   opacity: 1;
   font-family: inherit;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
 }
 
 /* ── Ensure parent cards have relative positioning ── */
@@ -270,4 +268,37 @@
   color: #bbb;
   font-style: italic;
   padding: 1.5rem;
+}
+
+/* Override: when button is inside .bsc-img-wrap, keep it at top-right of the image */
+.bsc-img-wrap {
+  position: relative; /* ensure this is set */
+}
+
+.bsc-img-wrap .wishlist-btn {
+  top: 8px;
+  right: 8px;
+}
+
+/* Package card header layout adjustment for inline button */
+.package-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.package-card-header .wishlist-btn {
+  position: static;
+  margin-left: auto;
+  flex-shrink: 0;
+  box-shadow: none;
+  background: #fff0f8;
+  border: 1px solid rgba(217,26,126,0.2);
+}
+
+.package-card-header .wishlist-btn:hover {
+  background: #fce4f0;
+  box-shadow: none;
+  transform: scale(1.1);
 }
