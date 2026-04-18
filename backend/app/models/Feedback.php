@@ -372,14 +372,13 @@ class Feedback extends Database
         return $stmt->execute();
     }
 
-    // ── Per-Service Aggregated Ratings (for branch-detail page) ──────────
     public function getServiceRatingsByBranch($branchId)
     {
         $stmt = $this->db->prepare(
             "SELECT
                 COALESCE(bso.default_service_id, bso.branch_service_override_id) AS service_id,
-                ROUND(AVG(f.rating), 1)                                           AS avg_rating,
-                COUNT(f.feedback_id)                                              AS review_count
+                ROUND(AVG(f.rating), 1)  AS avg_rating,
+                COUNT(f.feedback_id)     AS review_count
             FROM feedback f
             JOIN reservation_services rs
                 ON f.reservation_service_id = rs.reservation_service_id
@@ -390,6 +389,12 @@ class Feedback extends Database
             AND f.is_blocked = 0
             GROUP BY COALESCE(bso.default_service_id, bso.branch_service_override_id)"
         );
+
+        if (!$stmt) {
+            error_log('[getServiceRatingsByBranch] prepare failed: ' . $this->db->error);
+            return [];
+        }
+
         $stmt->bind_param('ii', $branchId, $branchId);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -404,11 +409,8 @@ class Feedback extends Database
         return $map;
     }
 
-    // ── Per-Package Aggregated Ratings ────────────────────────────────────
     public function getPackageRatingsByBranch($branchId)
     {
-        // Join packages → their included branch_service_overrides →
-        // reservation_services (via the same FK used by reviews) → feedback
         $stmt = $this->db->prepare(
             "SELECT
                 p.package_id,
@@ -426,13 +428,13 @@ class Feedback extends Database
             AND f.is_blocked = 0
             GROUP BY p.package_id"
         );
-        $stmt->bind_param('ii', $branchId, $branchId);
 
-        // If prepare() fails (e.g. table doesn't exist), return empty map safely
         if (!$stmt) {
+            error_log('[getPackageRatingsByBranch] prepare failed: ' . $this->db->error);
             return [];
         }
 
+        $stmt->bind_param('ii', $branchId, $branchId);
         $stmt->execute();
         $result = $stmt->get_result();
 

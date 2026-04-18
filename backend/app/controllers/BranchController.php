@@ -114,9 +114,11 @@ class BranchController extends Controller
     // Returns aggregated avg + count for services and packages at this branch.
     public function serviceRatings($branchId = null)
     {
+        ob_start(); // catch any stray warnings/errors that would corrupt JSON
         header('Content-Type: application/json');
 
         if (!$branchId || !is_numeric($branchId)) {
+            ob_end_clean();
             http_response_code(400);
             echo json_encode(['success' => false, 'message' => 'Invalid branch ID']);
             exit;
@@ -125,13 +127,26 @@ class BranchController extends Controller
         $branchId      = (int) $branchId;
         $feedbackModel = $this->model('Feedback');
 
-        $serviceRatings = $feedbackModel->getServiceRatingsByBranch($branchId);
-        $packageRatings = $feedbackModel->getPackageRatingsByBranch($branchId);
+        $serviceRatings = [];
+        $packageRatings = [];
 
+        try {
+            $serviceRatings = $feedbackModel->getServiceRatingsByBranch($branchId);
+        } catch (Exception $e) {
+            error_log('[serviceRatings] service query failed: ' . $e->getMessage());
+        }
+
+        try {
+            $packageRatings = $feedbackModel->getPackageRatingsByBranch($branchId);
+        } catch (Exception $e) {
+            error_log('[serviceRatings] package query failed: ' . $e->getMessage());
+        }
+
+        ob_end_clean();
         echo json_encode([
             'success'         => true,
-            'service_ratings' => $serviceRatings,   // keyed by booked_service_name
-            'package_ratings' => $packageRatings,   // keyed by package_id
+            'service_ratings' => $serviceRatings,
+            'package_ratings' => $packageRatings,
         ]);
         exit;
     }
