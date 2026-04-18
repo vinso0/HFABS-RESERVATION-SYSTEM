@@ -87,6 +87,50 @@ async function loadBranchInfo() {
 
 // ── Load Services ─────────────────────────────────────
 let allServices = [];
+// Ratings maps fetched once, shared by both renderServices and renderPackages
+let serviceRatingsMap = {};   // { "Service Name": { avg_rating, review_count } }
+let packageRatingsMap = {};   // { package_id: { avg_rating, review_count } }
+
+// ── Load Ratings Maps ─────────────────────────────────────────────────
+async function loadServiceRatings() {
+  try {
+    const res  = await fetch(`${API_BASE}branch/${branchId}/service-ratings`);
+    const data = await res.json();
+    if (data.success) {
+      serviceRatingsMap = data.service_ratings || {};
+      packageRatingsMap = data.package_ratings || {};
+    }
+  } catch (e) {
+    console.warn('[Ratings] Could not load service ratings:', e);
+    // Non-fatal: cards will show "No reviews yet"
+  }
+}
+
+// ── Rating Display Helper ─────────────────────────────────────────────
+function buildRatingBadge(avgRating, reviewCount) {
+  if (!reviewCount || reviewCount === 0) {
+    return `<div class="card-rating card-rating--empty">
+               <i class="fas fa-star"></i>
+               <span class="card-rating-value">—</span>
+               <span class="card-rating-count">No reviews yet</span>
+             </div>`;
+  }
+  const rounded = parseFloat(avgRating).toFixed(1);
+  const full    = Math.floor(avgRating);
+  const half    = avgRating % 1 >= 0.5;
+  const empty   = 5 - full - (half ? 1 : 0);
+
+  const stars =
+    '<i class="fas fa-star card-star"></i>'.repeat(full) +
+    (half ? '<i class="fas fa-star-half-alt card-star"></i>' : '') +
+    '<i class="far fa-star card-star card-star--empty"></i>'.repeat(empty);
+
+  return `<div class="card-rating" title="${rounded} out of 5 (${reviewCount} review${reviewCount !== 1 ? 's' : ''})">
+             <div class="card-rating-stars">${stars}</div>
+             <span class="card-rating-value">${rounded}</span>
+             <span class="card-rating-count">(${reviewCount})</span>
+           </div>`;
+}
 
 async function loadBranchServices() {
   const grid   = document.getElementById('branchServicesGrid');
@@ -138,11 +182,21 @@ function renderServices(cat) {
     return;
   }
 
-    grid.innerHTML = sorted.map(s => {
+  grid.innerHTML = sorted.map(s => {
     const isUnavailable = !parseInt(s.isavailable);
     const name          = s.display_name || s.servicename || '';
     const price         = parseFloat(s.price || 0).toLocaleString('en-PH', { minimumFractionDigits: 2 });
     const duration      = s.duration || 'N/A';
+
+    // ── Rating lookup (case-insensitive match against booked_service_name) ──
+    const ratingKey  = Object.keys(serviceRatingsMap).find(
+      k => k.toLowerCase() === name.toLowerCase()
+    );
+    const ratingData = ratingKey ? serviceRatingsMap[ratingKey] : null;
+    const ratingBadge = buildRatingBadge(
+      ratingData?.avg_rating  ?? 0,
+      ratingData?.review_count ?? 0
+    );
 
     const imageHtml = s.image_url
       ? `<img class="bsc-img" src="${s.image_url}" alt="${name}" loading="lazy"
@@ -160,6 +214,7 @@ function renderServices(cat) {
         </div>
         <div class="bsc-body">
           <h4 class="bsc-name">${name}</h4>
+          ${ratingBadge}
           ${s.description ? `<p class="bsc-desc">${s.description}</p>` : ''}
           <div class="bsc-footer">
             <span class="bsc-price">₱${price}</span>
@@ -194,6 +249,13 @@ async function loadBranchPackages() {
 
       const unavailable = pkg.is_available == 0;
 
+      // ── Rating lookup by package_id ──
+      const pkgRating  = packageRatingsMap[pkg.package_id] || null;
+      const ratingBadge = buildRatingBadge(
+        pkgRating?.avg_rating  ?? 0,
+        pkgRating?.review_count ?? 0
+      );
+
       return `
         <div class="package-card ${unavailable ? 'unavailable' : ''}"
              data-package-id="${pkg.package_id}">
@@ -201,6 +263,7 @@ async function loadBranchPackages() {
             <h3 class="package-card-name">${pkg.package_name}</h3>
             <span class="package-card-price">₱${parseFloat(pkg.package_price).toLocaleString('en-PH', { minimumFractionDigits: 2 })}</span>
           </div>
+          ${ratingBadge}
           ${pkg.description ? `<p class="package-card-desc">${pkg.description}</p>` : ''}
           <div class="package-card-meta">
             <span><i class="fas fa-hourglass-half"></i>${pkg.total_duration_minutes} mins</span>
@@ -543,7 +606,12 @@ async function submitReport(feedbackId) {
 
 // ── Init ──────────────────────────────────────────────
 loadBranchInfo();
-loadBranchServices();
-loadBranchPackages();
 loadBranchReviews();
+
+// Fetch ratings first, then render services & packages so the map is ready
+loadServiceRatings().then(() => {
+  loadBranchServices();
+  loadBranchPackages();
+});
+
 setupInquiryForm();

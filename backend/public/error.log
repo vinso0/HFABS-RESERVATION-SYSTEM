@@ -47951,3 +47951,289 @@ Stack trace:
 #4 C:\xampp\htdocs\HFABS\backend\index.php(3): require_once('C:\\xampp\\htdocs...')
 #5 {main}
   thrown in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 08:46:28 Europe/Berlin] Router received URL: notification/getAdminNotifications
+[18-Apr-2026 08:46:28 Europe/Berlin] PHP Warning:  require_once(C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 08:46:28 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php:4
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\services\NotificationService.php(4): require_once()
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\NotificationController.php(3): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(23): require_once('C:\\xampp\\htdocs...')
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 C:\xampp\htdocs\HFABS\backend\index.php(3): require_once('C:\\xampp\\htdocs...')
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 08:46:57 Europe/Berlin] Router received URL: notification/getAdminNotifications
+[18-Apr-2026 08:46:57 Europe/Berlin] PHP Warning:  require_once(C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 08:46:57 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php:4
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\services\NotificationService.php(4): require_once()
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\NotificationController.php(3): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(23): require_once('C:\\xampp\\htdocs...')
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 C:\xampp\htdocs\HFABS\backend\index.php(3): require_once('C:\\xampp\\htdocs...')
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 08:47:57 Europe/Berlin] Router received URL: notification/getAdminNotifications
+[18-Apr-2026 08:47:57 Europe/Berlin] PHP Warning:  require_once(C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 08:47:57 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php:4
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\services\NotificationService.php(4): require_once()
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\NotificationController.php(3): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(23): require_once('C:\\xampp\\htdocs...')
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 C:\xampp\htdocs\HFABS\backend\index.php(3): require_once('C:\\xampp\\htdocs...')
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 08:48:57 Europe/Berlin] Router received URL: notification/getAdminNotifications
+[18-Apr-2026 08:48:57 Europe/Berlin] PHP Warning:  require_once(C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 08:48:57 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php:4
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\services\NotificationService.php(4): require_once()
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\NotificationController.php(3): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(23): require_once('C:\\xampp\\htdocs...')
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 C:\xampp\htdocs\HFABS\backend\index.php(3): require_once('C:\\xampp\\htdocs...')
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 08:49:57 Europe/Berlin] Router received URL: notification/getAdminNotifications
+[18-Apr-2026 08:49:57 Europe/Berlin] PHP Warning:  require_once(C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 08:49:57 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php:4
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\services\NotificationService.php(4): require_once()
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\NotificationController.php(3): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(23): require_once('C:\\xampp\\htdocs...')
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 C:\xampp\htdocs\HFABS\backend\index.php(3): require_once('C:\\xampp\\htdocs...')
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 08:50:57 Europe/Berlin] Router received URL: notification/getAdminNotifications
+[18-Apr-2026 08:50:57 Europe/Berlin] PHP Warning:  require_once(C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 08:50:57 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php:4
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\services\NotificationService.php(4): require_once()
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\NotificationController.php(3): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(23): require_once('C:\\xampp\\htdocs...')
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 C:\xampp\htdocs\HFABS\backend\index.php(3): require_once('C:\\xampp\\htdocs...')
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 08:51:57 Europe/Berlin] Router received URL: notification/getAdminNotifications
+[18-Apr-2026 08:51:57 Europe/Berlin] PHP Warning:  require_once(C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 08:51:57 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php:4
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\services\NotificationService.php(4): require_once()
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\NotificationController.php(3): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(23): require_once('C:\\xampp\\htdocs...')
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 C:\xampp\htdocs\HFABS\backend\index.php(3): require_once('C:\\xampp\\htdocs...')
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 08:52:57 Europe/Berlin] Router received URL: notification/getAdminNotifications
+[18-Apr-2026 08:52:57 Europe/Berlin] PHP Warning:  require_once(C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 08:52:57 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php:4
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\services\NotificationService.php(4): require_once()
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\NotificationController.php(3): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(23): require_once('C:\\xampp\\htdocs...')
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 C:\xampp\htdocs\HFABS\backend\index.php(3): require_once('C:\\xampp\\htdocs...')
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 08:53:57 Europe/Berlin] Router received URL: notification/getAdminNotifications
+[18-Apr-2026 08:53:57 Europe/Berlin] PHP Warning:  require_once(C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 08:53:57 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php:4
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\services\NotificationService.php(4): require_once()
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\NotificationController.php(3): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(23): require_once('C:\\xampp\\htdocs...')
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 C:\xampp\htdocs\HFABS\backend\index.php(3): require_once('C:\\xampp\\htdocs...')
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 08:54:57 Europe/Berlin] Router received URL: notification/getAdminNotifications
+[18-Apr-2026 08:54:57 Europe/Berlin] PHP Warning:  require_once(C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 08:54:57 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php:4
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\services\NotificationService.php(4): require_once()
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\NotificationController.php(3): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(23): require_once('C:\\xampp\\htdocs...')
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 C:\xampp\htdocs\HFABS\backend\index.php(3): require_once('C:\\xampp\\htdocs...')
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 08:55:51 Europe/Berlin] Router received URL: notification/getAdminNotifications
+[18-Apr-2026 08:55:51 Europe/Berlin] PHP Warning:  require_once(C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 08:55:51 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php:4
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\services\NotificationService.php(4): require_once()
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\NotificationController.php(3): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(23): require_once('C:\\xampp\\htdocs...')
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 C:\xampp\htdocs\HFABS\backend\index.php(3): require_once('C:\\xampp\\htdocs...')
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 08:55:52 Europe/Berlin] Router received URL: branch/index
+[18-Apr-2026 08:55:52 Europe/Berlin] Router received URL: branch
+[18-Apr-2026 08:55:53 Europe/Berlin] Router received URL: wishlist/mine
+[18-Apr-2026 08:55:53 Europe/Berlin] Router received URL: reservation/getCustomerReservations
+[18-Apr-2026 08:55:55 Europe/Berlin] Router received URL: branch/index
+[18-Apr-2026 08:55:55 Europe/Berlin] Router received URL: branch
+[18-Apr-2026 08:55:56 Europe/Berlin] Router received URL: branch/1
+[18-Apr-2026 08:55:56 Europe/Berlin] Router received URL: branch/1/reviews
+[18-Apr-2026 08:55:56 Europe/Berlin] Router received URL: branch/1/service-ratings
+[18-Apr-2026 08:55:56 Europe/Berlin] Router received URL: wishlist/status
+[18-Apr-2026 08:55:56 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_10_69c78f9071a1e.png
+[18-Apr-2026 08:55:56 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_13_69d9e725a357f.png
+[18-Apr-2026 08:55:56 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_11_69c7900c94206.png
+[18-Apr-2026 08:55:56 Europe/Berlin] Router received URL: branch/1/services
+[18-Apr-2026 08:55:56 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_9_69c78eecad219.png
+[18-Apr-2026 08:55:56 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_8_69c77f5c1a2b8.png
+[18-Apr-2026 08:55:56 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[18-Apr-2026 08:55:56 Europe/Berlin] Router received URL: wishlist/status
+[18-Apr-2026 08:55:56 Europe/Berlin] Router received URL: uploads/services/service_69e30cdc29e0e3.77883582.jpg
+[18-Apr-2026 08:55:56 Europe/Berlin] Router received URL: wishlist/status
+[18-Apr-2026 08:55:58 Europe/Berlin] Router received URL: notification/getAdminNotifications
+[18-Apr-2026 08:55:58 Europe/Berlin] PHP Warning:  require_once(C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 08:55:58 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php:4
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\services\NotificationService.php(4): require_once()
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\NotificationController.php(3): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(23): require_once('C:\\xampp\\htdocs...')
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 C:\xampp\htdocs\HFABS\backend\index.php(3): require_once('C:\\xampp\\htdocs...')
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 08:56:02 Europe/Berlin] Router received URL: uploads/services/service_69e30cdc29e0e3.77883582.jpg
+[18-Apr-2026 08:56:04 Europe/Berlin] Router received URL: uploads/services/service_69e30cdc29e0e3.77883582.jpg
+[18-Apr-2026 08:56:05 Europe/Berlin] Router received URL: uploads/services/service_69e30cdc29e0e3.77883582.jpg
+[18-Apr-2026 08:56:05 Europe/Berlin] Router received URL: uploads/services/service_69e30cdc29e0e3.77883582.jpg
+[18-Apr-2026 08:56:06 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_7_69c77e85548c9.png
+[18-Apr-2026 08:56:06 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_7_69c77e8557456.png
+[18-Apr-2026 08:56:06 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_7_69c77e8555ab0.png
+[18-Apr-2026 08:56:08 Europe/Berlin] Router received URL: notification/getAdminNotifications
+[18-Apr-2026 08:56:08 Europe/Berlin] PHP Warning:  require_once(C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 08:56:08 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php:4
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\services\NotificationService.php(4): require_once()
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\NotificationController.php(3): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(23): require_once('C:\\xampp\\htdocs...')
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 C:\xampp\htdocs\HFABS\backend\index.php(3): require_once('C:\\xampp\\htdocs...')
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 08:56:18 Europe/Berlin] Router received URL: notification/getAdminNotifications
+[18-Apr-2026 08:56:18 Europe/Berlin] PHP Warning:  require_once(C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 08:56:18 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php:4
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\services\NotificationService.php(4): require_once()
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\NotificationController.php(3): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(23): require_once('C:\\xampp\\htdocs...')
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 C:\xampp\htdocs\HFABS\backend\index.php(3): require_once('C:\\xampp\\htdocs...')
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 08:56:27 Europe/Berlin] Router received URL: branch/1
+[18-Apr-2026 08:56:27 Europe/Berlin] Router received URL: branch/1/service-ratings
+[18-Apr-2026 08:56:27 Europe/Berlin] Router received URL: branch/1/reviews
+[18-Apr-2026 08:56:27 Europe/Berlin] Router received URL: branch/1/services
+[18-Apr-2026 08:56:27 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[18-Apr-2026 08:56:27 Europe/Berlin] Router received URL: wishlist/status
+[18-Apr-2026 08:56:27 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_13_69d9e725a357f.png
+[18-Apr-2026 08:56:27 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_11_69c7900c94206.png
+[18-Apr-2026 08:56:27 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_8_69c77f5c1a2b8.png
+[18-Apr-2026 08:56:27 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_10_69c78f9071a1e.png
+[18-Apr-2026 08:56:27 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_7_69c77e85548c9.png
+[18-Apr-2026 08:56:27 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_9_69c78eecad219.png
+[18-Apr-2026 08:56:27 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_7_69c77e8555ab0.png
+[18-Apr-2026 08:56:27 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_7_69c77e8557456.png
+[18-Apr-2026 08:56:28 Europe/Berlin] Router received URL: wishlist/status
+[18-Apr-2026 08:56:28 Europe/Berlin] Router received URL: uploads/services/service_69e30cdc29e0e3.77883582.jpg
+[18-Apr-2026 08:56:28 Europe/Berlin] Router received URL: wishlist/status
+[18-Apr-2026 08:56:28 Europe/Berlin] Router received URL: notification/getAdminNotifications
+[18-Apr-2026 08:56:28 Europe/Berlin] PHP Warning:  require_once(C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 08:56:28 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php:4
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\services\NotificationService.php(4): require_once()
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\NotificationController.php(3): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(23): require_once('C:\\xampp\\htdocs...')
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 C:\xampp\htdocs\HFABS\backend\index.php(3): require_once('C:\\xampp\\htdocs...')
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 08:56:38 Europe/Berlin] Router received URL: notification/getAdminNotifications
+[18-Apr-2026 08:56:38 Europe/Berlin] PHP Warning:  require_once(C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 08:56:38 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php:4
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\services\NotificationService.php(4): require_once()
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\NotificationController.php(3): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(23): require_once('C:\\xampp\\htdocs...')
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 C:\xampp\htdocs\HFABS\backend\index.php(3): require_once('C:\\xampp\\htdocs...')
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 08:56:48 Europe/Berlin] Router received URL: notification/getAdminNotifications
+[18-Apr-2026 08:56:48 Europe/Berlin] PHP Warning:  require_once(C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 08:56:48 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php:4
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\services\NotificationService.php(4): require_once()
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\NotificationController.php(3): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(23): require_once('C:\\xampp\\htdocs...')
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 C:\xampp\htdocs\HFABS\backend\index.php(3): require_once('C:\\xampp\\htdocs...')
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 08:56:59 Europe/Berlin] Router received URL: notification/getAdminNotifications
+[18-Apr-2026 08:56:59 Europe/Berlin] PHP Warning:  require_once(C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 08:56:59 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php:4
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\services\NotificationService.php(4): require_once()
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\NotificationController.php(3): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(23): require_once('C:\\xampp\\htdocs...')
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 C:\xampp\htdocs\HFABS\backend\index.php(3): require_once('C:\\xampp\\htdocs...')
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 08:57:08 Europe/Berlin] Router received URL: notification/getAdminNotifications
+[18-Apr-2026 08:57:08 Europe/Berlin] PHP Warning:  require_once(C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 08:57:08 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php:4
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\services\NotificationService.php(4): require_once()
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\NotificationController.php(3): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(23): require_once('C:\\xampp\\htdocs...')
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 C:\xampp\htdocs\HFABS\backend\index.php(3): require_once('C:\\xampp\\htdocs...')
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 08:57:18 Europe/Berlin] Router received URL: notification/getAdminNotifications
+[18-Apr-2026 08:57:18 Europe/Berlin] PHP Warning:  require_once(C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 08:57:18 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php:4
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\services\NotificationService.php(4): require_once()
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\NotificationController.php(3): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(23): require_once('C:\\xampp\\htdocs...')
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 C:\xampp\htdocs\HFABS\backend\index.php(3): require_once('C:\\xampp\\htdocs...')
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 08:57:28 Europe/Berlin] Router received URL: notification/getAdminNotifications
+[18-Apr-2026 08:57:28 Europe/Berlin] PHP Warning:  require_once(C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 08:57:28 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php:4
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\services\NotificationService.php(4): require_once()
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\NotificationController.php(3): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(23): require_once('C:\\xampp\\htdocs...')
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 C:\xampp\htdocs\HFABS\backend\index.php(3): require_once('C:\\xampp\\htdocs...')
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 08:57:38 Europe/Berlin] Router received URL: notification/getAdminNotifications
+[18-Apr-2026 08:57:38 Europe/Berlin] PHP Warning:  require_once(C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 08:57:38 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php:4
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\services\NotificationService.php(4): require_once()
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\NotificationController.php(3): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(23): require_once('C:\\xampp\\htdocs...')
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 C:\xampp\htdocs\HFABS\backend\index.php(3): require_once('C:\\xampp\\htdocs...')
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4

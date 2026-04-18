@@ -110,6 +110,32 @@ class BranchController extends Controller
         ]);
     }
 
+    // GET branch/{branchId}/service-ratings
+    // Returns aggregated avg + count for services and packages at this branch.
+    public function serviceRatings($branchId = null)
+    {
+        header('Content-Type: application/json');
+
+        if (!$branchId || !is_numeric($branchId)) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'message' => 'Invalid branch ID']);
+            exit;
+        }
+
+        $branchId      = (int) $branchId;
+        $feedbackModel = $this->model('Feedback');
+
+        $serviceRatings = $feedbackModel->getServiceRatingsByBranch($branchId);
+        $packageRatings = $feedbackModel->getPackageRatingsByBranch($branchId);
+
+        echo json_encode([
+            'success'         => true,
+            'service_ratings' => $serviceRatings,   // keyed by booked_service_name
+            'package_ratings' => $packageRatings,   // keyed by package_id
+        ]);
+        exit;
+    }
+
         // GET  ?url=branch/settings
     public function settings()
     {

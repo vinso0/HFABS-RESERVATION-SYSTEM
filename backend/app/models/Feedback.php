@@ -371,4 +371,78 @@ class Feedback extends Database
         $stmt->bind_param('i', $feedbackId);
         return $stmt->execute();
     }
+
+    // ── Per-Service Aggregated Ratings (for branch-detail page) ───────────
+    // Returns avg rating + count grouped by booked_service_name for a branch.
+    // Single query — no N+1. Only non-blocked feedback is counted.
+    public function getServiceRatingsByBranch($branchId)
+    {
+        $stmt = $this->db->prepare(
+            "SELECT
+                rs.booked_service_name                       AS service_name,
+                ROUND(AVG(f.rating), 1)                      AS avg_rating,
+                COUNT(f.feedback_id)                         AS review_count
+            FROM feedback f
+            JOIN reservation_services rs
+                ON f.reservation_service_id = rs.reservation_service_id
+            WHERE f.branch_id = ?
+            AND f.is_blocked = 0
+            GROUP BY rs.booked_service_name"
+        );
+        $stmt->bind_param('i', $branchId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $map = [];
+        while ($row = $result->fetch_assoc()) {
+            // Normalise key to lowercase for case-insensitive matching on frontend
+            $map[$row['service_name']] = [
+                'avg_rating'   => (float) $row['avg_rating'],
+                'review_count' => (int)   $row['review_count'],
+            ];
+        }
+        return $map;
+    }
+
+    // ── Per-Package Aggregated Ratings ────────────────────────────────────
+    // Packages store included service names as a comma-separated string.
+    // We aggregate feedback for all services that belong to the package,
+    // then average across them. Only non-blocked feedback is counted.
+    public function getPackageRatingsByBranch($branchId)
+    {
+        $stmt = $this->db->prepare(
+            "SELECT
+                p.package_id,
+                p.package_name,
+                ROUND(AVG(f.rating), 1)   AS avg_rating,
+                COUNT(f.feedback_id)       AS review_count
+            FROM packages p
+            JOIN package_services ps  ON p.package_id = ps.package_id
+            JOIN branch_service_overrides bso
+                ON ps.branch_service_override_id = bso.branch_service_override_id
+            JOIN default_services ds   ON bso.default_service_id = ds.service_id
+            JOIN reservation_services rs
+                ON rs.booked_service_name IN (
+                    COALESCE(bso.display_name, ds.service_name)
+                )
+            JOIN feedback f
+                ON f.reservation_service_id = rs.reservation_service_id
+            WHERE p.branch_id = ?
+            AND f.branch_id = ?
+            AND f.is_blocked = 0
+            GROUP BY p.package_id, p.package_name"
+        );
+        $stmt->bind_param('ii', $branchId, $branchId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $map = [];
+        while ($row = $result->fetch_assoc()) {
+            $map[(int)$row['package_id']] = [
+                'avg_rating'   => (float) $row['avg_rating'],
+                'review_count' => (int)   $row['review_count'],
+            ];
+        }
+        return $map;
+    }
 }
