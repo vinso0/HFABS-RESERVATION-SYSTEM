@@ -8,7 +8,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="./public/css/landing.css" />
     <link rel="stylesheet" href="./public/css/branch-detail.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- maps-link.js MUST be in <head> so makeMapLink() is available
+         before landing.js and load-footer-branches.js execute -->
+    <script src="./public/js/maps-link.js"></script>
   </head>
   <body>
     <div class="bubble-background">
@@ -164,7 +168,7 @@
       </div>
     </footer>
 
-    <script src="./public/js/maps-link.js"></script>
+    <!-- Body scripts — maps-link.js is already loaded in <head> above -->
     <script src="./public/js/landing.js"></script>
     <script src="./public/js/universal-branch-modal.js"></script>
     <script src="./public/js/load-footer-branches.js"></script>

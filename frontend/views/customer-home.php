@@ -20,6 +20,8 @@ $firstName    = ucfirst(strtok($rawUsername, ' _-.'));
   <link rel="stylesheet" href="../public/css/branch-detail.css" />
   <link rel="stylesheet" href="../public/css/wishlist.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <script src="../public/js/maps-link.js"></script>
 </head>
 <body>
 
@@ -217,7 +219,6 @@ $firstName    = ucfirst(strtok($rawUsername, ' _-.'));
   </div>
 
   <script src="../public/js/landing.js"></script>
-  <script src="./public/js/maps-link.js"></script>
   <script src="../public/js/universal-branch-modal.js"></script>
   <script src="../public/js/load-footer-branches.js"></script>
   <script src="../public/js/navbar-loader.js"></script>
