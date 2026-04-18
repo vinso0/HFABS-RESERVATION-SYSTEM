@@ -312,8 +312,7 @@ class SuperadminModel
                     s.duration_minutes, s.category_id, s.is_available AS is_active,
                     s.image_path,
                     sc.category_name,
-                    GROUP_CONCAT(DISTINCT b.branch_name ORDER BY b.branch_name SEPARATOR ', ') AS branch_names,
-                    s.created_at
+                    GROUP_CONCAT(DISTINCT b.branch_name ORDER BY b.branch_name SEPARATOR ', ') AS branch_names
             FROM default_services s
             LEFT JOIN default_services_categories sc ON s.category_id = sc.service_category_id
             LEFT JOIN branch_service_overrides bso ON s.service_id = bso.default_service_id
@@ -325,7 +324,7 @@ class SuperadminModel
         $stmt->execute();
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
-
+    
     /**
      * Get deactivated services
      */

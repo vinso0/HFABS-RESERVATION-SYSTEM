@@ -64,7 +64,6 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'superadmin') {
                                 <th>Category</th>
                                 <th>Branches</th>
                                 <th>Status</th>
-                                <th>Created At</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>

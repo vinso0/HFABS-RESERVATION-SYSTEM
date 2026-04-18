@@ -58,7 +58,6 @@ function displayCategories(categories) {
                     ${category.is_active ? 'Active' : 'Inactive'}
                 </span>
             </td>
-            <td>${formatDate(category.created_at)}</td>
             <td>
                 <div class="action-buttons">
                     <button class="btn btn-sm btn-outline" onclick="editCategory(${category.service_category_id})" title="Edit">

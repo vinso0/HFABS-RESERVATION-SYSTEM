@@ -61,7 +61,7 @@ function renderServices() {
     countEl.textContent = filteredServices.length + ' record' + (filteredServices.length !== 1 ? 's' : '');
 
     if (!filteredServices.length) {
-        tbody.innerHTML = '<tr><td colspan="9"><div class="empty-state"><i class="fas fa-concierge-bell"></i><p>No services found.</p></div></td></tr>';
+        tbody.innerHTML = '<tr><td colspan="8"><div class="empty-state"><i class="fas fa-concierge-bell"></i><p>No services found.</p></div></td></tr>';
         pagination.updateTotalItems(0);
         return;
     }
@@ -70,7 +70,6 @@ function renderServices() {
     var slice = filteredServices.slice(range.start, range.end);
 
     tbody.innerHTML = slice.map(function(s, idx) {
-        var date        = new Date(s.created_at).toLocaleDateString('en-PH', { year:'numeric', month:'short', day:'numeric' });
         var activeClass = parseInt(s.is_active) === 1 ? 'badge-active' : 'badge-inactive';
         var activeLabel = parseInt(s.is_active) === 1 ? 'Active' : 'Inactive';
         var safeName    = s.service_name.replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/"/g,'&quot;');
@@ -91,7 +90,6 @@ function renderServices() {
             '<td>' + (s.category_name || 'Category ' + s.category_id) + '</td>' +
             '<td><small>' + branchDisplay + '</small></td>' +
             '<td><span class="badge ' + activeClass + '">' + activeLabel + '</span></td>' +
-            '<td>' + date + '</td>' +
             '<td>' +
                 '<button class="btn btn-outline btn-icon btn-sm" onclick=\'openEditModal(' + JSON.stringify(s) + ')\' title="Edit"><i class="fas fa-edit"></i></button>' +
             '</td>' +
