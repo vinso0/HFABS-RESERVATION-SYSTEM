@@ -43,8 +43,7 @@ class Branch extends Database
     public function getBranchServices($branchId)
     {
         $conn = $this->getConnection();
-        
-        // Get all branch service overrides with corresponding default services and categories
+
         $sql = 'SELECT
                     COALESCE(bso.default_service_id, bso.branch_service_override_id) as serviceid,
                     COALESCE(bso.display_name, ds.service_name) as servicename,
@@ -57,18 +56,20 @@ class Branch extends Database
                         UCASE(LEFT(dsc.category_name, 1)),
                         SUBSTRING(dsc.category_name, 2)
                     ) as category,
-                    COALESCE(bso.is_available_override, ds.is_available) as isavailable
+                    COALESCE(bso.is_available_override, ds.is_available) as isavailable,
+                    ds.image_path,
+                    bso.image_path_override
                 FROM branch_service_overrides bso
                 LEFT JOIN default_services ds ON bso.default_service_id = ds.service_id
                 LEFT JOIN default_services_categories dsc ON ds.category_id = dsc.service_category_id
                 WHERE bso.branch_id = ?';
-        
+
         $stmt = $conn->prepare($sql);
         $stmt->bind_param('i', $branchId);
         $stmt->execute();
-        
+
         $result = $stmt->get_result();
-        
+
         $services = array();
         if ($result && $result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
@@ -79,7 +80,6 @@ class Branch extends Database
                 }
 
                 if (!empty($row['category'])) {
-                    // Only append " Services" if the name doesn't already contain "service" (any case)
                     if (stripos($row['category'], 'service') === false) {
                         $row['category'] = ucfirst(strtolower($row['category'])) . ' Services';
                     } else {
@@ -92,7 +92,7 @@ class Branch extends Database
                 $services[] = $row;
             }
         }
-        
+
         return $services;
     }
 

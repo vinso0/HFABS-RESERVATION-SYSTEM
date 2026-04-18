@@ -59,10 +59,27 @@ class BranchController extends Controller
     public function services($branchId)
     {
         $branchModel = $this->model('Branch');
-        $services = $branchModel->getBranchServices($branchId);
-        
+        $services    = $branchModel->getBranchServices($branchId);
+
+        // Build the base URL once — used to convert stored relative paths to absolute URLs
+        $baseUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http')
+                . '://' . $_SERVER['HTTP_HOST'];
+
+        $formatted = array_map(function($service) use ($baseUrl) {
+            // Fallback: branch override image → global image → null
+            $rawImage = !empty($service['image_path_override'])
+                ? $service['image_path_override']
+                : (!empty($service['image_path']) ? $service['image_path'] : null);
+
+            $service['image_url'] = $rawImage
+                ? $baseUrl . '/HFABS/backend/' . ltrim($rawImage, '/')
+                : null;
+
+            return $service;
+        }, $services);
+
         header('Content-Type: application/json');
-        echo json_encode($services);
+        echo json_encode($formatted);
     }
 
     // Get categories for a specific branch

@@ -43968,3 +43968,55 @@ Stack trace:
 [17-Apr-2026 21:31:19 Europe/Berlin] Router received URL: branch/1
 [17-Apr-2026 21:31:19 Europe/Berlin] Router received URL: branch/1/services
 [17-Apr-2026 21:31:19 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[17-Apr-2026 21:36:37 Europe/Berlin] Router received URL: branch/1
+[17-Apr-2026 21:36:37 Europe/Berlin] Router received URL: branch/1/services
+[17-Apr-2026 21:36:37 Europe/Berlin] Router received URL: branch/1/categories
+[17-Apr-2026 21:36:37 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[17-Apr-2026 21:40:46 Europe/Berlin] Router received URL: auth/login
+[17-Apr-2026 21:40:46 Europe/Berlin] Router received URL: superadmin/dashboardStats
+[17-Apr-2026 21:40:46 Europe/Berlin] Router received URL: superadmin/recentAdmins
+[17-Apr-2026 21:40:46 Europe/Berlin] Router received URL: superadmin/branches
+[17-Apr-2026 21:40:48 Europe/Berlin] Router received URL: superadmin/branches
+[17-Apr-2026 21:40:49 Europe/Berlin] Router received URL: superadmin/services
+[17-Apr-2026 21:40:49 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 's.created_at' in 'field list' in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php:310
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php(310): mysqli->prepare('SELECT s.servic...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(255): SuperadminModel->getServices()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(243): SuperadminController->getServices()
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): SuperadminController->services()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php on line 310
+[17-Apr-2026 21:40:49 Europe/Berlin] Router received URL: superadmin/services/deactivated
+[17-Apr-2026 21:40:52 Europe/Berlin] Router received URL: superadmin/branches
+[17-Apr-2026 21:40:52 Europe/Berlin] Router received URL: superadmin/services
+[17-Apr-2026 21:40:52 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 's.created_at' in 'field list' in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php:310
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php(310): mysqli->prepare('SELECT s.servic...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(255): SuperadminModel->getServices()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(243): SuperadminController->getServices()
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): SuperadminController->services()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php on line 310
+[17-Apr-2026 21:40:52 Europe/Berlin] Router received URL: superadmin/services/deactivated
+[17-Apr-2026 21:40:53 Europe/Berlin] Router received URL: superadmin/branches
+[17-Apr-2026 21:40:53 Europe/Berlin] Router received URL: superadmin/services
+[17-Apr-2026 21:40:53 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 's.created_at' in 'field list' in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php:310
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php(310): mysqli->prepare('SELECT s.servic...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(255): SuperadminModel->getServices()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(243): SuperadminController->getServices()
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): SuperadminController->services()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php on line 310
+[17-Apr-2026 21:40:53 Europe/Berlin] Router received URL: superadmin/services/deactivated
+[17-Apr-2026 21:54:18 Europe/Berlin] Router received URL: branch/1
+[17-Apr-2026 21:54:18 Europe/Berlin] Router received URL: branch/1/categories
+[17-Apr-2026 21:54:18 Europe/Berlin] Router received URL: branch/1/services
+[17-Apr-2026 21:54:18 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[18-Apr-2026 04:27:46 Europe/Berlin] Router received URL: branch/1/categories
+[18-Apr-2026 04:27:46 Europe/Berlin] Router received URL: branch/1
+[18-Apr-2026 04:27:46 Europe/Berlin] Router received URL: branch/1/services
+[18-Apr-2026 04:27:46 Europe/Berlin] Router received URL: packages/getPublicPackages/1
