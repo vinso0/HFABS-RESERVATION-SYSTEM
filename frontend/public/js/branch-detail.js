@@ -96,13 +96,20 @@ async function loadServiceRatings() {
   try {
     const res  = await fetch(`${API_BASE}branch/${branchId}/service-ratings`);
     const data = await res.json();
+
+    // ── DEBUG: remove after confirming ratings load correctly ──
+    console.log('[Ratings API Response]', data);
+
     if (data.success) {
       serviceRatingsMap = data.service_ratings || {};
       packageRatingsMap = data.package_ratings || {};
+
+      // ── DEBUG: confirm maps are populated ──
+      console.log('[serviceRatingsMap]', serviceRatingsMap);
+      console.log('[packageRatingsMap]', packageRatingsMap);
     }
   } catch (e) {
     console.warn('[Ratings] Could not load service ratings:', e);
-    // Non-fatal: cards will show "No reviews yet"
   }
 }
 

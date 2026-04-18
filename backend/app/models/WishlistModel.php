@@ -14,7 +14,7 @@ class WishlistModel
     // Toggle wishlist (add if not exists, remove if exists)
     // Returns: 'added' | 'removed' | false
     // ─────────────────────────────────────────────
-    public function toggle(array $data)
+    public function toggle(array $data): string|false
     {
         $userId  = (int) $data['user_id'];
         $branchId = (int) $data['branch_id'];
