@@ -57,6 +57,13 @@ class Router
                         http_response_code(404);
                         die("Method reviews not found in controller $controllerName");
                     }
+                } elseif (isset($url[2]) && $url[2] === 'service-ratings') {
+                    if (method_exists($controller, 'serviceRatings')) {
+                        call_user_func_array(array($controller, 'serviceRatings'), array($method));
+                    } else {
+                        http_response_code(404);
+                        die("Method serviceRatings not found in controller $controllerName");
+                    }
                 } elseif (isset($url[2]) && $url[2] === 'reservations') {
                     // If next segment is 'reservations', call reservations() with user ID
                     if (method_exists($controller, 'reservations')) {
