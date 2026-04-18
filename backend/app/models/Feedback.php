@@ -372,28 +372,30 @@ class Feedback extends Database
         return $stmt->execute();
     }
 
-    // ── Per-Service Aggregated Ratings ────────────────────────────────────
+
+    // ── Per-Service Aggregated Ratings (for branch-detail page) ──────────
     public function getServiceRatingsByBranch($branchId)
     {
-        // Use LEFT JOIN on branch_service_overrides to avoid silently dropping rows
-        // when reservation_services.branch_service_override_id is NULL or mismatched.
-        // COALESCE ensures we still get a usable service_id key.
-        $stmt = $this->db->prepare(
-            "SELECT
-                COALESCE(bso.default_service_id, bso.branch_service_override_id) AS service_id,
-                ROUND(AVG(f.rating), 1)   AS avg_rating,
-                COUNT(f.feedback_id)      AS review_count
+        // THE FIX: Join via rs.default_service_id = bso.default_service_id
+        // The old query joined via rs.branch_service_override_id which is NULL
+        // in 78/88 rows (older reservations never stored that FK), causing
+        // zero matches and an empty ratings map.
+        $stmt = $this->db->prepare("
+            SELECT
+                bso.default_service_id                 AS service_id,
+                ROUND(AVG(f.rating), 1)                AS avg_rating,
+                COUNT(f.feedback_id)                   AS review_count
             FROM feedback f
             JOIN reservation_services rs
                 ON f.reservation_service_id = rs.reservation_service_id
-            LEFT JOIN branch_service_overrides bso
-                ON rs.branch_service_override_id = bso.branch_service_override_id
+            JOIN branch_service_overrides bso
+                ON rs.default_service_id = bso.default_service_id
                 AND bso.branch_id = ?
             WHERE f.branch_id = ?
             AND f.is_blocked = 0
-            AND COALESCE(bso.default_service_id, bso.branch_service_override_id) IS NOT NULL
-            GROUP BY COALESCE(bso.default_service_id, bso.branch_service_override_id)"
-        );
+            AND rs.booked_package_id IS NULL
+            GROUP BY bso.default_service_id
+        ");
 
         if (!$stmt) {
             return [];
@@ -416,28 +418,27 @@ class Feedback extends Database
     // ── Per-Package Aggregated Ratings ────────────────────────────────────
     public function getPackageRatingsByBranch($branchId)
     {
-        // Aggregate ratings per package by matching feedback to the package's
-        // included branch_service_overrides via a subquery.
-        // This avoids the brittle multi-hop join that silently returns 0 rows
-        // when reservation_services rows lack a matching package_services entry.
-        $stmt = $this->db->prepare(
-            "SELECT
-                p.package_id,
-                ROUND(AVG(f.rating), 1) AS avg_rating,
-                COUNT(DISTINCT f.feedback_id) AS review_count
-            FROM packages p
-            JOIN package_services ps
-                ON ps.package_id = p.package_id
-            LEFT JOIN reservation_services rs
-                ON rs.branch_service_override_id = ps.branch_service_override_id
-            LEFT JOIN feedback f
+        // THE FIX: Use booked_package_id (always stored on reservation_services
+        // for package bookings) to link feedback → package directly.
+        // The old query referenced 'packages' and 'package_services' tables
+        // which do not exist — the real table names are branch_packages and
+        // branch_package_services.
+        $stmt = $this->db->prepare("
+            SELECT
+                rs.booked_package_id               AS package_id,
+                ROUND(AVG(f.rating), 1)            AS avg_rating,
+                COUNT(DISTINCT f.feedback_id)      AS review_count
+            FROM feedback f
+            JOIN reservation_services rs
                 ON f.reservation_service_id = rs.reservation_service_id
-                AND f.branch_id = ?
-                AND f.is_blocked = 0
-            WHERE p.branch_id = ?
-            GROUP BY p.package_id
-            HAVING COUNT(DISTINCT f.feedback_id) > 0"
-        );
+            JOIN branch_packages bp
+                ON rs.booked_package_id = bp.package_id
+                AND bp.branch_id = ?
+            WHERE f.branch_id = ?
+            AND f.is_blocked = 0
+            AND rs.booked_package_id IS NOT NULL
+            GROUP BY rs.booked_package_id
+        ");
 
         if (!$stmt) {
             return [];
