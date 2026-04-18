@@ -14,6 +14,23 @@ function formatTime(t) {
     return (hr % 12 || 12) + ':' + min + ' ' + (hr < 12 ? 'AM' : 'PM');
 }
 
+// ── Google Maps preview for location input ──────────────────────
+function updateLocationPreview(value) {
+    var preview = document.getElementById('locationPreview');
+    var link    = document.getElementById('locationPreviewLink');
+
+    if (!preview || !link) return; // safety check
+
+    if (!value || !value.trim()) {
+        preview.style.display = 'none';
+        return;
+    }
+
+    var encoded = encodeURIComponent(value.trim());
+    link.href   = 'https://www.google.com/maps/search/?api=1&query=' + encoded;
+    preview.style.display = 'block';
+}
+
 // ── Load branches from API ──
 function loadBranches() {
     fetch(API + 'branches')
@@ -103,6 +120,7 @@ function filterBranches() {
 function openAddBranchModal() {
     document.getElementById('branchModalTitle').textContent = 'Add Branch';
     document.getElementById('branchForm').reset();
+    updateLocationPreview('');
     document.getElementById('locationPreview').style.display = 'none';
     document.getElementById('editBranchId').value = '';
     document.getElementById('branchModal').classList.add('open');
@@ -114,7 +132,7 @@ function openEditBranchModal(b) {
     document.getElementById('editBranchId').value           = b.branch_id;
     document.getElementById('bName').value                  = b.branch_name;
     document.getElementById('bLocation').value              = b.branch_location;
-    updateLocationPreview(b.branch_location);
+    updateLocationPreview(b.branch_location || '');
     document.getElementById('bContact').value               = b.contact_number || '';
     document.getElementById('bEmail').value                 = b.email || '';
     document.getElementById('bOpenTime').value              = b.opening_time.slice(0, 5);

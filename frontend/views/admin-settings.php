@@ -65,9 +65,15 @@ $displayRole = ucfirst($_SESSION['role']);
 
           <div class="form-grid-2">
             <div class="form-group full-width">
-              <label><i class="fas fa-map-marker-alt"></i> Branch Address</label>
-              <input type="text" id="branchLocation" name="branch_location"
-                     placeholder="e.g. 123 Main St, Quezon City" />
+                <label><i class="fas fa-map-marker-alt"></i> Branch Address</label>
+                <input type="text" id="branchLocation" name="branch_location"
+                      placeholder="e.g. 123 Main St, Quezon City"
+                      oninput="updateLocationPreview(this.value)" />
+                <div id="locationPreview" class="location-preview" style="display:none;">
+                    <span class="preview-label">📍 Preview: </span>
+                    <a id="locationPreviewLink" href="#" target="_blank" rel="noopener noreferrer"
+                      class="maps-link" title="Test this link">View on Google Maps</a>
+                </div>
             </div>
             <div class="form-group">
               <label><i class="fas fa-phone"></i> Contact Number</label>
@@ -239,6 +245,7 @@ $displayRole = ucfirst($_SESSION['role']);
   <!-- Toast container (reuse admin toast pattern) -->
   <div id="toastContainer" class="toast-container"></div>
 
+  <script src="../public/js/maps-link.js"></script>
   <script src="../public/js/admin-settings.js"></script>
 </body>
 </html>

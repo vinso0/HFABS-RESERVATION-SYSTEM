@@ -343,6 +343,23 @@ function selectDate(dateStr) {
 // ════════════════════════════════════════════════════════════════
 //  UTILITIES
 // ════════════════════════════════════════════════════════════════
+// ── Google Maps preview for location input ──────────────────────
+function updateLocationPreview(value) {
+    var preview = document.getElementById('locationPreview');
+    var link    = document.getElementById('locationPreviewLink');
+
+    if (!preview || !link) return; // safety check
+
+    if (!value || !value.trim()) {
+        preview.style.display = 'none';
+        return;
+    }
+
+    var encoded = encodeURIComponent(value.trim());
+    link.href   = 'https://www.google.com/maps/search/?api=1&query=' + encoded;
+    preview.style.display = 'block';
+}
+
 function updateTimeDisplay(elId, val) {
   if (!val) { document.getElementById(elId).textContent = '—'; return; }
   const [h, m] = val.split(':');
