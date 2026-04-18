@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 18, 2026 at 05:18 AM
+-- Generation Time: Apr 18, 2026 at 05:51 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -159,7 +159,6 @@ CREATE TABLE `branch_packages` (
   `branch_id` int(15) NOT NULL,
   `package_name` varchar(100) NOT NULL,
   `description` text DEFAULT NULL,
-  `image_path` varchar(500) DEFAULT NULL,
   `package_price` decimal(10,2) NOT NULL,
   `total_duration_minutes` int(11) NOT NULL DEFAULT 0,
   `is_available` tinyint(1) NOT NULL DEFAULT 1,
@@ -171,10 +170,10 @@ CREATE TABLE `branch_packages` (
 -- Dumping data for table `branch_packages`
 --
 
-INSERT INTO `branch_packages` (`package_id`, `branch_id`, `package_name`, `description`, `image_path`, `package_price`, `total_duration_minutes`, `is_available`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Pamper Me', 'Nail and hair combo for a full refresh', NULL, 1499.00, 150, 1, '2026-03-20 15:22:03', '2026-03-23 10:49:17'),
-(2, 1, 'Total Wellness', 'Full body massage + facial combo', NULL, 4200.00, 180, 1, '2026-03-20 15:22:03', '2026-03-20 15:22:03'),
-(3, 2, 'Hair Royale', 'Complete hair treatment with nail care', NULL, 4200.00, 240, 1, '2026-03-20 15:22:03', '2026-03-20 15:22:03');
+INSERT INTO `branch_packages` (`package_id`, `branch_id`, `package_name`, `description`, `package_price`, `total_duration_minutes`, `is_available`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Pamper Me', 'Nail and hair combo for a full refresh', 1499.00, 150, 1, '2026-03-20 15:22:03', '2026-03-23 10:49:17'),
+(2, 1, 'Total Wellness', 'Full body massage + facial combo', 4200.00, 180, 1, '2026-03-20 15:22:03', '2026-03-20 15:22:03'),
+(3, 2, 'Hair Royale', 'Complete hair treatment with nail care', 4200.00, 240, 1, '2026-03-20 15:22:03', '2026-03-20 15:22:03');
 
 -- --------------------------------------------------------
 

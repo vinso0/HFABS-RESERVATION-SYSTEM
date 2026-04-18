@@ -81,7 +81,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
                     </thead>
                     <tbody id="servicesTableBody">
                         <tr class="loading-row">
-                            <td colspan="7">
+                            <td colspan="8">
                                 <div class="loading-spinner">
                                     <i class="fas fa-spinner fa-spin"></i>
                                     <span>Loading services...</span>

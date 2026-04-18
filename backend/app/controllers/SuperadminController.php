@@ -22,6 +22,7 @@ class SuperadminController extends Controller
 
     private function json($data)
     {
+        if (ob_get_level()) ob_end_clean();
         header('Content-Type: application/json');
         echo json_encode($data);
         exit;
@@ -252,17 +253,19 @@ class SuperadminController extends Controller
     
     private function getServices()
     {
+        ob_start();
+
         $services = $this->superadminModel->getServices();
         $baseUrl  = $this->getBaseUrl();
 
-        // Append full image_url for each service
         foreach ($services as &$s) {
             $s['image_url'] = !empty($s['image_path'])
-                ? $baseUrl . '/HFABS/backend/public/' . $s['image_path']
+                ? $baseUrl . '/HFABS/backend/public/' . ltrim($s['image_path'], '/')
                 : null;
         }
         unset($s);
 
+        ob_end_clean();
         $this->json(['success' => true, 'data' => $services]);
     }
 

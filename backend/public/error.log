@@ -44305,3 +44305,248 @@ Stack trace:
 [18-Apr-2026 05:18:30 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_7_69c77e8557456.png
 [18-Apr-2026 05:18:30 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_7_69c77e8555ab0.png
 [18-Apr-2026 05:18:30 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_7_69c77e85548c9.png
+[18-Apr-2026 05:44:15 Europe/Berlin] Router received URL: branch/1
+[18-Apr-2026 05:44:15 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[18-Apr-2026 05:44:16 Europe/Berlin] Router received URL: branch/1/services
+[18-Apr-2026 05:44:16 Europe/Berlin] Router received URL: branch/1/reviews
+[18-Apr-2026 05:44:16 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_10_69c78f9071a1e.png
+[18-Apr-2026 05:44:16 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_13_69d9e725a357f.png
+[18-Apr-2026 05:44:16 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_11_69c7900c94206.png
+[18-Apr-2026 05:44:16 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_9_69c78eecad219.png
+[18-Apr-2026 05:44:16 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_7_69c77e85548c9.png
+[18-Apr-2026 05:44:16 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_8_69c77f5c1a2b8.png
+[18-Apr-2026 05:44:16 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_7_69c77e8555ab0.png
+[18-Apr-2026 05:44:16 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_7_69c77e8557456.png
+[18-Apr-2026 05:44:19 Europe/Berlin] Router received URL: branch/1
+[18-Apr-2026 05:44:19 Europe/Berlin] Router received URL: branch/1/services
+[18-Apr-2026 05:44:19 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[18-Apr-2026 05:44:19 Europe/Berlin] Router received URL: branch/1/reviews
+[18-Apr-2026 05:44:19 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_11_69c7900c94206.png
+[18-Apr-2026 05:44:19 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_9_69c78eecad219.png
+[18-Apr-2026 05:44:19 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_13_69d9e725a357f.png
+[18-Apr-2026 05:44:19 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_10_69c78f9071a1e.png
+[18-Apr-2026 05:44:19 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_8_69c77f5c1a2b8.png
+[18-Apr-2026 05:44:19 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_7_69c77e85548c9.png
+[18-Apr-2026 05:44:19 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_7_69c77e8555ab0.png
+[18-Apr-2026 05:44:19 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_7_69c77e8557456.png
+[18-Apr-2026 05:45:04 Europe/Berlin] Router received URL: branch/index
+[18-Apr-2026 05:45:04 Europe/Berlin] Router received URL: branch
+[18-Apr-2026 05:45:07 Europe/Berlin] Router received URL: branch
+[18-Apr-2026 05:45:07 Europe/Berlin] Router received URL: branch
+[18-Apr-2026 05:45:09 Europe/Berlin] Router received URL: branch/1/categories
+[18-Apr-2026 05:45:09 Europe/Berlin] Router received URL: branch/1
+[18-Apr-2026 05:45:09 Europe/Berlin] Router received URL: branch/1/services
+[18-Apr-2026 05:45:09 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[18-Apr-2026 05:45:23 Europe/Berlin] Router received URL: auth/login
+[18-Apr-2026 05:45:23 Europe/Berlin] Router received URL: reservation/getAllReservations
+[18-Apr-2026 05:45:23 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => admin1
+    [email] => schofieldkier09@gmail.com
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan
+)
+
+[18-Apr-2026 05:45:23 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[18-Apr-2026 05:45:23 Europe/Berlin] Router received URL: reservation/getTodaysReservations
+[18-Apr-2026 05:45:23 Europe/Berlin] Session data in getTodaysReservations: Array
+(
+    [user_id] => 1
+    [user_name] => admin1
+    [email] => schofieldkier09@gmail.com
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan
+)
+
+[18-Apr-2026 05:45:23 Europe/Berlin] Exception in getTodaysReservations: Table 'hfabs.admin_branch' doesn't exist
+[18-Apr-2026 05:45:23 Europe/Berlin] Router received URL: transaction/getByBranch
+[18-Apr-2026 05:45:23 Europe/Berlin] Router received URL: notification/getAdminNotifications
+[18-Apr-2026 05:45:23 Europe/Berlin] PHP Warning:  require_once(C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php): Failed to open stream: No such file or directory in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 05:45:23 Europe/Berlin] PHP Fatal error:  Uncaught Error: Failed opening required 'C:\xampp\htdocs\HFABS\backend\app\services/../../../../vendor/autoload.php' (include_path='C:\xampp\php\PEAR') in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php:4
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\services\NotificationService.php(4): require_once()
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\NotificationController.php(3): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(23): require_once('C:\\xampp\\htdocs...')
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 C:\xampp\htdocs\HFABS\backend\index.php(3): require_once('C:\\xampp\\htdocs...')
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\services\EmailService.php on line 4
+[18-Apr-2026 05:45:23 Europe/Berlin] Router received URL: reservation/getAllReservations
+[18-Apr-2026 05:45:23 Europe/Berlin] Session data in getAllReservations: Array
+(
+    [user_id] => 1
+    [user_name] => admin1
+    [email] => schofieldkier09@gmail.com
+    [role] => admin
+    [branch_id] => 1
+    [branch_name] => caloocan
+)
+
+[18-Apr-2026 05:45:23 Europe/Berlin] Exception in getAllReservations: Table 'hfabs.admin_branch' doesn't exist
+[18-Apr-2026 05:45:23 Europe/Berlin] Router received URL: transaction/getByBranch
+[18-Apr-2026 05:45:25 Europe/Berlin] Router received URL: services/categoriesList
+[18-Apr-2026 05:45:25 Europe/Berlin] Router received URL: services/branchCategories/1
+[18-Apr-2026 05:45:25 Europe/Berlin] Router received URL: services/dateCapacities
+[18-Apr-2026 05:45:26 Europe/Berlin] Router received URL: packages/getBranchServices
+[18-Apr-2026 05:45:26 Europe/Berlin] Router received URL: packages/getAll
+[18-Apr-2026 05:46:06 Europe/Berlin] Router received URL: branch/index
+[18-Apr-2026 05:46:06 Europe/Berlin] Router received URL: branch
+[18-Apr-2026 05:46:07 Europe/Berlin] Router received URL: branch/1
+[18-Apr-2026 05:46:07 Europe/Berlin] Router received URL: branch/1/services
+[18-Apr-2026 05:46:07 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[18-Apr-2026 05:46:07 Europe/Berlin] Router received URL: branch/1/reviews
+[18-Apr-2026 05:46:08 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_13_69d9e725a357f.png
+[18-Apr-2026 05:46:08 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_11_69c7900c94206.png
+[18-Apr-2026 05:46:08 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_9_69c78eecad219.png
+[18-Apr-2026 05:46:08 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_10_69c78f9071a1e.png
+[18-Apr-2026 05:46:08 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_8_69c77f5c1a2b8.png
+[18-Apr-2026 05:46:08 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_7_69c77e85548c9.png
+[18-Apr-2026 05:46:08 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_7_69c77e8555ab0.png
+[18-Apr-2026 05:46:08 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_7_69c77e8557456.png
+[18-Apr-2026 05:50:22 Europe/Berlin] Router received URL: branch/1
+[18-Apr-2026 05:50:22 Europe/Berlin] Router received URL: branch/1/services
+[18-Apr-2026 05:50:22 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[18-Apr-2026 05:50:22 Europe/Berlin] Router received URL: branch/1/reviews
+[18-Apr-2026 05:50:23 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_13_69d9e725a357f.png
+[18-Apr-2026 05:50:23 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_11_69c7900c94206.png
+[18-Apr-2026 05:50:23 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_9_69c78eecad219.png
+[18-Apr-2026 05:50:23 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_10_69c78f9071a1e.png
+[18-Apr-2026 05:50:23 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_8_69c77f5c1a2b8.png
+[18-Apr-2026 05:50:29 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_7_69c77e8555ab0.png
+[18-Apr-2026 05:50:29 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_7_69c77e8557456.png
+[18-Apr-2026 05:50:29 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_7_69c77e85548c9.png
+[18-Apr-2026 05:50:39 Europe/Berlin] Router received URL: packages/getBranchServices
+[18-Apr-2026 05:50:39 Europe/Berlin] Router received URL: packages/getAll
+[18-Apr-2026 05:50:47 Europe/Berlin] Router received URL: services/categoriesList
+[18-Apr-2026 05:50:47 Europe/Berlin] Router received URL: services/branchCategories/1
+[18-Apr-2026 05:50:47 Europe/Berlin] Router received URL: services/dateCapacities
+[18-Apr-2026 05:50:49 Europe/Berlin] Router received URL: packages/getAll
+[18-Apr-2026 05:50:49 Europe/Berlin] Router received URL: packages/getBranchServices
+[18-Apr-2026 05:50:51 Europe/Berlin] Router received URL: services/index
+[18-Apr-2026 05:50:51 Europe/Berlin] Router received URL: services/categoriesList
+[18-Apr-2026 05:50:51 Europe/Berlin] Router received URL: services/branchCategories/1
+[18-Apr-2026 05:50:51 Europe/Berlin] Router received URL: services/branchServices/1
+[18-Apr-2026 05:53:02 Europe/Berlin] Router received URL: auth/login
+[18-Apr-2026 05:53:03 Europe/Berlin] Router received URL: superadmin/dashboardStats
+[18-Apr-2026 05:53:03 Europe/Berlin] Router received URL: superadmin/recentAdmins
+[18-Apr-2026 05:53:03 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 05:53:05 Europe/Berlin] Router received URL: superadmin/admins
+[18-Apr-2026 05:53:05 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 05:53:06 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 05:53:06 Europe/Berlin] Router received URL: superadmin/services/deactivated
+[18-Apr-2026 05:53:06 Europe/Berlin] Router received URL: superadmin/services
+[18-Apr-2026 05:53:06 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 's.created_at' in 'field list' in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php:310
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php(310): mysqli->prepare('SELECT s.servic...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(255): SuperadminModel->getServices()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(243): SuperadminController->getServices()
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): SuperadminController->services()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php on line 310
+[18-Apr-2026 05:53:16 Europe/Berlin] Router received URL: superadmin/services
+[18-Apr-2026 05:53:16 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 's.created_at' in 'field list' in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php:310
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php(310): mysqli->prepare('SELECT s.servic...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(255): SuperadminModel->getServices()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(243): SuperadminController->getServices()
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): SuperadminController->services()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php on line 310
+[18-Apr-2026 05:53:16 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 05:53:16 Europe/Berlin] Router received URL: superadmin/services/deactivated
+[18-Apr-2026 05:57:13 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 05:57:13 Europe/Berlin] Router received URL: services
+[18-Apr-2026 05:57:13 Europe/Berlin] Router received URL: superadmin/services/deactivated
+[18-Apr-2026 05:57:15 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 05:57:15 Europe/Berlin] Router received URL: services
+[18-Apr-2026 05:57:15 Europe/Berlin] Router received URL: superadmin/services/deactivated
+[18-Apr-2026 05:57:16 Europe/Berlin] Router received URL: services
+[18-Apr-2026 05:57:16 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 05:57:16 Europe/Berlin] Router received URL: superadmin/services/deactivated
+[18-Apr-2026 05:57:18 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 05:57:18 Europe/Berlin] Router received URL: services
+[18-Apr-2026 05:57:18 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 05:57:18 Europe/Berlin] Router received URL: superadmin/services/deactivated
+[18-Apr-2026 05:57:19 Europe/Berlin] Router received URL: superadmin/categories
+[18-Apr-2026 05:57:21 Europe/Berlin] Router received URL: superadmin/categories
+[18-Apr-2026 05:57:22 Europe/Berlin] Router received URL: superadmin/categories
+[18-Apr-2026 05:57:23 Europe/Berlin] Router received URL: services
+[18-Apr-2026 05:57:23 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 05:57:23 Europe/Berlin] Router received URL: superadmin/services/deactivated
+[18-Apr-2026 05:57:24 Europe/Berlin] Router received URL: superadmin/categories
+[18-Apr-2026 05:57:27 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 05:57:27 Europe/Berlin] Router received URL: services
+[18-Apr-2026 05:57:27 Europe/Berlin] Router received URL: superadmin/services/deactivated
+[18-Apr-2026 05:57:27 Europe/Berlin] Router received URL: superadmin/categories
+[18-Apr-2026 05:57:28 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 05:57:28 Europe/Berlin] Router received URL: services
+[18-Apr-2026 05:57:28 Europe/Berlin] Router received URL: superadmin/services/deactivated
+[18-Apr-2026 05:57:28 Europe/Berlin] Router received URL: superadmin/categories
+[18-Apr-2026 05:57:29 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 05:57:29 Europe/Berlin] Router received URL: services
+[18-Apr-2026 05:57:29 Europe/Berlin] Router received URL: superadmin/services/deactivated
+[18-Apr-2026 06:02:15 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 06:02:15 Europe/Berlin] Router received URL: superadmin/services
+[18-Apr-2026 06:02:15 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 's.created_at' in 'field list' in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php:310
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php(310): mysqli->prepare('SELECT s.servic...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(259): SuperadminModel->getServices()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(244): SuperadminController->getServices()
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): SuperadminController->services()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php on line 310
+[18-Apr-2026 06:02:15 Europe/Berlin] Router received URL: superadmin/services/deactivated
+[18-Apr-2026 06:02:16 Europe/Berlin] Router received URL: superadmin/services
+[18-Apr-2026 06:02:16 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 's.created_at' in 'field list' in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php:310
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php(310): mysqli->prepare('SELECT s.servic...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(259): SuperadminModel->getServices()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(244): SuperadminController->getServices()
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): SuperadminController->services()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php on line 310
+[18-Apr-2026 06:02:16 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 06:02:16 Europe/Berlin] Router received URL: superadmin/services/deactivated
+[18-Apr-2026 06:04:07 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 06:04:07 Europe/Berlin] Router received URL: superadmin/services
+[18-Apr-2026 06:04:07 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 's.created_at' in 'field list' in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php:310
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php(310): mysqli->prepare('SELECT s.servic...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(258): SuperadminModel->getServices()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(244): SuperadminController->getServices()
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): SuperadminController->services()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php on line 310
+[18-Apr-2026 06:04:07 Europe/Berlin] Router received URL: superadmin/services/deactivated
+[18-Apr-2026 06:04:08 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 06:04:08 Europe/Berlin] Router received URL: superadmin/services/deactivated
+[18-Apr-2026 06:04:08 Europe/Berlin] Router received URL: superadmin/services
+[18-Apr-2026 06:04:08 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 's.created_at' in 'field list' in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php:310
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php(310): mysqli->prepare('SELECT s.servic...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(258): SuperadminModel->getServices()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(244): SuperadminController->getServices()
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): SuperadminController->services()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php on line 310
+[18-Apr-2026 06:04:09 Europe/Berlin] Router received URL: superadmin/services
+[18-Apr-2026 06:04:09 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 's.created_at' in 'field list' in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php:310
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php(310): mysqli->prepare('SELECT s.servic...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(258): SuperadminModel->getServices()
+#2 C:\xampp\htdocs\HFABS\backend\app\controllers\SuperadminController.php(244): SuperadminController->getServices()
+#3 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): SuperadminController->services()
+#4 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#5 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\SuperadminModel.php on line 310
+[18-Apr-2026 06:04:09 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 06:04:09 Europe/Berlin] Router received URL: superadmin/services/deactivated
