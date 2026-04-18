@@ -379,24 +379,29 @@ class Feedback extends Database
     {
         $stmt = $this->db->prepare(
             "SELECT
-                rs.booked_service_name                       AS service_name,
-                ROUND(AVG(f.rating), 1)                      AS avg_rating,
-                COUNT(f.feedback_id)                         AS review_count
+                COALESCE(bso.default_service_id, bso.branch_service_override_id) AS service_id,
+                ROUND(AVG(f.rating), 1)                                           AS avg_rating,
+                COUNT(f.feedback_id)                                              AS review_count
             FROM feedback f
             JOIN reservation_services rs
                 ON f.reservation_service_id = rs.reservation_service_id
+            JOIN branch_service_overrides bso
+                ON rs.booked_service_name IN (
+                    COALESCE(bso.display_name, ds.service_name)
+                )
+            JOIN default_services ds ON bso.default_service_id = ds.service_id
             WHERE f.branch_id = ?
+            AND bso.branch_id = ?
             AND f.is_blocked = 0
-            GROUP BY rs.booked_service_name"
+            GROUP BY COALESCE(bso.default_service_id, bso.branch_service_override_id)"
         );
-        $stmt->bind_param('i', $branchId);
+        $stmt->bind_param('ii', $branchId, $branchId);
         $stmt->execute();
         $result = $stmt->get_result();
 
         $map = [];
         while ($row = $result->fetch_assoc()) {
-            // Normalise key to lowercase for case-insensitive matching on frontend
-            $map[$row['service_name']] = [
+            $map[(int)$row['service_id']] = [
                 'avg_rating'   => (float) $row['avg_rating'],
                 'review_count' => (int)   $row['review_count'],
             ];

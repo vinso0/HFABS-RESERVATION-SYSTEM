@@ -189,10 +189,7 @@ function renderServices(cat) {
     const duration      = s.duration || 'N/A';
 
     // ── Rating lookup (case-insensitive match against booked_service_name) ──
-    const ratingKey  = Object.keys(serviceRatingsMap).find(
-      k => k.toLowerCase() === name.toLowerCase()
-    );
-    const ratingData = ratingKey ? serviceRatingsMap[ratingKey] : null;
+    const ratingData = serviceRatingsMap[parseInt(s.serviceid)] || null;
     const ratingBadge = buildRatingBadge(
       ratingData?.avg_rating  ?? 0,
       ratingData?.review_count ?? 0
