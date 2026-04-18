@@ -44020,3 +44020,60 @@ Stack trace:
 [18-Apr-2026 04:27:46 Europe/Berlin] Router received URL: branch/1
 [18-Apr-2026 04:27:46 Europe/Berlin] Router received URL: branch/1/services
 [18-Apr-2026 04:27:46 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[18-Apr-2026 04:40:52 Europe/Berlin] Router received URL: branch/1/services
+[18-Apr-2026 04:40:52 Europe/Berlin] Router received URL: branch/1/categories
+[18-Apr-2026 04:40:52 Europe/Berlin] Router received URL: branch/1
+[18-Apr-2026 04:40:52 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[18-Apr-2026 04:40:57 Europe/Berlin] Router received URL: auth/login
+[18-Apr-2026 04:40:57 Europe/Berlin] Router received URL: branch/index
+[18-Apr-2026 04:40:57 Europe/Berlin] Router received URL: branch
+[18-Apr-2026 04:41:01 Europe/Berlin] Router received URL: branch/2
+[18-Apr-2026 04:41:01 Europe/Berlin] Router received URL: branch/2/services
+[18-Apr-2026 04:41:01 Europe/Berlin] Router received URL: branch/2/reviews
+[18-Apr-2026 04:41:01 Europe/Berlin] PHP Warning:  Undefined variable $photoResult in C:\xampp\htdocs\HFABS\backend\app\models\Branch.php on line 204
+[18-Apr-2026 04:41:01 Europe/Berlin] Router received URL: packages/getPublicPackages/2
+[18-Apr-2026 04:41:04 Europe/Berlin] Router received URL: packages/getPublicPackages/2
+[18-Apr-2026 04:41:04 Europe/Berlin] Router received URL: branch/2
+[18-Apr-2026 04:41:04 Europe/Berlin] Router received URL: branch/2/reviews
+[18-Apr-2026 04:41:04 Europe/Berlin] PHP Warning:  Undefined variable $photoResult in C:\xampp\htdocs\HFABS\backend\app\models\Branch.php on line 204
+[18-Apr-2026 04:41:04 Europe/Berlin] Router received URL: branch/2/services
+[18-Apr-2026 04:41:05 Europe/Berlin] Router received URL: branch/2
+[18-Apr-2026 04:41:05 Europe/Berlin] Router received URL: branch/2/services
+[18-Apr-2026 04:41:05 Europe/Berlin] Router received URL: packages/getPublicPackages/2
+[18-Apr-2026 04:41:05 Europe/Berlin] Router received URL: branch/2/reviews
+[18-Apr-2026 04:41:05 Europe/Berlin] PHP Warning:  Undefined variable $photoResult in C:\xampp\htdocs\HFABS\backend\app\models\Branch.php on line 204
+[18-Apr-2026 04:41:06 Europe/Berlin] Router received URL: branch/2
+[18-Apr-2026 04:41:06 Europe/Berlin] Router received URL: branch/2/services
+[18-Apr-2026 04:41:06 Europe/Berlin] Router received URL: packages/getPublicPackages/2
+[18-Apr-2026 04:41:06 Europe/Berlin] Router received URL: branch/2/reviews
+[18-Apr-2026 04:41:06 Europe/Berlin] PHP Warning:  Undefined variable $photoResult in C:\xampp\htdocs\HFABS\backend\app\models\Branch.php on line 204
+[18-Apr-2026 04:41:07 Europe/Berlin] Router received URL: branch/2
+[18-Apr-2026 04:41:07 Europe/Berlin] Router received URL: branch/2/services
+[18-Apr-2026 04:41:07 Europe/Berlin] Router received URL: packages/getPublicPackages/2
+[18-Apr-2026 04:41:07 Europe/Berlin] Router received URL: branch/2/reviews
+[18-Apr-2026 04:41:07 Europe/Berlin] PHP Warning:  Undefined variable $photoResult in C:\xampp\htdocs\HFABS\backend\app\models\Branch.php on line 204
+[18-Apr-2026 04:43:05 Europe/Berlin] Router received URL: branch/2
+[18-Apr-2026 04:43:05 Europe/Berlin] Router received URL: branch/2/services
+[18-Apr-2026 04:43:05 Europe/Berlin] Router received URL: branch/2/reviews
+[18-Apr-2026 04:43:05 Europe/Berlin] PHP Warning:  Undefined variable $photoResult in C:\xampp\htdocs\HFABS\backend\app\models\Branch.php on line 204
+[18-Apr-2026 04:43:05 Europe/Berlin] Router received URL: packages/getPublicPackages/2
+[18-Apr-2026 04:43:08 Europe/Berlin] Router received URL: branch/index
+[18-Apr-2026 04:43:08 Europe/Berlin] Router received URL: branch
+[18-Apr-2026 04:43:09 Europe/Berlin] Router received URL: branch/1
+[18-Apr-2026 04:43:09 Europe/Berlin] Router received URL: branch/1/services
+[18-Apr-2026 04:43:09 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[18-Apr-2026 04:43:09 Europe/Berlin] Router received URL: branch/1/reviews
+[18-Apr-2026 04:43:10 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_13_69d9e725a357f.png
+[18-Apr-2026 04:43:10 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_11_69c7900c94206.png
+[18-Apr-2026 04:43:12 Europe/Berlin] Router received URL: branch/1
+[18-Apr-2026 04:43:12 Europe/Berlin] Router received URL: packages/getPublicPackages/1
+[18-Apr-2026 04:43:12 Europe/Berlin] Router received URL: branch/1/services
+[18-Apr-2026 04:43:12 Europe/Berlin] Router received URL: branch/1/reviews
+[18-Apr-2026 04:43:56 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_11_69c7900c94206.png
+[18-Apr-2026 04:43:56 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_13_69d9e725a357f.png
+[18-Apr-2026 04:43:57 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_10_69c78f9071a1e.png
+[18-Apr-2026 04:43:57 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_9_69c78eecad219.png
+[18-Apr-2026 04:43:57 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_8_69c77f5c1a2b8.png
+[18-Apr-2026 04:43:57 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_7_69c77e8555ab0.png
+[18-Apr-2026 04:43:57 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_7_69c77e8557456.png
+[18-Apr-2026 04:43:57 Europe/Berlin] Router received URL: public/uploads/feedback/feedback_7_69c77e85548c9.png

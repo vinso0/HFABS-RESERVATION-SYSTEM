@@ -124,23 +124,43 @@ async function loadBranchServices() {
 }
 
 function renderServices(cat) {
-  const grid = document.getElementById('branchServicesGrid');
-  const list = cat === 'all' ? allServices : allServices.filter(s => s.category === cat);
+  const list   = cat === 'all'
+      ? allServices
+      : allServices.filter(s => String(s.category_id) === String(cat));
+  const grid   = document.getElementById('branchServicesGrid');
+  const unavailable = list.filter(s => !parseInt(s.is_available));
+  const available   = list.filter(s =>  parseInt(s.is_available));
+  const sorted = [...available, ...unavailable];
 
-  grid.innerHTML = list.map(s => `
-    <div class="service-item ${s.isavailable == 0 ? 'unavailable' : ''}">
-      <div class="service-item-header">
-        <span class="service-item-name">${s.servicename}</span>
-        <span class="service-item-price">₱${parseFloat(s.price).toLocaleString('en-PH', { minimumFractionDigits: 2 })}</span>
-      </div>
-      <p class="service-item-desc">${s.description || 'No description available.'}</p>
-      <div class="service-item-footer">
-        <span class="service-item-cat"><i class="fas fa-tag"></i> ${s.category}</span>
-        <span class="service-item-duration"><i class="fas fa-hourglass-half"></i> ${s.duration}</span>
-        ${s.isavailable == 0 ? '<span class="service-unavailable-badge">Unavailable</span>' : ''}
-      </div>
-    </div>
-  `).join('');
+  if (!sorted.length) {
+      grid.innerHTML = '<p style="color:#aaa;padding:1rem;">No services in this category.</p>';
+      return;
+  }
+
+  grid.innerHTML = sorted.map(s => {
+      const isUnavailable = !parseInt(s.is_available);
+      const imageHtml = s.image_url
+        ? `<img class="service-card-img" src="${s.image_url}" alt="${s.display_name || s.servicename}" loading="lazy"
+              onerror="this.outerHTML='<div class=\\'service-card-img-placeholder\\'><i class=\\'fas fa-spa\\'></i></div>'">`
+        : `<div class="service-card-img-placeholder"><i class="fas fa-spa"></i></div>`;
+
+      return `
+          <div class="branch-service-card ${isUnavailable ? 'unavailable' : ''}">
+              ${imageHtml}
+              <div class="branch-service-card-body">
+                  <div class="service-card-top">
+                      <h4 class="branch-service-name">${s.display_name}</h4>
+                      ${isUnavailable ? '<span class="badge-unavailable">Unavailable</span>' : ''}
+                  </div>
+                  ${s.description ? `<p class="branch-service-desc">${s.description}</p>` : ''}
+                  <div class="branch-service-meta">
+                      <span class="branch-service-price">₱${parseFloat(s.price).toLocaleString('en-PH', {minimumFractionDigits: 2})}</span>
+                      <span class="branch-service-duration"><i class="fas fa-clock"></i> ${s.duration} min</span>
+                  </div>
+              </div>
+          </div>
+      `;
+  }).join('');
 }
 
 // ── Load Packages ─────────────────────────────────────
