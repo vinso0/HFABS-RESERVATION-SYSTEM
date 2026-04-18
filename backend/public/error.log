@@ -45007,3 +45007,173 @@ Stack trace:
 [18-Apr-2026 07:02:09 Europe/Berlin] Router received URL: superadmin/branches
 [18-Apr-2026 07:02:09 Europe/Berlin] Router received URL: superadmin/services
 [18-Apr-2026 07:02:09 Europe/Berlin] Router received URL: superadmin/services/deactivated
+[18-Apr-2026 07:09:08 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 07:09:08 Europe/Berlin] Router received URL: superadmin/services
+[18-Apr-2026 07:09:08 Europe/Berlin] Router received URL: superadmin/services/deactivated
+[18-Apr-2026 07:09:20 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 07:09:21 Europe/Berlin] Router received URL: about/getAbout
+[18-Apr-2026 07:09:21 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.about_content' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\About.php:13
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\About.php(13): mysqli->query('SELECT * FROM a...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\AboutController.php(10): About->getAbout()
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): AboutController->getAbout()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\About.php on line 13
+[18-Apr-2026 07:09:21 Europe/Berlin] Router received URL: about/getAllPolicies
+[18-Apr-2026 07:09:21 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.policies' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\About.php:35
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\About.php(35): mysqli->query('SELECT * FROM p...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\AboutController.php(34): About->getAllPolicies()
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): AboutController->getAllPolicies()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\About.php on line 35
+[18-Apr-2026 07:09:21 Europe/Berlin] Router received URL: superadmin/categories
+[18-Apr-2026 07:09:22 Europe/Berlin] Router received URL: about/getAllPolicies
+[18-Apr-2026 07:09:22 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.policies' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\About.php:35
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\About.php(35): mysqli->query('SELECT * FROM p...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\AboutController.php(34): About->getAllPolicies()
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): AboutController->getAllPolicies()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\About.php on line 35
+[18-Apr-2026 07:09:22 Europe/Berlin] Router received URL: about/getAbout
+[18-Apr-2026 07:09:22 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.about_content' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\About.php:13
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\About.php(13): mysqli->query('SELECT * FROM a...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\AboutController.php(10): About->getAbout()
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): AboutController->getAbout()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\About.php on line 13
+[18-Apr-2026 07:09:22 Europe/Berlin] Router received URL: superadmin/categories
+[18-Apr-2026 07:09:23 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 07:09:23 Europe/Berlin] Router received URL: superadmin/services/deactivated
+[18-Apr-2026 07:09:23 Europe/Berlin] Router received URL: superadmin/services
+[18-Apr-2026 07:09:23 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 07:09:23 Europe/Berlin] Router received URL: superadmin/services
+[18-Apr-2026 07:09:24 Europe/Berlin] Router received URL: superadmin/services/deactivated
+[18-Apr-2026 07:09:24 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 07:09:24 Europe/Berlin] Router received URL: superadmin/admins
+[18-Apr-2026 07:09:24 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 07:09:24 Europe/Berlin] Router received URL: superadmin/admins
+[18-Apr-2026 07:09:24 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 07:09:25 Europe/Berlin] Router received URL: superadmin/dashboardStats
+[18-Apr-2026 07:09:25 Europe/Berlin] Router received URL: superadmin/recentAdmins
+[18-Apr-2026 07:09:25 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 07:09:25 Europe/Berlin] Router received URL: about/getAbout
+[18-Apr-2026 07:09:25 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.about_content' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\About.php:13
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\About.php(13): mysqli->query('SELECT * FROM a...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\AboutController.php(10): About->getAbout()
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): AboutController->getAbout()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\About.php on line 13
+[18-Apr-2026 07:09:25 Europe/Berlin] Router received URL: about/getAllPolicies
+[18-Apr-2026 07:09:25 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.policies' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\About.php:35
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\About.php(35): mysqli->query('SELECT * FROM p...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\AboutController.php(34): About->getAllPolicies()
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): AboutController->getAllPolicies()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\About.php on line 35
+[18-Apr-2026 07:09:26 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 07:09:26 Europe/Berlin] Router received URL: superadmin/services
+[18-Apr-2026 07:09:26 Europe/Berlin] Router received URL: superadmin/services/deactivated
+[18-Apr-2026 07:09:26 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 07:09:26 Europe/Berlin] Router received URL: superadmin/admins
+[18-Apr-2026 07:09:27 Europe/Berlin] Router received URL: superadmin/recentAdmins
+[18-Apr-2026 07:09:27 Europe/Berlin] Router received URL: superadmin/dashboardStats
+[18-Apr-2026 07:09:27 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 07:09:27 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 07:09:27 Europe/Berlin] Router received URL: superadmin/admins
+[18-Apr-2026 07:09:28 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 07:09:28 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 07:09:28 Europe/Berlin] Router received URL: superadmin/services
+[18-Apr-2026 07:09:28 Europe/Berlin] Router received URL: superadmin/services/deactivated
+[18-Apr-2026 07:09:28 Europe/Berlin] Router received URL: superadmin/categories
+[18-Apr-2026 07:09:29 Europe/Berlin] Router received URL: about/getAbout
+[18-Apr-2026 07:09:29 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.about_content' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\About.php:13
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\About.php(13): mysqli->query('SELECT * FROM a...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\AboutController.php(10): About->getAbout()
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): AboutController->getAbout()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\About.php on line 13
+[18-Apr-2026 07:09:29 Europe/Berlin] Router received URL: about/getAllPolicies
+[18-Apr-2026 07:09:29 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.policies' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\About.php:35
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\About.php(35): mysqli->query('SELECT * FROM p...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\AboutController.php(34): About->getAllPolicies()
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): AboutController->getAllPolicies()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\About.php on line 35
+[18-Apr-2026 07:09:34 Europe/Berlin] Router received URL: about/getAllPolicies
+[18-Apr-2026 07:09:34 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.policies' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\About.php:35
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\About.php(35): mysqli->query('SELECT * FROM p...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\AboutController.php(34): About->getAllPolicies()
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): AboutController->getAllPolicies()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\About.php on line 35
+[18-Apr-2026 07:09:34 Europe/Berlin] Router received URL: about/getAbout
+[18-Apr-2026 07:09:34 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.about_content' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\About.php:13
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\About.php(13): mysqli->query('SELECT * FROM a...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\AboutController.php(10): About->getAbout()
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): AboutController->getAbout()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\About.php on line 13
+[18-Apr-2026 07:09:34 Europe/Berlin] Router received URL: superadmin/categories
+[18-Apr-2026 07:09:35 Europe/Berlin] Router received URL: superadmin/services
+[18-Apr-2026 07:09:35 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 07:09:35 Europe/Berlin] Router received URL: superadmin/services/deactivated
+[18-Apr-2026 07:09:35 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 07:09:36 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 07:09:36 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 07:09:36 Europe/Berlin] Router received URL: superadmin/admins
+[18-Apr-2026 07:09:37 Europe/Berlin] Router received URL: superadmin/recentAdmins
+[18-Apr-2026 07:09:37 Europe/Berlin] Router received URL: superadmin/dashboardStats
+[18-Apr-2026 07:09:37 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 07:09:37 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 07:09:37 Europe/Berlin] Router received URL: superadmin/admins
+[18-Apr-2026 07:09:37 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 07:09:38 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 07:09:38 Europe/Berlin] Router received URL: superadmin/services
+[18-Apr-2026 07:09:38 Europe/Berlin] Router received URL: superadmin/services/deactivated
+[18-Apr-2026 07:09:38 Europe/Berlin] Router received URL: superadmin/categories
+[18-Apr-2026 07:09:38 Europe/Berlin] Router received URL: about/getAllPolicies
+[18-Apr-2026 07:09:38 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.policies' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\About.php:35
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\About.php(35): mysqli->query('SELECT * FROM p...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\AboutController.php(34): About->getAllPolicies()
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): AboutController->getAllPolicies()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\About.php on line 35
+[18-Apr-2026 07:09:38 Europe/Berlin] Router received URL: about/getAbout
+[18-Apr-2026 07:09:38 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'hfabs.about_content' doesn't exist in C:\xampp\htdocs\HFABS\backend\app\models\About.php:13
+Stack trace:
+#0 C:\xampp\htdocs\HFABS\backend\app\models\About.php(13): mysqli->query('SELECT * FROM a...')
+#1 C:\xampp\htdocs\HFABS\backend\app\controllers\AboutController.php(10): About->getAbout()
+#2 C:\xampp\htdocs\HFABS\backend\app\core\Router.php(32): AboutController->getAbout()
+#3 C:\xampp\htdocs\HFABS\backend\public\index.php(13): Router->run()
+#4 {main}
+  thrown in C:\xampp\htdocs\HFABS\backend\app\models\About.php on line 13
+[18-Apr-2026 07:09:39 Europe/Berlin] Router received URL: superadmin/categories
+[18-Apr-2026 07:09:39 Europe/Berlin] Router received URL: superadmin/branches
+[18-Apr-2026 07:09:39 Europe/Berlin] Router received URL: superadmin/services
+[18-Apr-2026 07:09:39 Europe/Berlin] Router received URL: superadmin/services/deactivated
+[18-Apr-2026 07:23:40 Europe/Berlin] Router received URL: branch/index
+[18-Apr-2026 07:23:40 Europe/Berlin] Router received URL: branch
+[18-Apr-2026 07:23:41 Europe/Berlin] Router received URL: branch/index
+[18-Apr-2026 07:23:41 Europe/Berlin] Router received URL: branch
+[18-Apr-2026 07:23:42 Europe/Berlin] Router received URL: auth/logout

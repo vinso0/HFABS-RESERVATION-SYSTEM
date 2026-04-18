@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 18, 2026 at 05:51 AM
+-- Generation Time: Apr 18, 2026 at 07:12 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -236,7 +236,6 @@ INSERT INTO `branch_service_overrides` (`branch_service_override_id`, `branch_id
 (7, 1, 8, NULL, NULL, NULL, NULL, NULL, 0, '2026-02-07 06:27:40', '2026-02-07 06:30:21'),
 (8, 2, 8, NULL, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
 (9, 1, 9, NULL, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
-(10, 2, 9, NULL, NULL, NULL, NULL, NULL, 0, '2026-02-07 06:27:40', '2026-02-07 06:30:39'),
 (11, 1, 10, 'Hot Stone Therapy', 'Therapeutic hot stone massage', NULL, 60, 2000.00, 1, '2026-02-07 06:27:40', '2026-03-07 10:17:47'),
 (12, 2, 10, NULL, NULL, NULL, NULL, NULL, 0, '2026-02-07 06:27:40', '2026-02-07 06:30:39'),
 (13, 1, 11, NULL, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
@@ -296,6 +295,25 @@ CREATE TABLE `category_date_capacity` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `customer_wishlists`
+--
+
+CREATE TABLE `customer_wishlists` (
+  `wishlist_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `branch_id` int(11) NOT NULL,
+  `wishlist_type` enum('service','package') NOT NULL,
+  `default_service_id` int(11) DEFAULT NULL,
+  `branch_service_override_id` int(11) DEFAULT NULL,
+  `package_id` int(11) DEFAULT NULL,
+  `reason_code` varchar(50) DEFAULT NULL,
+  `note` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `default_services`
 --
 
@@ -323,11 +341,12 @@ INSERT INTO `default_services` (`service_id`, `category_id`, `service_name`, `de
 (6, 4, 'Anti-Aging Facial', 'Rejuvenating facial treatment', NULL, 60, 2000.00, 1),
 (7, 1, 'Keratin Treatment', 'Smoothing keratin therapy', NULL, 90, 4500.00, 1),
 (8, 1, 'Hair Botox', 'Deep repair treatment', NULL, 120, 3800.00, 1),
-(9, 2, 'Swedish Massage', 'Relaxing full body massage', NULL, 60, 1500.00, 1),
+(9, 2, 'Swedish Massage', 'Relaxing full body massage', 'uploads/services/service_69e30cdc29e0e3.77883582.jpg', 60, 1500.00, 1),
 (10, 2, 'Hot Stone Therapy', 'Therapeutic hot stone massage', NULL, 60, 2000.00, 1),
 (11, 2, 'Aromatherapy Massage', 'Essential oil massage therapy', NULL, 60, 1600.00, 1),
 (17, 1, 'Hair Treatment', 'lorem ipsum', NULL, 60, 150.00, 1),
-(21, 1, 'test change name', 'test change desc', NULL, 60, 50.00, 1);
+(21, 1, 'test change name', 'test change desc', NULL, 60, 50.00, 1),
+(22, 1, 'Testing', 'Testing', NULL, 30, 100.00, 0);
 
 -- --------------------------------------------------------
 
@@ -1043,23 +1062,6 @@ INSERT INTO `reservation_services` (`reservation_service_id`, `reservation_id`, 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `service_wishlists`
---
-
-CREATE TABLE `service_wishlists` (
-  `wishlist_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `branch_id` int(11) NOT NULL,
-  `default_service_id` int(11) NOT NULL,
-  `branch_service_override_id` int(11) DEFAULT NULL,
-  `reason_code` varchar(50) DEFAULT NULL,
-  `note` text DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `users`
 --
 
@@ -1373,6 +1375,18 @@ ALTER TABLE `category_date_capacity`
   ADD KEY `fk_cdc_branch_cat` (`branch_category_override_id`);
 
 --
+-- Indexes for table `customer_wishlists`
+--
+ALTER TABLE `customer_wishlists`
+  ADD PRIMARY KEY (`wishlist_id`),
+  ADD KEY `idx_wl_user` (`user_id`),
+  ADD KEY `idx_wl_branch` (`branch_id`),
+  ADD KEY `idx_wl_service` (`default_service_id`),
+  ADD KEY `idx_wl_bso` (`branch_service_override_id`),
+  ADD KEY `idx_wl_package` (`package_id`),
+  ADD KEY `idx_wl_branch_type` (`branch_id`,`wishlist_type`);
+
+--
 -- Indexes for table `default_services`
 --
 ALTER TABLE `default_services`
@@ -1463,16 +1477,6 @@ ALTER TABLE `reservation_services`
   ADD KEY `fk_rs_package` (`booked_package_id`);
 
 --
--- Indexes for table `service_wishlists`
---
-ALTER TABLE `service_wishlists`
-  ADD PRIMARY KEY (`wishlist_id`),
-  ADD UNIQUE KEY `uq_user_branch_service` (`user_id`,`branch_id`,`default_service_id`),
-  ADD KEY `idx_branch_service` (`branch_id`,`default_service_id`),
-  ADD KEY `idx_branch_override` (`branch_service_override_id`),
-  ADD KEY `fk_sw_default_service` (`default_service_id`);
-
---
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -1530,7 +1534,7 @@ ALTER TABLE `branch_package_services`
 -- AUTO_INCREMENT for table `branch_service_overrides`
 --
 ALTER TABLE `branch_service_overrides`
-  MODIFY `branch_service_override_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
+  MODIFY `branch_service_override_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
 
 --
 -- AUTO_INCREMENT for table `branch_social_media`
@@ -1545,10 +1549,16 @@ ALTER TABLE `category_date_capacity`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `customer_wishlists`
+--
+ALTER TABLE `customer_wishlists`
+  MODIFY `wishlist_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `default_services`
 --
 ALTER TABLE `default_services`
-  MODIFY `service_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `service_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `default_services_categories`
@@ -1609,12 +1619,6 @@ ALTER TABLE `reservation_schedule`
 --
 ALTER TABLE `reservation_services`
   MODIFY `reservation_service_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
-
---
--- AUTO_INCREMENT for table `service_wishlists`
---
-ALTER TABLE `service_wishlists`
-  MODIFY `wishlist_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -1686,6 +1690,16 @@ ALTER TABLE `category_date_capacity`
   ADD CONSTRAINT `fk_cdc_branch_cat` FOREIGN KEY (`branch_category_override_id`) REFERENCES `branch_category_overrides` (`branch_category_override_id`) ON DELETE CASCADE;
 
 --
+-- Constraints for table `customer_wishlists`
+--
+ALTER TABLE `customer_wishlists`
+  ADD CONSTRAINT `fk_wl_branch` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`branch_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_wl_branch_service_override` FOREIGN KEY (`branch_service_override_id`) REFERENCES `branch_service_overrides` (`branch_service_override_id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_wl_default_service` FOREIGN KEY (`default_service_id`) REFERENCES `default_services` (`service_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_wl_package` FOREIGN KEY (`package_id`) REFERENCES `branch_packages` (`package_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_wl_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `default_services`
 --
 ALTER TABLE `default_services`
@@ -1746,15 +1760,6 @@ ALTER TABLE `reservation_services`
   ADD CONSTRAINT `fk_rs_default_service` FOREIGN KEY (`default_service_id`) REFERENCES `default_services` (`service_id`),
   ADD CONSTRAINT `fk_rs_package` FOREIGN KEY (`booked_package_id`) REFERENCES `branch_packages` (`package_id`),
   ADD CONSTRAINT `service_reservation` FOREIGN KEY (`reservation_id`) REFERENCES `reservations` (`reservation_id`);
-
---
--- Constraints for table `service_wishlists`
---
-ALTER TABLE `service_wishlists`
-  ADD CONSTRAINT `fk_sw_branch` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`branch_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_sw_branch_service_override` FOREIGN KEY (`branch_service_override_id`) REFERENCES `branch_service_overrides` (`branch_service_override_id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_sw_default_service` FOREIGN KEY (`default_service_id`) REFERENCES `default_services` (`service_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_sw_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `users`

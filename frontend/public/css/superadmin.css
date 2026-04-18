@@ -662,6 +662,7 @@ select.form-control:hover {
     z-index: 1000;
     align-items: center;
     justify-content: center;
+    padding: 16px;              /* breathing room from screen edges on small screens */
 }
 
 .modal-overlay.open {
@@ -673,17 +674,28 @@ select.form-control:hover {
     border-radius: 12px;
     width: 100%;
     max-width: 500px;
-    max-height: 90vh;
+    max-height: 90vh;           /* cap at 90% viewport height */
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;     /* stack header → form → (footer inside form) */
     box-shadow: 0 16px 50px rgba(0,0,0,0.15);
     animation: modalIn 0.22s ease;
     position: relative;
+    overflow: hidden;           /* clip children to the rounded corners */
 }
 
 @keyframes modalIn {
     from { opacity: 0; transform: scale(0.96) translateY(6px); }
     to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* The <form> wraps .modal-body + .modal-footer, so it must
+   also be a flex column and fill the remaining space */
+.modal > form {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;              /* critical: lets the flex child shrink below its content size */
+    overflow: hidden;
 }
 
 .modal-header {
@@ -692,14 +704,7 @@ select.form-control:hover {
     justify-content: space-between;
     padding: 22px 26px 14px 26px;
     border-bottom: 1px solid #f0f0f0;
-    flex-shrink: 0; 
-}
-
-.modal-body {
-    overflow-y: auto;           /* ← scrolls when content is taller than the modal */
-    overflow-x: hidden;
-    padding: 20px 26px;         /* ← side padding consistent with header */
-    flex: 1;                    /* ← takes all remaining space between header and footer */
+    flex-shrink: 0;             /* header never compresses */
 }
 
 .modal-title {
@@ -728,13 +733,21 @@ select.form-control:hover {
     color: #d91a7e;
 }
 
+.modal-body {
+    flex: 1;                    /* fills all space between header and footer */
+    min-height: 0;              /* critical: allows shrinking so overflow-y works */
+    overflow-y: auto;           /* only the body scrolls */
+    overflow-x: hidden;
+    padding: 20px 26px;
+}
+
 .modal-footer {
     display: flex;
     justify-content: flex-end;
     gap: 10px;
     padding: 14px 26px 22px 26px;
     border-top: 1px solid #f0f0f0;
-    flex-shrink: 0;
+    flex-shrink: 0;             /* footer never compresses */
 }
 
 /* ─────────────────────────────
