@@ -386,10 +386,7 @@ class Feedback extends Database
             JOIN reservation_services rs
                 ON f.reservation_service_id = rs.reservation_service_id
             JOIN branch_service_overrides bso
-                ON rs.booked_service_name IN (
-                    COALESCE(bso.display_name, ds.service_name)
-                )
-            JOIN default_services ds ON bso.default_service_id = ds.service_id
+                ON rs.branch_service_override_id = bso.branch_service_override_id
             WHERE f.branch_id = ?
             AND bso.branch_id = ?
             AND f.is_blocked = 0
