@@ -246,6 +246,24 @@
   background: #fdf8fb;
 }
 
+.wishlist-table-scroll-container {
+  overflow-y: auto;
+  height: 250px;
+}
+
+.wishlist-table thead {
+  position: sticky;
+  top: 0;
+  background: #fdf1f8;
+  z-index: 1;
+}
+
+@media (max-width: 768px) {
+  .wishlist-table-scroll-container {
+    height: 200px; /* Adjusted for mobile */
+  }
+}
+
 .wl-count-badge {
   display: inline-flex;
   align-items: center;

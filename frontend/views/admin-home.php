@@ -103,6 +103,90 @@ $greeting = $hour < 12 ? 'Morning' : ($hour < 18 ? 'Afternoon' : 'Evening');
                     </div>
                 </div>
 
+                <!-- ── Wishlist Analytics Panel ─────────────────────────────── -->
+                <div class="wishlist-analytics-section" id="wishlistAnalyticsSection">
+
+                    <div class="wishlist-analytics-header">
+                        <i class="fas fa-heart"></i>
+                        <h3>Wishlist Analytics</h3>
+                    </div>
+
+                    <!-- KPI Row -->
+                    <div class="wishlist-kpi-row">
+                        <div class="wishlist-kpi-card">
+                        <div class="wishlist-kpi-icon">
+                            <i class="fas fa-spa"></i>
+                        </div>
+                        <div class="wishlist-kpi-info">
+                            <div class="kpi-value" id="wlServiceTotal">—</div>
+                            <div class="kpi-label">Wishlisted Services</div>
+                        </div>
+                        </div>
+                        <div class="wishlist-kpi-card">
+                        <div class="wishlist-kpi-icon">
+                            <i class="fas fa-box-open"></i>
+                        </div>
+                        <div class="wishlist-kpi-info">
+                            <div class="kpi-value" id="wlPackageTotal">—</div>
+                            <div class="kpi-label">Wishlisted Packages</div>
+                        </div>
+                        </div>
+                    </div>
+
+                    <!-- Tables -->
+                    <div class="wishlist-tables-row">
+
+                        <!-- Services Table -->
+                        <div class="wishlist-table-card">
+                        <div class="wishlist-table-card-header">
+                            <i class="fas fa-spa"></i>
+                            Most Wishlisted Services
+                        </div>
+                        <div class="wishlist-table-scroll-container">
+                            <table class="wishlist-table">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Service Name</th>
+                                    <th>Wishlist Count</th>
+                                </tr>
+                                </thead>
+                                <tbody id="wlServicesTableBody">
+                                <tr class="wl-empty-row">
+                                    <td colspan="3">Loading...</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        </div>
+
+                        <!-- Packages Table -->
+                        <div class="wishlist-table-card">
+                        <div class="wishlist-table-card-header">
+                            <i class="fas fa-box-open"></i>
+                            Most Wishlisted Packages
+                        </div>
+                        <div class="wishlist-table-scroll-container">
+                            <table class="wishlist-table">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Package Name</th>
+                                    <th>Wishlist Count</th>
+                                </tr>
+                                </thead>
+                                <tbody id="wlPackagesTableBody">
+                                <tr class="wl-empty-row">
+                                    <td colspan="3">Loading...</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        </div>
+
+                    </div>
+                </div>
+
                 <!-- Quick Actions -->
                 <div class="quick-actions">
                     <a href="admin-todays-reservations.php" class="qa-card">
@@ -125,86 +209,6 @@ $greeting = $hour < 12 ? 'Morning' : ($hour < 18 ? 'Afternoon' : 'Evening');
                         <i class="fas fa-star"></i><span>Feedback</span>
                     </a>
                     <?php endif; ?>
-                </div>
-
-                <!-- ── Wishlist Analytics Panel ─────────────────────────────── -->
-                <div class="wishlist-analytics-section" id="wishlistAnalyticsSection">
-
-                <div class="wishlist-analytics-header">
-                    <i class="fas fa-heart"></i>
-                    <h3>Wishlist Analytics</h3>
-                </div>
-
-                <!-- KPI Row -->
-                <div class="wishlist-kpi-row">
-                    <div class="wishlist-kpi-card">
-                    <div class="wishlist-kpi-icon">
-                        <i class="fas fa-spa"></i>
-                    </div>
-                    <div class="wishlist-kpi-info">
-                        <div class="kpi-value" id="wlServiceTotal">—</div>
-                        <div class="kpi-label">Wishlisted Services</div>
-                    </div>
-                    </div>
-                    <div class="wishlist-kpi-card">
-                    <div class="wishlist-kpi-icon">
-                        <i class="fas fa-box-open"></i>
-                    </div>
-                    <div class="wishlist-kpi-info">
-                        <div class="kpi-value" id="wlPackageTotal">—</div>
-                        <div class="kpi-label">Wishlisted Packages</div>
-                    </div>
-                    </div>
-                </div>
-
-                <!-- Tables -->
-                <div class="wishlist-tables-row">
-
-                    <!-- Services Table -->
-                    <div class="wishlist-table-card">
-                    <div class="wishlist-table-card-header">
-                        <i class="fas fa-spa"></i>
-                        Most Wishlisted Services
-                    </div>
-                    <table class="wishlist-table">
-                        <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Service Name</th>
-                            <th>Wishlist Count</th>
-                        </tr>
-                        </thead>
-                        <tbody id="wlServicesTableBody">
-                        <tr class="wl-empty-row">
-                            <td colspan="3">Loading...</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    </div>
-
-                    <!-- Packages Table -->
-                    <div class="wishlist-table-card">
-                    <div class="wishlist-table-card-header">
-                        <i class="fas fa-box-open"></i>
-                        Most Wishlisted Packages
-                    </div>
-                    <table class="wishlist-table">
-                        <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Package Name</th>
-                            <th>Wishlist Count</th>
-                        </tr>
-                        </thead>
-                        <tbody id="wlPackagesTableBody">
-                        <tr class="wl-empty-row">
-                            <td colspan="3">Loading...</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    </div>
-
-                </div>
                 </div>
 
                 <script>

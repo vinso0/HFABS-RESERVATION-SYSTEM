@@ -899,6 +899,305 @@
 .no-review i { font-size: 2.8rem; margin-bottom: 0.75rem; color: var(--border-light); display: block; }
 .no-review p { font-family: var(--font-main); font-size: 0.95rem; }
 
+/* ══════════════════════════════════════════════
+   DASHBOARD TABS
+   ══════════════════════════════════════════════ */
+
+.dashboard-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.75rem;
+  border-bottom: 2px solid #f0e0ea;
+  padding-bottom: 0;
+}
+
+.dash-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.65rem 1.25rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #888;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  cursor: pointer;
+  border-radius: 0;
+  transition: color 0.18s, border-color 0.18s;
+  position: relative;
+}
+
+.dash-tab:hover {
+  color: #d91a7e;
+}
+
+.dash-tab.active {
+  color: #d91a7e;
+  border-bottom-color: #d91a7e;
+}
+
+.wl-tab-badge {
+  background: #d91a7e;
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 1px 6px;
+  min-width: 18px;
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* Tab panels */
+.dash-panel {
+  display: none;
+}
+.dash-panel.active {
+  display: block;
+}
+
+/* ══════════════════════════════════════════════
+   MY WISHLIST TAB
+   ══════════════════════════════════════════════ */
+
+.wl-filter-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.wl-filter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 1rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #888;
+  background: #fff;
+  border: 1.5px solid #e8d0e0;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+
+.wl-filter-btn:hover {
+  border-color: #d91a7e;
+  color: #d91a7e;
+}
+
+.wl-filter-btn.active {
+  background: #d91a7e;
+  border-color: #d91a7e;
+  color: #fff;
+}
+
+/* Wishlist grid */
+.wl-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
+  gap: 1.25rem;
+}
+
+/* Wishlist card */
+.wl-card {
+  background: #fff;
+  border-radius: 14px;
+  border: 1px solid #f0e0ea;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(217, 26, 126, 0.07);
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.wl-card:hover {
+  box-shadow: 0 6px 20px rgba(217, 26, 126, 0.14);
+  transform: translateY(-2px);
+}
+
+.wl-card-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 3px 9px;
+  border-radius: 999px;
+}
+
+.wl-card-badge.service {
+  background: #fce4f0;
+  color: #c0156e;
+}
+
+.wl-card-badge.package {
+  background: #e8f4ff;
+  color: #1565c0;
+}
+
+.wl-card-body {
+  padding: 1rem 1.1rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.wl-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.wl-card-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  line-height: 1.3;
+  margin: 0;
+}
+
+.wl-card-branch {
+  font-size: 0.78rem;
+  color: #999;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.wl-card-branch i {
+  color: #d91a7e;
+  font-size: 0.72rem;
+}
+
+.wl-card-date {
+  font-size: 0.73rem;
+  color: #bbb;
+  margin-top: auto;
+  padding-top: 0.5rem;
+}
+
+/* Card footer: actions */
+.wl-card-footer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.1rem;
+  border-top: 1px solid #faf0f6;
+  background: #fdfafa;
+}
+
+.wl-book-btn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.85rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  background: linear-gradient(135deg, #d91a7e, #e85fa6);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.18s, transform 0.18s;
+}
+
+.wl-book-btn:hover {
+  opacity: 0.88;
+  transform: translateY(-1px);
+}
+
+.wl-remove-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  border: 1.5px solid #f0e0ea;
+  background: #fff;
+  color: #d91a7e;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.18s, border-color 0.18s;
+}
+
+.wl-remove-btn:hover {
+  background: #fff0f8;
+  border-color: #d91a7e;
+}
+
+/* Empty state */
+.wl-empty {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 1rem;
+  text-align: center;
+  color: #bbb;
+}
+
+.wl-empty i {
+  font-size: 3rem;
+  color: #f0c0d8;
+  margin-bottom: 1rem;
+}
+
+.wl-empty h3 {
+  color: #ccc;
+  font-size: 1.05rem;
+  margin-bottom: 0.5rem;
+}
+
+.wl-empty p {
+  font-size: 0.85rem;
+  max-width: 26ch;
+}
+
+.wl-empty a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 1.25rem;
+  padding: 0.55rem 1.25rem;
+  background: #d91a7e;
+  color: #fff;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: opacity 0.18s;
+}
+
+.wl-empty a:hover {
+  opacity: 0.85;
+}
+
+/* Loading */
+.wl-loading {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3rem;
+  color: #bbb;
+  gap: 0.75rem;
+}
+
 /* ================================================
    RESPONSIVE
    ================================================ */

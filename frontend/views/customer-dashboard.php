@@ -19,6 +19,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'customer') {
   <link rel="stylesheet" href="../public/css/customer-dashboard.css" />
   <link rel="stylesheet" href="../public/css/pagination.css" />
   <link rel="stylesheet" href="../public/css/toast.css" />
+  <link rel="stylesheet" href="../public/css/wishlist.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
@@ -38,40 +39,83 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'customer') {
   <div id="navbar-container"></div>
 
   <main class="dashboard-main">
-    <section class="reservations-section">
-      <div class="container">
-        <h1 class="page-title">My Reservations</h1>
-        <p class="page-subtitle">View your reservation history and upcoming appointments</p>
+    <div class="container">
 
-        <div class="filter-section">
-          <div class="filter-dropdown">
-            <i class="fas fa-filter"></i>
-            <select id="filterStatus">
-              <option value="all">All Reservations</option>
-              <option value="confirmed">Confirmed</option>
-              <option value="completed">Completed</option>
-              <option value="cancelled">Cancelled</option>
-              <option value="rescheduled">Rescheduled</option>
-            </select>
-          </div>
-        </div>
+      <!-- ── Page Header ── -->
+      <h1 class="page-title">My Dashboard</h1>
+      <p class="page-subtitle">Manage your reservations and saved items</p>
 
-        <div class="reservations-container">
-          <div id="reservationsList" class="reservations-list">
-            <!-- Loading state -->
-            <div class="loading-container">
-              <div class="loading-spinner"></div>
-              <p>Loading reservations...</p>
+      <!-- ── Tab Nav ── -->
+      <div class="dashboard-tabs">
+        <button class="dash-tab active" data-tab="reservations">
+          <i class="fas fa-calendar-check"></i> My Reservations
+        </button>
+        <button class="dash-tab" data-tab="wishlist">
+          <i class="fas fa-heart"></i> My Wishlist
+          <span class="wl-tab-badge" id="wlTabBadge" style="display:none">0</span>
+        </button>
+      </div>
+
+      <!-- ════════════════════════════════════
+          TAB: RESERVATIONS
+          ════════════════════════════════════ -->
+      <div class="dash-panel active" id="panel-reservations">
+        <section class="reservations-section" style="padding:0; background:transparent;">
+          <div class="filter-section">
+            <div class="filter-dropdown">
+              <i class="fas fa-filter"></i>
+              <select id="filterStatus">
+                <option value="all">All Reservations</option>
+                <option value="confirmed">Confirmed</option>
+                <option value="completed">Completed</option>
+                <option value="cancelled">Cancelled</option>
+                <option value="rescheduled">Rescheduled</option>
+              </select>
             </div>
           </div>
 
-          <!-- Pagination -->
-          <div id="paginationContainer" class="pagination-container">
-            <!-- Pagination will be inserted here -->
+          <div class="reservations-container">
+            <div id="reservationsList" class="reservations-list">
+              <div class="loading-container">
+                <div class="loading-spinner"></div>
+                <p>Loading reservations...</p>
+              </div>
+            </div>
+            <div id="paginationContainer" class="pagination-container"></div>
+          </div>
+        </section>
+      </div>
+
+      <!-- ════════════════════════════════════
+          TAB: MY WISHLIST
+          ════════════════════════════════════ -->
+      <div class="dash-panel" id="panel-wishlist">
+
+        <!-- Filter row -->
+        <div class="wl-filter-row">
+          <button class="wl-filter-btn active" data-filter="all">
+            <i class="fas fa-th"></i> All
+          </button>
+          <button class="wl-filter-btn" data-filter="service">
+            <i class="fas fa-spa"></i> Services
+          </button>
+          <button class="wl-filter-btn" data-filter="package">
+            <i class="fas fa-box-open"></i> Packages
+          </button>
+        </div>
+
+        <!-- Wishlist grid -->
+        <div class="wl-grid" id="wlGrid">
+          <!-- Populated by JS -->
+          <div class="wl-loading">
+            <div class="loading-spinner"></div>
+            <p>Loading wishlist...</p>
           </div>
         </div>
+
       </div>
-    </section>
+
+    </div><!-- /.container -->
   </main>
 
   <!-- Reservation Details Modal -->
@@ -258,6 +302,8 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'customer') {
   <script src="../public/js/navbar-loader.js"></script>
   <script src="../public/js/pagination.js"></script>
   <script src="../public/js/customer-dashboard.js"></script>
+  <script src="../public/js/wishlist.js"></script>
+  <script src="../public/js/customer-wishlist-tab.js"></script>
   <script src="../public/js/toast.js"></script>
   <script>
     // Rating stars functionality
