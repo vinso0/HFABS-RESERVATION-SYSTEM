@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 17, 2026 at 07:17 PM
+-- Generation Time: Apr 18, 2026 at 05:18 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -159,6 +159,7 @@ CREATE TABLE `branch_packages` (
   `branch_id` int(15) NOT NULL,
   `package_name` varchar(100) NOT NULL,
   `description` text DEFAULT NULL,
+  `image_path` varchar(500) DEFAULT NULL,
   `package_price` decimal(10,2) NOT NULL,
   `total_duration_minutes` int(11) NOT NULL DEFAULT 0,
   `is_available` tinyint(1) NOT NULL DEFAULT 1,
@@ -170,10 +171,10 @@ CREATE TABLE `branch_packages` (
 -- Dumping data for table `branch_packages`
 --
 
-INSERT INTO `branch_packages` (`package_id`, `branch_id`, `package_name`, `description`, `package_price`, `total_duration_minutes`, `is_available`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Pamper Me', 'Nail and hair combo for a full refresh', 1499.00, 150, 1, '2026-03-20 15:22:03', '2026-03-23 10:49:17'),
-(2, 1, 'Total Wellness', 'Full body massage + facial combo', 4200.00, 180, 1, '2026-03-20 15:22:03', '2026-03-20 15:22:03'),
-(3, 2, 'Hair Royale', 'Complete hair treatment with nail care', 4200.00, 240, 1, '2026-03-20 15:22:03', '2026-03-20 15:22:03');
+INSERT INTO `branch_packages` (`package_id`, `branch_id`, `package_name`, `description`, `image_path`, `package_price`, `total_duration_minutes`, `is_available`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Pamper Me', 'Nail and hair combo for a full refresh', NULL, 1499.00, 150, 1, '2026-03-20 15:22:03', '2026-03-23 10:49:17'),
+(2, 1, 'Total Wellness', 'Full body massage + facial combo', NULL, 4200.00, 180, 1, '2026-03-20 15:22:03', '2026-03-20 15:22:03'),
+(3, 2, 'Hair Royale', 'Complete hair treatment with nail care', NULL, 4200.00, 240, 1, '2026-03-20 15:22:03', '2026-03-20 15:22:03');
 
 -- --------------------------------------------------------
 
@@ -229,7 +230,7 @@ CREATE TABLE `branch_service_overrides` (
 
 INSERT INTO `branch_service_overrides` (`branch_service_override_id`, `branch_id`, `default_service_id`, `display_name`, `description_override`, `image_path_override`, `duration_minutes_override`, `price_override`, `is_available_override`, `created_at`, `updated_at`) VALUES
 (2, 2, 1, NULL, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
-(3, 1, 2, NULL, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
+(3, 1, 2, 'Hair Rebonding', 'Permanent hair straightening', 'uploads/services/service_69e27f075bcb79.53116906.jpg', 120, 3500.00, 1, '2026-02-07 06:27:40', '2026-04-17 18:42:15'),
 (4, 2, 2, NULL, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
 (5, 1, 7, NULL, NULL, NULL, NULL, NULL, 0, '2026-02-07 06:27:40', '2026-02-07 06:30:21'),
 (6, 2, 7, NULL, NULL, NULL, NULL, NULL, NULL, '2026-02-07 06:27:40', '2026-02-07 06:27:40'),
@@ -1083,7 +1084,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`user_id`, `username`, `email`, `contact_number`, `profile_picture`, `password`, `role`, `branch_id`, `is_active`, `deleted_at`, `created_at`) VALUES
 (1, 'admin1', 'schofieldkier09@gmail.com', '', NULL, '$2y$10$DKKHmeVmHlJtlKZ/V4ccMOh7iehwVDCeEUYAoQnmklEnIv4PSvQ8m', 'admin', 1, 1, '2026-03-28 13:38:22', '2026-01-09 11:42:55'),
-(2, 'customer', 'cus@cus', '', NULL, '$2y$10$Xr7HHFS9Po47KSZ6IIvKYu0b6DMWvcvMlpDleSJu0dJbwC6ehrS1q', 'customer', NULL, 1, NULL, '2026-01-09 11:43:23'),
+(2, 'customer', 'cus@cus', '', NULL, '$2y$10$3Q5tuRsItYWBa7pdzctBmOuP381BxbmKpvFbwktSBzUveYOU/DL5S', 'customer', NULL, 1, NULL, '2026-01-09 11:43:23'),
 (3, 'superadmin', 'super@super', '', NULL, '$2y$10$P/kovxLzFhW4fSSBcZvWpenb2PfcBiEHsAfzK/J1nobb8uvuumuYy', 'superadmin', NULL, 1, NULL, '2026-01-16 02:38:57'),
 (4, 'kier', 'kier@kier', '123456789', NULL, '$2y$10$Gt/Eb/Wbx0D3ClCzf/Qqx.nv.bisN7Chveadx5Vhk354vBVEwPzx6', 'customer', NULL, 1, NULL, '2026-01-17 07:32:57'),
 (5, 'Kierloyd Vince Schofield', 'kier@email', '912345789', NULL, '$2y$10$zbOE4cRMEc4TOOsRE/.gae4eZKrbAl8.XwkLjUWVwZUmTT9gJ173.', 'customer', NULL, 1, NULL, '2026-01-17 08:34:32'),

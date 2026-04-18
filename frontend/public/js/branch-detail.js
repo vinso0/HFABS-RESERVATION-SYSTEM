@@ -124,42 +124,48 @@ async function loadBranchServices() {
 }
 
 function renderServices(cat) {
-  const list   = cat === 'all'
-      ? allServices
-      : allServices.filter(s => String(s.category_id) === String(cat));
-  const grid   = document.getElementById('branchServicesGrid');
-  const unavailable = list.filter(s => !parseInt(s.is_available));
-  const available   = list.filter(s =>  parseInt(s.is_available));
-  const sorted = [...available, ...unavailable];
+  const list = cat === 'all'
+    ? allServices
+    : allServices.filter(s => String(s.category) === String(cat));
+
+  const grid = document.getElementById('branchServicesGrid');
+  const unavailable = list.filter(s => !parseInt(s.isavailable));
+  const available   = list.filter(s =>  parseInt(s.isavailable));
+  const sorted      = [...available, ...unavailable];
 
   if (!sorted.length) {
-      grid.innerHTML = '<p style="color:#aaa;padding:1rem;">No services in this category.</p>';
-      return;
+    grid.innerHTML = '<p class="no-data">No services in this category.</p>';
+    return;
   }
 
   grid.innerHTML = sorted.map(s => {
-      const isUnavailable = !parseInt(s.is_available);
-      const imageHtml = s.image_url
-        ? `<img class="service-card-img" src="${s.image_url}" alt="${s.display_name || s.servicename}" loading="lazy"
-              onerror="this.outerHTML='<div class=\\'service-card-img-placeholder\\'><i class=\\'fas fa-spa\\'></i></div>'">`
-        : `<div class="service-card-img-placeholder"><i class="fas fa-spa"></i></div>`;
+    const isUnavailable = !parseInt(s.isavailable);
+    const name          = s.display_name || s.servicename || '';
+    const price         = parseFloat(s.price || 0).toLocaleString('en-PH', { minimumFractionDigits: 2 });
+    const duration      = s.duration || 'N/A';
 
-      return `
-          <div class="branch-service-card ${isUnavailable ? 'unavailable' : ''}">
-              ${imageHtml}
-              <div class="branch-service-card-body">
-                  <div class="service-card-top">
-                      <h4 class="branch-service-name">${s.display_name}</h4>
-                      ${isUnavailable ? '<span class="badge-unavailable">Unavailable</span>' : ''}
-                  </div>
-                  ${s.description ? `<p class="branch-service-desc">${s.description}</p>` : ''}
-                  <div class="branch-service-meta">
-                      <span class="branch-service-price">₱${parseFloat(s.price).toLocaleString('en-PH', {minimumFractionDigits: 2})}</span>
-                      <span class="branch-service-duration"><i class="fas fa-clock"></i> ${s.duration} min</span>
-                  </div>
-              </div>
+    const imageHtml = s.image_url
+      ? `<img class="bsc-img" src="${s.image_url}" alt="${name}" loading="lazy"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+         <div class="bsc-img-placeholder" style="display:none"><i class="fas fa-spa"></i></div>`
+      : `<div class="bsc-img-placeholder"><i class="fas fa-spa"></i></div>`;
+
+    return `
+      <div class="bsc ${isUnavailable ? 'bsc--unavailable' : ''}">
+        <div class="bsc-img-wrap">
+          ${imageHtml}
+          ${isUnavailable ? '<span class="bsc-badge-unavailable">Unavailable</span>' : ''}
+        </div>
+        <div class="bsc-body">
+          <h4 class="bsc-name">${name}</h4>
+          ${s.description ? `<p class="bsc-desc">${s.description}</p>` : ''}
+          <div class="bsc-footer">
+            <span class="bsc-price">₱${price}</span>
+            <span class="bsc-duration"><i class="fas fa-clock"></i>${duration}</span>
           </div>
-      `;
+        </div>
+      </div>
+    `;
   }).join('');
 }
 
