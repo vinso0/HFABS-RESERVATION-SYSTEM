@@ -105,11 +105,12 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'customer') {
         </div>
 
         <!-- Wishlist grid -->
-        <div class="wl-grid" id="wlGrid">
-          <!-- Populated by JS -->
-          <div class="wl-loading">
-            <div class="loading-spinner"></div>
-            <p>Loading wishlist...</p>
+        <div class="wl-scroll-area">
+          <div class="wl-grid" id="wlGrid">
+            <div class="wl-loading">
+              <div class="loading-spinner"></div>
+              <p>Loading wishlist...</p>
+            </div>
           </div>
         </div>
 

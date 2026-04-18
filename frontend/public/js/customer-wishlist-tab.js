@@ -18,9 +18,18 @@ document.querySelectorAll('.dash-tab').forEach(tab => {
     const panelId = 'panel-' + tab.dataset.tab;
     document.getElementById(panelId).classList.add('active');
 
-    // Load wishlist when tab is first opened
-    if (tab.dataset.tab === 'wishlist' && allWishlistItems.length === 0) {
-      loadWishlist();
+    if (tab.dataset.tab === 'wishlist') {
+      // Always reset to "All" filter on tab open
+      currentFilter = 'all';
+      document.querySelectorAll('.wl-filter-btn').forEach(b => b.classList.remove('active'));
+      document.querySelector('.wl-filter-btn[data-filter="all"]').classList.add('active');
+
+      // Render if preloaded, otherwise fetch
+      if (allWishlistItems.length > 0) {
+        renderWishlist();
+      } else {
+        loadWishlist();
+      }
     }
   });
 });
@@ -79,8 +88,8 @@ function renderWishlist() {
         <i class="fas fa-heart"></i>
         <h3>${currentFilter === 'all' ? 'No saved items yet' : 'No ' + currentFilter + 's saved'}</h3>
         <p>Browse our branches and tap the heart icon to save items here.</p>
-        <a href="/HFABS/frontend/index.html#branches">
-          <i class="fas fa-search"></i> Explore Branches
+        <a href="/HFABS/frontend/views/customer-home.php#services">
+          <i class="fas fa-search"></i> Explore Services
         </a>
       </div>`;
     return;
@@ -97,41 +106,113 @@ function renderWishlist() {
 // ── Build a single wishlist card ──────────────────────────────
 function buildCard(item) {
   const isService  = item.wishlist_type === 'service';
-  const name       = isService ? (item.service_name || 'Service') : (item.package_name || 'Package');
   const branchName = item.branch_name || 'Branch';
   const branchId   = item.branch_id;
-  const bookUrl    = `/HFABS/frontend/views/branch-detail.html?id=${branchId}`;
+  const bookUrl    = '/HFABS/frontend/views/customer-home.php#services';
 
-  const badgeClass = isService ? 'service' : 'package';
-  const badgeIcon  = isService ? 'fa-spa' : 'fa-box-open';
-  const badgeLabel = isService ? 'Service' : 'Package';
-
-  const savedDate  = item.created_at
-    ? new Date(item.created_at).toLocaleDateString('en-PH', { month: 'short', day: 'numeric', year: 'numeric' })
-    : '';
-
-  // data attributes for remove handler
   const dataAttrs = isService
     ? `data-type="service" data-id="${item.branch_service_override_id}" data-branch="${branchId}"`
     : `data-type="package" data-id="${item.package_id}" data-branch="${branchId}"`;
 
-  return `
-    <div class="wl-card" id="wl-card-${isService ? 'svc-' + item.branch_service_override_id : 'pkg-' + item.package_id}">
-      <div class="wl-card-body">
-        <div class="wl-card-top">
-          <span class="wl-card-badge ${badgeClass}">
+  const cardId = isService
+    ? `wl-card-svc-${item.branch_service_override_id}`
+    : `wl-card-pkg-${item.package_id}`;
+
+  const badgeIcon  = isService ? 'fa-spa' : 'fa-box-open';
+  const badgeLabel = isService ? 'Service' : 'Package';
+  const badgeClass = isService ? 'service' : 'package';
+
+  const savedDate = item.created_at
+    ? new Date(item.created_at).toLocaleDateString('en-PH', {
+        month: 'short', day: 'numeric', year: 'numeric'
+      })
+    : '';
+
+  // ── Service card data ──
+  if (isService) {
+    const name      = escHtml(item.service_name || 'Service');
+    const desc      = item.service_description ? escHtml(item.service_description) : '';
+    const price     = item.service_price
+      ? '₱' + parseFloat(item.service_price).toLocaleString('en-PH', { minimumFractionDigits: 2 })
+      : '';
+    const duration  = item.service_duration ? item.service_duration + ' mins' : '';
+    const imageUrl  = item.service_image
+      ? `/HFABS/backend/public/${item.service_image}`
+      : null;
+
+    const imageHtml = imageUrl
+      ? `<img class="wl-card-img" src="${imageUrl}" alt="${name}" loading="lazy"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+         <div class="wl-card-img-placeholder" style="display:none">
+           <i class="fas ${badgeIcon}"></i>
+         </div>`
+      : `<div class="wl-card-img-placeholder">
+           <i class="fas ${badgeIcon}"></i>
+         </div>`;
+
+    return `
+      <div class="wl-card" id="${cardId}">
+        <div class="wl-card-img-wrap">
+          ${imageHtml}
+          <span class="wl-card-type-badge ${badgeClass}">
             <i class="fas ${badgeIcon}"></i> ${badgeLabel}
           </span>
         </div>
-        <h4 class="wl-card-name">${escHtml(name)}</h4>
+        <div class="wl-card-body">
+          <h4 class="wl-card-name">${name}</h4>
+          ${desc ? `<p class="wl-card-desc">${desc}</p>` : ''}
+          <div class="wl-card-branch">
+            <i class="fas fa-map-marker-alt"></i> ${escHtml(branchName)}
+          </div>
+          <div class="wl-card-footer-info">
+            ${price    ? `<span class="wl-card-price">${price}</span>` : ''}
+            ${duration ? `<span class="wl-card-duration"><i class="fas fa-clock"></i> ${duration}</span>` : ''}
+          </div>
+          ${savedDate ? `<div class="wl-card-date"><i class="far fa-clock"></i> Saved ${savedDate}</div>` : ''}
+        </div>
+        <div class="wl-card-footer">
+          <a href="${bookUrl}" class="wl-book-btn">
+            <i class="fas fa-calendar-plus"></i> Book Now
+          </a>
+          <button class="wl-remove-btn" title="Remove from wishlist" ${dataAttrs}>
+            <i class="fas fa-heart-broken"></i>
+          </button>
+        </div>
+      </div>`;
+  }
+
+  // ── Package card data ──
+  const name     = escHtml(item.package_name || 'Package');
+  const desc     = item.package_description ? escHtml(item.package_description) : '';
+  const price    = item.package_price
+    ? '₱' + parseFloat(item.package_price).toLocaleString('en-PH', { minimumFractionDigits: 2 })
+    : '';
+  const duration = item.package_duration ? item.package_duration + ' mins' : '';
+
+  return `
+    <div class="wl-card" id="${cardId}">
+      <div class="wl-card-img-wrap">
+        <div class="wl-card-img-placeholder">
+          <i class="fas ${badgeIcon}"></i>
+        </div>
+        <span class="wl-card-type-badge ${badgeClass}">
+          <i class="fas ${badgeIcon}"></i> ${badgeLabel}
+        </span>
+      </div>
+      <div class="wl-card-body">
+        <h4 class="wl-card-name">${name}</h4>
+        ${desc ? `<p class="wl-card-desc">${desc}</p>` : ''}
         <div class="wl-card-branch">
-          <i class="fas fa-map-marker-alt"></i>
-          ${escHtml(branchName)}
+          <i class="fas fa-map-marker-alt"></i> ${escHtml(branchName)}
+        </div>
+        <div class="wl-card-footer-info">
+          ${price    ? `<span class="wl-card-price">${price}</span>` : ''}
+          ${duration ? `<span class="wl-card-duration"><i class="fas fa-hourglass-half"></i> ${duration}</span>` : ''}
         </div>
         ${savedDate ? `<div class="wl-card-date"><i class="far fa-clock"></i> Saved ${savedDate}</div>` : ''}
       </div>
       <div class="wl-card-footer">
-        <a href="${bookUrl}" class="wl-book-btn" target="_self">
+        <a href="${bookUrl}" class="wl-book-btn">
           <i class="fas fa-calendar-plus"></i> Book Now
         </a>
         <button class="wl-remove-btn" title="Remove from wishlist" ${dataAttrs}>

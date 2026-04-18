@@ -112,33 +112,52 @@ class WishlistModel
     // ─────────────────────────────────────────────
     // Get ALL wishlisted items for a specific user
     // ─────────────────────────────────────────────
-    public function getUserAllWishlists(int $userId): array
-    {
-        $sql = 'SELECT cw.wishlist_id, cw.branch_id, cw.wishlist_type,
-                       cw.branch_service_override_id, cw.package_id, cw.created_at,
-                       b.branch_name,
-                       COALESCE(NULLIF(bso.display_name,""), ds.service_name) AS service_name,
-                       bp.package_name
-                FROM customer_wishlists cw
-                LEFT JOIN branch b ON cw.branch_id = b.branch_id
-                LEFT JOIN branch_service_overrides bso 
-                       ON cw.branch_service_override_id = bso.branch_service_override_id
-                LEFT JOIN default_services ds 
-                       ON bso.default_service_id = ds.service_id
-                LEFT JOIN branch_packages bp 
-                       ON cw.package_id = bp.package_id
-                WHERE cw.user_id = ?
-                ORDER BY cw.created_at DESC';
-        $stmt = $this->db->prepare($sql);
-        $stmt->bind_param('i', $userId);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $rows = [];
-        while ($row = $result->fetch_assoc()) {
-            $rows[] = $row;
-        }
-        return $rows;
-    }
+   public function getUserAllWishlists(int $userId): array
+  {
+      $sql = 'SELECT 
+                  cw.wishlist_id,
+                  cw.branch_id,
+                  cw.wishlist_type,
+                  cw.branch_service_override_id,
+                  cw.package_id,
+                  cw.created_at,
+                  b.branch_name,
+
+                  -- Service fields (override takes priority over default)
+                  COALESCE(NULLIF(bso.display_name, ""), ds.service_name)             AS service_name,
+                  COALESCE(bso.description_override, ds.description)                  AS service_description,
+                  COALESCE(bso.image_path_override, ds.image_path)                    AS service_image,
+                  COALESCE(bso.price_override, ds.price)                              AS service_price,
+                  COALESCE(bso.duration_minutes_override, ds.duration_minutes)        AS service_duration,
+
+                  -- Package fields
+                  bp.package_name,
+                  bp.description                                                       AS package_description,
+                  bp.package_price,
+                  bp.total_duration_minutes                                            AS package_duration
+
+              FROM customer_wishlists cw
+              LEFT JOIN branch b
+                    ON cw.branch_id = b.branch_id
+              LEFT JOIN branch_service_overrides bso
+                    ON cw.branch_service_override_id = bso.branch_service_override_id
+              LEFT JOIN default_services ds
+                    ON bso.default_service_id = ds.service_id
+              LEFT JOIN branch_packages bp
+                    ON cw.package_id = bp.package_id
+              WHERE cw.user_id = ?
+              ORDER BY cw.created_at DESC';
+
+      $stmt = $this->db->prepare($sql);
+      $stmt->bind_param('i', $userId);
+      $stmt->execute();
+      $result = $stmt->get_result();
+      $rows = [];
+      while ($row = $result->fetch_assoc()) {
+          $rows[] = $row;
+      }
+      return $rows;
+  }
 
     // ─────────────────────────────────────────────
     // Admin: Wishlist count per service per branch

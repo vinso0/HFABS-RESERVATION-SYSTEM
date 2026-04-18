@@ -965,7 +965,7 @@
 .wl-filter-row {
   display: flex;
   gap: 0.5rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
   flex-wrap: wrap;
 }
 
@@ -995,104 +995,175 @@
   color: #fff;
 }
 
-/* Wishlist grid */
-.wl-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
-  gap: 1.25rem;
+/* ── Scrollable container ── */
+.wl-scroll-area {
+  max-height: 520px;
+  overflow-y: auto;
+  padding-right: 6px;
+  /* Custom scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: #e8a0c8 #f9f0f6;
 }
 
-/* Wishlist card */
-.wl-card {
-  background: #fff;
-  border-radius: 14px;
-  border: 1px solid #f0e0ea;
-  overflow: hidden;
-  box-shadow: 0 2px 10px rgba(217, 26, 126, 0.07);
-  display: flex;
-  flex-direction: column;
-  transition: box-shadow 0.2s, transform 0.2s;
+.wl-scroll-area::-webkit-scrollbar {
+  width: 6px;
 }
 
-.wl-card:hover {
-  box-shadow: 0 6px 20px rgba(217, 26, 126, 0.14);
-  transform: translateY(-2px);
-}
-
-.wl-card-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 0.7rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  padding: 3px 9px;
+.wl-scroll-area::-webkit-scrollbar-track {
+  background: #f9f0f6;
   border-radius: 999px;
 }
 
-.wl-card-badge.service {
-  background: #fce4f0;
-  color: #c0156e;
+.wl-scroll-area::-webkit-scrollbar-thumb {
+  background: #e8a0c8;
+  border-radius: 999px;
 }
 
-.wl-card-badge.package {
-  background: #e8f4ff;
-  color: #1565c0;
+.wl-scroll-area::-webkit-scrollbar-thumb:hover {
+  background: #d91a7e;
 }
 
-.wl-card-body {
-  padding: 1rem 1.1rem;
-  flex: 1;
+/* ── Card grid — matches branch-detail layout ── */
+.wl-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.1rem;
+  padding-bottom: 0.5rem;
+}
+
+/* ── Card — mirrors .bsc style from branch-detail ── */
+.wl-card {
+  background: #ffffff;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid #ede8f4;
+  box-shadow: 0 2px 8px rgba(120, 80, 160, 0.07);
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.wl-card-top {
+.wl-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(120, 80, 160, 0.14);
+}
+
+/* ── Image area ── */
+.wl-card-img-wrap {
+  position: relative;
+  width: 100%;
+  height: 130px;
+  flex-shrink: 0;
+  overflow: hidden;
+  background: #f3eeff;
+}
+
+.wl-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s ease;
+}
+
+.wl-card:hover .wl-card-img {
+  transform: scale(1.04);
+}
+
+.wl-card-img-placeholder {
+  width: 100%;
+  height: 100%;
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 0.5rem;
-  margin-bottom: 0.25rem;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f3e5f5 0%, #fce4f0 100%);
+  color: #e8a0c8;
+  font-size: 32px;
+}
+
+/* Type badge over image */
+.wl-card-type-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 3px 8px;
+  border-radius: 999px;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.wl-card-type-badge.service {
+  background: rgba(217, 26, 126, 0.85);
+  color: #fff;
+}
+
+.wl-card-type-badge.package {
+  background: rgba(21, 101, 192, 0.85);
+  color: #fff;
+}
+
+/* ── Card body ── */
+.wl-card-body {
+  padding: 11px 13px 10px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 4px;
 }
 
 .wl-card-name {
-  font-size: 1rem;
+  font-size: 13.5px;
   font-weight: 700;
-  color: #1a1a2e;
+  color: #2d1f3d;
   line-height: 1.3;
   margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .wl-card-branch {
-  font-size: 0.78rem;
-  color: #999;
+  font-size: 11.5px;
+  color: #8a7a9e;
   display: flex;
   align-items: center;
   gap: 4px;
+  margin-top: 2px;
 }
 
 .wl-card-branch i {
   color: #d91a7e;
-  font-size: 0.72rem;
+  font-size: 10px;
 }
 
 .wl-card-date {
-  font-size: 0.73rem;
-  color: #bbb;
+  font-size: 10.5px;
+  color: #b0a0c0;
   margin-top: auto;
-  padding-top: 0.5rem;
+  padding-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border-top: 1px solid #f0eaf7;
 }
 
-/* Card footer: actions */
+/* ── Card footer: Book Now + Remove ── */
 .wl-card-footer {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.1rem;
-  border-top: 1px solid #faf0f6;
+  gap: 0.4rem;
+  padding: 0.6rem 0.75rem;
   background: #fdfafa;
+  border-top: 1px solid #f0eaf7;
 }
 
 .wl-book-btn {
@@ -1101,31 +1172,31 @@
   align-items: center;
   justify-content: center;
   gap: 0.4rem;
-  padding: 0.5rem 0.85rem;
-  font-size: 0.82rem;
-  font-weight: 600;
-  background: linear-gradient(135deg, #d91a7e, #e85fa6);
+  padding: 0.52rem 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  background: #d91a7e;
   color: #fff;
   border: none;
   border-radius: 8px;
   text-decoration: none;
   cursor: pointer;
-  transition: opacity 0.18s, transform 0.18s;
+  transition: background 0.18s, transform 0.18s;
 }
 
 .wl-book-btn:hover {
-  opacity: 0.88;
+  background: #b5156a;
   transform: translateY(-1px);
 }
 
 .wl-remove-btn {
-  width: 34px;
-  height: 34px;
+  width: 33px;
+  height: 33px;
   border-radius: 8px;
   border: 1.5px solid #f0e0ea;
   background: #fff;
   color: #d91a7e;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1137,6 +1208,63 @@
 .wl-remove-btn:hover {
   background: #fff0f8;
   border-color: #d91a7e;
+}
+
+/* ── Empty state ── */
+.wl-empty {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3.5rem 1rem;
+  text-align: center;
+  color: #bbb;
+}
+
+.wl-empty i {
+  font-size: 2.8rem;
+  color: #f0c0d8;
+  margin-bottom: 0.85rem;
+}
+
+.wl-empty h3 {
+  color: #ccc;
+  font-size: 1rem;
+  margin-bottom: 0.4rem;
+}
+
+.wl-empty p {
+  font-size: 0.82rem;
+  max-width: 26ch;
+}
+
+.wl-empty a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 1.1rem;
+  padding: 0.52rem 1.2rem;
+  background: #d91a7e;
+  color: #fff;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: opacity 0.18s;
+}
+
+.wl-empty a:hover { opacity: 0.85; }
+
+/* ── Loading ── */
+.wl-loading {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2.5rem;
+  color: #bbb;
+  gap: 0.6rem;
 }
 
 /* Empty state */
@@ -1196,6 +1324,51 @@
   padding: 3rem;
   color: #bbb;
   gap: 0.75rem;
+}
+
+/* ── Card description ── */
+.wl-card-desc {
+  font-size: 11.5px;
+  color: #8a7a9e;
+  line-height: 1.45;
+  margin: 2px 0 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ── Price + duration row ── */
+.wl-card-footer-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 7px;
+  border-top: 1px solid #f0eaf7;
+  gap: 4px;
+}
+
+.wl-card-price {
+  font-size: 13px;
+  font-weight: 700;
+  color: #d91a7e;
+  white-space: nowrap;
+}
+
+.wl-card-duration {
+  font-size: 11px;
+  color: #a08cb8;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.wl-card-duration i {
+  font-size: 10px;
+  color: #d91a7e;
 }
 
 /* ================================================
