@@ -45,18 +45,26 @@ async function loadBranchInfo() {
     document.title = `${branch.branchname} | Happy Face & Body Spa`;
     document.getElementById('branchHeroInfo').innerHTML = `
       <span class="branch-hero-eyebrow">
-        <i class="fas fa-map-marker-alt"></i> ${branch.location}
+          ${makeMapLink(branch.location, {
+              cssClass: 'maps-link',
+              showIcon: true
+          })}
       </span>
       <h1 class="branch-hero-title">${branch.branchname}</h1>
     `;
 
     document.getElementById('branchInfoGrid').innerHTML = `
       <div class="info-card">
-        <div class="info-card-icon"><i class="fas fa-map-pin"></i></div>
-        <div>
-          <span class="info-card-label">Location</span>
-          <span class="info-card-value">${branch.location}</span>
-        </div>
+          <div class="info-card-icon"><i class="fas fa-map-pin"></i></div>
+          <div>
+              <span class="info-card-label">Location</span>
+              <span class="info-card-value">
+                  ${makeMapLink(branch.location, {
+                      cssClass: 'maps-link maps-link-card',
+                      showIcon: false
+                  })}
+              </span>
+          </div>
       </div>
       <div class="info-card">
         <div class="info-card-icon"><i class="fas fa-phone"></i></div>

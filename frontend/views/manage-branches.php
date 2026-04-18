@@ -96,7 +96,13 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'superadmin') {
                 </div>
                 <div class="form-group">
                     <label class="form-label">Location / Address</label>
-                    <input type="text" class="form-control" id="bLocation" placeholder="Full address" required>
+                    <input type="text" class="form-control" id="bLocation" placeholder="Full address"
+                        oninput="updateLocationPreview(this.value)" required>
+                    <div id="locationPreview" class="location-preview" style="display:none;">
+                        <span class="preview-label">📍 Preview: </span>
+                        <a id="locationPreviewLink" href="#" target="_blank" rel="noopener noreferrer"
+                        class="maps-link" title="Test this link">View on Google Maps</a>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Email</label>
@@ -149,6 +155,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'superadmin') {
     <script src="../public/js/pagination.js"></script>
     <script src="../public/js/superadmin-sidebar.js"></script>
     <script src="../public/js/superadmin-toast.js"></script>
+    <script src="../public/js/maps-link.js"></script>
     <script src="../public/js/manage-branches.js"></script>
 </body>
 </html>

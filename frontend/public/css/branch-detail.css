@@ -1479,6 +1479,44 @@
   }
 }
 
+/* ── Google Maps Clickable Location Link ─────────────────────── */
+.maps-link {
+    color: inherit;                      /* inherits the hero/card text color */
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-underline-offset: 3px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: inherit;
+    transition: color 0.18s ease, text-decoration-color 0.18s ease;
+    cursor: pointer;
+}
+
+.maps-link:hover,
+.maps-link:focus-visible {
+    text-decoration-color: currentColor;
+    opacity: 0.85;
+}
+
+.maps-link-icon {
+    font-size: 0.85em;
+    color: #E8453C;                      /* Google Maps red pin */
+    flex-shrink: 0;
+    transition: transform 0.18s ease;
+}
+
+.maps-link:hover .maps-link-icon {
+    transform: scale(1.15);
+}
+
+/* Info card variant — allows text wrapping for long addresses */
+.maps-link-card {
+    white-space: normal;
+    word-break: break-word;
+    line-height: 1.4;
+}
+
 /* ── Responsive ── */
 @media (max-width: 768px) {
   .branch-hero { padding: 6rem 1.5rem 3rem; }

@@ -327,7 +327,7 @@ class AuthController extends Controller
                 http_response_code(403);
                 echo json_encode([
                     'success' => false,
-                    'message' => "Your account is a {$actualRole}. Please use the {$actualRole} login page."
+                    'message' => "Unauthorized Access."
                 ]);
                 exit;
             }

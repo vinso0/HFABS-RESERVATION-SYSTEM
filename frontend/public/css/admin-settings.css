@@ -525,3 +525,48 @@
   .full-width  { grid-column: 1; }
   .settings-tabs { flex-wrap: wrap; }
 }
+
+/* ── Google Maps Clickable Location Link ─────────────────────── */
+.maps-link {
+    color: #0a7abf;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-underline-offset: 3px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 500;
+    transition: color 0.18s ease, text-decoration-color 0.18s ease;
+    cursor: pointer;
+}
+
+.maps-link:hover,
+.maps-link:focus-visible {
+    color: #085a8c;
+    text-decoration-color: currentColor;
+}
+
+.maps-link-icon {
+    font-size: 0.85em;
+    color: #E8453C;
+    flex-shrink: 0;
+    transition: transform 0.18s ease;
+}
+
+.maps-link:hover .maps-link-icon {
+    transform: scale(1.15);
+}
+
+/* Location preview below the input */
+.location-preview {
+    margin-top: 6px;
+    font-size: 0.82rem;
+    color: #555;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.preview-label {
+    color: #888;
+}

@@ -55,7 +55,7 @@ function renderBranches() {
         return '<tr>' +
             '<td>' + (range.start + idx + 1) + '</td>' +
             '<td><strong style="text-transform:capitalize;">' + b.branch_name + '</strong></td>' +
-            '<td style="max-width:180px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="' + b.branch_location + '">' + b.branch_location + '</td>' +
+            '<td>' + makeMapLink(b.branch_location, { cssClass: 'maps-link maps-link-cell', label: b.branch_location }) + '</td>' +
             '<td>' + (b.contact_number || '—') + '</td>' +
             '<td>' + (b.email || '—') + '</td>' +
             '<td style="font-size:12px;">' + formatTime(b.opening_time) + ' – ' + formatTime(b.closing_time) + '</td>' +
@@ -68,6 +68,22 @@ function renderBranches() {
     }).join('');
 
     pagination.updateTotalItems(filteredBranches.length);
+}
+
+// ── Live preview of Google Maps link as admin types location ──
+function updateLocationPreview(value) {
+    var preview = document.getElementById('locationPreview');
+    var link    = document.getElementById('locationPreviewLink');
+
+    if (!value || !value.trim()) {
+        preview.style.display = 'none';
+        return;
+    }
+
+    var encoded  = encodeURIComponent(value.trim());
+    var url      = 'https://www.google.com/maps/search/?api=1&query=' + encoded;
+    link.href    = url;
+    preview.style.display = 'block';
 }
 
 // ── Search / Filter ──
@@ -87,6 +103,7 @@ function filterBranches() {
 function openAddBranchModal() {
     document.getElementById('branchModalTitle').textContent = 'Add Branch';
     document.getElementById('branchForm').reset();
+    document.getElementById('locationPreview').style.display = 'none';
     document.getElementById('editBranchId').value = '';
     document.getElementById('branchModal').classList.add('open');
 }
@@ -97,6 +114,7 @@ function openEditBranchModal(b) {
     document.getElementById('editBranchId').value           = b.branch_id;
     document.getElementById('bName').value                  = b.branch_name;
     document.getElementById('bLocation').value              = b.branch_location;
+    updateLocationPreview(b.branch_location);
     document.getElementById('bContact').value               = b.contact_number || '';
     document.getElementById('bEmail').value                 = b.email || '';
     document.getElementById('bOpenTime').value              = b.opening_time.slice(0, 5);

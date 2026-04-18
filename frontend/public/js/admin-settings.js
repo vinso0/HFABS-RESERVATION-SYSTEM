@@ -53,6 +53,7 @@ async function loadSettings() {
 
     // General tab
     document.getElementById('branchLocation').value = d.branch_location  || '';
+    updateLocationPreview(d.branch_location || '');
     document.getElementById('contactNumber').value  = d.contact_number   || '';
     document.getElementById('branchEmail').value    = d.email            || '';
 

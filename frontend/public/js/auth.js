@@ -74,7 +74,7 @@ submitBtn.innerHTML = '<span class="auth-spinner" style="width:16px;height:16px;
 
   try {
     const payload = Object.fromEntries(new FormData(form).entries());
-    console.log('Sending payload:', payload);
+    //console.log('Sending payload:', payload);
 
     const response = await fetch(endpoint, {
       method: 'POST',
@@ -84,8 +84,8 @@ submitBtn.innerHTML = '<span class="auth-spinner" style="width:16px;height:16px;
     });
 
     const data = await response.json().catch(() => ({}));
-    console.log('Response status:', response.status);
-    console.log('Response data:', data);
+    //console.log('Response status:', response.status);
+    //console.log('Response data:', data);
 
     if (!response.ok || data.success === false) {
       const message = data.message || data.error || `Server error (${response.status}). Please try again.`;
@@ -122,7 +122,7 @@ const customerLoginForm = document.getElementById('customer-login-form');
 if (customerLoginForm) {
   customerLoginForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    handleApiFormSubmit(customerLoginForm, '../../backend/public/index.php?url=auth/login');
+    handleApiFormSubmit(customerLoginForm, '../../backend/public/index.php?url=auth/login&role=customer');
   });
 }
 
@@ -352,7 +352,7 @@ const adminLoginForm = document.getElementById('admin-login-form');
 if (adminLoginForm) {
   adminLoginForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    handleApiFormSubmit(adminLoginForm, '../../backend/public/index.php?url=auth/login');
+    handleApiFormSubmit(adminLoginForm, '../../backend/public/index.php?url=auth/login&role=admin');
   });
 }
 
@@ -361,6 +361,6 @@ const superadminLoginForm = document.getElementById('superadmin-login-form');
 if (superadminLoginForm) {
   superadminLoginForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    handleApiFormSubmit(superadminLoginForm, '../../backend/public/index.php?url=auth/login');
+    handleApiFormSubmit(superadminLoginForm, '../../backend/public/index.php?url=auth/login&role=superadmin');
   });
 }

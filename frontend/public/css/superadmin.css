@@ -651,6 +651,18 @@ select.form-control:hover {
     gap: 12px;
 }
 
+.location-preview {
+    margin-top: 6px;
+    font-size: 0.82rem;
+    color: #555;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.preview-label {
+    color: #888;
+}
+
 /* ─────────────────────────────
    MODAL
 ───────────────────────────── */
@@ -947,6 +959,63 @@ select.form-control:hover {
         min-width: 100%;
         max-width: 100%;
     }
+}
+
+/* ── Google Maps Clickable Location Link ─────────────────────── */
+.maps-link {
+    color: #0a7abf;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-underline-offset: 3px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 500;
+    transition: color 0.18s ease, text-decoration-color 0.18s ease;
+    cursor: pointer;
+}
+
+.maps-link:hover,
+.maps-link:focus-visible {
+    color: #085a8c;
+    text-decoration-color: currentColor;
+}
+
+.maps-link-icon {
+    font-size: 0.85em;
+    color: #E8453C;
+    flex-shrink: 0;
+    transition: transform 0.18s ease;
+}
+
+.maps-link:hover .maps-link-icon {
+    transform: scale(1.15);
+}
+
+/* Table cell variant — truncates long addresses neatly */
+.maps-link-cell {
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    vertical-align: middle;
+}
+
+/* Location preview below the input in the modal */
+.location-preview {
+    margin-top: 6px;
+    font-size: 0.82rem;
+    color: #555;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.preview-label {
+    color: #888;
 }
 
 /* ─────────────────────────────
