@@ -6,6 +6,7 @@
   <title>Branch Details | Happy Face & Body Spa</title>
   <link rel="stylesheet" href="../public/css/landing.css" />
   <link rel="stylesheet" href="../public/css/branch-detail.css" />
+  <link rel="stylesheet" href="../public/css/wishlist.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
 <body>
@@ -219,6 +220,89 @@
 
   <script src="../public/js/navbar-loader.js"></script>
   <script src="../public/js/toast.js"></script>
+  <script src="../public/js/wishlist.js"></script>
   <script src="../public/js/branch-detail.js"></script>
+
+  <script>
+  // ── Wishlist integration for branch-detail.html ──────────────
+  // This patches the existing render functions to inject wishlist buttons
+  // after the branch-detail.js has rendered the service/package cards.
+
+  (function () {
+    // Detect login state via a session-forwarded meta tag (see note below)
+    // Since branch-detail.html is plain HTML, we detect login by calling
+    // the wishlist/status endpoint — a 401 means not logged in.
+    let branchId = null;
+    let loggedIn = false;
+
+    // Get branchId from the URL (same way branch-detail.js does)
+    const urlParams = new URLSearchParams(window.location.search);
+    branchId = parseInt(urlParams.get('id') || urlParams.get('branch_id'), 10) || null;
+
+    // Check login state then initialise WishlistManager
+    async function initWishlist() {
+      if (!branchId) return;
+
+      // Probe the status endpoint – 401 = guest, 200 = logged in
+      try {
+        const res  = await fetch(`/HFABS/backend/public/index.php?url=wishlist/status&branch_id=${branchId}`);
+        loggedIn   = res.status !== 401;
+        await WishlistManager.init(branchId, loggedIn);
+      } catch (e) {
+        loggedIn = false;
+      }
+
+      // Inject buttons into already-rendered cards (in case DOM is ready)
+      injectWishlistButtons();
+    }
+
+    // Called after cards are rendered (either on page load or after AJAX)
+    function injectWishlistButtons() {
+      // ── Services ──
+      document.querySelectorAll('#branchServicesGrid .branch-service-card, #branchServicesGrid .service-card').forEach(card => {
+        if (card.querySelector('.wishlist-btn')) return; // already injected
+
+        // The service card has data attributes set by branch-detail.js
+        // Adjust these selectors if your card uses different data attributes
+        const serviceId       = card.dataset.serviceId       || card.getAttribute('data-service-id');
+        const defaultServiceId = card.dataset.defaultServiceId || card.getAttribute('data-default-service-id') || 0;
+
+        if (!serviceId) return;
+
+        const btn = WishlistManager.createButton('service', serviceId, { defaultServiceId });
+        card.style.position = 'relative'; // ensure relative positioning
+        card.appendChild(btn);
+      });
+
+      // ── Packages ──
+      document.querySelectorAll('#branchPackagesGrid .branch-package-card, #branchPackagesGrid .package-card').forEach(card => {
+        if (card.querySelector('.wishlist-btn')) return;
+
+        const packageId = card.dataset.packageId || card.getAttribute('data-package-id');
+        if (!packageId) return;
+
+        const btn = WishlistManager.createButton('package', packageId);
+        card.style.position = 'relative';
+        card.appendChild(btn);
+      });
+    }
+
+    // Observe the grids for new cards injected via AJAX by branch-detail.js
+    function observeGrid(gridId) {
+      const grid = document.getElementById(gridId);
+      if (!grid) return;
+      const observer = new MutationObserver(() => injectWishlistButtons());
+      observer.observe(grid, { childList: true, subtree: true });
+    }
+
+    // Init after DOM ready
+    document.addEventListener('DOMContentLoaded', () => {
+      initWishlist();
+      observeGrid('branchServicesGrid');
+      observeGrid('branchPackagesGrid');
+    });
+
+  })();
+  </script>
 </body>
 </html>

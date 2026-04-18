@@ -1,0 +1,273 @@
+/* ============================================================
+   WISHLIST BUTTON — Happy Face & Body Spa
+   Matches the pink/rose brand theme of the existing system
+   ============================================================ */
+
+/* ── Heart button base ── */
+.wishlist-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 10;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  color: #ccc;
+  font-size: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+              background 0.18s ease,
+              color 0.18s ease,
+              box-shadow 0.18s ease;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.wishlist-btn:hover {
+  background: #fff;
+  box-shadow: 0 4px 14px rgba(217, 26, 126, 0.18);
+  color: #d91a7e;
+  transform: scale(1.1);
+}
+
+.wishlist-btn:active {
+  transform: scale(0.93);
+}
+
+/* ── Active (wishlisted) state ── */
+.wishlist-btn.active {
+  color: #d91a7e;
+  background: #fff0f8;
+  box-shadow: 0 3px 12px rgba(217, 26, 126, 0.22);
+}
+
+.wishlist-btn.active i {
+  animation: wl-pop 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Heart pop animation on toggle ── */
+@keyframes wl-pop {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.45); }
+  70%  { transform: scale(0.88); }
+  100% { transform: scale(1); }
+}
+
+/* ── Tooltip ── */
+.wishlist-btn[title]:hover::after {
+  content: attr(title);
+  position: absolute;
+  bottom: calc(100% + 6px);
+  right: 0;
+  white-space: nowrap;
+  background: #1a1a2e;
+  color: #fff;
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  pointer-events: none;
+  opacity: 1;
+  font-family: inherit;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+}
+
+/* ── Ensure parent cards have relative positioning ── */
+.service-card,
+.branch-service-card,
+.package-card,
+.branch-package-card {
+  position: relative;
+}
+
+/* ── Loading/spinning state while AJAX is in flight ── */
+.wishlist-btn.loading {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.wishlist-btn.loading i {
+  animation: wl-spin 0.6s linear infinite;
+}
+
+@keyframes wl-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ── Login prompt tooltip (for guest users) ── */
+.wishlist-btn.guest-mode {
+  color: #bbb;
+}
+
+/* ============================================================
+   ADMIN WISHLIST ANALYTICS PANEL
+   ============================================================ */
+
+.wishlist-analytics-section {
+  margin-top: 2rem;
+}
+
+.wishlist-analytics-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.wishlist-analytics-header h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin: 0;
+}
+
+.wishlist-analytics-header i {
+  color: #d91a7e;
+  font-size: 1.1rem;
+}
+
+/* KPI Row */
+.wishlist-kpi-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.wishlist-kpi-card {
+  flex: 1;
+  min-width: 140px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  border: 1px solid rgba(217, 26, 126, 0.12);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.wishlist-kpi-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #fce4f0, #f9b8d8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #d91a7e;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.wishlist-kpi-info .kpi-value {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #d91a7e;
+  line-height: 1;
+}
+
+.wishlist-kpi-info .kpi-label {
+  font-size: 0.75rem;
+  color: #888;
+  margin-top: 2px;
+}
+
+/* Two-column wishlist tables */
+.wishlist-tables-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+@media (max-width: 768px) {
+  .wishlist-tables-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.wishlist-table-card {
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #f0e0ea;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.wishlist-table-card-header {
+  background: linear-gradient(90deg, #d91a7e, #e85fa6);
+  color: #fff;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.wishlist-table-card-header i {
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.wishlist-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+
+.wishlist-table thead th {
+  background: #fdf1f8;
+  color: #b5156a;
+  font-weight: 600;
+  padding: 0.55rem 0.85rem;
+  text-align: left;
+  border-bottom: 1px solid #f5d6e8;
+}
+
+.wishlist-table tbody td {
+  padding: 0.55rem 0.85rem;
+  border-bottom: 1px solid #faf0f6;
+  color: #444;
+  vertical-align: middle;
+}
+
+.wishlist-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.wishlist-table tbody tr:hover td {
+  background: #fdf8fb;
+}
+
+.wl-count-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #fff0f8;
+  color: #d91a7e;
+  font-weight: 700;
+  font-size: 0.78rem;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(217, 26, 126, 0.18);
+}
+
+.wl-count-badge i {
+  font-size: 0.68rem;
+}
+
+.wl-empty-row td {
+  text-align: center;
+  color: #bbb;
+  font-style: italic;
+  padding: 1.5rem;
+}

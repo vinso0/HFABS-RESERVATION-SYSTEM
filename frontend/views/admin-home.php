@@ -25,6 +25,7 @@ $greeting = $hour < 12 ? 'Morning' : ($hour < 18 ? 'Afternoon' : 'Evening');
         <link rel="stylesheet" href="../public/css/admin-dashboard.css">
         <link rel="stylesheet" href="../public/css/export-modal.css">
         <link rel="stylesheet" href="../public/css/admin-notifications.css">
+        <link rel="stylesheet" href="../public/css/wishlist.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     </head>
     <body>
@@ -126,6 +127,151 @@ $greeting = $hour < 12 ? 'Morning' : ($hour < 18 ? 'Afternoon' : 'Evening');
                     <?php endif; ?>
                 </div>
 
+                <!-- ── Wishlist Analytics Panel ─────────────────────────────── -->
+                <div class="wishlist-analytics-section" id="wishlistAnalyticsSection">
+
+                <div class="wishlist-analytics-header">
+                    <i class="fas fa-heart"></i>
+                    <h3>Wishlist Analytics</h3>
+                </div>
+
+                <!-- KPI Row -->
+                <div class="wishlist-kpi-row">
+                    <div class="wishlist-kpi-card">
+                    <div class="wishlist-kpi-icon">
+                        <i class="fas fa-spa"></i>
+                    </div>
+                    <div class="wishlist-kpi-info">
+                        <div class="kpi-value" id="wlServiceTotal">—</div>
+                        <div class="kpi-label">Wishlisted Services</div>
+                    </div>
+                    </div>
+                    <div class="wishlist-kpi-card">
+                    <div class="wishlist-kpi-icon">
+                        <i class="fas fa-box-open"></i>
+                    </div>
+                    <div class="wishlist-kpi-info">
+                        <div class="kpi-value" id="wlPackageTotal">—</div>
+                        <div class="kpi-label">Wishlisted Packages</div>
+                    </div>
+                    </div>
+                </div>
+
+                <!-- Tables -->
+                <div class="wishlist-tables-row">
+
+                    <!-- Services Table -->
+                    <div class="wishlist-table-card">
+                    <div class="wishlist-table-card-header">
+                        <i class="fas fa-spa"></i>
+                        Most Wishlisted Services
+                    </div>
+                    <table class="wishlist-table">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Service Name</th>
+                            <th>Wishlist Count</th>
+                        </tr>
+                        </thead>
+                        <tbody id="wlServicesTableBody">
+                        <tr class="wl-empty-row">
+                            <td colspan="3">Loading...</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    </div>
+
+                    <!-- Packages Table -->
+                    <div class="wishlist-table-card">
+                    <div class="wishlist-table-card-header">
+                        <i class="fas fa-box-open"></i>
+                        Most Wishlisted Packages
+                    </div>
+                    <table class="wishlist-table">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Package Name</th>
+                            <th>Wishlist Count</th>
+                        </tr>
+                        </thead>
+                        <tbody id="wlPackagesTableBody">
+                        <tr class="wl-empty-row">
+                            <td colspan="3">Loading...</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    </div>
+
+                </div>
+                </div>
+
+                <script>
+                // ── Wishlist Analytics Loader for admin-home.php ──────────────
+                (function () {
+                // Get branch_id from PHP session (already available in admin pages)
+                const branchId = <?php echo (int)($_SESSION['branch_id'] ?? 0); ?>;
+                if (!branchId) return;
+
+                async function loadWishlistAnalytics() {
+                    try {
+                    const res  = await fetch(`/HFABS/backend/public/index.php?url=wishlist/adminServices&branch_id=${branchId}`);
+                    const data = await res.json();
+                    if (!data.success) return;
+
+                    // KPIs
+                    document.getElementById('wlServiceTotal').textContent = data.summary.service || 0;
+                    document.getElementById('wlPackageTotal').textContent = data.summary.package || 0;
+
+                    // Services table
+                    const sTbody = document.getElementById('wlServicesTableBody');
+                    if (data.services.length === 0) {
+                        sTbody.innerHTML = '<tr class="wl-empty-row"><td colspan="3">No wishlist data yet.</td></tr>';
+                    } else {
+                        sTbody.innerHTML = data.services.map((s, i) => `
+                        <tr>
+                            <td>${i + 1}</td>
+                            <td>${escHtml(s.service_name)}</td>
+                            <td>
+                            <span class="wl-count-badge">
+                                <i class="fas fa-heart"></i> ${s.wishlist_count}
+                            </span>
+                            </td>
+                        </tr>`).join('');
+                    }
+
+                    // Packages table
+                    const pTbody = document.getElementById('wlPackagesTableBody');
+                    if (data.packages.length === 0) {
+                        pTbody.innerHTML = '<tr class="wl-empty-row"><td colspan="3">No wishlist data yet.</td></tr>';
+                    } else {
+                        pTbody.innerHTML = data.packages.map((p, i) => `
+                        <tr>
+                            <td>${i + 1}</td>
+                            <td>${escHtml(p.package_name)}</td>
+                            <td>
+                            <span class="wl-count-badge">
+                                <i class="fas fa-heart"></i> ${p.wishlist_count}
+                            </span>
+                            </td>
+                        </tr>`).join('');
+                    }
+
+                    } catch (err) {
+                    console.error('[Admin Wishlist Analytics] Failed to load:', err);
+                    }
+                }
+
+                function escHtml(str) {
+                    const d = document.createElement('div');
+                    d.textContent = str;
+                    return d.innerHTML;
+                }
+
+                document.addEventListener('DOMContentLoaded', loadWishlistAnalytics);
+                })();
+                </script>
             </section>
         </main>
 

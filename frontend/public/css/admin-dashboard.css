@@ -8,7 +8,7 @@
     overflow-x: hidden;
 }
 
-.dashboard-section { max-width: 1200px; }
+.dashboard-section { max-width: auto; }
 
 /* ── Header ── */
 .dash-header {
