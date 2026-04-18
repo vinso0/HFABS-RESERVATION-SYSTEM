@@ -57,19 +57,22 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Create branch item element
   function createBranchItem(branch) {
-    const item = document.createElement('div');
-    item.className = 'footer-branch-item';
-    
-    const branchName = document.createElement('h5');
-    branchName.textContent = capitalizeFirstLetter(branch.branchname);
-    
-    const branchLocation = document.createElement('p');
-    branchLocation.textContent = branch.location;
-    
-    item.appendChild(branchName);
-    item.appendChild(branchLocation);
-    
-    return item;
+      const item = document.createElement('div');
+      item.className = 'footer-branch-item';
+
+      const branchName = document.createElement('h5');
+      branchName.textContent = capitalizeFirstLetter(branch.branchname);
+
+      const branchLocation = document.createElement('p');
+      branchLocation.innerHTML = makeMapLink(branch.location, {
+          cssClass: 'maps-link',
+          showIcon: true
+      });
+
+      item.appendChild(branchName);
+      item.appendChild(branchLocation);
+
+      return item;
   }
 
   // Capitalize first letter of string

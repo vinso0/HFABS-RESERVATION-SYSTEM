@@ -35,7 +35,8 @@ async function loadBranchesSection() {
         <div class="branch-card-body">
           <h3 class="branch-card-name">${b.branchname}</h3>
           <p class="branch-card-location">
-            <i class="fas fa-location-dot"></i> ${b.location}
+              <i class="fas fa-location-dot"></i>
+              ${makeMapLink(b.location, { cssClass: 'maps-link', showIcon: false })}
           </p>
           <p class="branch-card-hours">
             <i class="fas fa-clock"></i>

@@ -217,12 +217,15 @@ async function loadBranchInfo(branchId) {
 }
 
 function displayBranchInfo(branch) {
-  document.getElementById('branchName').textContent = branch.branchname;
-  document.getElementById('branchAddress').textContent = branch.location;
+    document.getElementById('branchName').textContent = branch.branchname;
+    document.getElementById('branchAddress').innerHTML = makeMapLink(branch.location, {
+        cssClass: 'maps-link',
+        showIcon: true
+    });
 
-  if (branch.down_payment_rate !== undefined && branch.down_payment_rate !== null) {
-    branchDownpaymentRate = parseFloat(branch.down_payment_rate);
-  }
+    if (branch.down_payment_rate !== undefined && branch.down_payment_rate !== null) {
+        branchDownpaymentRate = parseFloat(branch.down_payment_rate);
+    }
 }
 
 async function loadServices(branchId) {
